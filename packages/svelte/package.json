@@ -9,7 +9,7 @@
     }
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "@fmfaDigitalisering:registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",
