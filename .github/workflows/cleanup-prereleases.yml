@@ -1,0 +1,35 @@
+name: Cleanup pre-releases
+
+on:
+  pull_request_target:
+    types:
+      - closed
+
+jobs:
+  cleanup-prereleases:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Delete pre-release releases
+        uses: dev-drprasad/delete-older-releases@v0.3.4
+        with:
+          keep_latest: 0
+          delete_tags: true
+          delete_prerelease_only: true
+          delete_tag_pattern: ${{ github.event.pull_request.head.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete pre-release packages
+        uses: smartsquaregmbh/delete-old-packages@v0.8.0
+        with:
+          user: fmfaDigitalisering
+          type: 'npm'
+          version-pattern: '.*\${{ github.event.pull_request.head.ref }}.*'
+          keep: 0
+          names: staf-komponentbibliotek-svelte
+          token: ${{ secrets.GITHUB_TOKEN }}

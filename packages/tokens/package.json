@@ -1,10 +1,16 @@
 {
-  "name": "@kjetil-hoel/design-system-tokens",
-  "version": "0.0.9",
-  "license": "MIT",
+  "name": "@fmfaDigitalisering/staf-design-system-tokens",
+  "version": "1.0.0",
   "main": "brand/staf/tokens.cjs.js",
   "module": "brand/staf/tokens.esm.js",
   "types": "brand/staf/tokens.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fmfaDigitalisering/staf-komponentbibliotek-svelte.git"
+  },
   "files": [
     "brand"
   ],
@@ -13,10 +19,19 @@
     "clean": "rimraf brand"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^9.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/release-notes-generator": "^10.0.0",
     "@tokens-studio/sd-transforms": "^0.9.3",
     "@types/ramda": "^0.29.3",
+    "@types/rimraf": "^3.0.2",
     "change-case": "^4.1.2",
     "ramda": "^0.29.0",
-    "style-dictionary": "^3.8.0"
+    "rimraf": "^5.0.0",
+    "semantic-release": "^23.1.1",
+    "semantic-release-yarn": "^3.0.2",
+    "style-dictionary": "^3.8.0",
+    "ts-node": "^10.9.1"
   }
 }
