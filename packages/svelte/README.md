@@ -23,18 +23,26 @@ WIP Component library for Statsforvalternes Fellesorganisasjon
 3. In your browser, navigate to the route you placed the component
 4. You should now be able to iterate over and test your component as you would in a regular Svelte application
 
-### Publishing to NPM
+### Publishing to Github Packages
 
-0. Navigate to the /packages/svelte folder.
-1. Bump the version number of the package in package.json: `0.0.x + 1`.
-2. Commit and push your changes.
-3. Use this terminal command to publish: `npm publish --access public`. (This step requires you to be logged in with NPM credentials if you haven't already done so)
+This repository is set up to publish the Svelte component library and corresponding design tokens to Github Packages automatically using semantic-release. To publish a new version of the component library use the following commit message conventions:
 
-### Build & Publish Design Tokens
+- fix: A bug fix (same as patch release)
+- feat: A new feature (same as minor release)
+- perf: A code change that improves performance or addes breaking changes (same as major release). (Note that the `BREAKING CHANGE: ...` token must be in the footer of the commit)
 
-0. Navigate to the root folder
-1. Run `yarn build`
-   1a. You may get errors related to yarn.lock file. You can try to remove the yarn.lock file, and/or run `yarn install`
-2. In the /packages/tokens folder, bump the version number of the package in package.json: `0.0.x + 1`.
-3. Navigate to the /packages/tokens folder
-4. Use this terminal command to publish: `npm publish --access public`. (This step requires you to be logged in with NPM credentials if you haven't already done so)
+Example commit message:
+
+```
+feat: Added a new component
+```
+
+```
+perf: Changed the way the component handles props
+
+BREAKING CHANGE: The component now requires a new prop
+```
+
+For more information on semantic-release, see: https://semantic-release.gitbook.io/semantic-release
+
+_NOTE!_: Only changes to the /packages/svelte folder will trigger a release of the component library, whilest changes to the /packages/tokens folder will trigger a release for the design tokens.

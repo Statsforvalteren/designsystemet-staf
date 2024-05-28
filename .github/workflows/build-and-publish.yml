@@ -1,0 +1,152 @@
+name: Build and Publish
+
+on:
+  push:
+    branches: [main, 'pr-*']
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      design-tokens: ${{ steps.filter.outputs.design-tokens }}
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check for changes in design-tokens directory
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            design-tokens:
+            - 'design-tokens/**'
+
+  build-and-publish-tokens:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: needs.check-changes.outputs.design-tokens == 'true'
+    defaults:
+      run:
+        working-directory: ./packages/tokens
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21'
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build the project
+        run: yarn build
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install Semantic Release
+        run: npm install -g semantic-release
+
+      - name: Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
+        run: semantic-release --extends ./release.config.cjs
+
+  build-and-publish-library:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: needs.check-changes.outputs.design-tokens == 'false'
+    defaults:
+      run:
+        working-directory: ./packages/svelte
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21'
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build the project
+        run: yarn build
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install Semantic Release
+        run: npm install -g semantic-release
+
+      - name: Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
+        run: semantic-release --extends ./release.config.cjs
+
+  cleanup-prereleases:
+    runs-on: ubuntu-latest
+    needs: build-and-publish-library
+    if: always() && github.event.pull_request.merged == true
+    permissions:
+      contents: write
+      pull-requests: write
+      packages: write
+
+    steps:
+      - name: Delete pre-release releases
+        uses: dev-drprasad/delete-older-releases@v0.3.4
+        with:
+          keep_latest: 0
+          delete_tags: true
+          delete_prerelease_only: true
+          delete_tag_pattern: pr-${{ github.event.pull_request.head.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete pre-release packages
+        uses: smartsquaregmbh/delete-old-packages@v0.8.0
+        with:
+          user: fmfaDigitalisering
+          type: 'npm'
+          version-pattern: '^\\d+\\.\\d+\\.\\d+-pr-${{ github.event.pull_request.head.ref }}.\\d+$'
+          keep: 0
+          names: staf-komponentbibliotek-svelte
+          token: ${{ secrets.GITHUB_TOKEN }}
