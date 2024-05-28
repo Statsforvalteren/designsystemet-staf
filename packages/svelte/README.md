@@ -45,4 +45,4 @@ BREAKING CHANGE: The component now requires a new prop
 
 For more information on semantic-release, see: https://semantic-release.gitbook.io/semantic-release
 
-_NOTE!_: Only changes to the /packages/svelte folder will trigger a release of the component library, whilest changes to the /packages/tokens folder will trigger a release for the design tokens.
+**NOTE!: Only changes to the /packages/svelte folder will trigger a release of the component library, whilest changes to the /packages/tokens folder will trigger a release for the design tokens.**
