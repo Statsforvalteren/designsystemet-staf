@@ -3,9 +3,6 @@ name: Build and Publish
 on:
   push:
     branches: [main, 'pr-*']
-  pull_request:
-    types:
-      - closed
 
 jobs:
   check-changes:
@@ -120,33 +117,3 @@ jobs:
           YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
           YARN_NPM_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
         run: semantic-release --extends ./release.config.cjs
-
-  cleanup-prereleases:
-    runs-on: ubuntu-latest
-    needs: build-and-publish-library
-    if: always() && github.event.pull_request.merged == true
-    permissions:
-      contents: write
-      pull-requests: write
-      packages: write
-
-    steps:
-      - name: Delete pre-release releases
-        uses: dev-drprasad/delete-older-releases@v0.3.4
-        with:
-          keep_latest: 0
-          delete_tags: true
-          delete_prerelease_only: true
-          delete_tag_pattern: pr-${{ github.event.pull_request.head.ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Delete pre-release packages
-        uses: smartsquaregmbh/delete-old-packages@v0.8.0
-        with:
-          user: fmfaDigitalisering
-          type: 'npm'
-          version-pattern: '^\\d+\\.\\d+\\.\\d+-pr-${{ github.event.pull_request.head.ref }}.\\d+$'
-          keep: 0
-          names: staf-komponentbibliotek-svelte
-          token: ${{ secrets.GITHUB_TOKEN }}
