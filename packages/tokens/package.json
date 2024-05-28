@@ -1,5 +1,5 @@
 {
-  "name": "@fmfaDigitalisering/staf-design-system-tokens",
+  "name": "@fmfa-digitalisering/staf-design-system-tokens",
   "version": "1.0.0",
   "main": "brand/staf/tokens.cjs.js",
   "module": "brand/staf/tokens.esm.js",
