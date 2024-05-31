@@ -2234,9 +2234,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fmfaDigitalisering/staf-design-system-tokens@workspace:packages/tokens":
+"@fmfadigitalisering/staf-design-system-tokens@workspace:packages/tokens":
   version: 0.0.0-use.local
-  resolution: "@fmfaDigitalisering/staf-design-system-tokens@workspace:packages/tokens"
+  resolution: "@fmfadigitalisering/staf-design-system-tokens@workspace:packages/tokens"
   dependencies:
     "@semantic-release/changelog": ^6.0.3
     "@semantic-release/commit-analyzer": ^9.0.0
@@ -2255,9 +2255,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fmfaDigitalisering/staf-komponentbibliotek-svelte@workspace:packages/svelte":
+"@fmfadigitalisering/staf-komponentbibliotek-svelte@workspace:packages/svelte":
   version: 0.0.0-use.local
-  resolution: "@fmfaDigitalisering/staf-komponentbibliotek-svelte@workspace:packages/svelte"
+  resolution: "@fmfadigitalisering/staf-komponentbibliotek-svelte@workspace:packages/svelte"
   dependencies:
     "@altinn/figma-design-tokens": ^6.0.1
     "@kjetil-hoel/design-system-tokens": ^0.0.9
