@@ -1,5 +1,5 @@
 {
-  "name": "@fmfaDigitalisering/staf-komponentbibliotek-svelte",
+  "name": "@fmfadigitalisering/staf-komponentbibliotek-svelte",
   "version": "1.1.1",
   "type": "module",
   "exports": {
