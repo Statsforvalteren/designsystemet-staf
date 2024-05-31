@@ -1,4 +1,4 @@
-WIP Component library for Statsforvalternes Fellesorganisasjon
+# WIP Component library for Statsforvalternes Fellesorganisasjon
 
 ### Adding or updating dependencies
 
