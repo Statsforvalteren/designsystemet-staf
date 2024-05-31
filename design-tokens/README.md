@@ -15,3 +15,5 @@ You should use Figma to edit the tokens. You'll need the [Tokens Studio for Figm
    - File Path: `design-tokens`
 
 You can now "pull from GitHub" (button in the top right corner) to fetch the tokens. When done editing tokens, you should "push to GitHub" (second button on top right).
+
+trigger release
