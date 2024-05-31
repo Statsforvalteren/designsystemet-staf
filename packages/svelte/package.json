@@ -1,6 +1,6 @@
 {
   "name": "@fmfaDigitalisering/staf-komponentbibliotek-svelte",
-  "version": "1.0.5",
+  "version": "1.0.6-pr-demo-branch1.1",
   "type": "module",
   "exports": {
     ".": {
@@ -67,5 +67,6 @@
     "altinn-designsystem": "^4.2.0",
     "svelte-floating-ui": "^1.5.5",
     "uuid": "^9.0.1"
-  }
+  },
+  "stableVersion": "1.0.5"
 }
