@@ -63,7 +63,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Install Semantic Release
-        run: yarn add semantic-release
+        run: npm install -g semantic-release
 
       - name: Semantic Release
         env:
@@ -109,7 +109,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Install Semantic Release
-        run: yarn add semantic-release
+        run: npm install -g semantic-release
 
       - name: Semantic Release
         env:
