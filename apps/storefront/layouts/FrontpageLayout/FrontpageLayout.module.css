@@ -7,7 +7,7 @@
 
 .content::before {
   content: '';
-  background-color: var(--fds-semantic-background-subtle);
+  background-color: var(--ds-color-neutral-background-subtle);
   position: absolute;
   z-index: -1;
   height: 200vh;
@@ -130,11 +130,13 @@
   }
 }
 
-@media (max-width: 1199.98px) {
+@media (max-width: 1700px) {
   .cluster {
     display: none;
   }
+}
 
+@media (max-width: 1199.98px) {
   .header {
     height: auto;
   }

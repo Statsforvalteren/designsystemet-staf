@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import type React from 'react';
+import type { ButtonProps } from '@digdir/designsystemet-react';
 import { useEffect, useState, createElement } from 'react';
 import cn from 'clsx';
+import { Link, Button } from '@digdir/designsystemet-react';
+import NextLink from 'next/link';
 
 import { Container } from '../Container/Container';
 
@@ -31,6 +34,8 @@ type ImageSectionButtonProps = {
   text: string;
   prefix?: React.ReactNode;
   href: string;
+  variant?: ButtonProps['variant'];
+  color?: ButtonProps['color'];
 };
 
 const ImageBanner = ({
@@ -107,25 +112,34 @@ const ImageBanner = ({
           {description && <p className={classes.desc}>{description}</p>}
           {content && content}
           {link && (
-            <a
-              href={link.href}
+            <Link
               className={classes.link}
+              color='neutral'
+              asChild
             >
-              {link.prefix} {link.text}
-            </a>
+              <NextLink href={link.href}>
+                {link.prefix} {link.text}
+              </NextLink>
+            </Link>
           )}
 
           {buttons && (
             <div className={classes.buttons}>
               {buttons.map((item, index) => (
-                <a
-                  href={item.href}
-                  className={classes.button}
+                <Button
                   key={index}
+                  asChild
+                  variant={item.variant ?? 'secondary'}
+                  color={item.color}
                 >
-                  {item.prefix}
-                  {item.text}
-                </a>
+                  <a
+                    href={item.href}
+                    className={classes.button}
+                  >
+                    {item.prefix}
+                    {item.text}
+                  </a>
+                </Button>
               ))}
             </div>
           )}
