@@ -29,8 +29,8 @@ declare module '$env/static/private' {
 	export const ACLOCAL_PATH: string;
 	export const ALLUSERSPROFILE: string;
 	export const APPDATA: string;
-	export const BERRY_BIN_FOLDER: string;
 	export const CHROME_CRASHPAD_PIPE_NAME: string;
+	export const COLOR: string;
 	export const COLORTERM: string;
 	export const COMMONPROGRAMFILES: string;
 	export const CommonProgramW6432: string;
@@ -39,6 +39,7 @@ declare module '$env/static/private' {
 	export const CONFIG_SITE: string;
 	export const DISPLAY: string;
 	export const DriverData: string;
+	export const EDITOR: string;
 	export const EFC_9888: string;
 	export const EXEPATH: string;
 	export const FPS_BROWSER_APP_PROFILE_STRING: string;
@@ -66,15 +67,28 @@ declare module '$env/static/private' {
 	export const MSYSTEM_CARCH: string;
 	export const MSYSTEM_CHOST: string;
 	export const MSYSTEM_PREFIX: string;
+	export const NODE: string;
+	export const NODE_ENV: string;
+	export const npm_command: string;
+	export const npm_config_cache: string;
+	export const npm_config_globalconfig: string;
+	export const npm_config_global_prefix: string;
+	export const npm_config_init_module: string;
+	export const npm_config_local_prefix: string;
+	export const npm_config_node_gyp: string;
+	export const npm_config_noproxy: string;
+	export const npm_config_npm_version: string;
+	export const npm_config_prefix: string;
+	export const npm_config_userconfig: string;
 	export const npm_config_user_agent: string;
 	export const npm_execpath: string;
 	export const npm_lifecycle_event: string;
+	export const npm_lifecycle_script: string;
 	export const npm_node_execpath: string;
 	export const npm_package_json: string;
 	export const npm_package_name: string;
 	export const npm_package_version: string;
 	export const NUMBER_OF_PROCESSORS: string;
-	export const OLDPWD: string;
 	export const OneDrive: string;
 	export const OneDriveCommercial: string;
 	export const OneDriveConsumer: string;
@@ -96,7 +110,6 @@ declare module '$env/static/private' {
 	export const ProgramData: string;
 	export const PROGRAMFILES: string;
 	export const ProgramW6432: string;
-	export const PROJECT_CWD: string;
 	export const PROKOM_NPM_ACCESS_KEY: string;
 	export const PROMPT: string;
 	export const PSModulePath: string;
@@ -124,6 +137,7 @@ declare module '$env/static/private' {
 	export const VSCODE_GIT_IPC_HANDLE: string;
 	export const WINDIR: string;
 	export const ZES_ENABLE_SYSMAN: string;
+	export const _: string;
 }
 
 /**
@@ -156,8 +170,8 @@ declare module '$env/dynamic/private' {
 		ACLOCAL_PATH: string;
 		ALLUSERSPROFILE: string;
 		APPDATA: string;
-		BERRY_BIN_FOLDER: string;
 		CHROME_CRASHPAD_PIPE_NAME: string;
+		COLOR: string;
 		COLORTERM: string;
 		COMMONPROGRAMFILES: string;
 		CommonProgramW6432: string;
@@ -166,6 +180,7 @@ declare module '$env/dynamic/private' {
 		CONFIG_SITE: string;
 		DISPLAY: string;
 		DriverData: string;
+		EDITOR: string;
 		EFC_9888: string;
 		EXEPATH: string;
 		FPS_BROWSER_APP_PROFILE_STRING: string;
@@ -193,15 +208,28 @@ declare module '$env/dynamic/private' {
 		MSYSTEM_CARCH: string;
 		MSYSTEM_CHOST: string;
 		MSYSTEM_PREFIX: string;
+		NODE: string;
+		NODE_ENV: string;
+		npm_command: string;
+		npm_config_cache: string;
+		npm_config_globalconfig: string;
+		npm_config_global_prefix: string;
+		npm_config_init_module: string;
+		npm_config_local_prefix: string;
+		npm_config_node_gyp: string;
+		npm_config_noproxy: string;
+		npm_config_npm_version: string;
+		npm_config_prefix: string;
+		npm_config_userconfig: string;
 		npm_config_user_agent: string;
 		npm_execpath: string;
 		npm_lifecycle_event: string;
+		npm_lifecycle_script: string;
 		npm_node_execpath: string;
 		npm_package_json: string;
 		npm_package_name: string;
 		npm_package_version: string;
 		NUMBER_OF_PROCESSORS: string;
-		OLDPWD: string;
 		OneDrive: string;
 		OneDriveCommercial: string;
 		OneDriveConsumer: string;
@@ -223,7 +251,6 @@ declare module '$env/dynamic/private' {
 		ProgramData: string;
 		PROGRAMFILES: string;
 		ProgramW6432: string;
-		PROJECT_CWD: string;
 		PROKOM_NPM_ACCESS_KEY: string;
 		PROMPT: string;
 		PSModulePath: string;
@@ -251,6 +278,7 @@ declare module '$env/dynamic/private' {
 		VSCODE_GIT_IPC_HANDLE: string;
 		WINDIR: string;
 		ZES_ENABLE_SYSMAN: string;
+		_: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}
