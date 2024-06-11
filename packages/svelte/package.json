@@ -18,6 +18,9 @@
   "files": [
     "dist"
   ],
+  "prettier": {
+    "singleQuote": true
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && yarn run package",

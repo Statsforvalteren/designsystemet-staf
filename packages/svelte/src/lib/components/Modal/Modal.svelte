@@ -74,8 +74,8 @@
    */
   export let isModalValidating = false;
 
-  export let onClose = () => {};
-  export let onPrimaryButtonClick = () => {};
+  export let onClose = (e) => {};
+  export let onPrimaryButtonClick = (e) => {};
 
   const dispatch = createEventDispatcher();
 
@@ -83,8 +83,8 @@
   let lastButton;
   let componentId = uuidv4();
 
-  function close() {
-    onClose();
+  function close(event) {
+    onClose(event);
     dispatch('close');
   }
 
@@ -93,7 +93,7 @@
     const textSelected = window.getSelection().toString().length !== 0;
 
     if (modal && !modal.contains(event.target) && !textSelected) {
-      close();
+      close(event);
     }
   }
 
@@ -108,8 +108,8 @@
     }
   }
 
-  function handlePrimaryButtonClick() {
-    onPrimaryButtonClick();
+  function handlePrimaryButtonClick(event) {
+    onPrimaryButtonClick(event);
     dispatch('primaryButtonClick');
   }
 
@@ -129,20 +129,11 @@
     class={`modal ${modalVariant}`}
     {...$$restProps}
   >
-    <a
-      href="/"
-      on:focus={() => closeButton.focus()}><div /></a
-    >
-    <a
-      href="/"
-      on:focus={() => lastButton.focus()}><div /></a
-    >
+    <a href="/" on:focus={() => closeButton.focus()}><div /></a>
+    <a href="/" on:focus={() => lastButton.focus()}><div /></a>
     <div class="modal-header">
       <h2 style="margin: 0; font-weight: normal">{title}</h2>
-      <button
-        class="close-btn"
-        on:click={close}
-        bind:this={closeButton}
+      <button class="close-btn" on:click={close} bind:this={closeButton}
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="14"
@@ -180,10 +171,7 @@
         {`${numberOfErrors} feil må rettes før du kan gå videre.`}
       </p>
     {/if}
-    <a
-      href="/"
-      on:focus={() => closeButton.focus()}><div /></a
-    >
+    <a href="/" on:focus={() => closeButton.focus()}><div /></a>
   </div>
 </div>
 
