@@ -192,50 +192,39 @@
   bind:checked={isSwitchChecked}>Switch</Switch
 >
 
-<Switch
-  checked={isSwitchChecked}
-  disabled>Disabled Switch</Switch
->
-<Switch
-  checked={isSwitchChecked}
-  readOnly>Readonly Switch</Switch
->
-<Switch
-  checked={isSwitchChecked}
-  position="right">Switch Label right</Switch
->
+<Switch checked={isSwitchChecked} disabled>Disabled Switch</Switch>
+<Switch checked={isSwitchChecked} readOnly>Readonly Switch</Switch>
+<Switch checked={isSwitchChecked} position="right">Switch Label right</Switch>
 
-<Switch
-  checked={isSwitchChecked}
-  description="Ipsum lorem dorem durem">Switch with Description</Switch
+<Switch checked={isSwitchChecked} description="Ipsum lorem dorem durem"
+  >Switch with Description</Switch
 >
 
 <br />
 <h1 class="componentHeader">BUTTON</h1>
 <br />
 
-<Button>First</Button>
-<Button color="second">Secondary</Button>
-<Button
-  disabled={true}
-  color="success">Success</Button
->
-<Button variant="quiet">First (Quiet)</Button>
-<Button variant="outline">First (Outline)</Button>
-<Button iconPlacement="right">
-  <svg
-    slot="icon"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M12 0c6.627 0 12 5.373 12 12s-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0Zm0 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm5.047 5.671 1.399 1.43-8.728 8.398L6 14.02l1.395-1.434 2.319 2.118 7.333-7.032Z"
-      fill="currentColor"
-    />
-  </svg>
-  First Icon
-</Button>
+<div class="display-flex">
+  <Button>First</Button>
+  <Button color="neutral">Secondary</Button>
+  <Button disabled={true} color="danger">Danger</Button>
+  <Button variant="secondary">Variant secondary</Button>
+  <Button variant="tertiary">Variant tertiary</Button>
+  <Button iconPlacement="right">
+    <svg
+      slot="icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 0c6.627 0 12 5.373 12 12s-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0Zm0 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm5.047 5.671 1.399 1.43-8.728 8.398L6 14.02l1.395-1.434 2.319 2.118 7.333-7.032Z"
+        fill="currentColor"
+      />
+    </svg>
+    First Icon
+  </Button>
+</div>
 
 <br />
 <h1 class="componentHeader">TEXTFIELD</h1>
@@ -288,6 +277,7 @@
   bind:value={searchValue}
   error={showSearchError ? 'Lorem ipsum error' : ''}
   size="medium"
+  variant="secondary"
   characterLimit={10}
   characterLimitLabel={(count) =>
     count > -1
@@ -299,14 +289,14 @@
 <h1 class="componentHeader">LINK</h1>
 <br />
 
-<Link href="/route">Link</Link>
+<Link href="/">Link</Link>
+<br />
+<br />
+<Link href="/" color="neutral">Link</Link>
 
 <h1 class="componentHeader">PARAGRAPH</h1>
 <br />
-<Paragraph
-  spacing
-  short>Lorem ipsum dorem</Paragraph
->
+<Paragraph spacing variant="long">Lorem ipsum dorem</Paragraph>
 
 <br />
 <h1 class="componentHeader">LIST OF ALERTS</h1>
@@ -329,35 +319,25 @@
 <h1 class="componentHeader">TAG</h1>
 <br />
 
-<Tag color="first">Tag Primary</Tag>
-<Tag color="second">Tag Secondary</Tag>
-<Tag color="third">Tag tertiary</Tag>
-<Tag color="neutral">Tag neutral</Tag>
-<Tag color="success">Tag success</Tag>
-<Tag
-  color="warning"
-  variant="outlined">Tag warning outlined</Tag
->
-<Tag color="danger">Tag danger</Tag>
-<Tag color="info">Tag info</Tag>
-
-<Tag
-  color="first"
-  variant="outlined">Tag Outlined</Tag
->
-
-<Tag size="xsmall">Tag XS</Tag>
-<Tag size="small">Tag small</Tag>
-<Tag size="medium">Tag medium</Tag>
+<div class="display-flex">
+  <Tag color="brand1">Tag Primary</Tag>
+  <Tag color="brand2">Tag Secondary</Tag>
+  <Tag color="brand3">Tag tertiary</Tag>
+  <Tag color="neutral">Tag neutral</Tag>
+  <Tag color="success">Tag success</Tag>
+  <Tag color="warning">Tag warning</Tag>
+  <Tag color="danger">Tag danger</Tag>
+  <Tag color="info">Tag info</Tag>
+  <Tag size="small">Tag small</Tag>
+  <Tag size="medium">Tag medium</Tag>
+  <Tag size="large">Tag large</Tag>
+</div>
 
 <br />
 <br />
 <h1 class="componentHeader">ACCORDION</h1>
 <br />
-<Accordion
-  border={true}
-  color="second"
->
+<Accordion border={true} color="brand1">
   <AccordionItem>
     <AccordionHeader level={1}>
       <span slot="header">
@@ -402,10 +382,7 @@
 <Button on:click={openModal}>Open Modal</Button>
 
 {#if isModalOpen}
-  <Modal
-    onClose={closeModal}
-    modalVariant="alert"
-  >
+  <Modal onClose={closeModal} modalVariant="alert">
     <p style="font-size: 300%">
       Lorem Ipsum er rett og slett dummytekst fra og for trykkeindustrien. Lorem
       Ipsum har vært bransjens standard for dummytekst helt siden 1500-tallet,
@@ -448,10 +425,7 @@
   error={showError ? 'Lorem ipsum error.' : ''}
   hideLegend={isHideLegend}
 >
-  <Radio
-    value="option1"
-    label="Lorem ipsum label."
-  />
+  <Radio value="option1" label="Lorem ipsum label." />
   <Radio
     value="option1"
     label="Lorem ipsum dolor sit label."
@@ -505,10 +479,7 @@
     error={showError ? 'Lorem ipsum error.' : ''}
     hideLegend={isHideLegend}
   >
-    <Checkbox
-      value="option1"
-      label="Lorem ipsum label"
-    />
+    <Checkbox value="option1" label="Lorem ipsum label" />
     <Checkbox
       value="option2"
       label="Lorem ipsum pre-selected label"
@@ -640,23 +611,11 @@
 
 <h1 class="componentHeader">Tabs</h1>
 <div class="tabs">
-  <Tabs
-    onChange={handleTabChange}
-    size="large"
-  >
+  <Tabs onChange={handleTabChange} size="large">
     <TabList>
-      <TabItem
-        value="1"
-        icon={InformationSquareFillIcon}>Tab 1</TabItem
-      >
-      <TabItem
-        value="2"
-        icon={CheckmarkCircleFillIcon}>Tab 2</TabItem
-      >
-      <TabItem
-        value="3"
-        icon={XMarkOctagonFillIcon}>Tab 3</TabItem
-      >
+      <TabItem value="1" icon={InformationSquareFillIcon}>Tab 1</TabItem>
+      <TabItem value="2" icon={CheckmarkCircleFillIcon}>Tab 2</TabItem>
+      <TabItem value="3" icon={XMarkOctagonFillIcon}>Tab 3</TabItem>
     </TabList>
     <TabContent value="1"><button>Content 1</button></TabContent>
     <TabContent value="2">Content 2</TabContent>
@@ -664,24 +623,11 @@
   </Tabs>
 
   <div class="tabs">
-    <Tabs
-      onChange={handleTabChange}
-      size="small"
-      defaultValue="3"
-    >
+    <Tabs onChange={handleTabChange} size="small" defaultValue="3">
       <TabList>
-        <TabItem
-          value="1"
-          icon={InformationSquareFillIcon}>Tab 1</TabItem
-        >
-        <TabItem
-          value="2"
-          icon={CheckmarkCircleFillIcon}>Tab 2</TabItem
-        >
-        <TabItem
-          value="3"
-          icon={XMarkOctagonFillIcon}>Tab 3</TabItem
-        >
+        <TabItem value="1" icon={InformationSquareFillIcon}>Tab 1</TabItem>
+        <TabItem value="2" icon={CheckmarkCircleFillIcon}>Tab 2</TabItem>
+        <TabItem value="3" icon={XMarkOctagonFillIcon}>Tab 3</TabItem>
       </TabList>
       <TabContent value="1"><button>Content 1</button></TabContent>
       <TabContent value="2">Content 2</TabContent>
@@ -730,10 +676,7 @@
             >
               Test onClick event {i}
             </C.MenuItem>
-            <C.MenuItem
-              href="https://designsystemet.no"
-              target="_blank"
-            >
+            <C.MenuItem href="https://designsystemet.no" target="_blank">
               Designsystemet.no
             </C.MenuItem>
           </C.MenuGroup>
@@ -753,24 +696,13 @@
   {/each}
 </div>
 <h1 class="componentHeader">Tooltip</h1>
-<Tooltip
-  content="Tooltip text"
-  placement="top-start"
-  showArrow={true}
->
+<Tooltip content="Tooltip text" placement="top-start" showArrow={true}>
   <Button slot="anchor">Click me to display a Tooltip</Button>
   <span slot="content">Tooltip text</span>
 </Tooltip>
-<Tooltip
-  content="Tooltip text"
-  placement="top"
-  showArrow={true}
->
+<Tooltip content="Tooltip text" placement="top" showArrow={true}>
   <Button slot="anchor">Click me to display a Tooltip</Button>
-  <ul
-    style="margin: 0"
-    slot="content"
-  >
+  <ul style="margin: 0" slot="content">
     <li>First</li>
     <li>Second</li>
   </ul>
@@ -778,10 +710,7 @@
 
 <p>
   Tooltips kan også legges <nobr
-    ><Tooltip
-      open={true}
-      placement="bottom"
-    >
+    ><Tooltip open={true} placement="bottom">
       <abbr
         slot="anchor"
         style="font-weight: bold; text-decoration: underline dotted;"
@@ -794,47 +723,16 @@
 
 <h1 class="componentHeader">Spinner</h1>
 <div class="spinner">
-  <Spinner
-    size="xLarge"
-    title="xLarge"
-    variant="interaction"
-  />
-  <Spinner
-    size="large"
-    title="large"
-    variant="interaction"
-  />
-  <Spinner
-    size="medium"
-    title="medium"
-    variant="interaction"
-  />
-  <Spinner
-    size="small"
-    title="small"
-    variant="interaction"
-  />
-  <Spinner
-    size="xSmall"
-    title="xSmall"
-    variant="interaction"
-  />
+  <Spinner size="xLarge" title="xLarge" variant="interaction" />
+  <Spinner size="large" title="large" variant="interaction" />
+  <Spinner size="medium" title="medium" variant="interaction" />
+  <Spinner size="small" title="small" variant="interaction" />
+  <Spinner size="xSmall" title="xSmall" variant="interaction" />
 </div>
 <div class="spinner">
-  <Spinner
-    size="xLarge"
-    title="xLarge default"
-  />
-  <Spinner
-    size="xLarge"
-    title="xLarge interaction"
-    variant="interaction"
-  />
-  <Spinner
-    size="xLarge"
-    title="xLarge inverted"
-    variant="inverted"
-  />
+  <Spinner size="xLarge" title="xLarge default" />
+  <Spinner size="xLarge" title="xLarge interaction" variant="interaction" />
+  <Spinner size="xLarge" title="xLarge inverted" variant="inverted" />
 </div>
 <br />
 <br />
@@ -853,5 +751,10 @@
   }
   .dropdown {
     position: relative;
+  }
+  .display-flex {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
   }
 </style>

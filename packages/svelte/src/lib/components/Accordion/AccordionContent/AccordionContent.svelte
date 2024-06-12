@@ -9,17 +9,14 @@
       open = getContext('accordionItem').open;
     } catch {
       console.error(
-        '<AccordionContent> has to be used within an <AccordionItem>',
+        '<AccordionContent> has to be used within an <AccordionItem>'
       );
     }
   }
 </script>
 
 {#if $open}
-  <div
-    class="content"
-    transition:slide|local
-  >
+  <div class="ds-accordion__content" transition:slide|local>
     {#if $$slots.content}
       <slot name="content" />
     {/if}
@@ -27,9 +24,8 @@
 {/if}
 
 <style>
-  .content {
-    padding: var(--fds-spacing-5, 1rem);
-    background-color: #ffffff50;
+  .ds-accordion__content {
+    padding: var(--ds-spacing-5, 1rem);
     overflow: hidden;
     text-overflow: ellipsis;
   }

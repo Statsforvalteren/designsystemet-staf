@@ -1,193 +1,112 @@
 <script>
   /**
    * Color of the tag.
-   * @type {'first' | 'second' | 'third' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'}
+   * @type {'brand1' | 'brand2' | 'brand3' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'}
    */
   export let color = 'neutral';
 
   /**
    * Size of the tag.
-   * @type {'xsmall' | 'small' | 'medium'}
+   * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
   export let size = 'medium';
 
-  /**
-   * Variant of the tag.
-   * @type {'filled' | 'outlined'}
-   */
-  export let variant = 'filled';
+  let normalizedSize;
+
+  switch (size) {
+    case 'small':
+      normalizedSize = 'sm';
+      break;
+    case 'medium':
+      normalizedSize = 'md';
+      break;
+    case 'large':
+      normalizedSize = 'lg';
+      break;
+    default:
+      normalizedSize = 'md';
+  }
 </script>
 
-<span
-  class={`paragraph ${size} tag ${color}  ${variant} ${$$props.class || ''}`}
->
-  <slot />
-</span>
+<div>
+  <span
+    class={`ds-tag ds-tag--${color} ds-tag--${normalizedSize} ${
+      $$props.class || ''
+    }`}
+  >
+    <slot />
+  </span>
+</div>
 
 <style lang="scss">
-  .paragraph {
-    --fdsc-typography-font-family: inherit;
-    --fdsc-bottom-spacing: var(--fds-spacing-5);
-    color: var(--fds-semantic-text-neutral-default);
-    margin: 0;
+  .ds-tag {
+    --dsc-tag-background: var(--ds-color-neutral-background-subtle);
+    --dsc-tag-color: var(--ds-color-neutral-text-default);
 
-    &.large {
-      --fdsc-bottom-spacing: var(--fds-spacing-6);
-      font: var(--fds-typography-paragraph-large);
-      font-family: var(--fdsc-typography-font-family);
-    }
-
-    &.medium {
-      --fdsc-bottom-spacing: var(--fds-spacing-5);
-      font: var(--fds-typography-paragraph-medium);
-      font-family: var(--fdsc-typography-font-family);
-    }
-
-    &.small {
-      --fdsc-bottom-spacing: var(--fds-spacing-4);
-      font: var(--fds-typography-paragraph-small);
-      font-family: var(--fdsc-typography-font-family);
-    }
-
-    &.xsmall {
-      --fdsc-bottom-spacing: var(--fds-spacing-3);
-      font: var(--fds-typography-paragraph-xsmall);
-      font-family: var(--fdsc-typography-font-family);
-    }
-  }
-
-  .tag {
-    --fdsc-tag-border: var(--fds-semantic-border-neutral-default);
-    --fdsc-tag-background: var(--fds-semantic-surface-neutral-subtle);
-    --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-    --fdsc-tag-padding: var(--fds-spacing-2);
-    --fdsc-tag-min-height: var(--fds-sizing-7);
-    --fdsc-tag-border-radius: var(--fds-border_radius-small);
-    color: var(--fdsc-tag-text);
-    padding: 0 var(--fdsc-tag-padding);
-    border: var(--fds-border_width-default) solid var(--fdsc-tag-border);
-    background-color: var(--fdsc-tag-background);
-    min-height: var(--fdsc-tag-min-height);
-    border-radius: var(--fdsc-tag-border-radius);
+    color: var(--dsc-tag-color);
+    padding: 0 var(--ds-spacing-2);
+    min-height: var(--ds-sizing-8);
+    background-color: var(--dsc-tag-background);
+    border-radius: var(--ds-border-radius-sm);
     display: flex;
     align-items: center;
     box-sizing: border-box;
     word-break: break-word;
     width: max-content;
+  }
 
-    &.xsmall {
-      --fdsc-tag-padding: var(--fds-spacing-1);
-      --fdsc-tag-min-height: var(--fds-sizing-5);
-    }
+  .ds-tag--sm {
+    padding: 0 var(--ds-spacing-2);
+    min-height: var(--ds-sizing-7);
+  }
 
-    &.small {
-      --fdsc-tag-padding: var(--fds-spacing-1);
-      --fdsc-tag-min-height: var(--fds-sizing-6);
-    }
+  .ds-tag--md {
+    padding: 0 var(--ds-spacing-2);
+    min-height: var(--ds-sizing-8);
+  }
 
-    &.medium {
-      --fdsc-tag-padding: var(--fds-spacing-2);
-      --fdsc-tag-min-height: var(--fds-sizing-7);
-    }
+  .ds-tag--lg {
+    padding: 0 var(--ds-spacing-3);
+    min-height: var(--ds-sizing-9);
+  }
 
-    &.outlined {
-      &.neutral {
-        --fdsc-tag-border: var(--fds-semantic-border-neutral-default);
-        --fdsc-tag-background: var(--fds-semantic-surface-neutral-subtle);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
+  .ds-tag--neutral {
+    --dsc-tag-background: var(--ds-color-neutral-surface-default);
+    --dsc-tag-color: var(--ds-color-neutral-text-default);
+  }
 
-      &.info {
-        --fdsc-tag-border: var(--fds-semantic-border-info-default);
-        --fdsc-tag-background: var(--fds-semantic-surface-info-subtle);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
+  .ds-tag--info {
+    --dsc-tag-background: var(--ds-color-info-surface-default);
+    --dsc-tag-color: var(--ds-color-info-text-default);
+  }
 
-      &.success {
-        --fdsc-tag-border: var(--fds-semantic-border-success-default);
-        --fdsc-tag-background: var(--fds-semantic-surface-success-subtle);
-        --fdsc-tag-text: var(--fds-semantic-text-success-on_success_subtle);
-      }
+  .ds-tag--success {
+    --dsc-tag-background: var(--ds-color-success-surface-default);
+    --dsc-tag-color: var(--ds-color-success-text-default);
+  }
 
-      &.warning {
-        --fdsc-tag-border: var(--fds-semantic-border-warning-default);
-        --fdsc-tag-background: var(--fds-semantic-surface-warning-subtle);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
+  .ds-tag--warning {
+    --dsc-tag-background: var(--ds-color-warning-surface-default);
+    --dsc-tag-color: var(--ds-color-warning-text-default);
+  }
 
-      &.danger {
-        --fdsc-tag-border: var(--fds-semantic-border-danger-default);
-        --fdsc-tag-background: var(--fds-semantic-surface-danger-subtle);
-        --fdsc-tag-text: var(--fds-semantic-text-danger-on_danger_subtle);
-      }
+  .ds-tag--danger {
+    --dsc-tag-background: var(--ds-color-danger-surface-default);
+    --dsc-tag-color: var(--ds-color-danger-text-default);
+  }
 
-      &.first {
-        --fdsc-tag-border: var(--fds-semantic-surface-first-dark);
-        --fdsc-tag-background: var(--fds-semantic-surface-first-light);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
+  .ds-tag--brand1 {
+    --dsc-tag-background: var(--ds-color-brand1-surface-default);
+    --dsc-tag-color: var(--ds-color-brand1-text-default);
+  }
 
-      &.second {
-        --fdsc-tag-border: var(--fds-semantic-surface-second-dark);
-        --fdsc-tag-background: var(--fds-semantic-surface-second-light);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
+  .ds-tag--brand2 {
+    --dsc-tag-background: var(--ds-color-brand2-surface-default);
+    --dsc-tag-color: var(--ds-color-brand2-text-default);
+  }
 
-      &.third {
-        --fdsc-tag-border: var(--fds-semantic-surface-third-dark);
-        --fdsc-tag-background: var(--fds-semantic-surface-third-light);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
-    }
-
-    &.filled {
-      &.neutral {
-        --fdsc-tag-border: var(--fds-semantic-surface-neutral-dark);
-        --fdsc-tag-background: var(--fds-semantic-surface-neutral-dark);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-on_inverted);
-      }
-
-      &.info {
-        --fdsc-tag-border: var(--fds-semantic-surface-info-subtle-hover);
-        --fdsc-tag-background: var(--fds-semantic-surface-info-subtle-hover);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
-
-      &.success {
-        --fdsc-tag-border: var(--fds-semantic-surface-success-default);
-        --fdsc-tag-background: var(--fds-semantic-surface-success-default);
-        --fdsc-tag-text: var(--fds-semantic-text-success-on_success);
-      }
-
-      &.warning {
-        --fdsc-tag-border: var(--fds-semantic-surface-warning-default);
-        --fdsc-tag-background: var(--fds-semantic-surface-warning-default);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
-
-      &.danger {
-        --fdsc-tag-border: var(--fds-semantic-surface-danger-default);
-        --fdsc-tag-background: var(--fds-semantic-surface-danger-default);
-        --fdsc-tag-text: var(--fds-semantic-text-danger-on_danger);
-      }
-
-      &.first {
-        --fdsc-tag-border: var(--fds-semantic-surface-first-dark);
-        --fdsc-tag-background: var(--fds-semantic-surface-first-dark);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
-
-      &.second {
-        --fdsc-tag-border: var(--fds-semantic-surface-second-dark);
-        --fdsc-tag-background: var(--fds-semantic-surface-second-dark);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
-
-      &.third {
-        --fdsc-tag-border: var(--fds-semantic-surface-third-dark);
-        --fdsc-tag-background: var(--fds-semantic-surface-third-dark);
-        --fdsc-tag-text: var(--fds-semantic-text-neutral-default);
-      }
-    }
+  .ds-tag--brand3 {
+    --dsc-tag-background: var(--ds-color-brand3-surface-default);
+    --dsc-tag-color: var(--ds-color-brand3-text-default);
   }
 </style>

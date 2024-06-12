@@ -1,22 +1,33 @@
 <script>
   /**
-   * Use `Paragraph` to display text with paragraph text styles.
-   * @prop {string} [as='p'] - The type of element to render. Default is 'p'.
-   * @prop {string} [size='medium'] - Changes text sizing. Options are 'xsmall', 'small', 'medium', or 'large'.
-   * @prop {boolean} [spacing=false] - Adds margin-bottom.
-   * @prop {boolean} [short=false] - Reduces line-height for short paragraphs.
-   * @prop {string} [class=''] - Additional classes to add to the component.
+   * The type of element to render. Default is 'p'.
+   * @type {string}
    */
   export let as = 'p';
+
+  /**
+   * Size of the paragraph.
+   * @type {'xsmall' | 'small' | 'medium' | 'large' | 'xs' | 'sm' | 'md' | 'lg'}
+   */
   export let size = 'medium';
+
+  /**
+   * Adds margin-bottom.
+   * @type {boolean}
+   */
   export let spacing = false;
-  export let short = false;
+
+  /**
+   * Adjusts styling for paragraph length.
+   * @type {'long' | 'short'}
+   */
+  export let variant = 'short';
 
   $: computedClass = [
-    'paragraph',
-    size,
-    spacing ? 'spacing' : '',
-    short ? 'short' : '',
+    'ds-paragraph',
+    `ds-paragraph--${size}`,
+    spacing ? 'ds-paragraph--spacing' : '',
+    `ds-paragraph--${variant}`,
     $$props.class || '',
   ]
     .filter(Boolean)
@@ -38,69 +49,84 @@
 {/if}
 
 <style>
-  :global(.paragraph) {
-    --fdsc-typography-font-family: inherit;
-    --fdsc-bottom-spacing: var(--fds-spacing-5);
+  :global(.ds-paragraph) {
+    --dsc-bottom-spacing: var(--ds-spacing-5);
 
-    color: var(--fds-semantic-text-neutral-default);
+    color: var(--ds-color-neutral-text-default);
     margin: 0;
   }
 
-  .paragraph.spacing {
-    margin-bottom: var(--fdsc-bottom-spacing);
+  .ds-paragraph--spacing {
+    margin-bottom: var(--dsc-bottom-spacing);
   }
 
-  .paragraph.large {
-    --fdsc-bottom-spacing: var(--fds-spacing-6);
+  .ds-paragraph--lg {
+    --dsc-bottom-spacing: var(--ds-spacing-6);
 
-    font: var(--fds-typography-paragraph-large);
-    font-family: var(--fdsc-typography-font-family);
+    font: var(--ds-typography-paragraph-lg);
+    font-family: inherit;
   }
 
-  .paragraph.large.short {
-    font: var(--fds-typography-paragraph-short-large);
-    font-family: var(--fdsc-typography-font-family);
+  .ds-paragraph--lg.ds-paragraph--short {
+    font: var(--ds-typography-paragraph-short-lg);
+    font-family: inherit;
   }
 
-  .paragraph.medium {
-    --fdsc-bottom-spacing: var(--fds-spacing-5);
-
-    font: var(--fds-typography-paragraph-medium);
-    font-family: var(--fdsc-typography-font-family);
+  .ds-paragraph--lg.ds-paragraph--long {
+    line-height: var(--ds-typography-paragraph-long-lg);
   }
 
-  .paragraph.medium.short {
-    --fdsc-bottom-spacing: var(--fds-spacing-5);
+  .ds-paragraph--md {
+    --dsc-bottom-spacing: var(--ds-spacing-5);
 
-    font: var(--fds-typography-paragraph-short-medium);
-    font-family: var(--fdsc-typography-font-family);
+    font: var(--ds-typography-paragraph-md);
+    font-family: inherit;
   }
 
-  .paragraph.small {
-    --fdsc-bottom-spacing: var(--fds-spacing-4);
+  .ds-paragraph--md.ds-paragraph--short {
+    --dsc-bottom-spacing: var(--ds-spacing-5);
 
-    font: var(--fds-typography-paragraph-small);
-    font-family: var(--fdsc-typography-font-family);
+    font: var(--ds-typography-paragraph-short-md);
+    font-family: inherit;
   }
 
-  .paragraph.small.short {
-    --fdsc-bottom-spacing: var(--fds-spacing-4);
-
-    font: var(--fds-typography-paragraph-short-small);
-    font-family: var(--fdsc-typography-font-family);
+  .ds-paragraph--md.ds-paragraph--long {
+    line-height: var(--ds-typography-paragraph-long-md);
   }
 
-  .paragraph.xsmall {
-    --fdsc-bottom-spacing: var(--fds-spacing-3);
+  .ds-paragraph--sm {
+    --dsc-bottom-spacing: var(--ds-spacing-4);
 
-    font: var(--fds-typography-paragraph-xsmall);
-    font-family: var(--fdsc-typography-font-family);
+    font: var(--ds-typography-paragraph-sm);
+    font-family: inherit;
   }
 
-  .paragraph.xsmall.short {
-    --fdsc-bottom-spacing: var(--fds-spacing-3);
+  .ds-paragraph--sm.ds-paragraph--short {
+    --dsc-bottom-spacing: var(--ds-spacing-4);
 
-    font: var(--fds-typography-paragraph-short-xsmall);
-    font-family: var(--fdsc-typography-font-family);
+    font: var(--ds-typography-paragraph-short-sm);
+    font-family: inherit;
+  }
+
+  .ds-paragraph--sm.ds-paragraph--long {
+    line-height: var(--ds-typography-paragraph-long-sm);
+  }
+
+  .ds-paragraph--xs {
+    --dsc-bottom-spacing: var(--ds-spacing-3);
+
+    font: var(--ds-typography-paragraph-xs);
+    font-family: inherit;
+  }
+
+  .ds-paragraph--xs.ds-paragraph--short {
+    --dsc-bottom-spacing: var(--ds-spacing-3);
+
+    font: var(--ds-typography-paragraph-short-xs);
+    font-family: inherit;
+  }
+
+  .ds-paragraph--xs.ds-paragraph--long {
+    line-height: var(--ds-typography-paragraph-long-xs);
   }
 </style>

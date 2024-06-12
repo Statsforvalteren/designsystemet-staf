@@ -9,7 +9,7 @@
 
   /**
    * Specify the color-scheme of the Accordion.
-   * @type {"neutral" | "subtle" | "first" | "second" | "third"}
+   * @type {"neutral" | "subtle" | 'brand1' | 'brand2' | 'brand3'}
    */
   export let color;
 
@@ -17,88 +17,162 @@
 </script>
 
 <div
-  class={`accordion ${color}`}
-  class:border
+  class={`ds-accordion ${color} ${
+    border ? 'ds-accordion--border' : ''
+  } ds-accordion--${color}`}
 >
   <slot />
 </div>
 
 <style>
-  .accordion {
-    --fdsc-accordion-border: var(--fds-semantic-border-neutral-subtle);
-    --fdsc-accordion-border-radius: 3px;
-    --fdsc-accordion-header-padding-top: var(--fds-spacing-4);
-    --fdsc-accordion-header-padding-right: var(--fds-spacing-5);
-    --fdsc-accordion-header-padding-bottom: var(--fds-spacing-4);
-    --fdsc-accordion-header-padding-left: var(--fds-spacing-5);
-    --fdsc-accordion-header-bg-neutral: var(
-      --fds-semantic-surface-neutral-default
+  .ds-accordion {
+    --dsc-accordion-border-radius: var(--ds-border-radius-md);
+    --dsc-accordion-border-color: var(--ds-color-neutral-border-subtle);
+    --dsc-accordion-background: var(--ds-color-neutral-background-default);
+    --dsc-accordion-button-background: var(
+      --ds-color-neutral-background-default
     );
-    --fdsc-accordion-header-bg-neutral-active: var(
-      --fds-semantic-surface-action-first-no_fill-hover
+    --dsc-accordion-button-background-open: var(
+      --ds-color-neutral-background-subtle
     );
-    --fdsc-accordion-header-bg-subtle: var(
-      --fds-semantic-surface-neutral-subtle
+    --dsc-accordion-icon-background-hover: var(
+      --ds-color-neutral-surface-default
     );
-    --fdsc-accordion-header-bg-subtle-hover: var(
-      --fds-semantic-surface-neutral-subtle-hover
-    );
-    --fdsc-accordion-header-bg-primary: var(--fds-semantic-surface-first-light);
-    --fdsc-accordion-header-bg-primary-hover: var(
-      --fds-semantic-surface-first-light-hover
-    );
-    --fdsc-accordion-header-bg-secondary: var(
-      --fds-semantic-surface-second-light
-    );
-    --fdsc-accordion-header-bg-secondary-hover: var(
-      --fds-semantic-surface-second-light-hover
-    );
-    --fdsc-accordion-header-bg-tertiary: var(
-      --fds-semantic-surface-third-light
-    );
-    --fdsc-accordion-header-bg-tertiary-hover: var(
-      --fds-semantic-surface-third-light-hover
-    );
-    --fdsc-accordion-header-border: var(--fds-semantic-border-neutral-subtle);
-    --fdsc-accordion-header-border-inverted: var(
-      --fds-semantic-border-on_inverted-default
-    );
-    --fdsc-accordion-header-shadow-focus: 2px 2px 3px
-      var(--fds-semantic-border-neutral-subtle);
-    --fdsc-accordion-header-color-hover: var(
-      --fds-semantic-text-action-first-default
-    );
-    --fdsc-accordion-content-border: var(--fds-semantic-border-neutral-subtle);
-    --fdsc-accordion-content-border-open: var(
-      --fds-semantic-border-neutral-strong
+    --dsc-accordion-icon-background-active: var(
+      --ds-color-neutral-surface-default
     );
 
-    border-bottom: 1px solid var(--fdsc-accordion-content-border);
+    border-bottom: 1px solid var(--dsc-accordion-border-color);
+    box-sizing: border-box;
+    background-color: var(--dsc-accordion-background);
   }
 
-  .border {
-    border: 1px solid var(--fdsc-accordion-border);
-    border-top: none;
-    border-radius: var(--fdsc-accordion-border-radius);
+  .ds-accordion--border {
+    border: 1px solid var(--dsc-accordion-border-color);
+    border-radius: var(--dsc-accordion-border-radius);
   }
 
-  .accordion.neutral {
-    background: var(--fdsc-accordion-header-bg-neutral);
+  .ds-accordion__content {
+    padding: var(--ds-spacing-5, 1rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .accordion.subtle {
-    background: var(--fdsc-accordion-header-bg-subtle);
+  .ds-accordion__item--open .ds-accordion__header {
+    background-color: var(--dsc-accordion-button-background-open);
   }
 
-  .accordion.first {
-    background: var(--fdsc-accordion-header-bg-primary);
+  .ds-accordion__item:focus-within {
+    position: relative;
   }
 
-  .accordion.second {
-    background: var(--fdsc-accordion-header-bg-secondary);
+  .ds-accordion__item:where(.ds-accordion__item--open)
+    .ds-accordion__expand-icon {
+    transform: rotateZ(180deg);
   }
 
-  .accordion.third {
-    background: var(--fdsc-accordion-header-bg-tertiary);
+  .ds-accordion__item:not(:first-child) .ds-accordion__header {
+    border-top: 1px solid var(--dsc-accordion-border-color);
+  }
+
+  .ds-accordion--border .ds-accordion__item:first-child .ds-accordion__header {
+    border-top: 0;
+  }
+
+  .ds-accordion--border
+    .ds-accordion__item:first-of-type
+    .ds-accordion__header:first-of-type {
+    border-top-left-radius: var(--dsc-accordion-border-radius);
+    border-top-right-radius: var(--dsc-accordion-border-radius);
+  }
+
+  .ds-accordion--border
+    .ds-accordion__item:last-of-type:not(.ds-accordion__item--open)
+    .ds-accordion__header:first-of-type {
+    border-bottom-left-radius: var(--dsc-accordion-border-radius);
+    border-bottom-right-radius: var(--dsc-accordion-border-radius);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ds-accordion__item--open
+      .ds-accordion__header:hover
+      .ds-accordion__expand-icon {
+      background-color: var(--dsc-accordion-icon-background-active);
+    }
+  }
+
+  .ds-accordion--neutral {
+    --dsc-accordion-background: var(--ds-color-neutral-background-default);
+    --dsc-accordion-button-background: var(
+      --ds-color-neutral-background-default
+    );
+    --dsc-accordion-button-background-open: var(
+      --ds-color-neutral-background-subtle
+    );
+    --dsc-accordion-icon-background-hover: var(
+      --ds-color-neutral-surface-default
+    );
+  }
+
+  .ds-accordion--subtle {
+    --dsc-accordion-background: var(--ds-color-neutral-background-subtle);
+    --dsc-accordion-border-color: var(--ds-color-neutral-border-default);
+    --dsc-accordion-button-background: var(
+      --ds-color-neutral-background-subtle
+    );
+    --dsc-accordion-button-background-open: var(
+      --ds-color-neutral-surface-default
+    );
+    --dsc-accordion-icon-background-hover: var(
+      --ds-color-neutral-surface-default
+    );
+    --dsc-accordion-icon-background-active: var(
+      --ds-color-neutral-surface-active
+    );
+  }
+
+  .ds-accordion--brand1 {
+    --dsc-accordion-background: var(--ds-color-brand1-background-subtle);
+    --dsc-accordion-border-color: var(--ds-color-brand1-border-subtle);
+    --dsc-accordion-button-background: var(--ds-color-brand1-surface-default);
+    --dsc-accordion-button-background-open: var(
+      --ds-color-brand1-surface-hover
+    );
+    --dsc-accordion-icon-background-hover: var(
+      --ds-color-brand1-surface-active
+    );
+    --dsc-accordion-icon-background-active: var(
+      --ds-color-brand1-surface-active
+    );
+  }
+
+  .ds-accordion--brand2 {
+    --dsc-accordion-background: var(--ds-color-brand2-background-subtle);
+    --dsc-accordion-border-color: var(--ds-color-brand2-border-subtle);
+    --dsc-accordion-button-background: var(--ds-color-brand2-surface-default);
+    --dsc-accordion-button-background-open: var(
+      --ds-color-brand2-surface-hover
+    );
+    --dsc-accordion-icon-background-hover: var(
+      --ds-color-brand2-surface-active
+    );
+    --dsc-accordion-icon-background-active: var(
+      --ds-color-brand2-surface-active
+    );
+  }
+
+  .ds-accordion--brand3 {
+    --dsc-accordion-background: var(--ds-color-brand3-background-subtle);
+    --dsc-accordion-border-color: var(--ds-color-brand3-border-subtle);
+    --dsc-accordion-button-background: var(--ds-color-brand3-surface-default);
+    --dsc-accordion-button-background-open: var(
+      --ds-color-brand3-surface-hover
+    );
+    --dsc-accordion-icon-background-hover: var(
+      --ds-color-brand3-surface-active
+    );
+    --dsc-accordion-icon-background-active: var(
+      --ds-color-brand3-surface-active
+    );
   }
 </style>

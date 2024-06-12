@@ -14,9 +14,15 @@
 
   /**
    * Changes field size and paddings. Options are 'xsmall', 'small', 'medium', 'large'.
-   * @type {'xsmall' | 'small' | 'medium' | 'large'}
+   * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
   export let size = 'medium';
+
+  /**
+   * Adjusts styling for search. Options are 'primary', 'secondary', 'simple'.
+   * @type {'primary' | 'secondary' | 'simple'}
+   */
+  export let variant = 'simple';
 
   /**
    * Visually hides `label` and `description` (still available for screen readers).
@@ -39,19 +45,14 @@
   export let error = '';
 
   /**
-   * Prefix for field.
-   */
-  export let prefix = '';
-
-  /**
-   * Suffix for field.
-   */
-  export let suffix = '';
-
-  /**
    * Sets limit for number of characters.
    */
   export let characterLimit = null;
+
+  /**
+   * Clear button label. Hidden visually. Used for screen readers.
+   */
+  export let clearButtonLabel = '';
 
   /**
    * Sets custom label for shown character limit (function is possible to pass in, see example).
@@ -60,68 +61,67 @@
 
   let componentId = uuidv4();
 
-  let fontSizeClass;
+  let normalizedSize;
 
   switch (size) {
-    case 'xsmall':
-      fontSizeClass = 'font-xsmall';
-      break;
     case 'small':
-      fontSizeClass = 'font-small';
+      normalizedSize = 'sm';
       break;
     case 'medium':
-      fontSizeClass = 'font-medium';
+      normalizedSize = 'md';
       break;
     case 'large':
-      fontSizeClass = 'font-large';
+      normalizedSize = 'lg';
       break;
     default:
-      fontSizeClass = 'font-medium';
+      normalizedSize = 'md';
       break;
   }
 
+  const isSimple = variant === 'simple';
+  const showFilledButton = variant === 'primary';
+  $: showClearButton = String(value).length > 0 && !disabled;
+
   // Computed class names for the component elements
-  let formFieldClasses = `form-field ${size} ${disabled ? 'disabled' : ''} ${
-    $$props.class || ''
-  } ${fontSizeClass}`;
-  let labelClasses = `label ${hideLabel ? 'visually-hidden' : ''}`;
-  let descriptionClasses = `description ${
-    hideLabel ? 'visually-hidden' : ''
-  } ${fontSizeClass}`;
-  $: fieldClasses = `field ${error ? 'error' : ''}`;
-  let inputClasses = `input ${size} ${prefix ? 'input-prefix' : ''} ${
-    suffix ? 'input-suffix' : ''
+  let formFieldClasses = `ds-search ds-search--${size} ${
+    disabled ? 'ds-search--disabled' : ''
+  } ${$$props.class || ''}`;
+  let labelClasses = `ds-search__label ${hideLabel ? 'ds-sr-only' : ''}`;
+  let descriptionClasses = `ds-search__field ds-search--${size} ${
+    hideLabel ? 'ds-sr-only' : ''
   }`;
-  let errorMessageClasses = `error-message ${fontSizeClass}`;
+  $: fieldClasses = `ds-search__field ds-search--${size} ${
+    hideLabel ? 'ds-sr-only' : ''
+  } ${error ? 'error' : ''}`;
+  let inputClasses = `ds-search__input ds-focus ${
+    isSimple
+      ? 'ds-search__input--simple'
+      : 'ds-search__input--with-search-button'
+  }`;
+  let errorMessageClasses = `ds-search__error-message`;
+
+  let inputRef;
+
+  function handleClear() {
+    value = '';
+    inputRef?.current && inputRef.current.focus();
+  }
 </script>
 
 <div class={formFieldClasses}>
   {#if label}
-    <label
-      for="search-field"
-      class={labelClasses}
-    >
+    <label for="search-field" class={labelClasses}>
       <span>{label}</span>
     </label>
   {/if}
   {#if description}
-    <p
-      id="description"
-      class={descriptionClasses}
-    >
+    <p id="description" class={descriptionClasses}>
       {description}
     </p>
   {/if}
   <div class={fieldClasses}>
-    {#if prefix}
-      <div
-        class="adornment prefix"
-        aria-hidden="true"
-      >
-        {prefix}
-      </div>
-    {/if}
     <input
+      bind:this={inputRef}
       bind:value
       on:input
       class={inputClasses}
@@ -133,14 +133,40 @@
       {disabled}
       {...$$restProps}
     />
-    {#if suffix}
-      <div
-        class="adornment suffix"
-        aria-hidden="true"
+    {#if showClearButton}
+      <button
+        class={'ds-search__clear-button ds-focus'}
+        type="button"
+        on:click={handleClear}
+        {disabled}
       >
-        {suffix}
-      </div>
+        <span class={`ds-sr-only`}>{clearButtonLabel}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          fill="none"
+          viewBox="0 0 24 24"
+          focusable="false"
+          role="img"
+          ><path
+            fill="currentColor"
+            d="M6.53 5.47a.75.75 0 0 0-1.06 1.06L10.94 12l-5.47 5.47a.75.75 0 1 0 1.06 1.06L12 13.06l5.47 5.47a.75.75 0 1 0 1.06-1.06L13.06 12l5.47-5.47a.75.75 0 0 0-1.06-1.06L12 10.94z"
+          /></svg
+        >
+      </button>
     {/if}
+    {#if !isSimple}
+      <Button
+        className={'ds-search__search-button'}
+        {size}
+        {variant}
+        type="submit"
+        onClick={handleSearchClick}
+        {disabled}
+      >
+        {searchButtonLabel}
+      </Button>{/if}
   </div>
   {#if characterLimit}
     <CharacterCounter
@@ -152,161 +178,188 @@
     />
   {/if}
   {#if error}
-    <div
-      class={errorMessageClasses}
-      aria-live="polite"
-    >
+    <div class={errorMessageClasses} aria-live="polite">
       {error}
     </div>
   {/if}
 </div>
 
 <style>
-  .formField {
-    display: grid;
-    gap: var(--fds-spacing-2);
-  }
-
-  .adornment {
-    color: var(--fds-semantic-border-neutral-default);
-    background: var(--fds-semantic-surface-neutral-subtle);
-    padding: var(--fds-spacing-3);
-    border-radius: var(--fds-border_radius-medium);
-    border: solid 1px var(--fds-semantic-border-neutral-default);
-    box-sizing: border-box;
-    display: inline-block;
-  }
-
-  .label {
-    min-width: min-content;
-    display: inline-flex;
-    flex-direction: row;
-    gap: var(--fds-spacing-1);
-    align-items: center;
-  }
-
-  .description {
-    color: var(--fds-semantic-text-neutral-subtle);
-    margin-top: calc(var(--fds-spacing-2) * -1);
-  }
-
-  .input {
-    font: inherit;
-    position: relative;
-    box-sizing: border-box;
-    flex: 0 1 auto;
-    min-height: 2.5em;
+  .ds-search {
+    display: inline-grid;
     width: 100%;
-    appearance: none;
-    background-color: white;
-    background-repeat: no-repeat;
-    border: solid 1px var(--fds-semantic-border-action-dark);
-    border-radius: var(--fds-border_radius-medium);
+    gap: var(--ds-spacing-2);
   }
 
-  .input.xsmall,
-  .input.small {
-    padding-left: 36px;
-    padding-right: 4px;
-    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 27" fill="none"%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M5.75 11.8125C5.75 8.18813 8.68813 5.25 12.3125 5.25C15.9369 5.25 18.875 8.18813 18.875 11.8125C18.875 15.4369 15.9369 18.375 12.3125 18.375C8.68813 18.375 5.75 15.4369 5.75 11.8125ZM12.3125 3.75C7.8597 3.75 4.25 7.3597 4.25 11.8125C4.25 16.2653 7.8597 19.875 12.3125 19.875C14.2688 19.875 16.0624 19.1782 17.4586 18.0193L23.6064 24.167C23.8993 24.4599 24.3741 24.4599 24.667 24.167C24.9599 23.8741 24.9599 23.3993 24.667 23.1064L18.5193 16.9586C19.6782 15.5624 20.375 13.7688 20.375 11.8125C20.375 7.3597 16.7653 3.75 12.3125 3.75Z" fill="%231E2B3C"/%3E%3C/svg%3E');
-    background-position: 8px center;
+  .ds-search--sm {
+    --dsc-search-button-clear-size: var(--ds-sizing-5);
   }
 
-  .input.medium {
-    padding-left: 40px;
-    padding-right: 4px;
-    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="28" height="27" viewBox="0 0 28 27" fill="none"%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M5.75 11.8125C5.75 8.18813 8.68813 5.25 12.3125 5.25C15.9369 5.25 18.875 8.18813 18.875 11.8125C18.875 15.4369 15.9369 18.375 12.3125 18.375C8.68813 18.375 5.75 15.4369 5.75 11.8125ZM12.3125 3.75C7.8597 3.75 4.25 7.3597 4.25 11.8125C4.25 16.2653 7.8597 19.875 12.3125 19.875C14.2688 19.875 16.0624 19.1782 17.4586 18.0193L23.6064 24.167C23.8993 24.4599 24.3741 24.4599 24.667 24.167C24.9599 23.8741 24.9599 23.3993 24.667 23.1064L18.5193 16.9586C19.6782 15.5624 20.375 13.7688 20.375 11.8125C20.375 7.3597 16.7653 3.75 12.3125 3.75Z" fill="%231E2B3C"/%3E%3C/svg%3E');
-    background-position: 8px center;
+  .ds-search--md {
+    --dsc-search-button-clear-size: var(--ds-sizing-6);
   }
 
-  .input.large {
-    padding-left: 44px;
-    padding-right: 4px;
-    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="30" height="31" viewBox="0 0 28 27" fill="none"%3E%3Cpath fill-rule="evenodd" clip-rule="evenodd" d="M5.75 11.8125C5.75 8.18813 8.68813 5.25 12.3125 5.25C15.9369 5.25 18.875 8.18813 18.875 11.8125C18.875 15.4369 15.9369 18.375 12.3125 18.375C8.68813 18.375 5.75 15.4369 5.75 11.8125ZM12.3125 3.75C7.8597 3.75 4.25 7.3597 4.25 11.8125C4.25 16.2653 7.8597 19.875 12.3125 19.875C14.2688 19.875 16.0624 19.1782 17.4586 18.0193L23.6064 24.167C23.8993 24.4599 24.3741 24.4599 24.667 24.167C24.9599 23.8741 24.9599 23.3993 24.667 23.1064L18.5193 16.9586C19.6782 15.5624 20.375 13.7688 20.375 11.8125C20.375 7.3597 16.7653 3.75 12.3125 3.75Z" fill="%231E2B3C"/%3E%3C/svg%3E');
-    background-position: 10px center;
+  .ds-search--lg {
+    --dsc-search-button-clear-size: var(--ds-sizing-8);
   }
 
-  .input::placeholder {
-    color: var(--fds-semantic-text-neutral-default, #1e2b3c);
-  }
-
-  .disabled {
-    opacity: 0.3;
-  }
-
-  .disabled .input {
-    cursor: not-allowed;
-  }
-
-  .error > .input:not(:focus-visible) {
-    border-color: var(--fds-semantic-border-danger-default, #e02e49);
-    box-shadow: inset 0 0 0 1px
-      var(--fds-semantic-border-danger-default, #e02e49);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .input:not(:focus-visible, :disabled):hover {
-      border-color: var(--fds-semantic-border-action-hover);
-      box-shadow: inset 0 0 0 1px var(--fds-semantic-border-action-hover);
-    }
-  }
-
-  .inputPrefix {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  .inputSuffix {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .prefix {
-    border-right: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .suffix {
-    border-left: 0;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  .field {
-    display: flex;
-    align-items: stretch;
-    border-radius: var(--fds-border_radius-medium);
-  }
-
-  .field > *:first-child {
-    border-top-left-radius: var(--fds-border_radius-medium);
-    border-bottom-left-radius: var(--fds-border_radius-medium);
-  }
-
-  .field > *:last-child {
-    border-top-right-radius: var(--fds-border_radius-medium);
-    border-bottom-right-radius: var(--fds-border_radius-medium);
-  }
-
-  .errorMessage:empty {
+  .ds-search__error:empty {
     display: none;
   }
 
-  .error-message {
-    color: var(--fds-semantic-border-danger-default, #e02e49);
+  .ds-search__label {
+    min-width: min-content;
+    display: inline-flex;
+    flex-direction: row;
+    gap: var(--ds-spacing-1);
+    align-items: center;
   }
 
-  .font-xsmall {
-    font-size: 0.8125rem;
+  .ds-search__field {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    border-radius: var(--ds-border-radius-md);
+    position: relative;
   }
-  .font-small {
-    font-size: 0.9375rem;
+
+  .ds-search__icon {
+    position: absolute;
+    height: 100%;
+    z-index: 2;
+    left: var(--ds-spacing-4);
+    transform: scale(1.5);
+    pointer-events: none;
   }
-  .font-medium {
-    font-size: 1.125rem;
+
+  [type='search']::-webkit-search-decoration,
+  [type='search']::-webkit-search-cancel-button {
+    appearance: none;
   }
-  .font-large {
+
+  .ds-search__input {
+    font: inherit;
+    font-family: inherit;
+    position: relative;
+    box-sizing: border-box;
+    flex: 0 1 auto;
+    height: var(--ds-sizing-10);
+    width: 100%;
+    appearance: none;
+    padding: 0 var(--ds-spacing-3);
+    background: var(--ds-color-neutral-background-default);
+    color: var(--ds-color-neutral-text-default);
+    border: solid 1px var(--ds-color-neutral-border-default);
+    border-radius: var(--ds-border-radius-md);
+  }
+
+  .ds-search__input.ds-search__input--with-search-button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .ds-search__input:disabled {
+    cursor: not-allowed;
+  }
+
+  .ds-search__input[type='search']:focus-visible {
+    z-index: 1;
+  }
+
+  .ds-search:has(.ds-search__input:disabled) {
+    opacity: var(--ds-disabled-opacity);
+  }
+
+  .ds-search__search-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .ds-search__search-button:not(:focus-visible) {
+    border-left: 0;
+  }
+
+  .ds-search__search-button:focus-visible {
+    z-index: 1;
+  }
+
+  .ds-search__clear-button {
+    color: var(--ds-color-neutral-text-default);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background: none;
+    border: none;
+    right: 0.6em;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    height: var(--dsc-search-button-clear-size);
+    width: var(--dsc-search-button-clear-size);
+    border-radius: var(--ds-border-radius-md);
     font-size: 1.25rem;
+    padding: 0;
+    z-index: 2;
+  }
+
+  .ds-search--sm .ds-search__input {
+    --dsc-search-button-clear-size: var(--ds-sizing-4);
+
+    height: var(--ds-sizing-10);
+    padding: 0 var(--ds-spacing-3);
+    padding-right: 2.5em;
+  }
+
+  .ds-search--sm .ds-search__icon {
+    left: var(--ds-spacing-3);
+  }
+
+  .ds-search--md .ds-search__input {
+    --dsc-search-button-clear-size: var(--ds-sizing-6);
+
+    height: var(--ds-sizing-12);
+    padding: 0 var(--ds-spacing-4);
+    padding-right: 2.2em;
+  }
+
+  .ds-search--md .ds-search__icon {
+    left: var(--ds-spacing-4);
+  }
+
+  .ds-search--lg .ds-search__input {
+    --dsc-search-button-clear-size: var(--ds-sizing-12);
+
+    height: var(--ds-sizing-14);
+    padding: 0 var(--ds-spacing-5);
+    padding-right: 2em;
+  }
+
+  .ds-search--lg .ds-search__icon {
+    left: var(--ds-spacing-5);
+  }
+
+  .ds-search__input.ds-search__input--simple {
+    padding-left: 2.4em;
+  }
+
+  .ds-search__error-message > .input:not(:focus-visible) {
+    border-color: var(--ds-color-danger-border-default);
+    box-shadow: inset 0 0 0 1px var(--ds-color-danger-border-default);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ds-search__input:not(:focus-visible, :disabled, [aria-disabled]):hover {
+      border-color: var(--ds-color-accent-border-strong);
+      box-shadow: inset 0 0 0 1px var(--ds-color-accent-border-strong);
+    }
+
+    .ds-search__clear-button:not(
+        :focus-visible,
+        :disabled,
+        [aria-disabled]
+      ):hover {
+      background: var(--ds-color-accent-surface-hover);
+    }
   }
 </style>
