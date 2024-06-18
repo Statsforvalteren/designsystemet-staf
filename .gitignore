@@ -21,6 +21,7 @@ coverage/
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
+*.code-workspace
 
 # JetBrains IntelliJ IDEA
 .idea
