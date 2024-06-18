@@ -1,6 +1,6 @@
 <script>
-  import { setContext } from 'svelte';
-  import { writable } from 'svelte/store';
+  import { setContext } from "svelte";
+  import { writable } from "svelte/store";
 
   /**
    * onchange handler for the tabs component.
@@ -15,17 +15,17 @@
 
   /**
    * Controls the size of the tabs component. Defaults to `medium`.
-   * @type {'small' | 'medium' | 'large'}
+   * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   let store = {
-    selectedTab: writable('1'),
+    selectedTab: writable("1"),
     select: (i) => {
       store.selectedTab.set(i);
       onChange(i);
     },
-    tabSize: writable('medium'),
+    tabSize: writable("medium"),
   };
 
   $: selectedTab = store.selectedTab;
@@ -34,9 +34,9 @@
   }
   store.tabSize.set(size);
   $: onChange(selectedTab);
-  setContext('tabsStore', store);
+  setContext("tabsStore", store);
 </script>
 
-<div class="tabs">
+<div class={`ds-tabs--${size}`} {...$$restProps}>
   <slot />
 </div>

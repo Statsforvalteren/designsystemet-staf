@@ -3,13 +3,13 @@
    * The type of element to render. Default is 'p'.
    * @type {string}
    */
-  export let as = 'p';
+  export let as = "p";
 
   /**
    * Size of the paragraph.
    * @type {'xsmall' | 'small' | 'medium' | 'large' | 'xs' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   /**
    * Adds margin-bottom.
@@ -21,24 +21,48 @@
    * Adjusts styling for paragraph length.
    * @type {'long' | 'short'}
    */
-  export let variant = 'short';
+  export let variant = "short";
+
+  let normalizedSize;
+
+  switch (size) {
+    case "xsmall":
+    case "xs":
+      normalizedSize = "xs";
+      break;
+    case "small":
+    case "sm":
+      normalizedSize = "sm";
+      break;
+    case "medium":
+    case "md":
+      normalizedSize = "md";
+      break;
+    case "large":
+    case "lg":
+      normalizedSize = "lg";
+      break;
+    default:
+      normalizedSize = "md";
+      break;
+  }
 
   $: computedClass = [
-    'ds-paragraph',
-    `ds-paragraph--${size}`,
-    spacing ? 'ds-paragraph--spacing' : '',
+    "ds-paragraph",
+    `ds-paragraph--${normalizedSize}`,
+    spacing ? "ds-paragraph--spacing" : "",
     `ds-paragraph--${variant}`,
-    $$props.class || '',
+    $$props.class || "",
   ]
     .filter(Boolean)
-    .join(' ');
+    .join(" ");
 </script>
 
-{#if as === 'p'}
+{#if as === "p"}
   <p class={computedClass}>
     <slot />
   </p>
-{:else if as === 'span'}
+{:else if as === "span"}
   <span class={computedClass}>
     <slot />
   </span>

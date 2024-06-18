@@ -1,5 +1,5 @@
 <script>
-  import { setContext } from 'svelte';
+  import { setContext } from "svelte";
 
   /**
    * Specify if the Accordion has a visible border around it self.
@@ -9,16 +9,16 @@
 
   /**
    * Specify the color-scheme of the Accordion.
-   * @type {"neutral" | "subtle" | 'brand1' | 'brand2' | 'brand3'}
+   * @type {'neutral' | 'subtle' | 'brand1' | 'brand2' | 'brand3'}
    */
   export let color;
 
-  setContext('accordion', { border, color });
+  setContext("accordion", { border, color });
 </script>
 
 <div
   class={`ds-accordion ${color} ${
-    border ? 'ds-accordion--border' : ''
+    border ? "ds-accordion--border" : ""
   } ds-accordion--${color}`}
 >
   <slot />
@@ -58,47 +58,8 @@
     text-overflow: ellipsis;
   }
 
-  .ds-accordion__item--open .ds-accordion__header {
-    background-color: var(--dsc-accordion-button-background-open);
-  }
-
   .ds-accordion__item:focus-within {
     position: relative;
-  }
-
-  .ds-accordion__item:where(.ds-accordion__item--open)
-    .ds-accordion__expand-icon {
-    transform: rotateZ(180deg);
-  }
-
-  .ds-accordion__item:not(:first-child) .ds-accordion__header {
-    border-top: 1px solid var(--dsc-accordion-border-color);
-  }
-
-  .ds-accordion--border .ds-accordion__item:first-child .ds-accordion__header {
-    border-top: 0;
-  }
-
-  .ds-accordion--border
-    .ds-accordion__item:first-of-type
-    .ds-accordion__header:first-of-type {
-    border-top-left-radius: var(--dsc-accordion-border-radius);
-    border-top-right-radius: var(--dsc-accordion-border-radius);
-  }
-
-  .ds-accordion--border
-    .ds-accordion__item:last-of-type:not(.ds-accordion__item--open)
-    .ds-accordion__header:first-of-type {
-    border-bottom-left-radius: var(--dsc-accordion-border-radius);
-    border-bottom-right-radius: var(--dsc-accordion-border-radius);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .ds-accordion__item--open
-      .ds-accordion__header:hover
-      .ds-accordion__expand-icon {
-      background-color: var(--dsc-accordion-icon-background-active);
-    }
   }
 
   .ds-accordion--neutral {

@@ -1,6 +1,7 @@
 <!-- TabItem.svelte -->
 <script>
-  import { getContext } from 'svelte';
+  import { Paragraph } from "$lib";
+  import { getContext } from "svelte";
 
   /**
    * Value of the tab.
@@ -12,69 +13,123 @@
    */
   export let icon = null;
 
-  const { selectedTab, select, tabSize } = getContext('tabsStore');
-  let tabButtonSize;
+  const { selectedTab, select, tabSize } = getContext("tabsStore");
   let isSelected;
+  let normalizedSize;
+
+  switch ($tabSize) {
+    case "small":
+    case "sm":
+      normalizedSize = "sm";
+      break;
+    case "medium":
+    case "md":
+      normalizedSize = "md";
+      break;
+    case "large":
+    case "lg":
+      normalizedSize = "lg";
+      break;
+    default:
+      normalizedSize = "md";
+      break;
+  }
 
   // Abonner på selectedTab store
   $: isSelected = $selectedTab && $selectedTab === value;
-  $: tabButtonSize = $tabSize;
 
   function handleClick() {
     select(value);
   }
 </script>
 
-<div class="tab-item {isSelected ? 'selected' : ''}">
-  <button
-    class={`${isSelected ? 'active' : ''} ${tabButtonSize} ${
-      !icon ? 'no-icon' : ''
-    }`}
-    on:click={handleClick}
-  >
-    {#if icon}
-      <div class="icon">{@html icon}</div>
-    {/if}
-    <div class="text">
+<Paragraph asChild variant="short" size={$tabSize}>
+  <div class={`${isSelected ? "selected" : ""}`}>
+    <button
+      class={`ds-tabs__tab ds-tabs--${normalizedSize} ds-focus ${
+        !icon ? "no-icon" : ""
+      }`}
+      on:click={handleClick}
+    >
+      {#if icon}
+        <div class="icon">{@html icon}</div>
+      {/if}
+
       <slot />
-    </div>
-  </button>
-</div>
+    </button>
+  </div>
+</Paragraph>
 
 <style lang="scss">
-  .tab-item {
-    font-family: inherit;
-    display: inline-flex;
-    flex-direction: row;
-    margin-left: -4px;
-  }
+  .ds-tabs__tab {
+    --dsc-tabs__tab-bottom-border-color: transparent;
 
-  button {
-    font-family: inherit;
     display: flex;
-    padding: var(--fds-spacing-3, 0.84375rem) var(--fds-spacing-5, 1.40625rem);
+    flex-direction: row;
+    box-sizing: border-box;
+    gap: var(--ds-spacing-1);
     justify-content: center;
+    text-align: center;
     align-items: center;
-    gap: var(--fds-spacing-2, 0.5625rem);
+    padding: var(--ds-spacing-2) var(--ds-spacing-3);
     border: none;
     border-radius: 0;
     background-color: transparent;
     cursor: pointer;
+    color: var(--ds-color-neutral-text-subtle);
     position: relative;
-    color: var(--semantic-text-neutral-default, #1e2b3c);
+    font-family: inherit;
+  }
+  .ds-tabs--sm {
+    font-size: 0.9375rem;
+    padding: var(--ds-spacing-2) var(--ds-spacing-4);
+  }
+  .ds-tabs--md {
+    font-size: 1.125rem;
+    padding: var(--ds-spacing-3) var(--ds-spacing-5);
+  }
+  .ds-tabs--lg {
+    font-size: 1.3125rem;
+    padding: var(--ds-spacing-4) var(--ds-spacing-6);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .ds-tabs__tab:hover:not([aria-selected="true"]) {
+      --dsc-tabs__tab-bottom-border-color: var(
+        --ds-color-neutral-border-subtle
+      );
 
-    &.small {
-      font-size: 0.9375rem;
-      padding: var(--fds-spacing-2, 0.5625rem) var(--fds-spacing-4, 1.125rem);
+      color: var(--ds-color-neutral-text-default);
     }
-    &.medium {
-      font-size: 1.125rem;
-      padding: var(--fds-spacing-3, 0.84375rem) var(--fds-spacing-5, 1.40625rem);
-    }
-    &.large {
-      font-size: 1.3125rem;
-      padding: var(--fds-spacing-4, 1.125rem) var(--fds-spacing-6, 1.6875rem);
-    }
+  }
+
+  .selected > .ds-tabs__tab {
+    --dsc-tabs__tab-bottom-border-color: var(--ds-color-accent-base-default);
+
+    color: var(--ds-color-accent-text-subtle);
+  }
+
+  .ds-tabs__tab:focus {
+    z-index: 2;
+  }
+
+  .ds-tabs__tab::after {
+    content: "";
+    display: block;
+    height: 3px;
+    width: 100%;
+    border-radius: var(--ds-border-radius-full);
+    background-color: var(--dsc-tabs__tab-bottom-border-color);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .ds-tabs__tablist {
+    display: flex;
+    flex-direction: row;
+    border-bottom: var(--ds-border-width-default) solid
+      var(--ds-color-neutral-border-subtle);
+    position: relative;
   }
 
   .icon {
@@ -82,50 +137,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    margin-bottom: 0.1875rem;
+    margin: 0.1rem 0.5rem 0.1875rem 0;
     scale: 1.4;
     color: var(--fds-semantic-text-neutral-subtle);
   }
   .no-icon {
     margin-bottom: -0.125rem;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    button:hover {
-      --fdsc-bottom-border-color: var(--fds-semantic-border-neutral-subtle);
-
-      color: var(--fds-semantic-text-neutral-default);
-    }
-  }
-
-  button.active {
-    --fdsc-bottom-border-color: var(
-      --fds-semantic-surface-action-first-default
-    );
-    color: var(--fds-semantic-text-neutral-default);
-  }
-
-  button.active .icon {
-    color: var(--fds-semantic-surface-action-first-default);
-  }
-
-  button:focus-visible {
-    --fdsc-bottom-border-color: var(--fds-semantic-text-neutral-default);
-
-    background: var(--fds-semantic-border-focus-outline);
-    color: var(--fds-semantic-text-neutral-default);
-    outline: none;
-  }
-
-  button::after {
-    content: '';
-    display: block;
-    height: 0.1875rem;
-    width: 100%;
-    border-radius: var(--fds-border_radius-full);
-    background-color: var(--fdsc-bottom-border-color);
-    position: absolute;
-    bottom: 0;
-    left: 0;
   }
 </style>

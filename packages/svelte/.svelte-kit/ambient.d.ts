@@ -89,7 +89,6 @@ declare module '$env/static/private' {
 	export const npm_package_name: string;
 	export const npm_package_version: string;
 	export const NUMBER_OF_PROCESSORS: string;
-	export const OLDPWD: string;
 	export const OneDrive: string;
 	export const OneDriveCommercial: string;
 	export const OneDriveConsumer: string;
@@ -231,7 +230,6 @@ declare module '$env/dynamic/private' {
 		npm_package_name: string;
 		npm_package_version: string;
 		NUMBER_OF_PROCESSORS: string;
-		OLDPWD: string;
 		OneDrive: string;
 		OneDriveCommercial: string;
 		OneDriveConsumer: string;

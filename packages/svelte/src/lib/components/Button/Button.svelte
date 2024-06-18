@@ -8,19 +8,19 @@
    * Specify which variant to use. Options are 'primary' | 'secondary' | 'tertiary'.
    * @type {'primary' | 'secondary' | 'tertiary'}
    */
-  export let variant = 'primary';
+  export let variant = "primary";
 
   /**
    * Specify which color palette to use. Options are 'accent' | 'neutral' | 'danger'.
    * @type {'accent' | 'neutral' | 'danger'}
    */
-  export let color = 'accent';
+  export let color = "accent";
 
   /**
    * Size of the button. Options are 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   /**
    * If `Button` should fill full width of its container.
@@ -31,30 +31,48 @@
    * Icon position inside Button. Options are 'right' or 'left'.
    * @type {'right' | 'left'}
    */
-  export let iconPlacement = 'left';
+  export let iconPlacement = "left";
 
-  const computedClass = `ds-btn ds-focus ds-btn--${size} ds-btn--${variant} ds-btn--${color} ${
-    fullWidth ? 'ds-btn--full-width' : ''
-  } ${$$props.class || ''}`;
+  /**
+   * Custom class to be added to the component.
+   */
+  export let className = "";
+
+  let normalizedSize;
+
+  switch (size) {
+    case "small":
+    case "sm":
+      normalizedSize = "sm";
+      break;
+    case "medium":
+    case "md":
+      normalizedSize = "md";
+      break;
+    case "large":
+    case "lg":
+      normalizedSize = "lg";
+      break;
+    default:
+      normalizedSize = "md";
+      break;
+  }
+
+  const computedClass = `ds-btn ds-focus ds-btn--${normalizedSize} ds-btn--${variant} ds-btn--${color} ${
+    fullWidth ? "ds-btn--full-width" : ""
+  } ${className}`;
 </script>
 
-<button
-  on:click
-  style="display: flex; gap: 0.5rem; width: 100%;"
-  class={computedClass}
-  {...$$restProps}
->
+<button on:click class={computedClass} {...$$restProps}>
   <div
-    style="display: flex; gap: 0.5rem; width: max-content; align-items: center; justify-content: center; white-space: nowrap;"
-    class={`${$$slots.icon !== undefined ? 'ds-btn--icon-only' : ''}`}
+    style="display: flex; gap: 0.5rem; align-items: center; justify-content: center;"
+    class={`${$$slots.icon !== undefined ? "ds-btn--icon-only" : ""}`}
   >
-    {#if iconPlacement === 'left'}
-      <div style="max-width: 2rem">
-        <slot name="icon" />
-      </div>
+    {#if $$slots.icon !== undefined && iconPlacement === "left"}
+      <slot name="icon" />
     {/if}
     <slot />
-    {#if iconPlacement === 'right'}
+    {#if $$slots.icon !== undefined && iconPlacement === "right"}
       <slot name="icon" />
     {/if}
   </div>
@@ -104,7 +122,7 @@
   }
 
   .ds-btn:disabled,
-  .ds-btn[aria-disabled='true'] {
+  .ds-btn[aria-disabled="true"] {
     cursor: not-allowed;
     opacity: var(--ds-disabled-opacity);
   }
@@ -124,7 +142,7 @@
     left: 0;
     width: auto;
     min-height: auto;
-    content: '';
+    content: "";
   }
 
   .ds-btn--sm::after {
@@ -133,7 +151,7 @@
     left: 0;
     width: 100%;
     height: 44px;
-    content: '';
+    content: "";
   }
 
   .ds-btn--md {
@@ -169,17 +187,17 @@
 
   /* Only use hover for non-touch devices to prevent sticky-hovering */
   @media (hover: hover) and (pointer: fine) {
-    .ds-btn--primary:not([aria-disabled='true'], :disabled):hover {
+    .ds-btn--primary:not([aria-disabled="true"], :disabled):hover {
       background-color: var(--dsc-btn-primary-hover-background);
     }
 
-    .ds-btn--secondary:not([aria-disabled='true'], :disabled):hover {
+    .ds-btn--secondary:not([aria-disabled="true"], :disabled):hover {
       color: var(--dsc-btn-secondary-hover-color);
       border-color: var(--dsc-btn-secondary-border-color);
       background-color: var(--dsc-btn-secondary-hover-background);
     }
 
-    .ds-btn--tertiary:not([aria-disabled='true'], :disabled):hover {
+    .ds-btn--tertiary:not([aria-disabled="true"], :disabled):hover {
       color: var(--dsc-btn-tertiary-hover-color);
       background-color: var(--dsc-btn-tertiary-hover-background);
     }
@@ -190,7 +208,7 @@
     background-color: var(--dsc-btn-primary-background);
   }
 
-  .ds-btn--primary:not([aria-disabled='true'], :disabled):active {
+  .ds-btn--primary:not([aria-disabled="true"], :disabled):active {
     background-color: var(--dsc-btn-primary-active-background);
   }
 
@@ -201,7 +219,7 @@
     background-color: transparent;
   }
 
-  .ds-btn--secondary:not([aria-disabled='true'], :disabled):active {
+  .ds-btn--secondary:not([aria-disabled="true"], :disabled):active {
     color: var(--dsc-btn-secondary-active-color);
     border-color: var(--dsc-btn-secondary-border-color);
     background-color: var(--dsc-btn-secondary-active-background);
@@ -212,7 +230,7 @@
     color: var(--dsc-btn-tertiary-color);
   }
 
-  .ds-btn--tertiary:not([aria-disabled='true'], :disabled):active {
+  .ds-btn--tertiary:not([aria-disabled="true"], :disabled):active {
     color: var(--dsc-btn-tertiary-active-color);
     background-color: var(--dsc-btn-tertiary-active-background);
   }
@@ -279,5 +297,17 @@
     --dsc-btn-tertiary-active-color: var(--ds-color-danger-text-default);
     --dsc-btn-tertiary-hover-background: var(--ds-color-danger-surface-default);
     --dsc-btn-tertiary-active-background: var(--ds-color-danger-surface-hover);
+  }
+  .ds-search__search-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .ds-search__search-button:not(:focus-visible) {
+    border-left: 0;
+  }
+
+  .ds-search__search-button:focus-visible {
+    z-index: 1;
   }
 </style>

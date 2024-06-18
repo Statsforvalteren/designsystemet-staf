@@ -3,35 +3,39 @@
    * Color of the tag.
    * @type {'brand1' | 'brand2' | 'brand3' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'}
    */
-  export let color = 'neutral';
+  export let color = "neutral";
 
   /**
    * Size of the tag.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   let normalizedSize;
 
   switch (size) {
-    case 'small':
-      normalizedSize = 'sm';
+    case "small":
+    case "sm":
+      normalizedSize = "sm";
       break;
-    case 'medium':
-      normalizedSize = 'md';
+    case "medium":
+    case "md":
+      normalizedSize = "md";
       break;
-    case 'large':
-      normalizedSize = 'lg';
+    case "large":
+    case "lg":
+      normalizedSize = "lg";
       break;
     default:
-      normalizedSize = 'md';
+      normalizedSize = "md";
+      break;
   }
 </script>
 
 <div>
   <span
     class={`ds-tag ds-tag--${color} ds-tag--${normalizedSize} ${
-      $$props.class || ''
+      $$props.class || ""
     }`}
   >
     <slot />

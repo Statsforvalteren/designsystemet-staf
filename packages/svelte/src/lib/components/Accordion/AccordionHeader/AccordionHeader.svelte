@@ -1,5 +1,5 @@
 <script>
-  import { getContext } from 'svelte';
+  import { getContext } from "svelte";
 
   export let level = 1;
 
@@ -9,12 +9,12 @@
 
   $: {
     try {
-      accordionContext = getContext('accordion');
-      accordionItemContext = getContext('accordionItem');
+      accordionContext = getContext("accordion");
+      accordionItemContext = getContext("accordionItem");
       open = accordionItemContext.open;
     } catch {
       console.error(
-        '<Accordion.Header> has to be used within an <Accordion.Item>'
+        "<Accordion.Header> has to be used within an <Accordion.Item>"
       );
     }
   }
@@ -25,7 +25,11 @@
   };
 </script>
 
-<svelte:element this={`h${level}`} class="ds-accordion__header">
+<svelte:element
+  this={`h${level}`}
+  class="ds-accordion__header"
+  style={`${level == 1 ? "border-top: none;" : ""}`}
+>
   <button
     type="button"
     class={`ds-accordion__button ds-focus ${accordionContext.color}`}
@@ -118,42 +122,9 @@
     }
   }
 
-  .ds-accordion--border
-    .ds-accordion__item:last-of-type:not(.ds-accordion__item--open)
-    .ds-accordion__header:first-of-type {
-    border-bottom-left-radius: var(--dsc-accordion-border-radius);
-    border-bottom-right-radius: var(--dsc-accordion-border-radius);
-  }
-
-  .ds-accordion__item--open .ds-accordion__header {
-    background-color: var(--dsc-accordion-button-background-open);
-  }
-
   .ds-accordion__item:where(.ds-accordion__item--open)
     .ds-accordion__expand-icon {
     transform: rotateZ(180deg);
-  }
-
-  .ds-accordion__item:not(:first-child) .ds-accordion__header {
-    border-top: 1px solid var(--dsc-accordion-border-color);
-  }
-
-  .ds-accordion--border .ds-accordion__item:first-child .ds-accordion__header {
-    border-top: 0;
-  }
-
-  .ds-accordion--border
-    .ds-accordion__item:first-of-type
-    .ds-accordion__header:first-of-type {
-    border-top-left-radius: var(--dsc-accordion-border-radius);
-    border-top-right-radius: var(--dsc-accordion-border-radius);
-  }
-
-  .ds-accordion--border
-    .ds-accordion__item:last-of-type:not(.ds-accordion__item--open)
-    .ds-accordion__header:first-of-type {
-    border-bottom-left-radius: var(--dsc-accordion-border-radius);
-    border-bottom-right-radius: var(--dsc-accordion-border-radius);
   }
 
   @media (hover: hover) and (pointer: fine) {

@@ -1,28 +1,24 @@
 <script>
-  import CharacterCounter from '../CharacterCounter.svelte';
-  import { v4 as uuidv4 } from 'uuid';
+  import { Button, ErrorMessage } from "$lib";
+  import CharacterCounter from "../CharacterCounter.svelte";
+  import { v4 as uuidv4 } from "uuid";
 
   /**
    * Label for the search component.
    */
-  export let label = '';
-
-  /**
-   * Description for the search component.
-   */
-  export let description = '';
+  export let label = "";
 
   /**
    * Changes field size and paddings. Options are 'xsmall', 'small', 'medium', 'large'.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   /**
    * Adjusts styling for search. Options are 'primary', 'secondary', 'simple'.
    * @type {'primary' | 'secondary' | 'simple'}
    */
-  export let variant = 'simple';
+  export let variant = "simple";
 
   /**
    * Visually hides `label` and `description` (still available for screen readers).
@@ -42,7 +38,7 @@
   /**
    * Error message to display.
    */
-  export let error = '';
+  export let error = "";
 
   /**
    * Sets limit for number of characters.
@@ -52,8 +48,18 @@
   /**
    * Clear button label. Hidden visually. Used for screen readers.
    */
-  export let clearButtonLabel = '';
+  export let clearButtonLabel = "";
 
+  /**
+   * Search button label. Only visible when variant is not "simple".
+   */
+  export let searchButtonLabel = "Søk";
+
+  /**
+   * onChange handler for when a value has been choosen.
+   * @type {(e: MouseEvent, value: string) => void}
+   */
+  export let onSearchClick = (e, value) => {};
   /**
    * Sets custom label for shown character limit (function is possible to pass in, see example).
    */
@@ -64,46 +70,47 @@
   let normalizedSize;
 
   switch (size) {
-    case 'small':
-      normalizedSize = 'sm';
+    case "small":
+    case "sm":
+      normalizedSize = "sm";
       break;
-    case 'medium':
-      normalizedSize = 'md';
+    case "medium":
+    case "md":
+      normalizedSize = "md";
       break;
-    case 'large':
-      normalizedSize = 'lg';
+    case "large":
+    case "lg":
+      normalizedSize = "lg";
       break;
     default:
-      normalizedSize = 'md';
+      normalizedSize = "md";
       break;
   }
 
-  const isSimple = variant === 'simple';
-  const showFilledButton = variant === 'primary';
+  const isSimple = variant === "simple";
   $: showClearButton = String(value).length > 0 && !disabled;
 
   // Computed class names for the component elements
-  let formFieldClasses = `ds-search ds-search--${size} ${
-    disabled ? 'ds-search--disabled' : ''
-  } ${$$props.class || ''}`;
-  let labelClasses = `ds-search__label ${hideLabel ? 'ds-sr-only' : ''}`;
-  let descriptionClasses = `ds-search__field ds-search--${size} ${
-    hideLabel ? 'ds-sr-only' : ''
+  let formFieldClasses = `ds-search ds-search--${normalizedSize} ${
+    disabled ? "ds-search--disabled" : ""
+  } ${$$props.class || ""}`;
+  let labelClasses = `ds-search--${normalizedSize} ds-search__label ${
+    hideLabel ? "ds-sr-only" : ""
   }`;
-  $: fieldClasses = `ds-search__field ds-search--${size} ${
-    hideLabel ? 'ds-sr-only' : ''
-  } ${error ? 'error' : ''}`;
+  $: fieldClasses = `ds-search__field ${hideLabel ? "ds-sr-only" : ""} ${
+    error ? "error" : ""
+  }`;
   let inputClasses = `ds-search__input ds-focus ${
     isSimple
-      ? 'ds-search__input--simple'
-      : 'ds-search__input--with-search-button'
+      ? "ds-search__input--simple"
+      : "ds-search__input--with-search-button"
   }`;
   let errorMessageClasses = `ds-search__error-message`;
 
   let inputRef;
 
   function handleClear() {
-    value = '';
+    value = "";
     inputRef?.current && inputRef.current.focus();
   }
 </script>
@@ -114,59 +121,81 @@
       <span>{label}</span>
     </label>
   {/if}
-  {#if description}
-    <p id="description" class={descriptionClasses}>
-      {description}
-    </p>
-  {/if}
-  <div class={fieldClasses}>
-    <input
-      bind:this={inputRef}
-      bind:value
-      on:input
-      class={inputClasses}
-      placeholder="Søk"
-      name="search"
-      id="search-field"
-      type="search"
-      aria-describedby="search field"
-      {disabled}
-      {...$$restProps}
-    />
-    {#if showClearButton}
-      <button
-        class={'ds-search__clear-button ds-focus'}
-        type="button"
-        on:click={handleClear}
-        {disabled}
-      >
-        <span class={`ds-sr-only`}>{clearButtonLabel}</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="1em"
-          height="1em"
-          fill="none"
-          viewBox="0 0 24 24"
-          focusable="false"
-          role="img"
-          ><path
-            fill="currentColor"
-            d="M6.53 5.47a.75.75 0 0 0-1.06 1.06L10.94 12l-5.47 5.47a.75.75 0 1 0 1.06 1.06L12 13.06l5.47 5.47a.75.75 0 1 0 1.06-1.06L13.06 12l5.47-5.47a.75.75 0 0 0-1.06-1.06L12 10.94z"
-          /></svg
+
+  <div class="ds-search__field">
+    <div class={fieldClasses}>
+      {#if isSimple}
+        <span
+          class="ds-search__icon"
+          style="align-items: center; display: flex;"
+          aria-hidden
         >
-      </button>
-    {/if}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="none"
+            viewBox="0 0 24 24"
+            focusable="false"
+            role="img"
+          >
+            <path
+              fill="currentColor"
+              fill-rule="evenodd"
+              d="M10.5 3.25a7.25 7.25 0 1 0 4.569 12.88l5.411 5.41a.75.75 0 1 0 1.06-1.06l-5.41-5.411A7.25 7.25 0 0 0 10.5 3.25M4.75 10.5a5.75 5.75 0 1 1 11.5 0 5.75 5.75 0 0 1-11.5 0"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+      {/if}
+      <input
+        bind:this={inputRef}
+        bind:value
+        on:input
+        class={inputClasses}
+        name="search"
+        id="search-field"
+        type="search"
+        aria-describedby="search field"
+        {disabled}
+        {...$$restProps}
+      />
+      {#if showClearButton}
+        <button
+          class={"ds-search__clear-button ds-focus"}
+          type="button"
+          on:click={handleClear}
+          {disabled}
+        >
+          <span class={`ds-sr-only`}>{clearButtonLabel}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="none"
+            viewBox="0 0 24 24"
+            focusable="false"
+            role="img"
+            ><path
+              fill="currentColor"
+              d="M6.53 5.47a.75.75 0 0 0-1.06 1.06L10.94 12l-5.47 5.47a.75.75 0 1 0 1.06 1.06L12 13.06l5.47 5.47a.75.75 0 1 0 1.06-1.06L13.06 12l5.47-5.47a.75.75 0 0 0-1.06-1.06L12 10.94z"
+            /></svg
+          >
+        </button>
+      {/if}
+    </div>
     {#if !isSimple}
       <Button
-        className={'ds-search__search-button'}
+        className={"ds-search__search-button"}
         {size}
-        {variant}
+        variant={variant !== "simple" ? variant : undefined}
         type="submit"
-        onClick={handleSearchClick}
+        on:click={(e) => onSearchClick(e, value)}
         {disabled}
       >
         {searchButtonLabel}
-      </Button>{/if}
+      </Button>
+    {/if}
   </div>
   {#if characterLimit}
     <CharacterCounter
@@ -178,8 +207,12 @@
     />
   {/if}
   {#if error}
-    <div class={errorMessageClasses} aria-live="polite">
-      {error}
+    <div
+      class={errorMessageClasses}
+      aria-live="polite"
+      aria-relevant="additions removals"
+    >
+      <ErrorMessage>{error}</ErrorMessage>
     </div>
   {/if}
 </div>
@@ -232,8 +265,8 @@
     pointer-events: none;
   }
 
-  [type='search']::-webkit-search-decoration,
-  [type='search']::-webkit-search-cancel-button {
+  [type="search"]::-webkit-search-decoration,
+  [type="search"]::-webkit-search-cancel-button {
     appearance: none;
   }
 
@@ -262,25 +295,12 @@
     cursor: not-allowed;
   }
 
-  .ds-search__input[type='search']:focus-visible {
+  .ds-search__input[type="search"]:focus-visible {
     z-index: 1;
   }
 
   .ds-search:has(.ds-search__input:disabled) {
     opacity: var(--ds-disabled-opacity);
-  }
-
-  .ds-search__search-button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  .ds-search__search-button:not(:focus-visible) {
-    border-left: 0;
-  }
-
-  .ds-search__search-button:focus-visible {
-    z-index: 1;
   }
 
   .ds-search__clear-button {
@@ -312,7 +332,7 @@
   }
 
   .ds-search--sm .ds-search__icon {
-    left: var(--ds-spacing-3);
+    padding-right: var(--ds-spacing-2);
   }
 
   .ds-search--md .ds-search__input {
@@ -324,7 +344,7 @@
   }
 
   .ds-search--md .ds-search__icon {
-    left: var(--ds-spacing-4);
+    padding-right: var(--ds-spacing-3);
   }
 
   .ds-search--lg .ds-search__input {
@@ -336,7 +356,7 @@
   }
 
   .ds-search--lg .ds-search__icon {
-    left: var(--ds-spacing-5);
+    padding-right: var(--ds-spacing-4);
   }
 
   .ds-search__input.ds-search__input--simple {
