@@ -1,19 +1,20 @@
 <script>
-  import { setContext } from 'svelte';
-  import { writable } from 'svelte/store';
-  import { v4 as uuidv4 } from 'uuid';
+  import { Paragraph, ErrorMessage } from "$lib";
+  import { setContext } from "svelte";
+  import { writable } from "svelte/store";
+  import { v4 as uuidv4 } from "uuid";
 
   /**
    * The legend of the fieldset.
    * @type {string}
    */
-  export let legend = '';
+  export let legend = "";
 
   /**
    * A description of the fieldset. This will appear below the legend.
    * @type {string}
    */
-  export let description = '';
+  export let description = "";
 
   /**
    * Toggle readOnly on fieldset context.
@@ -31,7 +32,7 @@
    * If set, this will diplay an error message at the bottom of the fieldset.
    * @type {string}
    */
-  export let error = '';
+  export let error = "";
 
   /**
    * Controlled state for Radio.
@@ -43,7 +44,7 @@
    * Default checked Radio
    * @type {string}
    */
-  export let defaultValue = '';
+  export let defaultValue = "";
 
   /**
    * Toggle if collection of Radio are required. Note: Not fully implemented for Svelte.
@@ -59,9 +60,9 @@
 
   /**
    * Changes field size and paddings.
-   * @type {'xsmall' | 'small' | 'medium' | 'large'}
+   * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   /**
    * Visually hide legend and description (still available for screen readers).
@@ -69,45 +70,9 @@
    */
   export let hideLegend = false;
 
+  let standardizedSize;
+
   const uniqueId = uuidv4();
-
-  if (value === undefined || value === '') value = defaultValue;
-
-  let fontSizeClass;
-  let radioButtonsClass;
-  switch (size) {
-    case 'xsmall':
-      fontSizeClass = 'font-xsmall';
-      radioButtonsClass = 'radio-buttons-xsmall';
-      break;
-    case 'small':
-      fontSizeClass = 'font-small';
-      radioButtonsClass = 'radio-buttons-small';
-      break;
-    case 'medium':
-      fontSizeClass = 'font-medium';
-      radioButtonsClass = 'radio-buttons-medium';
-      break;
-    case 'large':
-      fontSizeClass = 'font-large';
-      radioButtonsClass = 'radio-buttons-large';
-      break;
-    default:
-      fontSizeClass = 'font-medium';
-      radioButtonsClass = 'radio-buttons-medium';
-      break;
-  }
-
-  $: radioGroupClasses = `radio-group ${readOnly ? 'readonly' : ''} ${size}`;
-  $: legendWrapperClasses = `legend-wrapper ${
-    hideLegend ? 'visually-hidden' : ''
-  }`;
-  $: legendClasses = `legend ${fontSizeClass}`;
-  $: descriptionClasses = `description ${fontSizeClass}  ${
-    hideLegend ? 'visually-hidden' : ''
-  }`;
-  $: errorClasses = `error ${fontSizeClass}`;
-
   const radioGroup = writable({
     readOnly,
     disabled,
@@ -118,7 +83,34 @@
     required,
   });
 
-  $: setContext('radioGroup', radioGroup);
+  if (value === undefined || value === "") value = defaultValue;
+
+  switch (size) {
+    case "small":
+    case "sm":
+      standardizedSize = "sm";
+      break;
+    case "medium":
+    case "md":
+      standardizedSize = "md";
+      break;
+    case "large":
+    case "lg":
+      standardizedSize = "lg";
+      break;
+    default:
+      standardizedSize = "md";
+      break;
+  }
+
+  $: legendWrapperClasses = `legend-wrapper ${
+    hideLegend ? "visually-hidden" : ""
+  }`;
+  $: descriptionClasses = `ds-radio__description ${
+    hideLegend ? "visually-hidden" : ""
+  }`;
+
+  $: setContext("radioGroup", radioGroup);
 
   $: {
     radioGroup.update((storeValue) => ({
@@ -134,91 +126,82 @@
 </script>
 
 <fieldset
-  class={radioGroupClasses}
   id={`group-${uniqueId}`}
   aria-labelledby={`label-${uniqueId}`}
   on:input
   on:change={(change) => {
     if (
       change.target instanceof HTMLInputElement &&
-      change.target.type === 'radio'
+      change.target.type === "radio"
     ) {
       value = change.target.value;
     }
   }}
 >
   {#if legend}
-    <div class={`${legendWrapperClasses}`}>
+    <div class={legendWrapperClasses}>
       {#if readOnly}
-        <span
-          aria-hidden
-          class="padlock-icon"
-        >
+        <span aria-hidden class={`padlock-icon icon-size--${standardizedSize}`}>
           <svg
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
-            fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
             focusable="false"
             role="img"
           >
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M12 2.25A4.75 4.75 0 0 0 7.25 7v2.25H7A1.75 1.75 0 0 0 5.25 11v9c0 .414.336.75.75.75h12a.75.75 0 0 0 .75-.75v-9A1.75 1.75 0 0 0 17 9.25h-.25V7A4.75 4.75 0 0 0 12 2.25Zm3.25 7V7a3.25 3.25 0 0 0-6.5 0v2.25h6.5ZM12 13a1.5 1.5 0 0 0-.75 2.8V17a.75.75 0 0 0 1.5 0v-1.2A1.5 1.5 0 0 0 12 13Z"
               fill="currentColor"
+              fill-rule="evenodd"
+              d="M7.25 7a4.75 4.75 0 0 1 9.5 0v2.25H17c.966 0 1.75.784 1.75 1.75v9a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75v-9c0-.966.784-1.75 1.75-1.75h.25zm1.5 0a3.25 3.25 0 0 1 6.5 0v2.25h-6.5zM7 10.75a.25.25 0 0 0-.25.25v8.25h10.5V11a.25.25 0 0 0-.25-.25zm3.5 3.75a1.5 1.5 0 1 1 2.25 1.3V17a.75.75 0 0 1-1.5 0v-1.2a1.5 1.5 0 0 1-.75-1.3"
+              clip-rule="evenodd"
             />
           </svg>
         </span>
       {/if}
-      <legend
-        class={legendClasses}
-        id={`label-${uniqueId}`}
-      >
-        {legend}
-      </legend>
+      <Paragraph as="div" {size}>
+        <legend class="legend" id={`label-${uniqueId}`}>
+          {legend}
+        </legend>
+      </Paragraph>
     </div>
   {/if}
   {#if description}
-    <p class={descriptionClasses}>
-      {description}
-    </p>
+    <Paragraph as="div" {size}>
+      <div class={descriptionClasses}>
+        {description}
+      </div>
+    </Paragraph>
   {/if}
-  <div class={radioButtonsClass}>
-    <div class={inline ? 'radio-group-inline' : ''}>
-      <slot />
-    </div>
+  <div class={`ds-radio-group ${inline ? "ds-radio-group--horizontal" : ""}`}>
+    <slot />
   </div>
   {#if error}
-    <p class={errorClasses}>{error}</p>
+    <Paragraph as="div" {size}>
+      <ErrorMessage {size}>{error}</ErrorMessage>
+    </Paragraph>
   {/if}
 </fieldset>
 
 <style>
-  .radio-group-inline {
+  .ds-radio-group {
+    margin: var(--ds-spacing-4) 0;
     display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
+    flex-direction: column;
+    gap: var(--ds-spacing-3);
+    width: fit-content;
   }
-
-  .font-xsmall {
-    font-size: 0.8125rem;
+  .ds-radio-group--horizontal {
+    display: flex;
+    flex-direction: row;
+    gap: var(--ds-spacing-6);
   }
-  .font-small {
-    font-size: 0.9375rem;
+  .ds-radio__description {
+    margin-top: var(--ds-spacing-1);
+    color: var(--ds-color-neutral-text-subtle);
   }
-  .font-medium {
-    font-size: 1.125rem;
+  .ds-radio:has(.ds-radio__input:disabled) > .ds-radio__description {
+    opacity: var(--ds-disabled-opacity);
   }
-  .font-large {
-    font-size: 1.25rem;
-  }
-
-  .error {
-    color: var(--fds-semantic-border-danger-default, #e02e49);
-  }
-
   .visually-hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -230,20 +213,17 @@
     white-space: nowrap;
     width: 0.0625rem;
   }
-
   .legend-wrapper {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
-
   fieldset {
     border: none;
     margin: 0;
     padding: 0;
     display: block;
   }
-
   legend {
     font-weight: 500;
     padding: 0;
@@ -256,29 +236,22 @@
     line-height: inherit;
     align-self: flex-start;
   }
-  p {
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-    font-weight: 400;
-    color: var(--fds-semantic-text-neutral-subtle);
-  }
-
-  .radio-buttons-xsmall {
-    margin-top: var(--fds-spacing-1, 0.84375rem);
-  }
-  .radio-buttons-small {
-    margin-top: var(--fds-spacing-2, 0.84375rem);
-  }
-  .radio-buttons-medium {
-    margin-top: var(--fds-spacing-3, 0.84375rem);
-  }
-  .radio-buttons-large {
-    margin-top: var(--fds-spacing-4, 0.84375rem);
-  }
   .padlock-icon {
     grid-area: label;
     position: relative;
     top: 1px;
     scale: 1.4;
+  }
+  .icon-size--sm {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+  .icon-size--md {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  .icon-size--lg {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 </style>

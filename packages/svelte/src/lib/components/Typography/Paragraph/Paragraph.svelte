@@ -23,33 +23,33 @@
    */
   export let variant = "short";
 
-  let normalizedSize;
+  let standardizedSize;
 
   switch (size) {
     case "xsmall":
     case "xs":
-      normalizedSize = "xs";
+      standardizedSize = "xs";
       break;
     case "small":
     case "sm":
-      normalizedSize = "sm";
+      standardizedSize = "sm";
       break;
     case "medium":
     case "md":
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
     case "large":
     case "lg":
-      normalizedSize = "lg";
+      standardizedSize = "lg";
       break;
     default:
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
   }
 
   $: computedClass = [
     "ds-paragraph",
-    `ds-paragraph--${normalizedSize}`,
+    `ds-paragraph--${standardizedSize}`,
     spacing ? "ds-paragraph--spacing" : "",
     `ds-paragraph--${variant}`,
     $$props.class || "",

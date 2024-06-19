@@ -11,30 +11,30 @@
    */
   export let size = "medium";
 
-  let normalizedSize;
+  let standardizedSize;
 
   switch (size) {
     case "small":
     case "sm":
-      normalizedSize = "sm";
+      standardizedSize = "sm";
       break;
     case "medium":
     case "md":
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
     case "large":
     case "lg":
-      normalizedSize = "lg";
+      standardizedSize = "lg";
       break;
     default:
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
   }
 </script>
 
 <div>
   <span
-    class={`ds-tag ds-tag--${color} ds-tag--${normalizedSize} ${
+    class={`ds-tag ds-tag--${color} ds-tag--${standardizedSize} ${
       $$props.class || ""
     }`}
   >

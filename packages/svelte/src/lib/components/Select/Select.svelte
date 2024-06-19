@@ -1,10 +1,11 @@
 <script>
   // @ts-nocheck
-  import { onMount, setContext } from 'svelte';
-  import { v4 as uuidv4 } from 'uuid';
-  import SelectControl from './SelectControl.svelte';
-  import SelectDropdown from './SelectDropdown.svelte';
-  import { writable } from 'svelte/store';
+  import { onMount, setContext } from "svelte";
+  import { v4 as uuidv4 } from "uuid";
+  import SelectControl from "./SelectControl.svelte";
+  import SelectDropdown from "./SelectDropdown.svelte";
+  import { Paragraph } from "$lib";
+  import { writable } from "svelte/store";
 
   /**
    * @typedef {Object} SelectOption
@@ -41,25 +42,25 @@
    * Placeholder text for the select input.
    * @type {string}
    */
-  export let placeholder = 'Select an option...';
+  export let placeholder = "Select an option...";
 
   /**
    * Description text for the select.
    * @type {string}
    */
-  export let description = '';
+  export let description = "";
 
   /**
    * Size of the select.
-   * @type {'small' | 'medium' | 'large'}
+   * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   /**
    * ARIA label for accessibility.
    * @type {string}
    */
-  export let ariaLabel = 'Select';
+  export let ariaLabel = "Select";
 
   let inputId = `select-${uuidv4()}`;
 
@@ -73,7 +74,7 @@
    * ARIA label for the search input inside the select.
    * @type {string}
    */
-  export let searchLabel = 'Search';
+  export let searchLabel = "Search";
 
   /**
    * If true, hides selected options from the dropdown list.
@@ -96,7 +97,7 @@
   /**
    * @type {string}
    */
-  export let error = '';
+  export let error = "";
 
   /**
    * @type {boolean}
@@ -116,11 +117,29 @@
   export let onChange = () => {};
 
   $: isDropdownVisible = false;
-  let selectClasses = 'select';
-  let inputClasses = 'textInput';
+  let selectClasses = "select";
+  let inputClasses = "textInput";
   let node;
-
+  let standardizedSize;
   let selectedStore = writable(normalizeSelected(selected));
+
+  switch (size) {
+    case "small":
+    case "sm":
+      standardizedSize = "sm";
+      break;
+    case "medium":
+    case "md":
+      standardizedSize = "md";
+      break;
+    case "large":
+    case "lg":
+      standardizedSize = "lg";
+      break;
+    default:
+      standardizedSize = "md";
+      break;
+  }
 
   // Add other values here if necessary for reactivity
   const selectContext = writable({
@@ -129,7 +148,7 @@
     multiple,
   });
 
-  setContext('selectContext-' + inputId, selectContext);
+  setContext("selectContext-" + inputId, selectContext);
   $: {
     let newSelected = $selectedStore;
     if (!Array.isArray(selected)) {
@@ -154,7 +173,7 @@
         if (Array.isArray(currentSelected)) {
           if (
             !currentSelected.some(
-              (selectedOption) => selectedOption.value === option.value,
+              (selectedOption) => selectedOption.value === option.value
             )
           ) {
             // Add the option if it's not already selected
@@ -162,7 +181,7 @@
           } else {
             // Remove the option if it's already selected
             return currentSelected.filter(
-              (selectedOption) => selectedOption.value !== option.value,
+              (selectedOption) => selectedOption.value !== option.value
             );
           }
         } else {
@@ -172,7 +191,7 @@
       } else {
         if (hasFilter) {
           // Clear options filter on single selection
-          handleFilterChange('');
+          handleFilterChange("");
         }
         // If only single selection is allowed
         // selected = option;
@@ -195,7 +214,7 @@
     selectedStore.update((currentSelected) => {
       if (multiple) {
         return currentSelected.filter(
-          (option) => option.value !== optionToRemove.value,
+          (option) => option.value !== optionToRemove.value
         );
       } else {
         return [];
@@ -233,47 +252,33 @@
   }
 
   onMount(() => {
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   });
 
   $: if (disabled) {
-    selectClasses = 'select disabled';
-    inputClasses += ' disabled';
+    selectClasses = "select disabled";
+    inputClasses += " disabled";
   } else if (readOnly) {
-    selectClasses = 'select readOnly';
-    inputClasses += ' readOnly';
+    selectClasses = "select readOnly";
+    inputClasses += " readOnly";
   } else if (error) {
-    selectClasses = 'select error';
-    inputClasses += ' error';
+    selectClasses = "select error";
+    inputClasses += " error";
   } else {
-    selectClasses = 'select';
+    selectClasses = "select";
   }
 
-  let searchTerm = '';
+  let searchTerm = "";
   $: filteredOptions = options;
 
   function handleFilterChange(newFilter) {
     searchTerm = newFilter;
     filteredOptions = options.filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
+      option.label.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }
-
-  let fontSizeClass;
-
-  switch (size) {
-    case 'xsmall':
-    case 'small':
-    case 'medium':
-    case 'large':
-      fontSizeClass = `font-${size}`;
-      break;
-    default:
-      fontSizeClass = 'font-medium';
-      break;
   }
 </script>
 
@@ -284,34 +289,30 @@
   {...$$restProps}
 >
   {#if label}
-    <div>
+    <div class="heading-wrapper">
       {#if readOnly}
-        <span
-          aria-hidden
-          class="padlock-icon"
-        >
+        <span aria-hidden class={`padlock-icon icon-size--${standardizedSize}`}>
           <svg
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
-            fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
             focusable="false"
             role="img"
           >
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M12 2.25A4.75 4.75 0 0 0 7.25 7v2.25H7A1.75 1.75 0 0 0 5.25 11v9c0 .414.336.75.75.75h12a.75.75 0 0 0 .75-.75v-9A1.75 1.75 0 0 0 17 9.25h-.25V7A4.75 4.75 0 0 0 12 2.25Zm3.25 7V7a3.25 3.25 0 0 0-6.5 0v2.25h6.5ZM12 13a1.5 1.5 0 0 0-.75 2.8V17a.75.75 0 0 0 1.5 0v-1.2A1.5 1.5 0 0 0 12 13Z"
               fill="currentColor"
+              fill-rule="evenodd"
+              d="M7.25 7a4.75 4.75 0 0 1 9.5 0v2.25H17c.966 0 1.75.784 1.75 1.75v9a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75v-9c0-.966.784-1.75 1.75-1.75h.25zm1.5 0a3.25 3.25 0 0 1 6.5 0v2.25h-6.5zM7 10.75a.25.25 0 0 0-.25.25v8.25h10.5V11a.25.25 0 0 0-.25-.25zm3.5 3.75a1.5 1.5 0 1 1 2.25 1.3V17a.75.75 0 0 1-1.5 0v-1.2a1.5 1.5 0 0 1-.75-1.3"
+              clip-rule="evenodd"
             />
           </svg>
         </span>
       {/if}
-      <label
-        class={`select-label ${fontSizeClass}`}
-        for={inputId}>{label}</label
-      >
+      <Paragraph as="div" {size}>
+        <label class={`select-label`} for={inputId}>
+          {label}
+        </label>
+      </Paragraph>
     </div>
   {/if}
 
@@ -354,32 +355,49 @@
   .select-container {
     display: flex;
     flex-direction: column;
-    gap: var(--fds-spacing-2);
+    gap: var(--ds-spacing-2);
+    margin: var(--ds-spacing-1) 0;
   }
   .error-message {
-    color: var(--fds-semantic-border-danger-default);
+    color: var(--ds-color-danger-text-subtle, #c22020);
   }
 
   .select-label {
-    color: var(--fds-semantic-text-neutral-default, #1e2b3c);
-    font-weight: 600;
-    line-height: 130%; /* 20.15px */
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    display: table;
+    max-width: 100%;
+    white-space: normal;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    align-self: flex-start;
   }
   .select-description {
     margin: 0;
   }
-  .font-small {
-    font-size: 0.9375rem;
-  }
-  .font-medium {
-    font-size: 1.125rem;
-  }
-  .font-large {
-    font-size: 1.25rem;
+  .heading-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   .padlock-icon {
     grid-area: label;
     position: relative;
-    top: 2px;
+    top: 1px;
+    scale: 1.4;
+  }
+  .icon-size--sm {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+  .icon-size--md {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  .icon-size--lg {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 </style>

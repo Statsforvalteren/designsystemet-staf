@@ -51,23 +51,23 @@
    */
   export let checked = false;
 
-  let normalizedSize;
+  let standardizedSize;
 
   switch (size) {
     case "small":
     case "sm":
-      normalizedSize = "sm";
+      standardizedSize = "sm";
       break;
     case "medium":
     case "md":
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
     case "large":
     case "lg":
-      normalizedSize = "lg";
+      standardizedSize = "lg";
       break;
     default:
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
   }
 
@@ -89,10 +89,10 @@
     dispatch("change", { checked: event.target.checked });
   }
 
-  $: computedClass = `ds-switch ds-switch--${normalizedSize} ${
+  $: computedClass = `ds-switch ds-switch--${standardizedSize} ${
     disabled ? "ds-switch--disabled" : ""
   } ${readOnly ? "ds-switch--readonly" : ""} ${$$props.class || ""}`;
-  $: labelClass = `ds-switch__label ds-label ds-label--${normalizedSize} ds-label--regular-weight ${
+  $: labelClass = `ds-switch__label ds-label ds-label--${standardizedSize} ds-label--regular-weight ${
     position === "right" ? "ds-switch__label--right" : ""
   }`;
   $: descriptionClass = `ds-switch__description`;

@@ -38,27 +38,27 @@
    */
   export let className = "";
 
-  let normalizedSize;
+  let standardizedSize;
 
   switch (size) {
     case "small":
     case "sm":
-      normalizedSize = "sm";
+      standardizedSize = "sm";
       break;
     case "medium":
     case "md":
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
     case "large":
     case "lg":
-      normalizedSize = "lg";
+      standardizedSize = "lg";
       break;
     default:
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
   }
 
-  const computedClass = `ds-btn ds-focus ds-btn--${normalizedSize} ds-btn--${variant} ds-btn--${color} ${
+  const computedClass = `ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${
     fullWidth ? "ds-btn--full-width" : ""
   } ${className}`;
 </script>

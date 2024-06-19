@@ -10,23 +10,23 @@
 
   const { selectedTab, tabSize } = getContext("tabsStore");
 
-  let normalizedSize;
+  let standardizedSize;
 
   switch ($tabSize) {
     case "small":
     case "sm":
-      normalizedSize = "sm";
+      standardizedSize = "sm";
       break;
     case "medium":
     case "md":
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
     case "large":
     case "lg":
-      normalizedSize = "lg";
+      standardizedSize = "lg";
       break;
     default:
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
   }
 </script>
@@ -34,7 +34,7 @@
 {#if $selectedTab === value}
   <Paragraph as="div" variant="short" size={$tabSize}>
     <div
-      class={`ds-tabs__content .ds-tabs--${normalizedSize}`}
+      class={`ds-tabs__content .ds-tabs--${standardizedSize}`}
       {...$$restProps}
     >
       <slot />

@@ -15,23 +15,23 @@
 
   const { selectedTab, select, tabSize } = getContext("tabsStore");
   let isSelected;
-  let normalizedSize;
+  let standardizedSize;
 
   switch ($tabSize) {
     case "small":
     case "sm":
-      normalizedSize = "sm";
+      standardizedSize = "sm";
       break;
     case "medium":
     case "md":
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
     case "large":
     case "lg":
-      normalizedSize = "lg";
+      standardizedSize = "lg";
       break;
     default:
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
   }
 
@@ -46,7 +46,7 @@
 <Paragraph asChild variant="short" size={$tabSize}>
   <div class={`${isSelected ? "selected" : ""}`}>
     <button
-      class={`ds-tabs__tab ds-tabs--${normalizedSize} ds-focus ${
+      class={`ds-tabs__tab ds-tabs--${standardizedSize} ds-focus ${
         !icon ? "no-icon" : ""
       }`}
       on:click={handleClick}

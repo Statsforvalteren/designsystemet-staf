@@ -1,8 +1,8 @@
 <script>
-  import { onMount, setContext } from 'svelte';
-  import MenuGroup from './DropdownMenuGroup.svelte';
-  import MenuItem from './DropdownMenuItem.svelte';
-  import Divider from './Divider.svelte';
+  import { onMount, setContext } from "svelte";
+  import MenuGroup from "./DropdownMenuGroup.svelte";
+  import MenuItem from "./DropdownMenuItem.svelte";
+  import Divider from "./Divider.svelte";
 
   const C = {
     MenuGroup,
@@ -17,15 +17,16 @@
 
   /**
    * Sets the placement of the dropdown menu relative to the anchor element. Defaults to `bottom-start`.
-   * @type {'bottom-start' | 'bottom-end' | 'bottom' | 'top' | 'top-start' | 'top-end' | 'left' | 'right' | 'right-start' | 'right-end' | 'left-start' | 'left-end'}
+   * @type {'bottom-start' | 'bottom-end' | 'bottom' | 'top' | 'top-start' | 'top-end' 
+   | 'left' | 'right' | 'right-start' | 'right-end' | 'left-start' | 'left-end'}
    */
-  export let placement = 'bottom-start';
+  export let placement = "bottom-start";
 
   /**
    * Controls the size of the dropdown component. Defaults to `medium`.
-   * @type {'small' | 'medium' | 'large'}
+   * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   /**
    * The HTML element that the dropdown menu should be positioned relative to.
@@ -34,15 +35,41 @@
    */
   export let anchorEl = null;
 
+  /**
+   * The gap between the anchor element and the dropdown menu.
+   * @type {number}
+   */
+  export let gap = 0;
+
+  let standardizedSize;
+
+  switch (size) {
+    case "small":
+    case "sm":
+      standardizedSize = "sm";
+      break;
+    case "medium":
+    case "md":
+      standardizedSize = "md";
+      break;
+    case "large":
+    case "lg":
+      standardizedSize = "lg";
+      break;
+    default:
+      standardizedSize = "md";
+      break;
+  }
+
   $: menuVisible = false;
 
   onMount(() => {
     if (anchorEl) {
-      anchorEl.addEventListener('click', runTrigger);
+      anchorEl.addEventListener("click", runTrigger);
     }
 
     return () => {
-      anchorEl.removeEventListener('click', runTrigger);
+      anchorEl.removeEventListener("click", runTrigger);
     };
   });
 
@@ -53,11 +80,11 @@
       onClose();
     }
   }
-  let parentProps = { size };
-  let top = 0,
-    left = 0;
+  let parentProps = { standardizedSize };
+  let top = 0;
+  let left = 0;
   let dropdown = null;
-  setContext('parentProps', parentProps);
+  setContext("parentProps", parentProps);
 
   function onWindowClick(e) {
     if (menuVisible == false) return;
@@ -73,42 +100,42 @@
   function setPlacement() {
     if (anchorEl) {
       let rect = anchorEl.getBoundingClientRect();
-      if (placement == 'bottom-start') {
-        top = rect.height;
+      if (placement == "bottom-start") {
+        top = rect.height + gap;
         left = 0;
-      } else if (placement == 'bottom-end') {
-        top = rect.height;
+      } else if (placement == "bottom-end") {
+        top = rect.height + gap;
         left = rect.width - dropdown.getBoundingClientRect().width;
-      } else if (placement == 'bottom') {
-        top = rect.height;
+      } else if (placement == "bottom") {
+        top = rect.height + gap;
         left = rect.width / 2 - dropdown.getBoundingClientRect().width / 2;
-      } else if (placement == 'top') {
-        top = -dropdown.getBoundingClientRect().height;
+      } else if (placement == "top") {
+        top = -dropdown.getBoundingClientRect().height - gap;
         left = rect.width / 2 - dropdown.getBoundingClientRect().width / 2;
-      } else if (placement == 'top-start') {
-        top = -dropdown.getBoundingClientRect().height;
+      } else if (placement == "top-start") {
+        top = -dropdown.getBoundingClientRect().height - gap;
         left = 0;
-      } else if (placement == 'top-end') {
-        top = -dropdown.getBoundingClientRect().height;
+      } else if (placement == "top-end") {
+        top = -dropdown.getBoundingClientRect().height - gap;
         left = rect.width - dropdown.getBoundingClientRect().width;
-      } else if (placement == 'left') {
+      } else if (placement == "left") {
         top = rect.height / 2 - dropdown.getBoundingClientRect().height / 2;
-        left = -dropdown.getBoundingClientRect().width;
-      } else if (placement == 'right') {
+        left = -dropdown.getBoundingClientRect().width - gap;
+      } else if (placement == "right") {
         top = rect.height / 2 - dropdown.getBoundingClientRect().height / 2;
-        left = rect.width;
-      } else if (placement == 'right-start') {
+        left = rect.width + gap;
+      } else if (placement == "right-start") {
         top = 0;
-        left = rect.width;
-      } else if (placement == 'right-end') {
+        left = rect.width + gap;
+      } else if (placement == "right-end") {
         top = rect.height - dropdown.getBoundingClientRect().height;
-        left = rect.width;
-      } else if (placement == 'left-start') {
+        left = rect.width + gap;
+      } else if (placement == "left-start") {
         top = 0;
-        left = -dropdown.getBoundingClientRect().width;
-      } else if (placement == 'left-end') {
+        left = -dropdown.getBoundingClientRect().width - gap;
+      } else if (placement == "left-end") {
         top = rect.height - dropdown.getBoundingClientRect().height;
-        left = -dropdown.getBoundingClientRect().width;
+        left = -dropdown.getBoundingClientRect().width - gap;
       }
     }
   }
@@ -119,8 +146,9 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <ul
+  role="menu"
   bind:this={dropdown}
-  class="dropdown-menu {size}"
+  class={`ds-dropdownmenu ds-dropdownmenu--${standardizedSize}`}
   style="top:{top}px; left:{left}px; {menuVisible
     ? 'visibility:visible;'
     : 'visibility:hidden;'}"
@@ -132,23 +160,30 @@
 </ul>
 
 <style>
-  .dropdown-menu {
+  .ds-dropdownmenu {
     position: absolute;
-    display: flex;
-    padding: var(--fds-spacing-3, 0.84375rem) var(--fds-spacing-2, 0.5625rem);
-    flex-direction: column;
-    align-items: flex-start;
-    flex: 1 0 0;
-    width: 15rem;
-    list-style: none;
+    padding: var(--ds-spacing-2);
     z-index: 1500;
-    margin: var(--fds-spacing-1) 0 0 0;
+    margin: 0;
+    list-style: none;
+    border-radius: var(--ds-border-radius-md);
+    box-shadow: var(--ds-shadow-md);
+    background-color: var(--ds-color-neutral-background-default);
+    border: 1px solid var(--ds-color-neutral-border-subtle);
+  }
 
-    border-radius: var(--fds-border_radius-small, 0.125rem);
-    background: #fff;
+  .ds-dropdownmenu--sm {
+    min-width: 240px;
+    padding: var(--ds-spacing-2);
+  }
 
-    /* shadow/medium */
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.12),
-      0px 2px 4px 0px rgba(0, 0, 0, 0.12), 0px 0px 1px 0px rgba(0, 0, 0, 0.14);
+  .ds-dropdownmenu--md {
+    min-width: 260px;
+    padding: var(--ds-spacing-3) var(--ds-spacing-2);
+  }
+
+  .ds-dropdownmenu--lg {
+    min-width: 280px;
+    padding: var(--ds-spacing-4) var(--ds-spacing-2);
   }
 </style>

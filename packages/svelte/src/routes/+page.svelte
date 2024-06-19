@@ -316,27 +316,66 @@
 <Link href="/">Link</Link>
 <br />
 <br />
-<Link href="/" color="neutral">Link</Link>
+<Link href="/" color="neutral"
+  ><svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1em"
+    height="1em"
+    fill="none"
+    viewBox="0 0 24 24"
+    focusable="false"
+    role="img"
+  >
+    <path
+      fill="currentColor"
+      fill-rule="evenodd"
+      d="M20.532 3.471A.75.75 0 0 1 20.75 4v7.5a.75.75 0 0 1-1.5 0V5.81l-8.72 8.72a.75.75 0 1 1-1.06-1.06l8.72-8.72H12.5a.75.75 0 0 1 0-1.5H20c.206 0 .393.083.529.218l.001.002zM4.75 9A.25.25 0 0 1 5 8.75h7a.75.75 0 0 0 0-1.5H5A1.75 1.75 0 0 0 3.25 9v10c0 .966.784 1.75 1.75 1.75h10A1.75 1.75 0 0 0 16.75 19v-7a.75.75 0 0 0-1.5 0v7a.25.25 0 0 1-.25.25H5a.25.25 0 0 1-.25-.25z"
+      clip-rule="evenodd"
+    />
+  </svg>
+  Link
+</Link>
 
 <h1 class="componentHeader">PARAGRAPH</h1>
 <br />
 <Paragraph spacing variant="long">Lorem ipsum dorem</Paragraph>
 
 <br />
-<h1 class="componentHeader">LIST OF ALERTS</h1>
+<h1 class="componentHeader">ALERT</h1>
 <br />
+
+<Alert severity="success">Alert (success)</Alert>
+<br />
+<Alert severity="danger">Alert (danger)</Alert>
+<br />
+<Alert severity="info">Alert (info, default)</Alert>
+<br />
+<Alert severity="warning" size="lg">
+  <h4 style="margin: 0; padding: 0 0 5px 0;">Alert (warning)</h4>
+  <p style="margin: 0; padding: 0;">En utfyllende tekst</p>
+</Alert>
+
+<br />
+<h1 class="componentHeader">LIST</h1>
+<br />
+
+<h2>Styled list:</h2>
+
 <List>
-  <ListItem><Alert severity="success">Alert (success)</Alert></ListItem>
-  <ListItem><Alert severity="danger">Alert (danger)</Alert></ListItem>
+  <ListItem>Element 1</ListItem>
+  <ListItem>Element 2</ListItem>
+  <List size="lg">
+    <ListItem>Under element 1</ListItem>
+    <ListItem>Under element 2</ListItem>
+  </List>
+  <ListItem>Element 3</ListItem>
 </List>
-<h2 class="componentHeader">Unstyled list:</h2>
-<List as="none">
-  <ListItem className="no-padding"
-    ><Alert severity="info">Alert (info, default)</Alert></ListItem
-  >
-  <ListItem className="no-padding"
-    ><Alert severity="warning">Alert (warning)</Alert></ListItem
-  >
+
+<h2>Unstyled list:</h2>
+
+<List as="none" size="sm">
+  <ListItem className="no-padding">Element 1</ListItem>
+  <ListItem className="no-padding">Element 2</ListItem>
 </List>
 
 <br />
@@ -442,7 +481,7 @@
   inline={isInline}
   legend="RadioGroup legend"
   description="RadioGroup description"
-  size="medium"
+  size="lg"
   defaultValue={true ? "option1" : "option2"}
   readOnly={isReadOnly}
   disabled={isDisabled}
@@ -451,19 +490,19 @@
 >
   <Radio value="option1" label="Lorem ipsum label." />
   <Radio
-    value="option1"
+    value="option2"
     label="Lorem ipsum dolor sit label."
     description="Lorem ipsum dolor sit description."
   />
   <Radio
     readOnly={true}
-    value="option1"
+    value="option3"
     label="Lorem ipsum dolor sit amet readonly label."
     description="Lorem ipsum dolor sit amet readonly description."
   />
   <Radio
     disabled={true}
-    value="option1"
+    value="option4"
     label="Lorem ipsum dolor sit amet disabled label."
     description="Lorem ipsum dolor sit amet disabled description."
   />
@@ -496,7 +535,7 @@
     bind:value={selectedValues}
     legend="CheckboxGroup legend"
     description="CheckboxGroup description"
-    size="medium"
+    size="md"
     defaultValue={["option2"]}
     readOnly={isReadOnly}
     disabled={isDisabled}
@@ -621,6 +660,7 @@
     bind:selected={multiPreselected}
     readOnly
     multiple
+    size="lg"
     label="Multi, preselected, readonly"
   />
 
@@ -685,12 +725,13 @@
       {#if menuVisible}
         <DropdownMenu
           let:C
+          gap={i * 5}
           placement={currentDropdownPlacement.value}
           size={i == 0 ? "small" : i == 1 ? "medium" : "large"}
           anchorEl={dropdownButtons[i]}
           onClose={() => handleDropdownClosing(i)}
         >
-          <C.MenuGroup label={"Links"}>
+          <C.MenuGroup heading={"Links"}>
             <C.MenuItem
               on:Click={(e) => {
                 console.log("clicked");

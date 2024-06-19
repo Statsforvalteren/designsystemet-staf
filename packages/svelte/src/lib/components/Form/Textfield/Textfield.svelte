@@ -67,32 +67,32 @@
   export let characterLimitLabel = null;
 
   let componentId = uuidv4();
-  let normalizedSize;
+  let standardizedSize;
   let fontSizeClass;
 
   switch (size) {
     case "small":
     case "sm":
-      normalizedSize = "sm";
+      standardizedSize = "sm";
       fontSizeClass = "font--sm";
       break;
     case "medium":
     case "md":
-      normalizedSize = "md";
+      standardizedSize = "md";
       fontSizeClass = "font--md";
       break;
     case "large":
     case "lg":
-      normalizedSize = "lg";
+      standardizedSize = "lg";
       fontSizeClass = "font--lg";
       break;
     default:
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
   }
 
   // Computed class names for the component elements
-  let formFieldClasses = `ds-textfield ds-textfield--${normalizedSize} ${
+  let formFieldClasses = `ds-textfield ds-textfield--${standardizedSize} ${
     error ? "ds-textfield--error" : ""
   } ${readOnly ? "readonly" : ""} ${$$props.class || ""} ${fontSizeClass}`;
   let labelClasses = `ds-textfield__label ${hideLabel ? "ds-sr-only" : ""}`;

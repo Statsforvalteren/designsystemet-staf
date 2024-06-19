@@ -67,23 +67,23 @@
 
   let componentId = uuidv4();
 
-  let normalizedSize;
+  let standardizedSize;
 
   switch (size) {
     case "small":
     case "sm":
-      normalizedSize = "sm";
+      standardizedSize = "sm";
       break;
     case "medium":
     case "md":
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
     case "large":
     case "lg":
-      normalizedSize = "lg";
+      standardizedSize = "lg";
       break;
     default:
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
   }
 
@@ -91,10 +91,10 @@
   $: showClearButton = String(value).length > 0 && !disabled;
 
   // Computed class names for the component elements
-  let formFieldClasses = `ds-search ds-search--${normalizedSize} ${
+  let formFieldClasses = `ds-search ds-search--${standardizedSize} ${
     disabled ? "ds-search--disabled" : ""
   } ${$$props.class || ""}`;
-  let labelClasses = `ds-search--${normalizedSize} ds-search__label ${
+  let labelClasses = `ds-search--${standardizedSize} ds-search__label ${
     hideLabel ? "ds-sr-only" : ""
   }`;
   $: fieldClasses = `ds-search__field ${hideLabel ? "ds-sr-only" : ""} ${

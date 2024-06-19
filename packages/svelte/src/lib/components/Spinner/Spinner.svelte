@@ -18,34 +18,34 @@
   export let color = "neutral";
   export let className = "";
 
-  let normalizedSize;
+  let standardizedSize;
 
   switch (size) {
     case "2xs":
-      normalizedSize = "2xs";
+      standardizedSize = "2xs";
       break;
     case "xsmall":
     case "xs":
-      normalizedSize = "xs";
+      standardizedSize = "xs";
       break;
     case "small":
     case "sm":
-      normalizedSize = "sm";
+      standardizedSize = "sm";
       break;
     case "medium":
     case "md":
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
     case "large":
     case "lg":
-      normalizedSize = "lg";
+      standardizedSize = "lg";
       break;
     case "xlarge":
     case "xl":
-      normalizedSize = "xl";
+      standardizedSize = "xl";
       break;
     default:
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
   }
 
@@ -59,8 +59,8 @@
   };
 
   const styles = {
-    width: `${sizeMap[normalizedSize]}px`,
-    height: `${sizeMap[normalizedSize]}px`,
+    width: `${sizeMap[standardizedSize]}px`,
+    height: `${sizeMap[standardizedSize]}px`,
   };
 </script>
 

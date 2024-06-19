@@ -27,33 +27,33 @@
    */
   export let className = "";
 
-  let normalizedSize;
+  let standardizedSize;
 
   switch (size) {
     case "xsmall":
     case "xs":
-      normalizedSize = "xs";
+      standardizedSize = "xs";
       break;
     case "small":
     case "sm":
-      normalizedSize = "sm";
+      standardizedSize = "sm";
       break;
     case "medium":
     case "md":
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
     case "large":
     case "lg":
-      normalizedSize = "lg";
+      standardizedSize = "lg";
       break;
     default:
-      normalizedSize = "md";
+      standardizedSize = "md";
       break;
   }
 
   $: computedClass = [
     "ds-label",
-    `ds-label--${normalizedSize}`,
+    `ds-label--${standardizedSize}`,
     spacing ? "ds-label--spacing" : "",
     weight ? `ds-label--${weight}-weight` : "",
     className,
