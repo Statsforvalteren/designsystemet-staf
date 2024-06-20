@@ -1,12 +1,12 @@
 <script>
-  import { Button, Heading, Paragraph } from "$lib";
-  import { createEventDispatcher, onMount } from "svelte";
-  import { v4 as uuidv4 } from "uuid";
+  import { Button, Heading, Paragraph } from '$lib';
+  import { createEventDispatcher, onMount } from 'svelte';
+  import { v4 as uuidv4 } from 'uuid';
 
   /**
    * Subtitle of the modal.
    */
-  export let subtitle = "";
+  export let subtitle = '';
 
   /**
    * Whether to show the close button.
@@ -28,7 +28,7 @@
 
   function close(event) {
     onClose(event);
-    dispatch("close");
+    dispatch('close');
   }
 
   function handleClick(event) {
@@ -42,21 +42,21 @@
 
   function handleKeyDown(event) {
     if (
-      event.key === "Escape" ||
-      event.key === "Esc" ||
-      event.key === "escape" ||
-      event.key === "esc"
+      event.key === 'Escape' ||
+      event.key === 'Esc' ||
+      event.key === 'escape' ||
+      event.key === 'esc'
     ) {
       close(event);
     }
   }
 
   onMount(() => {
-    window.addEventListener("click", handleClick);
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('click', handleClick);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener("click", handleClick);
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('click', handleClick);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   });
 </script>
@@ -67,7 +67,7 @@
     <a href="/" on:focus={() => lastButton.focus()}><div /></a>
     <div
       class={`ds-modal__header ${
-        !closeButton ? "ds-modal__header--no-button" : ""
+        !closeButton ? 'ds-modal__header--no-button' : ''
       }`}
     >
       {#if subtitle}
@@ -144,11 +144,6 @@
 
   .ds-modal[open] {
     animation: slide-in 300ms ease-in-out, fade-in 300ms ease-in-out;
-  }
-
-  .ds-modal > hr {
-    margin: var(--ds-spacing-3) 0 !important;
-    border-color: var(--ds-color-neutral-border-subtle);
   }
 
   .ds-modal--lock-scroll {

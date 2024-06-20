@@ -1,18 +1,18 @@
 <script>
   // @ts-nocheck
-  import Alert from "$lib/components/Alert/Alert.svelte";
-  import Button from "$lib/components/Button/Button.svelte";
-  import Switch from "$lib/components/Form/Switch/Switch.svelte";
-  import Radio from "$lib/components/Form/Radio/Radio.svelte";
-  import RadioGroup from "$lib/components/Form/Radio/RadioGroup.svelte";
-  import Textfield from "$lib/components/Form/Textfield/Textfield.svelte";
-  import Checkbox from "$lib/components/Form/Checkbox/Checkbox.svelte";
-  import Link from "$lib/components/Link/Link.svelte";
-  import List from "$lib/components/List/List.svelte";
-  import ListItem from "$lib/components/List/ListItem.svelte";
-  import Tag from "$lib/components/Tag/Tag.svelte";
-  import Paragraph from "$lib/components/Typography/Paragraph/Paragraph.svelte";
-  import Modal from "$lib/components/Modal/Modal.svelte";
+  import Alert from '$lib/components/Alert/Alert.svelte';
+  import Button from '$lib/components/Button/Button.svelte';
+  import Switch from '$lib/components/Form/Switch/Switch.svelte';
+  import Radio from '$lib/components/Form/Radio/Radio.svelte';
+  import RadioGroup from '$lib/components/Form/Radio/RadioGroup.svelte';
+  import Textfield from '$lib/components/Form/Textfield/Textfield.svelte';
+  import Checkbox from '$lib/components/Form/Checkbox/Checkbox.svelte';
+  import Link from '$lib/components/Link/Link.svelte';
+  import List from '$lib/components/List/List.svelte';
+  import ListItem from '$lib/components/List/ListItem.svelte';
+  import Tag from '$lib/components/Tag/Tag.svelte';
+  import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
+  import Modal from '$lib/components/Modal/Modal.svelte';
   import {
     Accordion,
     AccordionContent,
@@ -25,15 +25,15 @@
     TabItem,
     TabContent,
     Files,
-  } from "$lib";
-  import InformationSquareFillIcon from "@navikt/aksel-icons/svg/InformationSquareFill.svg?raw";
-  import CheckmarkCircleFillIcon from "@navikt/aksel-icons/svg/CheckmarkCircleFill.svg?raw";
-  import XMarkOctagonFillIcon from "@navikt/aksel-icons/svg/XMarkOctagonFill.svg?raw";
-  import Spinner from "$lib/components/Spinner/Spinner.svelte";
-  import CheckboxGroup from "$lib/components/Form/Checkbox/CheckboxGroup.svelte";
-  import Textarea from "$lib/components/Form/Textarea/Textarea.svelte";
-  import Search from "$lib/components/Form/Search/Search.svelte";
-  import DropdownMenu from "$lib/components/Dropdown/DropdownMenu.svelte";
+  } from '$lib';
+  import InformationSquareFillIcon from '@navikt/aksel-icons/svg/InformationSquareFill.svg?raw';
+  import CheckmarkCircleFillIcon from '@navikt/aksel-icons/svg/CheckmarkCircleFill.svg?raw';
+  import XMarkOctagonFillIcon from '@navikt/aksel-icons/svg/XMarkOctagonFill.svg?raw';
+  import Spinner from '$lib/components/Spinner/Spinner.svelte';
+  import CheckboxGroup from '$lib/components/Form/Checkbox/CheckboxGroup.svelte';
+  import Textarea from '$lib/components/Form/Textarea/Textarea.svelte';
+  import Search from '$lib/components/Form/Search/Search.svelte';
+  import DropdownMenu from '$lib/components/Dropdown/DropdownMenu.svelte';
 
   function handleTabChange(value) {
     // console.log('Tab changed:', value);
@@ -54,18 +54,18 @@
     isModalOpen = false;
   }
 
-  let textfieldValue = "";
-  let searchValue = "";
+  let textfieldValue = '';
+  let searchValue = '';
   let isSwitchChecked = false;
 
-  let textareaValue = "";
+  let textareaValue = '';
 
   function handleSwitchClickEvent(event) {
-    console.log("switch clicked", event);
+    console.log('switch clicked', event);
   }
 
   function handleSwitchChangeEvent(event) {
-    console.log("switch change", event.detail);
+    console.log('switch change', event.detail);
   }
 
   let selectedValue;
@@ -99,87 +99,87 @@
 
   // SELECT
 
-  let singleSelectValue = "";
+  let singleSelectValue = '';
   let multiSelectValues = [];
 
   $: options = [
-    { label: "Norge", value: "1" },
-    { label: "Sverige", value: "2" },
-    { label: "Outer Planets Alliance", value: "3" },
-    { label: "Outer Planets Alliance", value: "4" },
-    { label: "Outer Planets Alliance", value: "5" },
-    { label: "Outer Planets Alliance", value: "6" },
-    { label: "Outer Planets Alliance", value: "7" },
-    { label: "Outer Planets Alliance", value: "8" },
-    { label: "Outer Planets Alliance", value: "9" },
-    { label: "Outer Planets Alliance", value: "10" },
-    { label: "Outer Planets Alliance", value: "11" },
-    { label: "Outer Planets Alliance", value: "12" },
-    { label: "Outer Planets Alliance", value: "13" },
-    { label: "Outer Planets Alliance", value: "14" },
+    { label: 'Norge', value: '1' },
+    { label: 'Sverige', value: '2' },
+    { label: 'Outer Planets Alliance', value: '3' },
+    { label: 'Outer Planets Alliance', value: '4' },
+    { label: 'Outer Planets Alliance', value: '5' },
+    { label: 'Outer Planets Alliance', value: '6' },
+    { label: 'Outer Planets Alliance', value: '7' },
+    { label: 'Outer Planets Alliance', value: '8' },
+    { label: 'Outer Planets Alliance', value: '9' },
+    { label: 'Outer Planets Alliance', value: '10' },
+    { label: 'Outer Planets Alliance', value: '11' },
+    { label: 'Outer Planets Alliance', value: '12' },
+    { label: 'Outer Planets Alliance', value: '13' },
+    { label: 'Outer Planets Alliance', value: '14' },
   ];
 
   $: optionsWithDescriptions = [
     {
-      label: "Norge",
-      value: "1",
-      description: "Dårlige i fotball, gode i olje",
+      label: 'Norge',
+      value: '1',
+      description: 'Dårlige i fotball, gode i olje',
     },
     {
-      label: "Sverige",
-      value: "2",
-      description: "Bedre i fotball, snakker litt rart",
+      label: 'Sverige',
+      value: '2',
+      description: 'Bedre i fotball, snakker litt rart',
     },
     {
-      label: "Outer Planets Alliance",
-      value: "3",
+      label: 'Outer Planets Alliance',
+      value: '3',
       description:
-        "Undertrykkede masser som må finne seg i det meste, inntil videre",
+        'Undertrykkede masser som må finne seg i det meste, inntil videre',
     },
   ];
 
   $: unSelected = null;
 
-  let singlePreSelected = { label: "Sverige", value: "2" };
+  let singlePreSelected = { label: 'Sverige', value: '2' };
 
   $: multiUnselected = [];
 
   let multiPreselected = [
-    { label: "Norge", value: "1" },
-    { label: "Outer Planets Alliance", value: "3" },
+    { label: 'Norge', value: '1' },
+    { label: 'Outer Planets Alliance', value: '3' },
   ];
 
   function changeSelected() {
-    unSelected = { label: "Sverige", value: "2" };
+    unSelected = { label: 'Sverige', value: '2' };
   }
 
-  $: if (unSelected) console.debug("here", unSelected);
+  $: if (unSelected) console.debug('here', unSelected);
 
   //dropdown:
   $: dropdownPlacements = [
-    { label: "left", value: "left" },
-    { label: "right", value: "right" },
-    { label: "bottom-start", value: "bottom-start" },
-    { label: "bottom-end", value: "bottom-end" },
-    { label: "bottom", value: "bottom" },
-    { label: "top", value: "top" },
-    { label: "top-start", value: "top-start" },
-    { label: "top-end", value: "top-end" },
-    { label: "right-start", value: "right-start" },
-    { label: "right-end", value: "right-end" },
-    { label: "left-start", value: "left-start" },
-    { label: "left-end", value: "left-end" },
+    { label: 'left', value: 'left' },
+    { label: 'right', value: 'right' },
+    { label: 'bottom-start', value: 'bottom-start' },
+    { label: 'bottom-end', value: 'bottom-end' },
+    { label: 'bottom', value: 'bottom' },
+    { label: 'top', value: 'top' },
+    { label: 'top-start', value: 'top-start' },
+    { label: 'top-end', value: 'top-end' },
+    { label: 'right-start', value: 'right-start' },
+    { label: 'right-end', value: 'right-end' },
+    { label: 'left-start', value: 'left-start' },
+    { label: 'left-end', value: 'left-end' },
   ];
 
   let currentDropdownPlacement = {
-    label: "bottom-start",
-    value: "bottom-start",
+    label: 'bottom-start',
+    value: 'bottom-start',
   };
   let menuVisible = false;
   let dropdownButtons = [];
 
   function handleDropdownClosing(value) {
-    console.log("DropdownClosing", value);
+    console.log('DropdownClosing', value);
   }
 </script>
 
@@ -243,7 +243,7 @@
 <Switch bind:checked={showTextfieldError}>Show Error</Switch>
 <Textfield
   bind:value={textfieldValue}
-  error={showTextfieldError ? "Lorem ipsum error" : ""}
+  error={showTextfieldError ? 'Lorem ipsum error' : ''}
   size="md"
   characterLimit={10}
   style="width: 50%"
@@ -255,7 +255,7 @@
 <br />
 <Textfield
   bind:value={textfieldValue}
-  error={showTextfieldError ? "Lorem ipsum error" : ""}
+  error={showTextfieldError ? 'Lorem ipsum error' : ''}
   size="md"
   label="Textfield Overskrift"
   description="Beskrivelse"
@@ -286,7 +286,7 @@
 <Switch bind:checked={showSearchError}>Show Error</Switch>
 <Search
   bind:value={searchValue}
-  error={showSearchError ? "Lorem ipsum error" : ""}
+  error={showSearchError ? 'Lorem ipsum error' : ''}
   size="large"
   characterLimit={10}
   placeholder="Søk"
@@ -299,7 +299,7 @@
 <br />
 <Search
   bind:value={searchValue}
-  error={showSearchError ? "Lorem ipsum error" : ""}
+  error={showSearchError ? 'Lorem ipsum error' : ''}
   size="medium"
   characterLimit={10}
   placeholder="Annen placeholder"
@@ -491,7 +491,9 @@
     <div slot="header" style="color: #c22020">Danger Modal header</div>
     <div slot="content">
       <p>Dangerous stuff here! Spooky!</p>
+      <hr style="border-top: 1px dashed red;" />
     </div>
+
     <div slot="footer" style="display: flex; gap: 0.5rem">
       <Button
         variant="primary"
@@ -514,10 +516,10 @@
   legend="RadioGroup legend"
   description="RadioGroup description"
   size="lg"
-  defaultValue={true ? "option1" : "option2"}
+  defaultValue={true ? 'option1' : 'option2'}
   readOnly={isReadOnly}
   disabled={isDisabled}
-  error={showError ? "Lorem ipsum error." : ""}
+  error={showError ? 'Lorem ipsum error.' : ''}
   hideLegend={isHideLegend}
 >
   <Radio value="option1" label="Lorem ipsum label." />
@@ -543,17 +545,17 @@
 
 <div style="display: flex; gap: 2rem">
   <Button on:click={toggleIsHideLegend}
-    >{isHideLegend ? "Show legend" : "Hide legend"}</Button
+    >{isHideLegend ? 'Show legend' : 'Hide legend'}</Button
   >
-  <Button on:click={toggleInline}>{isInline ? "Vertical" : "Inline"}</Button>
+  <Button on:click={toggleInline}>{isInline ? 'Vertical' : 'Inline'}</Button>
   <Button on:click={toggleShowError}
-    >{showError ? "Hide error" : "Show error"}</Button
+    >{showError ? 'Hide error' : 'Show error'}</Button
   >
   <Button on:click={toggleIsDisabled}
-    >{isDisabled ? "Enable" : "Disable"}</Button
+    >{isDisabled ? 'Enable' : 'Disable'}</Button
   >
   <Button on:click={toggleIsReadOnly}
-    >{isReadOnly ? "Selectable" : "ReadOnly"}</Button
+    >{isReadOnly ? 'Selectable' : 'ReadOnly'}</Button
   >
 </div>
 <br />
@@ -573,10 +575,10 @@
     legend="CheckboxGroup legend"
     description="CheckboxGroup description"
     size="md"
-    defaultValue={["option2"]}
+    defaultValue={['option2']}
     readOnly={isReadOnly}
     disabled={isDisabled}
-    error={showError ? "Lorem ipsum error." : ""}
+    error={showError ? 'Lorem ipsum error.' : ''}
     hideLegend={isHideLegend}
   >
     <Checkbox value="option1" label="Lorem ipsum label" />
@@ -606,7 +608,7 @@
 
 <h1 class="componentHeader">SELECT</h1>
 
-<Button on:click={() => console.log("unSelected", unSelected)}>LogValue</Button>
+<Button on:click={() => console.log('unSelected', unSelected)}>LogValue</Button>
 <br />
 <div class="selectForm">
   <Select
@@ -765,14 +767,14 @@
           let:C
           gap={i * 5}
           placement={currentDropdownPlacement.value}
-          size={i == 0 ? "small" : i == 1 ? "medium" : "large"}
+          size={i == 0 ? 'small' : i == 1 ? 'medium' : 'large'}
           anchorEl={dropdownButtons[i]}
           onClose={() => handleDropdownClosing(i)}
         >
-          <C.MenuGroup heading={"Links"}>
+          <C.MenuGroup heading={'Links'}>
             <C.MenuItem
               on:Click={(e) => {
-                console.log("clicked");
+                console.log('clicked');
               }}
             >
               Test onClick event {i}
