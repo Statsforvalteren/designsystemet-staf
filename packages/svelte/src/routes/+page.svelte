@@ -41,6 +41,7 @@
 
   let isModalOpen = false;
   let isModal2Open = false;
+  let isDangerModalOpen = false;
   let showTextfieldError = false;
   let showSearchError = false;
 
@@ -442,34 +443,65 @@
 <h1 class="componentHeader">MODAL</h1>
 <br />
 
-<Button on:click={openModal}>Open Modal</Button>
+<div style="display: flex; gap: 2rem">
+  <Button on:click={openModal}>Open Modal</Button>
+  <Button on:click={() => (isDangerModalOpen = true)}>Open Danger Modal</Button>
+</div>
 
 {#if isModalOpen}
-  <Modal onClose={closeModal} modalVariant="alert">
-    <p style="font-size: 300%">
-      Lorem Ipsum er rett og slett dummytekst fra og for trykkeindustrien. Lorem
-      Ipsum har vært bransjens standard for dummytekst helt siden 1500-tallet,
-      da en ukjent boktrykker stokket en mengde bokstaver for å lage et
-      prøveeksemplar av en bok. Lorem Ipsum har tålt tidens tann usedvanlig
-      godt, og har i tillegg til å bestå gjennom fem århundrer også tålt
-      spranget over til elektronisk typografi uten vesentlige endringer. Lorem
-      Ipsum ble gjort allment kjent i 1960-årene ved lanseringen av Letraset-ark
-      med avsnitt fra Lorem Ipsum, og senere med sideombrekkingsprogrammet Aldus
-      PageMaker som tok i bruk nettopp Lorem Ipsum for dummytekst. Hvorfor
-      bruker vi det? Det er et velkjent faktum at lesere distraheres av lesbart
-      innhold på en side når man ser på dens layout. Poenget med å bruke Lorem
-      Ipsum er at det har en mer eller mindre normal fordeling av bokstaver i
-      ord, i motsetning til 'Innhold her, innhold her', og gir inntrykk av å
-      være lesbar tekst. Mange webside- og sideombrekkingsprogrammer bruker nå
-      Lorem Ipsum som sin standard for provisorisk tekst, og et søk etter 'Lorem
-      Ipsum' vil avdekke mang en uferdig webside. Ulike versjoner har sprunget
-      frem i senere år, noen ved rene uhell og andre mer planlagte (med humor
-      o.l.).
-    </p>
-    <Button on:click={() => (isModal2Open = true)}>Open Modal 2</Button>
-    {#if isModal2Open}
-      <Modal onClose={() => (isModal2Open = false)}><p>More Text</p></Modal>
-    {/if}
+  <Modal onClose={closeModal}>
+    <div slot="header">Modal header</div>
+    <div slot="content">
+      <p>
+        Lorem Ipsum er rett og slett dummytekst fra og for trykkeindustrien.
+        Lorem Ipsum har vært bransjens standard for dummytekst helt siden
+        1500-tallet, da en ukjent boktrykker stokket en mengde bokstaver for å
+        lage et prøveeksemplar av en bok. Lorem Ipsum har tålt tidens tann
+        usedvanlig godt, og har i tillegg til å bestå gjennom fem århundrer også
+        tålt spranget over til elektronisk typografi uten vesentlige endringer.
+        Lorem Ipsum ble gjort allment kjent i 1960-årene ved lanseringen av
+        Letraset-ark med avsnitt fra Lorem Ipsum, og senere med
+        sideombrekkingsprogrammet Aldus PageMaker som tok i bruk nettopp Lorem
+        Ipsum for dummytekst. Hvorfor bruker vi det? Det er et velkjent faktum
+        at lesere distraheres av lesbart innhold på en side når man ser på dens
+        layout. Poenget med å bruke Lorem Ipsum er at det har en mer eller
+        mindre normal fordeling av bokstaver i ord, i motsetning til 'Innhold
+        her, innhold her', og gir inntrykk av å være lesbar tekst. Mange
+        webside- og sideombrekkingsprogrammer bruker nå Lorem Ipsum som sin
+        standard for provisorisk tekst, og et søk etter 'Lorem Ipsum' vil
+        avdekke mang en uferdig webside. Ulike versjoner har sprunget frem i
+        senere år, noen ved rene uhell og andre mer planlagte (med humor o.l.).
+      </p>
+      <Button on:click={() => (isModal2Open = true)}>Open Modal 2</Button>
+      {#if isModal2Open}
+        <Modal onClose={() => (isModal2Open = false)}
+          ><p slot="content">More Text</p></Modal
+        >
+      {/if}
+    </div>
+    <div slot="footer" style="display: flex; gap: 0.5rem">
+      <Button variant="primary" on:click={closeModal}>Save</Button>
+      <Button variant="secondary" on:click={closeModal}>Close</Button>
+    </div>
+  </Modal>
+{/if}
+
+{#if isDangerModalOpen}
+  <Modal onClose={() => (isDangerModalOpen = false)}>
+    <div slot="header" style="color: #c22020">Danger Modal header</div>
+    <div slot="content">
+      <p>Dangerous stuff here! Spooky!</p>
+    </div>
+    <div slot="footer" style="display: flex; gap: 0.5rem">
+      <Button
+        variant="primary"
+        color="danger"
+        on:click={() => (isDangerModalOpen = false)}>Oh no!</Button
+      >
+      <Button variant="secondary" on:click={() => (isDangerModalOpen = false)}
+        >Close</Button
+      >
+    </div>
   </Modal>
 {/if}
 
@@ -508,17 +540,22 @@
   />
 </RadioGroup>
 <p>Selected RadioGroup value: {selectedValue}</p>
-<Button on:click={toggleIsHideLegend}
-  >{isHideLegend ? "Show legend" : "Hide legend"}</Button
->
-<Button on:click={toggleInline}>{isInline ? "Vertical" : "Inline"}</Button>
-<Button on:click={toggleShowError}
-  >{showError ? "Hide error" : "Show error"}</Button
->
-<Button on:click={toggleIsDisabled}>{isDisabled ? "Enable" : "Disable"}</Button>
-<Button on:click={toggleIsReadOnly}
-  >{isReadOnly ? "Selectable" : "ReadOnly"}</Button
->
+
+<div style="display: flex; gap: 2rem">
+  <Button on:click={toggleIsHideLegend}
+    >{isHideLegend ? "Show legend" : "Hide legend"}</Button
+  >
+  <Button on:click={toggleInline}>{isInline ? "Vertical" : "Inline"}</Button>
+  <Button on:click={toggleShowError}
+    >{showError ? "Hide error" : "Show error"}</Button
+  >
+  <Button on:click={toggleIsDisabled}
+    >{isDisabled ? "Enable" : "Disable"}</Button
+  >
+  <Button on:click={toggleIsReadOnly}
+    >{isReadOnly ? "Selectable" : "ReadOnly"}</Button
+  >
+</div>
 <br />
 <h1 class="componentHeader">CHECKBOX</h1>
 <div class="selectForm">
@@ -569,7 +606,8 @@
 
 <h1 class="componentHeader">SELECT</h1>
 
-<button on:click={() => console.log("unSelected", unSelected)}>LogValue</button>
+<Button on:click={() => console.log("unSelected", unSelected)}>LogValue</Button>
+<br />
 <div class="selectForm">
   <Select
     {options}
