@@ -47,9 +47,9 @@
     "@types/object-hash": "^3",
     "@types/ramda": "^0.29.9",
     "fs-extra": "^11.2.0",
-    "tsx": "^4.11.2",
-    "typescript": "^5.4.5",
     "semantic-release": "^23.1.1",
-    "semantic-release-yarn": "^3.0.2"
+    "semantic-release-yarn": "^3.0.2",
+    "tsx": "^4.11.2",
+    "typescript": "^5.4.5"
   }
 }
