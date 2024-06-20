@@ -13541,9 +13541,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"got@npm:^9.6.0":
-  version: 9.6.0
-  resolution: "got@npm:9.6.0"
+"got@npm:^11.8.5":
+  version: 11.8.5
+  resolution: "got@npm:11.8.5"
   dependencies:
     "@sindresorhus/is": "npm:^0.14.0"
     "@szmarczak/http-timer": "npm:^1.1.2"
@@ -18211,9 +18211,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mout@npm:^0.11.1":
-  version: 0.11.1
-  resolution: "mout@npm:0.11.1"
+"mout@npm:^1.2.4":
+  version: 1.2.4
+  resolution: "mout@npm:1.2.4"
   checksum: 10/f5af9eb414dd01c491d20d671bcd5044dc35a42012234f21b500fe70604c3cadbc3cd42ed3bd68617921b3a8d33ecb7249b9b21a5baa689d5ae5eb35599bddf2
   languageName: node
   linkType: hard
