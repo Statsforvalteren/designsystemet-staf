@@ -1,39 +1,71 @@
 <script>
-  import { getContext } from 'svelte';
-  import { v4 as uuidv4 } from 'uuid';
+  import { Paragraph } from "$lib";
+  import { getContext } from "svelte";
+  import { v4 as uuidv4 } from "uuid";
 
   /**
-   * Radio
-   *
-   * @prop {string} [description=''] - Description for radio.
-   * @prop {boolean} [disabled=undefined] - Toggle disabled for radio.
-   * @prop {boolean} [readOnly=undefined] - Toggle readOnly for radio.
-   * @prop {string} [label] - Label for radio.
-   * @prop {string} [value] - Value for radio.
+   * Decription for radio.
+   * @type {string}
    */
+  export let description = "";
 
-  export let description = '';
+  /**
+   * Toggle disabled for radio.
+   * @type {boolean}
+   */
   export let disabled = undefined;
+
+  /**
+   * Toggle readOnly for radio.
+   * @type {boolean}
+   */
   export let readOnly = undefined;
+
+  /**
+   * Label for radio.
+   * @type {string}
+   */
   export let label;
+
+  /**
+   * Value for radio.
+   * @type {string}
+   */
   export let value;
-
-  let size;
-  let selectedValue;
-  let groupUniqueId;
-  let error;
-
-  let groupDisabled = false;
-  let groupReadOnly = false;
 
   const uniqueId = uuidv4();
   const radioId = `radio-${uniqueId}`;
   const labelId = `label-${uniqueId}`;
   const descriptionId = `description-${uniqueId}`;
+  const radioGroup = getContext("radioGroup");
+
+  let size;
+  let standardizedSize;
+  let selectedValue;
+  let groupUniqueId;
+  let error;
+  let groupDisabled = false;
+  let groupReadOnly = false;
+
+  switch (size) {
+    case "small":
+    case "sm":
+      standardizedSize = "sm";
+      break;
+    case "medium":
+    case "md":
+      standardizedSize = "md";
+      break;
+    case "large":
+    case "lg":
+      standardizedSize = "lg";
+      break;
+    default:
+      standardizedSize = "md";
+      break;
+  }
 
   $: checked = value === selectedValue;
-
-  const radioGroup = getContext('radioGroup');
 
   $: if ($radioGroup) {
     size = $radioGroup.size;
@@ -44,73 +76,25 @@
     error = $radioGroup.error;
   }
 
-  const sizes = {
-    xsmall: {
-      iconSizeClass: 'icon-xsmall',
-      fontSizeClass: 'font-xsmall',
-      spacingClass: 'spacing-xsmall',
-      controlClass: 'control-xsmall',
-      paddingClass: 'padding-xsmall',
-    },
-    small: {
-      iconSizeClass: 'icon-small',
-      fontSizeClass: 'font-small',
-      spacingClass: 'spacing-small',
-      controlClass: 'control-small',
-      paddingClass: 'padding-small',
-    },
-    medium: {
-      iconSizeClass: 'icon-medium',
-      fontSizeClass: 'font-medium',
-      spacingClass: 'spacing-medium',
-      controlClass: 'control-medium',
-      paddingClass: 'padding-medium',
-    },
-    large: {
-      iconSizeClass: 'icon-large',
-      fontSizeClass: 'font-large',
-      spacingClass: 'spacing-large',
-      controlClass: 'control-large',
-      paddingClass: 'padding-large',
-    },
-  };
-
-  /**
-   * @param {string | number} size
-   */
-  function getSizeClasses(size) {
-    return sizes[size] || sizes.medium;
-  }
-
-  $: sizeClasses = getSizeClasses(size);
-
-  $: containerClasses = `container ${sizeClasses.spacingClass} ${
-    disabled || groupDisabled ? 'disabled' : ''
-  } ${error ? 'error' : ''} ${readOnly || groupReadOnly ? 'readonly' : ''} ${
-    $$props.class || ''
+  $: radioClasses = `ds-radio ds-radio--${standardizedSize} ${
+    error ? "ds-radio--error" : ""
+  } ${readOnly || groupReadOnly ? "ds-radio--readonly" : ""} ${
+    $$props.class || ""
   }`;
-
-  $: labelClasses = `label ${readOnly || groupReadOnly ? 'readonly' : ''} 
-                            ${disabled || groupDisabled ? 'disabled' : ''}
-                            ${sizeClasses.paddingClass}`;
-  $: descriptionClasses = `description ${sizeClasses.fontSizeClass}`;
-
-  $: inputClasses = `input ${readOnly || groupReadOnly ? 'readonly' : ''} 
-                            ${disabled || groupDisabled ? 'disabled' : ''}`;
 </script>
 
-<div
-  class={`${containerClasses} ${sizeClasses.fontSizeClass}`}
-  tabindex="-1"
-  role="radio"
-  aria-checked={checked}
-  aria-label={label}
-  aria-labelledby={labelId}
-  id={radioId}
->
-  <span class={`control radio ${sizeClasses.controlClass}`}>
+<Paragraph as="div" {size}>
+  <div
+    class={radioClasses}
+    tabindex="-1"
+    role="radio"
+    aria-checked={checked}
+    aria-label={label}
+    aria-labelledby={labelId}
+    id={radioId}
+  >
     <input
-      class={inputClasses}
+      class="ds-radio__input"
       type="radio"
       id={labelId}
       {value}
@@ -118,257 +102,181 @@
       name={`radio-${groupUniqueId}`}
       disabled={disabled || readOnly || groupDisabled || groupReadOnly}
     />
-    <svg
-      class="icon {sizeClasses.iconSizeClass}"
-      width="22"
-      height="22"
-      viewBox="0 0 22 22"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <circle
-        class="box"
-        name="circle"
-        cx="11"
-        cy="11"
-        r="10"
-        fill="white"
-        stroke="#00315D"
-        stroke-width="2"
-      />
-      <circle
-        class="checked"
-        name="checked"
-        cx="11"
-        cy="11"
-        r="4.88889"
-        fill="#0062BA"
-      />
-    </svg>
-  </span>
-  <label
-    for={labelId}
-    class={labelClasses}
-  >
-    <span class={sizeClasses.fontSizeClass}>
-      {label}
-    </span>
-  </label>
-  {#if description}
-    <p
-      id={descriptionId}
-      class={descriptionClasses}
-    >
-      {description}
-    </p>
-  {/if}
-</div>
+    <label for={labelId} class="ds-radio__label">
+      <span>
+        {label}
+      </span>
+    </label>
+    {#if description}
+      <p id={descriptionId} class="ds-radio__description">
+        {description}
+      </p>
+    {/if}
+  </div>
+</Paragraph>
 
 <style lang="scss">
-  .container {
+  .ds-radio {
+    --dsc-radio-size: var(--ds-spacing-5);
+    --dsc-radio-focus-border-width: 3px;
+    --dsc-radio-background: var(--ds-color-neutral-background-default);
+    --dsc-radio-border-color: var(--ds-color-neutral-border-default);
+    --dsc-radio-border__hover--size: calc(var(--ds-spacing-3) / 2);
+    --dsc-radio-border__hover: 0 0 0 var(--dsc-radio-border__hover--size)
+      var(--ds-color-accent-surface-hover);
+
+    display: grid;
+  }
+
+  .ds-radio:has(.ds-radio__label) {
+    grid-template-columns: var(--dsc-radio-size) auto;
+    gap: var(--ds-spacing-2);
+  }
+
+  /* Radio */
+  .ds-radio__input {
     position: relative;
-    min-width: 2.75rem;
-    min-height: 2.75rem;
+    width: var(--dsc-radio-size);
+    height: var(--dsc-radio-size);
+    z-index: 1;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+    align-self: center;
+    box-shadow: inset 0 0 0 2px var(--dsc-radio-border-color);
+    background: var(--dsc-radio-background);
+    border-radius: 50%;
   }
 
-  .control-xsmall {
-    margin-left: -0.7rem;
-  }
-  .control-small {
-    margin-left: -0.6rem;
-  }
-  .control-medium {
-    margin-left: -0.45rem;
-  }
-  .control-large {
-    margin-left: -0.2rem;
-  }
-
-  .spacing-xsmall {
-    padding-left: calc(var(--fds-spacing-6) + 0.15rem);
-  }
-  .spacing-small {
-    padding-left: calc(var(--fds-spacing-6) + 0.3rem);
-  }
-  .spacing-medium {
-    padding-left: calc(var(--fds-spacing-6) + 1.0625rem);
-  }
-  .spacing-large {
-    padding-left: calc(var(--fds-spacing-6) + 1.4rem);
+  .ds-radio__input::before {
+    position: absolute;
+    content: "";
+    display: block;
+    width: 2.75rem;
+    height: 2.75rem;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    cursor: pointer;
+    border-radius: var(--ds-border-radius-md);
   }
 
-  .icon {
-    grid-area: input;
-    pointer-events: none;
-    height: 1.75rem;
-    width: 1.75rem;
-    margin: auto;
-    overflow: visible;
-  }
-
-  .label {
-    padding-left: 1.1875rem;
-    margin-left: -1rem;
-    min-height: 2.75rem;
+  .ds-radio__label {
+    /* min-height: var(--ds-sizing-10); */
     min-width: min-content;
     display: inline-flex;
     flex-direction: row;
-    gap: var(--fds-spacing-1);
+    gap: var(--ds-spacing-1);
     align-items: center;
     cursor: pointer;
   }
-  .description {
-    padding-left: 0.1875rem;
-    margin-top: calc(var(--fds-spacing-2) * -1);
-    color: var(--fds-semantic-text-neutral-subtle, #4b5563);
-  }
-  .control {
-    --fds-inner-focus-border-color: var(--fds-semantic-border-focus-boxshadow);
-    --fds-outer-focus-border-color: var(--fds-semantic-border-focus-outline);
-    --fds-focus-border-width: 3px;
 
-    position: absolute;
-    left: 0;
-    top: 0;
-    min-width: 2.75rem;
-    min-height: 2.75rem;
-    display: inline-grid;
-    grid: [input] 1fr / [input] 1fr;
-    gap: var(--fds-spacing-2);
-    grid-auto-flow: column;
+  .ds-radio__description {
+    margin: calc(var(--ds-spacing-1) * -1) 0 0 0;
+    color: var(--ds-color-neutral-text-subtle);
+    grid-column: 2;
   }
 
-  .radio,
-  .radio .icon {
-    border-radius: var(--fds-border_radius-full);
-  }
-
-  .input {
-    height: 100%;
-    width: 100%;
-    opacity: 0;
-    margin: 0;
-    grid-area: input;
-    cursor: pointer;
-  }
-
-  .readonly > .control > .input,
-  .readonly > .label {
+  .ds-radio--readonly > .ds-radio__input,
+  .ds-radio--readonly > .ds-radio__label,
+  .ds-radio--readonly > .ds-radio__input::before {
     cursor: default;
   }
 
-  .disabled > .control .input,
-  .disabled > .label {
+  .ds-radio:has(.ds-radio__input:disabled) > .ds-radio__description {
+    opacity: var(--ds-disabled-opacity);
+  }
+
+  .ds-radio__input:disabled,
+  .ds-radio__input:disabled::before,
+  .ds-radio:has(.ds-radio__input:disabled) > .ds-radio__label {
     cursor: not-allowed;
-    color: var(--semantic-border-neutral-subtle, #cfd1cf);
+    opacity: var(--ds-disabled-opacity);
   }
 
-  .disabled > .description {
-    color: var(--semantic-border-neutral-subtle, #cfd1cf);
+  .ds-radio__input:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--dsc-radio-border-color),
+      inset 0 0 0 6px var(--dsc-radio-background);
   }
 
-  .input:not(:checked) ~ .icon .checked {
-    display: none;
+  .ds-radio:has(.ds-radio__input:focus-visible) {
+    --dsc-focus-border-width: 3px;
+
+    outline: var(--dsc-focus-border-width) solid var(--ds-color-focus-outer);
+    outline-offset: var(--dsc-focus-border-width);
+    box-shadow: 0 0 0 var(--dsc-focus-border-width) var(--ds-color-focus-inner);
+    border-radius: var(--ds-border-radius-md);
   }
 
-  .input:checked ~ .icon .checked {
-    display: inline;
-    fill: var(--fds-semantic-surface-first-active, #21365e);
+  .ds-radio__input:checked {
+    --dsc-radio-border-color: var(--ds-color-accent-base-default);
+
+    background: var(--dsc-radio-border-color);
   }
 
-  .input:not(:checked) ~ .icon .box {
-    stroke: var(--fds-semantic-border-first-default, #00244e);
+  .ds-radio--readonly > .ds-radio__input {
+    --dsc-radio-border-color: var(--ds-color-neutral-border-subtle);
+    --dsc-radio-background: var(--ds-color-neutral-background-subtle);
   }
 
-  .input:checked ~ .icon .box {
-    stroke: var(--fds-semantic-border-first-default, #00244e);
+  .ds-radio__input:checked:not(:focus-visible) {
+    box-shadow: inset 0 0 0 2px var(--dsc-radio-border-color),
+      inset 0 0 0 6px var(--dsc-radio-background);
   }
 
-  .input:disabled ~ .icon .box {
-    stroke: var(--fds-semantic-border-neutral-subtle, #cfd1cf);
+  .ds-radio--readonly > .ds-radio__input:checked {
+    background: var(--ds-color-neutral-border-strong);
   }
 
-  .input:focus-visible ~ .icon {
-    outline: var(--fds-focus-border-width) solid
-      var(--fds-semantic-border-focus-outline, #ffda06);
-    outline-offset: 0;
+  .ds-radio--error > .ds-radio__input:not(:disabled, :focus-visible) {
+    --dsc-radio-border-color: var(--ds-color-danger-border-default);
   }
 
-  .input:focus-visible ~ .icon .box {
-    stroke: var(--fds-semantic-border-focus-boxshadow, #1e2b3c);
-    stroke-width: var(--fds-focus-border-width);
-  }
-
-  .input:disabled ~ .icon .checked {
-    fill: var(--fds-semantic-border-neutral-default, #68707c);
-  }
-
-  .error .input:not(:disabled, :focus-visible) ~ .icon .box {
-    stroke: var(--fds-semantic-border-danger-default, #e02e49);
-  }
-
-  .error .input:not(:disabled, :focus-visible) ~ .icon .checked {
-    fill: var(--fds-semantic-border-danger-default, #e02e49);
-  }
-
-  .readonly .input:read-only:not(:focus-visible) ~ .icon .box {
-    stroke: var(--fds-semantic-border-neutral-subtle, #cfd1cf);
-    fill: var(--fds-semantic-surface-neutral-subtle, #eff0ef);
-  }
-
-  .readonly .input:read-only:not(:focus-visible):is(:checked) ~ .icon .checked {
-    fill: var(--fds-semantic-border-neutral-default, #68707c);
-  }
-
-  /* Only use hover for non-touch devices to prevent sticky-hovering */
+  /* Only use hover for non-touch devices to prevent sticky-hovering
+    "input:not(:read-only)" does not work so using ".container:not(.readonly) >" instead */
   @media (hover: hover) and (pointer: fine) {
-    .container:not(.disabled, .readonly) > .control:hover,
-    .container:not(.disabled, .readonly):has(.label:hover) > .control {
-      background: var(--semantic-surface-action-first-subtle-hover, #c8cbdc);
+    .ds-radio:not(.ds-radio--readonly) > .ds-radio__label:hover:not(:disabled),
+    .ds-radio:not(.ds-radio--readonly)
+      > .ds-radio__input:hover:not(:disabled)
+      + .ds-radio__label {
+      color: var(--ds-color-accent-text-subtle);
     }
 
-    .container:not(.disabled, .readonly) > .label:hover,
-    .container:not(.disabled, .readonly) > .control:hover ~ .label {
-      color: var(--fds-semantic-text-action-first-hover, #3c4a71);
+    .ds-radio:not(.ds-radio--readonly)
+      > .ds-radio__input:hover:not(:checked, :disabled, :focus-visible) {
+      --dsc-radio-border-color: var(--ds-color-accent-border-strong);
+
+      box-shadow: var(--dsc-radio-border__hover),
+        inset 0 0 0 2px var(--dsc-radio-border-color);
     }
 
-    .container:not(.disabled, .readonly) > .control:hover > .icon > .box,
-    .container:not(.disabled, .readonly):has(.label:hover)
-      > .control
-      > .icon
-      > .box {
-      stroke: var(--fds-semantic-border-input-hover, #4c76ba);
+    .ds-radio:not(.ds-radio--readonly)
+      > .ds-radio__input:hover:checked:not(:disabled, :focus-visible) {
+      box-shadow: var(--dsc-radio-border__hover),
+        inset 0 0 0 2px var(--dsc-radio-border-color),
+        inset 0 0 0 6px var(--dsc-radio-background);
     }
+  }
 
-    .font-xsmall {
-      font-size: 0.8125rem;
-    }
-    .font-small {
-      font-size: 0.9375rem;
-    }
-    .font-medium {
-      font-size: 1.125rem;
-    }
-    .font-large {
-      font-size: 1.25rem;
-    }
+  /** Sizing */
 
-    .icon-xsmall {
-      height: 1.375rem;
-      width: 1.375rem;
-    }
-    .icon-small {
-      height: 1.6875em;
-      width: 1.6875em;
-    }
-    .icon-medium {
-      height: 2rem;
-      width: 2rem;
-    }
-    .icon-large {
-      height: 2.3125rem;
-      width: 2.3125rem;
-    }
+  .ds-radio--sm {
+    --dsc-radio-size: var(--ds-sizing-5);
+
+    /* min-height: var(--ds-sizing-10); */
+  }
+
+  .ds-radio--md {
+    --dsc-radio-size: var(--ds-sizing-6);
+    --dsc-radio-border__hover--size: var(--ds-spacing-1);
+
+    /* min-height: var(--ds-sizing-11); */
+  }
+
+  .ds-radio--lg {
+    --dsc-radio-size: var(--ds-sizing-7);
+
+    /* min-height: var(--ds-sizing-12); */
   }
 </style>

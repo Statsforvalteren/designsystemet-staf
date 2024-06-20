@@ -1,6 +1,6 @@
 <script>
-  import SelectCheckmark from './SelectCheckmark.svelte';
-  import { getContext } from 'svelte';
+  import SelectCheckmark from "./SelectCheckmark.svelte";
+  import { getContext } from "svelte";
 
   /**
    * @typedef {Object} SelectOption
@@ -32,10 +32,10 @@
   //svelte-ignore unused-export-let
   export let hideSelected = false;
   //svelte-ignore unused-export-let
-  export let size = 'medium';
+  export let size = "medium";
   export let inputId;
 
-  const selectContext = getContext('selectContext-' + inputId);
+  const selectContext = getContext("selectContext-" + inputId);
 
   $: selected = $selectContext.selected;
   $: error = $selectContext.error;
@@ -51,10 +51,7 @@
   };
 </script>
 
-<div
-  class="select-dropdown"
-  class:visible={isDropdownVisible}
->
+<div class="select-dropdown" class:visible={isDropdownVisible}>
   <ul class="options-list">
     {#each options as option, index (index)}
       {@const isSelected = isOptionSelected(option)}
@@ -72,11 +69,7 @@
         <div class="option-content">
           {#if multiple}
             <div class="checkbox-container">
-              <input
-                class="input"
-                type="checkbox"
-                checked={isSelected}
-              />
+              <input class="input" type="checkbox" checked={isSelected} />
               <svg
                 class="icon icon-xsmall"
                 width="22"
@@ -126,17 +119,17 @@
 
 <style lang="scss">
   .select-dropdown {
-    background-color: var(--fds-semantic-background-default, #ffffff);
+    background-color: var(--ds-color-accent-1, #ffffff);
     border-radius: 3px;
-    border: 1px solid var(--colors-grey-600, #68707c);
+    border: 1px solid var(--ds-color-neutral-12, #5b6471);
     box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
     &:not(.visible) {
       display: none;
     }
     max-height: 400px;
     overflow-y: auto;
-    margin-top: var(--fds-spacing-1);
-    padding: var(--spacing-2, 9px);
+    margin-top: var(--ds-spacing-1);
+    padding: var(--ds-spacing-2, 9px);
   }
   .options-list {
     max-width: 100%;
@@ -162,19 +155,16 @@
     align-self: stretch;
     list-style: none;
     &:hover {
-      background: var(
-        --fds-semantic-surface-action-first-subtle-hover,
-        #c8cbdc
-      );
-      border-radius: var(--fds-border_radius-interactive, 4px);
-      border-left: 5px solid var(--fds-semantic-border-action-hover, #3c4a71);
+      background: var(--ds-color-brand1-4, #c5d3e9);
+      border-radius: var(--ds-border-radius-md, 4px);
+      border-left: 5px solid var(--ds-color-accent-8, #335071);
       cursor: pointer;
       padding: 9px 12px 9px 7.5px;
     }
   }
 
   .option-item:hover rect {
-    stroke: var(--fds-semantic-border-input-hover) !important;
+    stroke: var(--ds-color-brand1-9, #4c76ba) !important;
   }
 
   .option-text {
@@ -191,9 +181,14 @@
     gap: 10px;
     margin-top: 2px;
   }
-
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 var(--ds-spacing-2);
+  }
   .option-label {
-    color: var(--semantic-text-neutral-default, #1e2b3c);
+    color: var(--ds-color-neutral-9, #1e2b3c);
     font-weight: 400;
     line-height: 130%; /* 17.55px */
   }
@@ -235,33 +230,33 @@
   }
 
   .input:not(:checked) ~ .icon .box {
-    stroke: var(--fds-semsemantic-border-input-default, #00244e);
-    fill: var(--fds-semantic-surface-action-no_fill, #ffffff);
+    stroke: var(--ds-color-accent-9, #00244e);
+    fill: var(--ds-color-accent-1, #ffffff);
   }
 
   .input:disabled ~ .icon .box {
-    stroke: var(--fds-semantic-border-neutral-subtle, #d2d5d8);
-    fill: var(--fds-semantic-surface-action-no_fill, #ffffff);
+    stroke: var(--ds-color-neutral-4, #ced1d4);
+    fill: var(--ds-color-accent-1, #ffffff);
   }
 
   .input:checked:not(:disabled) ~ .icon .box {
-    stroke: var(--fds-semantic-surface-action-checked);
-    fill: var(--fds-semantic-surface-action-checked);
+    stroke: var(--ds-color-accent-9, #00244e);
+    fill: var(--ds-color-accent-9, #00244e);
   }
 
   .input:focus-visible ~ .icon {
-    outline: var(--fds-focus-border-width) solid
-      var(--fds-semantic-border-focus-outline, #ffda06);
+    outline: var(--ds-border-width-highlight) solid
+      var(--ds-color-warning-border-subtle, #e0b726);
     outline-offset: 0;
   }
 
   .input:focus-visible:not(:disabled) ~ .icon .box {
-    stroke: var(--fds-semantic-border-focus-boxshadow, #00244e);
-    stroke-width: var(--fds-focus-border-width);
+    stroke: var(--ds-color-accent-9, #00244e);
+    stroke-width: var(--ds-border-width-highlight);
   }
 
   .input:disabled ~ .icon .checked {
-    fill: var(--fds-semantic-border-neutral-default, #bfc2c0);
+    fill: var(--ds-color-neutral-4, #ced1d4);
   }
 
   .icon-xsmall {
@@ -272,15 +267,15 @@
     width: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--fds-brand-grey-100);
+    background: var(--ds-color-neutral-3, #e1e3e5);
   }
   ::-webkit-scrollbar-thumb {
     border: 3px solid transparent;
     background-clip: padding-box;
     border-radius: 50px;
-    background-color: var(--fds-brand-grey-700);
+    background-color: var(--ds-color-neutral-4, #ced1d4);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--fds-brand-grey-900);
+    background-color: var(--ds-color-neutral-5, #bdc1c6);
   }
 </style>

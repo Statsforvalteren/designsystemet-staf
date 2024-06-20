@@ -1,22 +1,23 @@
 <script>
-  import CharacterCounter from '../CharacterCounter.svelte';
-  import { v4 as uuidv4 } from 'uuid';
+  import { ErrorMessage, Paragraph } from "$lib";
+  import { v4 as uuidv4 } from "uuid";
+  import CharacterCounter from "../CharacterCounter.svelte";
 
   /**
    * Label for the textfield.
    */
-  export let label = '';
+  export let label = "";
 
   /**
    * Description for the textfield.
    */
-  export let description = '';
+  export let description = "";
 
   /**
-   * Changes field size and paddings. Options are 'xsmall', 'small', 'medium', 'large'.
-   * @type {'xsmall' | 'small' | 'medium' | 'large'}
+   * Changes field size and paddings. Options are 'small', 'medium', 'large', 'sm', 'md', 'lg'.
+   * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   /**
    * Visually hides `label` and `description` (still available for screen readers).
@@ -29,11 +30,6 @@
   export let readOnly = false;
 
   /**
-   * Disables the field.
-   */
-  export let disabled = false;
-
-  /**
    * Value of the input field.
    */
   export let value;
@@ -41,7 +37,7 @@
   /**
    * Error message to display.
    */
-  export let error = '';
+  export let error = "";
 
   /**
    * Sets limit for number of characters.
@@ -54,210 +50,192 @@
   export let characterLimitLabel = null;
 
   let componentId = uuidv4();
+  let standardizedSize;
   let fontSizeClass;
 
   switch (size) {
-    case 'xsmall':
-    case 'small':
-    case 'medium':
-    case 'large':
-      fontSizeClass = `font-${size}`;
+    case "small":
+    case "sm":
+      standardizedSize = "sm";
+      fontSizeClass = "font--sm";
+      break;
+    case "medium":
+    case "md":
+      standardizedSize = "md";
+      fontSizeClass = "font--md";
+      break;
+    case "large":
+    case "lg":
+      standardizedSize = "lg";
+      fontSizeClass = "font--lg";
       break;
     default:
-      fontSizeClass = 'font-medium';
+      standardizedSize = "md";
       break;
   }
 
   // Computed class names for the component elements
-  let formFieldClasses = `form-field ${size} ${disabled ? 'disabled' : ''} ${
-    readOnly ? 'readonly' : ''
-  } ${$$props.class || ''} ${fontSizeClass}`;
-  let labelClasses = `label ${hideLabel ? 'visually-hidden' : ''}`;
-  let descriptionClasses = `description ${
-    hideLabel ? 'visually-hidden' : ''
+  let formFieldClasses = `ds-textarea ds-textarea--${standardizedSize} ${
+    error ? "ds-textarea--error" : ""
+  } ${$$props.class || ""} ${fontSizeClass}`;
+  let labelClasses = `ds-textarea__label ${hideLabel ? "ds-sr-only" : ""}`;
+  let descriptionClasses = `ds-textarea__description ${
+    hideLabel ? "ds-sr-only" : ""
   } ${fontSizeClass}`;
-  $: fieldClasses = `${error ? 'error' : ''}`;
-  let textareaClasses = `textarea ${size}`;
-  let errorMessageClasses = `error-message ${fontSizeClass}`;
+  let textareaClasses = `ds-textarea__input ds-focus ${fontSizeClass}`;
+  let errorMessageClasses = `ds-textarea__error-message ${fontSizeClass}`;
 </script>
 
-<div class={formFieldClasses}>
-  {#if label}
-    <label
-      for={`textarea-${componentId}`}
-      class={labelClasses}
-    >
-      {#if readOnly}
-        <!-- Replace the following span with padlock icon component -->
-        <span
-          aria-hidden
-          class="padlock-icon"
-        >
-          <svg
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            focusable="false"
-            role="img"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M12 2.25A4.75 4.75 0 0 0 7.25 7v2.25H7A1.75 1.75 0 0 0 5.25 11v9c0 .414.336.75.75.75h12a.75.75 0 0 0 .75-.75v-9A1.75 1.75 0 0 0 17 9.25h-.25V7A4.75 4.75 0 0 0 12 2.25Zm3.25 7V7a3.25 3.25 0 0 0-6.5 0v2.25h6.5ZM12 13a1.5 1.5 0 0 0-.75 2.8V17a.75.75 0 0 0 1.5 0v-1.2A1.5 1.5 0 0 0 12 13Z"
-              fill="currentColor"
-            />
-          </svg>
-        </span>
-      {/if}
-      {label}
-    </label>
-  {/if}
-  {#if description}
-    <p
-      id="description"
-      class={descriptionClasses}
-    >
-      {description}
-    </p>
-  {/if}
-  <div class={fieldClasses}>
+<Paragraph as="div" {size}>
+  <div class={formFieldClasses}>
+    {#if label}
+      <label for={`textarea-${componentId}`} class={labelClasses}>
+        {#if readOnly}
+          <span aria-hidden class="ds-textfield__readonly__icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1.5em"
+              height="1.5em"
+              fill="none"
+              viewBox="0 0 24 24"
+              focusable="false"
+              role="img"
+              ><path
+                fill="currentColor"
+                fill-rule="evenodd"
+                d="M7.25 7a4.75 4.75 0 0 1 9.5 0v2.25H17c.966 0 1.75.784 1.75 1.75v9a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75v-9c0-.966.784-1.75 1.75-1.75h.25zm1.5 0a3.25 3.25 0 0 1 6.5 0v2.25h-6.5zM7 10.75a.25.25 0 0 0-.25.25v8.25h10.5V11a.25.25 0 0 0-.25-.25zm3.5 3.75a1.5 1.5 0 1 1 2.25 1.3V17a.75.75 0 0 1-1.5 0v-1.2a1.5 1.5 0 0 1-.75-1.3"
+                clip-rule="evenodd"
+              /></svg
+            >
+          </span>
+        {/if}
+        <span>{label}</span>
+      </label>
+    {/if}
+    {#if description}
+      <Paragraph as="p" {size}>
+        <div id="description" class={descriptionClasses}>
+          {description}
+        </div>
+      </Paragraph>
+    {/if}
     <textarea
       bind:value
       on:input
       class={textareaClasses}
       id={`textarea-${componentId}`}
       aria-describedby="description"
-      readonly={readOnly}
-      {disabled}
       {...$$restProps}
     />
+    {#if characterLimit}
+      <CharacterCounter
+        maxCount={characterLimit}
+        {value}
+        id={`character-counter-${componentId}`}
+        {size}
+        label={characterLimitLabel}
+      />
+    {/if}
+    {#if error}
+      <div
+        class={errorMessageClasses}
+        aria-live="polite"
+        aria-relevant="additions removals"
+        id={`error-message-${componentId}`}
+      >
+        <ErrorMessage {size}>{error}</ErrorMessage>
+      </div>
+    {/if}
   </div>
-  {#if characterLimit}
-    <CharacterCounter
-      maxCount={characterLimit}
-      {value}
-      id={`character-counter-${componentId}`}
-      {size}
-      label={characterLimitLabel}
-    />
-  {/if}
-  {#if error}
-    <div
-      class={errorMessageClasses}
-      aria-live="polite"
-    >
-      {error}
-    </div>
-  {/if}
-</div>
+</Paragraph>
 
 <style>
-  .formField {
+  .ds-textarea {
     display: grid;
-    gap: var(--fds-spacing-2);
+    gap: var(--ds-spacing-2);
   }
 
-  .errorMessage:empty {
+  .ds-textarea__readonly-icon {
+    height: 1.2em;
+    width: 1.2em;
+  }
+
+  .ds-textarea__error-message:empty {
     display: none;
   }
 
-  .label {
+  .ds-textarea__label {
     min-width: min-content;
     display: inline-flex;
     flex-direction: row;
-    gap: var(--fds-spacing-1);
+    gap: var(--ds-spacing-1);
     align-items: center;
-    margin-bottom: var(--fds-spacing-3);
-    font-weight: 600;
-    line-height: 130%;
   }
 
-  .description {
-    color: var(--fds-semantic-text-neutral-subtle);
-    margin-top: calc(var(--fds-spacing-2) * -1);
-    margin-bottom: var(--fds-spacing-2);
+  .ds-textarea__description {
+    color: var(--ds-color-neutral-text-subtle);
+    margin-top: calc(var(--ds-spacing-2) * -1);
   }
 
-  .textarea {
-    font: inherit;
+  .ds-textarea__input {
+    font-family: inherit;
     position: relative;
     box-sizing: border-box;
     flex: 0 1 auto;
     min-height: 2.5em;
     width: 100%;
     appearance: none;
-    padding: var(--fds-spacing-3);
-    border: solid 1px var(--fds-semantic-border-action-dark);
-    border-radius: var(--fds-border_radius-medium);
+    padding: var(--ds-spacing-3);
+    border: solid 1px var(--ds-color-neutral-border-default);
+    border-radius: var(--ds-border-radius-md);
     resize: vertical;
+    background: var(--ds-color-neutral-background-default);
+    color: var(--ds-color-neutral-text-default);
   }
 
-  .textarea.xsmall,
-  .textarea.small {
-    padding: var(--fds-spacing-2);
+  .ds-textarea--sm .ds-textarea__input {
+    padding: var(--ds-spacing-2);
   }
 
-  .textarea.medium {
-    padding: var(--fds-spacing-3);
+  .ds-textarea--md .ds-textarea__input {
+    padding: var(--ds-spacing-3);
   }
 
-  .textarea.large {
-    padding: var(--fds-spacing-4);
+  .ds-textarea--lg .ds-textarea__input {
+    padding: var(--ds-spacing-4);
   }
 
-  .disabled {
-    opacity: 0.3;
+  .ds-textarea:has(.ds-textarea__input:disabled) {
+    opacity: var(--ds-disabled-opacity);
   }
 
-  .disabled .textarea {
+  .ds-textarea__input:disabled {
     cursor: not-allowed;
   }
 
-  .readonly .textarea {
-    background: var(--fds-semantic-surface-neutral-subtle);
-    border-color: var(--fds-semantic-border-neutral-default);
-    outline: none;
-    cursor: not-allowed;
+  .ds-textarea__input:read-only {
+    background: var(--ds-color-neutral-background-subtle);
+    border-color: var(--ds-color-neutral-border-strong);
   }
 
-  .error > .textarea:not(:focus-visible) {
-    border-color: var(--fds-semantic-border-danger-default, #e02e49);
-    box-shadow: inset 0 0 0 1px
-      var(--fds-semantic-border-danger-default, #e02e49);
+  .ds-textarea--error > .ds-textarea__input:not(:focus-visible) {
+    border-color: var(--ds-color-danger-border-default);
+    box-shadow: inset 0 0 0 1px var(--ds-color-danger-border-default);
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .textarea:not(:focus-visible, :disabled, :read-only):hover {
-      border-color: var(--fds-semantic-border-action-hover);
-      box-shadow: inset 0 0 0 1px var(--fds-semantic-border-action-hover);
+    .ds-textarea__input:not(:focus-visible, :disabled, [aria-disabled]):hover {
+      border-color: var(--ds-color-accent-border-strong);
+      box-shadow: inset 0 0 0 1px var(--ds-color-accent-border-strong);
     }
   }
-  .error-message {
-    margin: var(--fds-spacing-1, 4.5px) 0;
-    color: var(--fds-semantic-border-danger-default, #e02e49);
-  }
-  .font-xsmall {
-    font-size: 0.8125rem;
-  }
-  .font-small {
+  .font--sm {
     font-size: 0.9375rem;
   }
-  .font-medium {
+  .font--md {
     font-size: 1.125rem;
   }
-  .font-large {
+  .font--lg {
     font-size: 1.25rem;
-  }
-  .visually-hidden {
-    display: none;
-    visibility: hidden;
-  }
-  .padlock-icon {
-    grid-area: label;
-    position: relative;
-    top: 1px;
-    scale: 1.4;
   }
 </style>

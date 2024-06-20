@@ -1,27 +1,27 @@
 <script>
   export let label = defaultLabel;
-  export let srLabel = '';
+  export let srLabel = "";
   export let maxCount;
   export let value;
   export let id;
-  export let size = 'medium';
+  export let size = "medium";
 
   let fontSizeClass;
   switch (size) {
-    case 'xsmall':
-      fontSizeClass = 'font-xsmall';
+    case "small":
+    case "sm":
+      fontSizeClass = "font-small";
       break;
-    case 'small':
-      fontSizeClass = 'font-small';
+    case "medium":
+    case "md":
+      fontSizeClass = "font-medium";
       break;
-    case 'medium':
-      fontSizeClass = 'font-medium';
-      break;
-    case 'large':
-      fontSizeClass = 'font-large';
+    case "large":
+    case "lg":
+      fontSizeClass = "font-large";
       break;
     default:
-      fontSizeClass = 'font-medium';
+      fontSizeClass = "font-medium";
       break;
   }
 
@@ -40,23 +40,20 @@
   $: finalSrLabel = srLabel || defaultSrLabel(maxCount);
 </script>
 
-<span
-  class={`visuallyHidden ${fontSizeClass}`}
-  {id}
->
+<span class={`visuallyHidden ${fontSizeClass}`} {id}>
   {finalSrLabel}
 </span>
 
 <span
-  class={`${hasExceededLimit ? 'error' : ''} ${fontSizeClass}`}
-  aria-live={hasExceededLimit ? 'polite' : 'off'}
+  class={`${hasExceededLimit ? "error" : ""} ${fontSizeClass}`}
+  aria-live={hasExceededLimit ? "polite" : "off"}
 >
   {label ? label(currentCount) : defaultLabel(currentCount)}
 </span>
 
 <style>
   .error {
-    color: var(--fds-semantic-border-danger-default, #e02e49);
+    color: var(--ds-color-danger-text-subtle);
   }
 
   .visuallyHidden {
@@ -68,16 +65,13 @@
     clip: rect(1px, 1px, 1px, 1px);
   }
 
-  .font-xsmall {
-    font-size: 0.8125rem;
-  }
   .font-small {
-    font-size: 0.9375rem;
+    font-size: 14px;
   }
   .font-medium {
-    font-size: 1.125rem;
+    font-size: 16px;
   }
   .font-large {
-    font-size: 1.25rem;
+    font-size: 18px;
   }
 </style>

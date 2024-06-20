@@ -1,28 +1,30 @@
 <script>
-  import CharacterCounter from '../CharacterCounter.svelte';
-  import { v4 as uuidv4 } from 'uuid';
+  import { ErrorMessage, Paragraph } from "$lib";
+  import { v4 as uuidv4 } from "uuid";
+  import CharacterCounter from "../CharacterCounter.svelte";
 
   /**
    * Label for the textfield.
    */
-  export let label = '';
+  export let label = "";
 
   /**
    * Description for the textfield.
    */
-  export let description = '';
+  export let description = "";
 
   /**
-   * Changes field size and paddings. Options are 'xsmall', 'small', 'medium', 'large'.
-   * @type {'xsmall' | 'small' | 'medium' | 'large'}
+   * Changes field size and paddings. Options are 'small', 'medium', 'large', 'sm', 'md', 'lg'.
+   * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   /**
    * Supported `input` types.
-   * @type {'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url'}
+   * @type {'date' | 'datetime-local' | 'email' | 'file' | 'month' | 'number'
+    | 'password' | 'search' | 'tel' | 'text' | 'time' | 'url' | 'week'}
    */
-  export let type = 'text';
+  export let type = "text";
 
   /**
    * Visually hides `label` and `description` (still available for screen readers).
@@ -35,11 +37,6 @@
   export let readOnly = false;
 
   /**
-   * Disables the field.
-   */
-  export let disabled = false;
-
-  /**
    * Value of the input field.
    */
   export let value;
@@ -47,17 +44,17 @@
   /**
    * Error message to display.
    */
-  export let error = '';
+  export let error = "";
 
   /**
    * Prefix for field.
    */
-  export let prefix = '';
+  export let prefix = "";
 
   /**
    * Suffix for field.
    */
-  export let suffix = '';
+  export let suffix = "";
 
   /**
    * Sets limit for number of characters.
@@ -70,276 +67,285 @@
   export let characterLimitLabel = null;
 
   let componentId = uuidv4();
+  let standardizedSize;
   let fontSizeClass;
 
   switch (size) {
-    case 'xsmall':
-    case 'small':
-    case 'medium':
-    case 'large':
-      fontSizeClass = `font-${size}`;
+    case "small":
+    case "sm":
+      standardizedSize = "sm";
+      fontSizeClass = "font--sm";
+      break;
+    case "medium":
+    case "md":
+      standardizedSize = "md";
+      fontSizeClass = "font--md";
+      break;
+    case "large":
+    case "lg":
+      standardizedSize = "lg";
+      fontSizeClass = "font--lg";
       break;
     default:
-      fontSizeClass = 'font-medium';
+      standardizedSize = "md";
       break;
   }
 
   // Computed class names for the component elements
-  let formFieldClasses = `form-field ${size} ${disabled ? 'disabled' : ''} ${
-    readOnly ? 'readonly' : ''
-  } ${$$props.class || ''} ${fontSizeClass}`;
-  let labelClasses = `label ${hideLabel ? 'visually-hidden' : ''}`;
-  let descriptionClasses = `description ${
-    hideLabel ? 'visually-hidden' : ''
+  let formFieldClasses = `ds-textfield ds-textfield--${standardizedSize} ${
+    error ? "ds-textfield--error" : ""
+  } ${readOnly ? "readonly" : ""} ${$$props.class || ""} ${fontSizeClass}`;
+  let labelClasses = `ds-textfield__label ${hideLabel ? "ds-sr-only" : ""}`;
+  let descriptionClasses = `ds-textfield__description ${
+    hideLabel ? "ds-sr-only" : ""
   } ${fontSizeClass}`;
-  $: fieldClasses = `field ${error ? 'error' : ''}`;
-  let inputClasses = `input ${size} ${prefix ? 'input-prefix' : ''} ${
-    suffix ? 'input-suffix' : ''
-  }`;
-  let errorMessageClasses = `error-message ${fontSizeClass}`;
+  let fieldClasses = "ds-textfield__field";
+  let inputClasses = `ds-textfield__input ds-focus ${
+    prefix ? "ds-textfield__input--with-prefix" : ""
+  } ${suffix ? "ds-textfield__input--with-suffix" : ""} ${fontSizeClass}`;
+  let errorMessageClasses = `ds-textfield__error-message ${fontSizeClass}`;
 </script>
 
-<div class={formFieldClasses}>
-  {#if label}
-    <label
-      for={`input-field-${componentId}`}
-      class={labelClasses}
-    >
-      {#if readOnly}
-        <span
-          aria-hidden
-          class="padlock-icon"
-        >
-          <svg
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            focusable="false"
-            role="img"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M12 2.25A4.75 4.75 0 0 0 7.25 7v2.25H7A1.75 1.75 0 0 0 5.25 11v9c0 .414.336.75.75.75h12a.75.75 0 0 0 .75-.75v-9A1.75 1.75 0 0 0 17 9.25h-.25V7A4.75 4.75 0 0 0 12 2.25Zm3.25 7V7a3.25 3.25 0 0 0-6.5 0v2.25h6.5ZM12 13a1.5 1.5 0 0 0-.75 2.8V17a.75.75 0 0 0 1.5 0v-1.2A1.5 1.5 0 0 0 12 13Z"
-              fill="currentColor"
-            />
-          </svg>
-        </span>
-      {/if}
-      {label}
-    </label>
-  {/if}
-  {#if description}
-    <p
-      id="description"
-      class={descriptionClasses}
-    >
-      {description}
-    </p>
-  {/if}
-  <div class={fieldClasses}>
-    {#if prefix}
-      <div
-        class="adornment prefix"
-        aria-hidden="true"
-      >
-        {prefix}
-      </div>
+<Paragraph as="div" {size}>
+  <div class={formFieldClasses}>
+    {#if label}
+      <label for={`input-field-${componentId}`} class={labelClasses}>
+        {#if readOnly}
+          <span aria-hidden class="ds-textfield__readonly__icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1.5em"
+              height="1.5em"
+              fill="none"
+              viewBox="0 0 24 24"
+              focusable="false"
+              role="img"
+              ><path
+                fill="currentColor"
+                fill-rule="evenodd"
+                d="M7.25 7a4.75 4.75 0 0 1 9.5 0v2.25H17c.966 0 1.75.784 1.75 1.75v9a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75v-9c0-.966.784-1.75 1.75-1.75h.25zm1.5 0a3.25 3.25 0 0 1 6.5 0v2.25h-6.5zM7 10.75a.25.25 0 0 0-.25.25v8.25h10.5V11a.25.25 0 0 0-.25-.25zm3.5 3.75a1.5 1.5 0 1 1 2.25 1.3V17a.75.75 0 0 1-1.5 0v-1.2a1.5 1.5 0 0 1-.75-1.3"
+                clip-rule="evenodd"
+              /></svg
+            >
+          </span>
+        {/if}
+        <span>{label}</span>
+      </label>
     {/if}
-    <input
-      bind:value
-      on:input
-      class={inputClasses}
-      id={`input-field-${componentId}`}
-      {...{ type }}
-      aria-describedby="description"
-      readonly={readOnly}
-      {disabled}
-      {...$$restProps}
-    />
-    {#if suffix}
+    {#if description}
+      <Paragraph as="p" {size}>
+        <div id="description" class={descriptionClasses}>
+          {description}
+        </div>
+      </Paragraph>
+    {/if}
+    <div class={fieldClasses}>
+      {#if prefix}
+        <div
+          class="ds-textfield__adornment ds-textfield__prefix"
+          aria-hidden="true"
+        >
+          {prefix}
+        </div>
+      {/if}
+      <input
+        bind:value
+        on:input
+        class={inputClasses}
+        id={`input-field-${componentId}`}
+        {...{ type }}
+        aria-describedby="description"
+        readonly={readOnly}
+        {...$$restProps}
+      />
+      {#if suffix}
+        <div
+          class="ds-textfield__adornment ds-textfield__suffix"
+          aria-hidden="true"
+        >
+          {suffix}
+        </div>
+      {/if}
+    </div>
+    {#if characterLimit}
+      <CharacterCounter
+        maxCount={characterLimit}
+        {value}
+        id={`character-counter-${componentId}`}
+        {size}
+        label={characterLimitLabel}
+      />
+    {/if}
+    {#if error}
       <div
-        class="adornment suffix"
-        aria-hidden="true"
+        class={errorMessageClasses}
+        aria-live="polite"
+        aria-relevant="additions removals"
+        id={`error-message-${componentId}`}
       >
-        {suffix}
+        <ErrorMessage {size}>{error}</ErrorMessage>
       </div>
     {/if}
   </div>
-  {#if characterLimit}
-    <CharacterCounter
-      maxCount={characterLimit}
-      {value}
-      id={`character-counter-${componentId}`}
-      {size}
-      label={characterLimitLabel}
-    />
-  {/if}
-  {#if error}
-    <div
-      class={errorMessageClasses}
-      aria-live="polite"
-    >
-      {error}
-    </div>
-  {/if}
-</div>
+</Paragraph>
 
 <style>
-  .formField {
+  .ds-textfield {
     display: grid;
-    gap: var(--fds-spacing-2);
+    gap: var(--ds-spacing-2);
   }
 
-  .adornment {
-    color: var(--fds-semantic-border-neutral-default);
-    background: var(--fds-semantic-surface-neutral-subtle);
-    padding: var(--fds-spacing-3);
-    border-radius: var(--fds-border_radius-medium);
-    border: solid 1px var(--fds-semantic-border-neutral-default);
+  .ds-textfield__adornment {
+    color: var(--ds-color-neutral-text-subtle);
+    background: var(--ds-color-neutral-background-subtle);
+    padding: 9px var(--ds-spacing-4);
+    border-radius: var(--ds-border-radius-md);
+    border: solid 1px var(--ds-color-neutral-border-default);
     box-sizing: border-box;
     display: inline-block;
   }
 
-  .label {
-    min-width: min-content;
-    display: inline-flex;
-    flex-direction: row;
-    gap: var(--fds-spacing-1);
-    align-items: center;
-    margin-bottom: var(--fds-spacing-3);
-    font-weight: 600;
-    line-height: 130%;
-  }
-
-  .description {
-    color: var(--fds-semantic-text-neutral-subtle);
-    margin-top: calc(var(--fds-spacing-2) * -1);
-    margin-bottom: var(--fds-spacing-2);
-  }
-
-  .input {
-    font: inherit;
+  .ds-textfield__input {
+    font-family: inherit;
     position: relative;
     box-sizing: border-box;
     flex: 0 1 auto;
-    min-height: 2.5em;
     width: 100%;
     appearance: none;
-    padding: 0 var(--fds-spacing-3);
-    border: solid 1px var(--fds-semantic-border-action-dark);
-    border-radius: var(--fds-border_radius-medium);
+    padding: 0 var(--ds-spacing-3);
+    border: solid 1px var(--ds-color-neutral-border-default);
+    background: var(--ds-color-neutral-background-default);
+    color: var(--ds-color-neutral-text-default);
+    border-radius: var(--ds-border-radius-md);
   }
 
-  .input.xsmall,
-  .input.small {
-    padding: 0 var(--fds-spacing-2);
-  }
-
-  .input.medium {
-    padding: 0 var(--fds-spacing-3);
-  }
-
-  .input.large {
-    padding: 0 var(--fds-spacing-4);
-  }
-
-  .disabled {
-    opacity: 0.3;
-  }
-
-  .disabled .input {
+  .ds-textfield__input:disabled {
     cursor: not-allowed;
   }
 
-  .readonly .input {
-    background: var(--fds-semantic-surface-neutral-subtle);
-    border-color: var(--fds-semantic-border-neutral-default);
-    outline: none;
-    cursor: not-allowed;
+  .ds-textfield--readonly .ds-textfield__input {
+    background: var(--ds-color-neutral-background-subtle);
+    border-color: var(--ds-color-neutral-border-strong);
   }
 
-  .error > .input:not(:focus-visible) {
-    border-color: var(--fds-semantic-border-danger-default, #e02e49);
-    box-shadow: inset 0 0 0 1px
-      var(--fds-semantic-border-danger-default, #e02e49);
+  .ds-textfield__field {
+    display: flex;
+    align-items: stretch;
+    border-radius: var(--ds-border-radius-md);
+  }
+
+  .ds-textfield__field > *:first-child {
+    border-top-left-radius: var(--ds-border-radius-md);
+    border-bottom-left-radius: var(--ds-border-radius-md);
+  }
+
+  .ds-textfield__field > *:last-child {
+    border-top-right-radius: var(--ds-border-radius-md);
+    border-bottom-right-radius: var(--ds-border-radius-md);
+  }
+
+  .ds-textfield--sm .ds-textfield__adornment {
+    padding: var(--ds-sizing-2) var(--ds-spacing-3);
+  }
+
+  .ds-textfield--md .ds-textfield__adornment {
+    padding: 0.65rem var(--ds-spacing-4);
+  }
+
+  .ds-textfield--lg .ds-textfield__adornment {
+    padding: 0.85rem var(--ds-spacing-5);
+  }
+
+  .ds-textfield--sm .ds-textfield__field {
+    height: var(--ds-sizing-10);
+  }
+
+  .ds-textfield--md .ds-textfield__field {
+    height: var(--ds-sizing-12);
+  }
+
+  .ds-textfield--lg .ds-textfield__field {
+    height: var(--ds-sizing-14);
+  }
+
+  .ds-textfield--sm .ds-textfield__input {
+    padding: 0 var(--ds-spacing-2);
+  }
+
+  .ds-textfield--md .ds-textfield__input {
+    padding: 0 var(--ds-spacing-3);
+  }
+
+  .ds-textfield--lg .ds-textfield__input {
+    padding: 0 var(--ds-spacing-4);
+  }
+
+  .ds-textfield__label {
+    min-width: min-content;
+    display: inline-flex;
+    flex-direction: row;
+    gap: var(--ds-spacing-1);
+    align-items: center;
+  }
+
+  .ds-textfield__description {
+    color: var(--ds-color-neutral-text-subtle);
+    margin-top: calc(var(--ds-spacing-2) * -1);
+  }
+
+  .ds-textfield:has(.ds-textfield__input:disabled) {
+    opacity: var(--ds-disabled-opacity);
+  }
+
+  .ds-textfield--error .ds-textfield__input:not(:focus-visible) {
+    border-color: var(--ds-color-danger-border-default);
+    box-shadow: inset 0 0 0 1px var(--ds-color-danger-border-default);
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .input:not(:focus-visible, :disabled, :read-only):hover {
-      box-shadow: inset 0 0 0 1px var(--fds-semantic-border-action-hover);
-      border-color: var(--fds-semantic-border-action-hover);
+    .ds-textfield__input:not(:focus-visible, :disabled, [aria-disabled]):hover {
+      border-color: var(--ds-color-accent-border-strong);
+      box-shadow: inset 0 0 0 1px var(--ds-color-accent-border-strong);
     }
   }
 
-  .inputPrefix {
+  .ds-textfield__input--with-prefix {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  .inputSuffix {
+  .ds-textfield__input--with-suffix {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  .prefix {
+  .ds-textfield__prefix {
     border-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  .suffix {
+  .ds-textfield__suffix {
     border-left: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  .field {
-    display: flex;
-    align-items: stretch;
-    border-radius: var(--fds-border_radius-medium);
+  .ds-textfield__readonly__icon {
+    height: 1.2em;
+    width: 1.2em;
   }
 
-  .field > *:first-child {
-    border-top-left-radius: var(--fds-border_radius-medium);
-    border-bottom-left-radius: var(--fds-border_radius-medium);
-  }
-
-  .field > *:last-child {
-    border-top-right-radius: var(--fds-border_radius-medium);
-    border-bottom-right-radius: var(--fds-border_radius-medium);
-  }
-
-  .errorMessage:empty {
+  .ds-textfield__error-message:empty {
     display: none;
   }
-
-  .error-message {
-    margin: var(--fds-spacing-1, 4.5px) 0;
-    color: var(--fds-semantic-border-danger-default, #e02e49);
-  }
-  .font-xsmall {
-    font-size: 0.8125rem;
-  }
-  .font-small {
+  .font--sm {
     font-size: 0.9375rem;
   }
-  .font-medium {
+  .font--md {
     font-size: 1.125rem;
   }
-  .font-large {
+  .font--lg {
     font-size: 1.25rem;
-  }
-  .visually-hidden {
-    display: none;
-    visibility: hidden;
-  }
-  .padlock-icon {
-    grid-area: label;
-    position: relative;
-    top: 1px;
-    scale: 1.4;
   }
 </style>

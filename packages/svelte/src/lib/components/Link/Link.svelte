@@ -6,10 +6,10 @@
   export let as = 'a';
 
   /**
-   * Inverts the color of the link. Use this on dark backgrounds.
-   * @type {boolean}
+   * The color of the link. Default is 'accent'.
+   * @type {'accent' | 'neutral'}
    */
-  export let inverted = false;
+  export let color = 'accent';
 
   /**
    * The URL the link points to. Only used if `as` is 'a'.
@@ -17,70 +17,76 @@
    */
   export let href = '';
 
-  $: computedClass = `link ${inverted ? 'inverted' : ''} ${
-    $$props.class || ''
-  }`;
+  $: computedClass = `ds-link ds-link--${color} ${$$props.class || ''}`;
 </script>
 
 {#if as === 'a'}
-  <a
-    class={computedClass}
-    {href}
-    {...$$restProps}
-    on:click
-  >
+  <a class={computedClass} {href} {...$$restProps} on:click>
     <slot />
   </a>
 {:else if as === 'button'}
-  <button
-    class={computedClass}
-    {...$$restProps}
-  >
+  <button class={computedClass} {...$$restProps}>
     <slot />
   </button>
 {/if}
 
 <style lang="scss">
-  .link {
-    --fdsc-link-hover-underline-color: var(
-      --fds-semantic-text-action-primary-default
-    );
+  .ds-link {
+    --dsc-link-color: var(--ds-color-accent-text-subtle);
+    --dsc-link-color-hover: var(--ds-color-accent-text-default);
+    --dsc-link-color-active: var(--ds-color-accent-text-default);
+    --dsc-link-color-active-background: var(--ds-color-accent-surface-default);
+    --dsc-link-color-visited: var(--ds-global-purple-12);
+    --dsc-link-color-focus: var(--ds-focus-inner);
+    --dsc-link-color-focus-background: var(--ds-focus-outer);
 
-    color: var(--fds-semantic-text-action-primary-default);
+    position: relative;
+    color: var(--dsc-link-color);
     cursor: pointer;
     text-decoration: underline;
     text-decoration-thickness: max(1px, 0.0625rem);
-    text-underline-offset: max(4px, 0.25rem);
+    text-underline-offset: max(5px, 0.25rem);
     display: inline-flex;
     align-items: center;
-    gap: var(--fds-spacing-1);
+    gap: var(--ds-spacing-1);
   }
 
-  .link:visited {
-    color: var(--fds-semantic-text-visited-default);
+  .ds-link--accent {
+    --dsc-link-color: var(--ds-color-accent-text-subtle);
+    --dsc-link-color-hover: var(--ds-color-accent-text-default);
+    --dsc-link-color-active: var(--ds-color-accent-text-default);
+    --dsc-link-color-active-background: var(--ds-color-accent-surface-default);
+    --dsc-link-color-visited: var(--ds-global-purple-12);
+  }
+
+  .ds-link--neutral {
+    --dsc-link-color: var(--ds-color-neutral-text-default);
+    --dsc-link-color-hover: var(--ds-color-neutral-text-subtle);
+    --dsc-link-color-active: var(--ds-color-neutral-text-subtle);
+    --dsc-link-color-active-background: var(--ds-color-neutral-surface-default);
+    --dsc-link-color-visited: var(--ds-global-purple-12);
+  }
+
+  .ds-link:visited {
+    color: var(--dsc-link-color-visited);
     text-decoration: none;
   }
 
-  .link:hover {
-    color: var(--fds-semantic-text-action-primary-default);
+  .ds-link:hover {
+    color: var(--dsc-link-color-hover);
     text-decoration-thickness: max(2px, 0.125rem, 0.12em);
   }
 
-  .link:active,
-  .link:focus {
-    background: var(--fds-semantic-border-focus-outline);
-    box-shadow: 0 max(3px, 0.1875rem, 0.18em)
-      var(--fds-semantic-border-focus-boxshadow);
-    color: var(--fds-semantic-text-action-primary-active);
+  .ds-link:focus-visible {
+    color: var(--dsc-link-color-focus);
+    background: var(--dsc-link-color-focus-background);
     outline: none;
-    text-decoration: none;
   }
 
-  .link.inverted:not(:focus, :active),
-  .link.inverted:not(:focus, :active):hover,
-  .link.inverted:not(:focus, :active):visited {
-    --fdsc-link-hover-underline-color: white;
-
-    color: white;
+  .ds-link:active {
+    color: var(--dsc-link-color-active);
+    background: var(--dsc-link-color-active-background);
+    border-radius: var(--ds-border-radius-md);
+    outline: none;
   }
 </style>

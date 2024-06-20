@@ -1,6 +1,6 @@
 <script>
-  import Cross from './Cross.svelte';
-  import ClearButton from './ClearButton.svelte';
+  import Cross from "./Cross.svelte";
+  import ClearButton from "./ClearButton.svelte";
 
   /**
    * Represents an option in a multi-select dropdown.
@@ -25,29 +25,29 @@
    * ARIA label for the delete button.
    * @type {string}
    */
-  export let deleteButtonLabel = 'Slett';
+  export let deleteButtonLabel = "Slett";
 
   export let disabled;
   //svelte-ignore unused-export-let
-  export let size = 'medium';
+  export let size = "medium";
 </script>
 
 <span
-  class={`multiSelectedOption ${disabled ? 'disabled' : ''} ${
-    readOnly ? 'read-only' : ''
+  class={`multiSelectedOption ${disabled ? "disabled" : ""} ${
+    readOnly ? "read-only" : ""
   }`}
 >
   <span class="optionLabel">{option.label}</span>
   <span
-    class={`delete-button-container ${disabled ? 'disabled' : ''} ${
-      readOnly ? 'read-only' : ''
+    class={`delete-button-container ${disabled ? "disabled" : ""} ${
+      readOnly ? "read-only" : ""
     }`}
   >
     <button
       on:click={disabled || readOnly ? null : () => removeOption(option)}
       aria-label={`${deleteButtonLabel} ${option.label}`}
-      class={`delete-button ${disabled ? 'disabled' : ''} ${
-        readOnly ? 'read-only' : ''
+      class={`delete-button ${disabled ? "disabled" : ""} ${
+        readOnly ? "read-only" : ""
       }`}><Cross /></button
     >
   </span>
@@ -58,10 +58,10 @@
     display: flex;
     align-items: center;
     color: #fff;
-    border-radius: var(--border-radius-full, 9999px);
-    background: var(--fds-semantic-surface-action-active, #00315d);
-    padding: var(--fds-spacing-1) var(--fds-spacing-2);
-    gap: var(--fds-spacing-2);
+    border-radius: var(--ds-border-radius-full, 9999px);
+    background: var(--ds-color-accent-9);
+    padding: var(--ds-spacing-1) var(--ds-spacing-2);
+    gap: var(--ds-spacing-2);
     --interactive-element-cursor: pointer;
     position: relative;
     &.disabled {
@@ -71,7 +71,7 @@
 
   .optionLabel {
     flex-grow: 1;
-    padding-right: var(--fds-spacing-6);
+    padding-right: var(--ds-spacing-6);
   }
 
   .delete-button-container {
@@ -83,12 +83,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-right: var(--fds-spacing-2);
-    border-radius: 0 var(--border-radius-full, 9999px)
-      var(--border-radius-full, 9999px) 0;
+    padding-right: var(--ds-spacing-2);
+    border-radius: 0 var(--ds-border-radius-full, 9999px)
+      var(--ds-border-radius-full, 9999px) 0;
 
     &:hover {
-      background-color: var(--colors-red-500);
+      background-color: var(--ds-global-red-12);
       cursor: pointer;
     }
     &.disabled {
@@ -109,12 +109,8 @@
   .delete-button {
     --delete-cross-box-size: 27px;
     --delete-cross-size: 12px;
-
-    --delete-cross-color: var(--colors-blue-900);
-    --delete-cross-color-disabled: #022f5180;
     color: #fff;
     background: transparent;
-    border-radius: var(--interactive-components-border-radius-normal);
     border: none;
     cursor: var(--interactive-element-cursor);
     height: var(--delete-cross-box-size);

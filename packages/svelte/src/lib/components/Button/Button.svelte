@@ -5,22 +5,22 @@
    */
 
   /**
-   * Specify which variant to use. Options are 'filled', 'outline', 'quiet'.
-   * @type {'filled' | 'outline' | 'quiet'}
+   * Specify which variant to use. Options are 'primary' | 'secondary' | 'tertiary'.
+   * @type {'primary' | 'secondary' | 'tertiary'}
    */
-  export let variant = 'filled';
+  export let variant = "primary";
 
   /**
-   * Specify which color palette to use. Options are 'first', 'second', 'success', 'danger', 'inverted'.
-   * @type {'first' | 'second' | 'success' | 'danger' | 'inverted'}
+   * Specify which color palette to use. Options are 'accent' | 'neutral' | 'danger'.
+   * @type {'accent' | 'neutral' | 'danger'}
    */
-  export let color = 'first';
+  export let color = "accent";
 
   /**
-   * Size of the button. Options are 'small', 'medium', 'large'.
-   * @type {'small' | 'medium' | 'large'}
+   * Size of the button. Options are 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'.
+   * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = 'medium';
+  export let size = "medium";
 
   /**
    * If `Button` should fill full width of its container.
@@ -28,415 +28,286 @@
   export let fullWidth = false;
 
   /**
-   * Enable dashed border for `outline` variant.
-   */
-  export let dashedBorder = false;
-
-  /**
    * Icon position inside Button. Options are 'right' or 'left'.
    * @type {'right' | 'left'}
    */
-  export let iconPlacement = 'left';
+  export let iconPlacement = "left";
 
-  const computedClass = `button ${size} ${variant} ${color} ${
-    fullWidth ? 'full-width' : ''
-  } ${dashedBorder ? 'dashed-border' : ''} ${
-    $$slots.icon !== undefined ? 'only-icon' : ''
-  } ${$$props.class || ''}`;
+  /**
+   * Custom class to be added to the component.
+   */
+  export let className = "";
+
+  let standardizedSize;
+
+  switch (size) {
+    case "small":
+    case "sm":
+      standardizedSize = "sm";
+      break;
+    case "medium":
+    case "md":
+      standardizedSize = "md";
+      break;
+    case "large":
+    case "lg":
+      standardizedSize = "lg";
+      break;
+    default:
+      standardizedSize = "md";
+      break;
+  }
+
+  const computedClass = `ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${
+    fullWidth ? "ds-btn--full-width" : ""
+  } ${className}`;
 </script>
 
-<button
-  on:click
-  class={computedClass}
-  {...$$restProps}
->
-  {#if iconPlacement === 'left'}
-    <slot name="icon" />
-  {/if}
-  <slot />
-  {#if iconPlacement === 'right'}
-    <slot name="icon" />
-  {/if}
+<button on:click class={computedClass} {...$$restProps}>
+  <div
+    style="display: flex; gap: 0.5rem; align-items: center; justify-content: center;"
+    class={`${$$slots.icon !== undefined ? "ds-btn--icon-only" : ""}`}
+  >
+    {#if $$slots.icon !== undefined && iconPlacement === "left"}
+      <slot name="icon" />
+    {/if}
+    <slot />
+    {#if $$slots.icon !== undefined && iconPlacement === "right"}
+      <slot name="icon" />
+    {/if}
+  </div>
 </button>
 
 <style>
-  .button {
-    --fdsc-border-radius: var(--fds-border_radius-interactive);
-    --fdsc-button-size: var(--fds-component-mode-height-small);
-    --fdsc-button-padding: var(--fds-spacing-1) var(--fds-spacing-2);
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-action-first-on_action);
-    --fdsc-icon-size: var(--fds-sizing-4);
+  .ds-btn {
+    --dsc-btn-padding: var(--ds-spacing-2) var(--ds-spacing-4);
+    --dsc-btn-primary-background: var(--ds-color-accent-base-default);
+    --dsc-btn-primary-hover-background: var(--ds-color-accent-base-hover);
+    --dsc-btn-primary-active-background: var(--ds-color-accent-base-active);
+    --dsc-btn-primary-hover-color: var(--ds-color-accent-contrast-default);
+    --dsc-btn-secondary-color: var(--ds-color-accent-text-default);
+    --dsc-btn-secondary-hover-color: var(--ds-color-accent-text-default);
+    --dsc-btn-secondary-active-color: var(--ds-color-accent-text-default);
+    --dsc-btn-secondary-border-color: var(--ds-color-accent-border-strong);
+    --dsc-btn-secondary-hover-background: var(--ds-color-accent-surface-hover);
+    --dsc-btn-secondary-active-background: var(--ds-color-accent-surface-hover);
+    --dsc-btn-tertiary-color: var(--ds-color-accent-text-default);
+    --dsc-btn-tertiary-hover-color: var(--ds-color-accent-text-default);
+    --dsc-btn-tertiary-active-color: var(--ds-color-accent-text-default);
+    --dsc-btn-tertiary-hover-background: var(--ds-color-accent-surface-hover);
+    --dsc-btn-tertiary-active-background: var(--ds-color-accent-surface-hover);
 
     display: flex;
     align-items: center;
-    border-radius: var(--fdsc-border-radius);
-    border: var(--fds-border_width-default) solid transparent;
-    color: var(--fdsc-font-and-icon-color);
-    fill: var(--fdsc-font-and-icon-color);
-    height: var(--fdsc-button-size);
-    padding: var(--fdsc-button-padding);
+    border: var(--ds-border-width-default) solid transparent;
+    background-color: var(--dsc-btn-primary-background);
+    color: var(--dsc-btn-primary-color);
+    min-width: 2.5em;
+    padding: var(--dsc-btn-padding);
     box-sizing: border-box;
     cursor: pointer;
     font-family: inherit;
     justify-content: center;
     text-align: center;
-    letter-spacing: var(--typography-default-letter-spacing);
     text-decoration: none;
     position: relative;
+    border-radius: var(--ds-border-radius-md);
+    min-height: var(--ds-sizing-10);
   }
 
-  .button.small::before {
+  .ds-btn {
+    & > svg {
+      overflow: visible;
+    }
+  }
+
+  .ds-btn:disabled,
+  .ds-btn[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: var(--ds-disabled-opacity);
+  }
+
+  .ds-btn--sm {
+    --dsc-btn-padding: var(--ds-spacing-2) var(--ds-spacing-3);
+
+    gap: var(--ds-sizing-1);
+    font: var(--ds-typography-paragraph-short-sm);
+    font-family: inherit;
+    min-height: var(--ds-sizing-10);
+  }
+
+  .ds-btn--sm::before {
     position: absolute;
     top: 0;
     left: 0;
     width: auto;
     min-height: auto;
-    content: '';
+    content: "";
   }
 
-  .button.small::after {
+  .ds-btn--sm::after {
     position: absolute;
     top: -5px;
     left: 0;
     width: 100%;
     height: 44px;
-    content: '';
+    content: "";
   }
 
-  .button:disabled,
-  .button[aria-disabled='true'] {
-    cursor: auto;
-    opacity: var(--fds-opacity-disabled);
-  }
+  .ds-btn--md {
+    --dsc-btn-padding: var(--ds-spacing-2) var(--ds-spacing-4);
 
-  .icon {
-    display: inline-block;
-    height: var(--fdsc-icon-size);
-    width: var(--fdsc-icon-size);
-  }
-
-  .button.small {
-    --fdsc-button-size: var(--fds-component-mode-height-small);
-    --fdsc-button-padding: var(--fds-spacing-1) var(--fds-spacing-2);
-    --fdsc-icon-size: var(--fds-sizing-4);
-
-    gap: var(--fds-sizing-2);
-    min-width: var(--fdsc-button-size);
-    font: var(--fds-typography-paragraph-small);
+    gap: var(--ds-sizing-2);
+    font: var(--ds-typography-paragraph-short-md);
     font-family: inherit;
+    min-height: var(--ds-sizing-12);
   }
 
-  .button.medium {
-    --fdsc-button-size: var(--fds-component-mode-height-medium);
-    --fdsc-button-padding: var(--fds-spacing-2) var(--fds-spacing-3);
-    --fdsc-icon-size: var(--fds-sizing-6);
+  .ds-btn--lg {
+    --dsc-btn-padding: var(--ds-spacing-3) var(--ds-spacing-5);
 
-    gap: var(--fds-sizing-3);
-    min-width: var(--fdsc-button-size);
-    font: var(--fds-typography-paragraph-medium);
+    gap: var(--ds-sizing-2);
+    font: var(--ds-typography-paragraph-short-lg);
     font-family: inherit;
+    min-height: var(--ds-sizing-14);
   }
 
-  .button.large {
-    --fdsc-button-size: var(--fds-component-mode-height-large);
-    --fdsc-button-padding: var(--fds-spacing-2) var(--fds-spacing-3);
-    --fdsc-icon-size: var(--fds-sizing-8);
-
-    gap: var(--fds-sizing-3);
-    min-width: var(--fdsc-button-size);
-    font: var(--fds-typography-paragraph-large);
-    font-family: inherit;
-  }
-
-  .button.fullWidth {
+  .ds-btn--full-width {
     width: 100%;
   }
 
-  .button.dashedBorder {
-    border-style: dashed;
-  }
-
-  .button.outline {
+  .ds-btn--secondary,
+  .ds-btn--tertiary {
     background-color: transparent;
   }
 
-  .button.quiet {
-    padding: 0 var(--fds-spacing-2);
-    background-color: transparent;
-  }
-
-  .button.onlyIcon {
-    padding: calc(
-      (var(--fdsc-button-size) - var(--fdsc-icon-size)) / 2 -
-        var(--fds-border_width-default)
-    );
+  .ds-btn--icon-only {
+    --dsc-btn-padding: 0;
   }
 
   /* Only use hover for non-touch devices to prevent sticky-hovering */
   @media (hover: hover) and (pointer: fine) {
-    .button.filled.first:not([aria-disabled='true'], :disabled):hover {
-      background: var(--fds-semantic-surface-action-first-hover);
+    .ds-btn--primary:not([aria-disabled="true"], :disabled):hover {
+      background-color: var(--dsc-btn-primary-hover-background);
     }
 
-    .button.filled.second:not([aria-disabled='true'], :disabled):hover {
-      /* Hard coded color due to rgba issue, https://github.com/digdir/designsystem/issues/604 */
-      background: #1a466d;
+    .ds-btn--secondary:not([aria-disabled="true"], :disabled):hover {
+      color: var(--dsc-btn-secondary-hover-color);
+      border-color: var(--dsc-btn-secondary-border-color);
+      background-color: var(--dsc-btn-secondary-hover-background);
     }
 
-    .button.filled.success:not([aria-disabled='true'], :disabled):hover {
-      background: var(--fds-semantic-surface-success-hover);
-    }
-
-    .button.filled.danger:not([aria-disabled='true'], :disabled):hover {
-      background: var(--fds-semantic-surface-danger-hover);
-    }
-
-    .button.filled.inverted:not([aria-disabled='true'], :disabled):hover {
-      --fdsc-font-and-icon-color: var(--fds-semantic-text-neutral-default);
-
-      background: var(--fds-semantic-surface-on_inverted-hover);
-    }
-
-    .button.outline.first:not([aria-disabled='true'], :disabled):hover {
-      --fdsc-font-and-icon-color: var(--fds-semantic-text-action-first-hover);
-
-      border-color: var(--fds-semantic-border-action-first-hover);
-      background: var(--fds-semantic-surface-action-first-no_fill-hover);
-    }
-
-    .button.outline.second:not([aria-disabled='true'], :disabled):hover {
-      border-color: var(--fds-semantic-border-action-second-hover);
-
-      /* Hard coded color due to rgba issue, https://github.com/digdir/designsystem/issues/604 */
-      background: #e5eaef;
-    }
-
-    .button.outline.success:not([aria-disabled='true'], :disabled):hover {
-      --fdsc-font-and-icon-color: var(--fds-semantic-text-success-hover);
-
-      border-color: var(--fds-semantic-border-success-hover);
-      background: var(--fds-semantic-surface-success-no_fill-hover);
-    }
-
-    .button.outline.danger:not([aria-disabled='true'], :disabled):hover {
-      --fdsc-font-and-icon-color: var(--fds-semantic-text-danger-hover);
-
-      border-color: var(--fds-semantic-border-danger-hover);
-      background: var(--fds-semantic-surface-danger-no_fill-hover);
-    }
-
-    .button.outline.inverted:not([aria-disabled='true'], :disabled):hover {
-      background: var(--fds-semantic-surface-on_inverted-no_fill-hover);
-    }
-
-    .button.quiet.first:not([aria-disabled='true'], :disabled):hover {
-      --fdsc-font-and-icon-color: var(
-        --fds-semantic-text-action-first-on_action
-      );
-      background: var(--fds-semantic-surface-action-first-hover);
-    }
-
-    .button.quiet.second:not([aria-disabled='true'], :disabled):hover {
-      --fdsc-font-and-icon-color: var(
-        --fds-semantic-text-action-first-on_action
-      );
-      background: var(--fds-semantic-surface-action-second-default);
-    }
-
-    .button.quiet.success:not([aria-disabled='true'], :disabled):hover {
-      --fdsc-font-and-icon-color: var(--fds-semantic-text-success-hover);
-
-      background: var(--fds-semantic-surface-success-no_fill-hover);
-    }
-
-    .button.quiet.danger:not([aria-disabled='true'], :disabled):hover {
-      --fdsc-font-and-icon-color: var(--fds-semantic-text-danger-hover);
-
-      background: var(--fds-semantic-surface-danger-no_fill-hover);
-    }
-
-    .button.quiet.inverted:not([aria-disabled='true'], :disabled):hover {
-      --fdsc-font-and-icon-color: var(--fds-semantic-text-neutral-on_inverted);
-
-      background: var(--fds-semantic-surface-on_inverted-no_fill-hover);
+    .ds-btn--tertiary:not([aria-disabled="true"], :disabled):hover {
+      color: var(--dsc-btn-tertiary-hover-color);
+      background-color: var(--dsc-btn-tertiary-hover-background);
     }
   }
 
-  /* Filled button colors */
-  .button.filled.first {
-    background: var(--fds-semantic-surface-action-first-default);
+  /* Primary button colors */
+  .ds-btn--primary {
+    background-color: var(--dsc-btn-primary-background);
   }
 
-  .button.filled.first:not([aria-disabled='true'], :disabled):active {
-    background: var(--fds-semantic-surface-action-first-active);
+  .ds-btn--primary:not([aria-disabled="true"], :disabled):active {
+    background-color: var(--dsc-btn-primary-active-background);
   }
 
-  .button.filled.second {
-    background: var(--fds-semantic-surface-action-second-default);
+  /* Secondary button colors */
+  .ds-btn--secondary {
+    color: var(--dsc-btn-secondary-color);
+    border-color: var(--dsc-btn-secondary-border-color);
+    background-color: transparent;
   }
 
-  .button.filled.second:not([aria-disabled='true'], :disabled):active {
-    /* Hard coded color due to rgba issue, https://github.com/digdir/designsystem/issues/604 */
-    background: #335a7d;
+  .ds-btn--secondary:not([aria-disabled="true"], :disabled):active {
+    color: var(--dsc-btn-secondary-active-color);
+    border-color: var(--dsc-btn-secondary-border-color);
+    background-color: var(--dsc-btn-secondary-active-background);
   }
 
-  .button.filled.success {
-    background: var(--fds-semantic-surface-success-default);
+  /* Tertiary button colors */
+  .ds-btn--tertiary {
+    color: var(--dsc-btn-tertiary-color);
   }
 
-  .button.filled.success:not([aria-disabled='true'], :disabled):active {
-    background: var(--fds-semantic-surface-success-active);
+  .ds-btn--tertiary:not([aria-disabled="true"], :disabled):active {
+    color: var(--dsc-btn-tertiary-active-color);
+    background-color: var(--dsc-btn-tertiary-active-background);
   }
 
-  .button.filled.danger {
-    background: var(--fds-semantic-surface-danger-default);
-  }
-
-  .button.filled.danger:not([aria-disabled='true'], :disabled):active {
-    background: var(--fds-semantic-surface-danger-active);
-  }
-
-  .button.filled.inverted {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-neutral-default);
-
-    background: var(--fds-semantic-surface-on_inverted-default);
-  }
-
-  .button.filled.inverted:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-neutral-default);
-
-    background: var(--fds-semantic-surface-on_inverted-active);
-  }
-
-  /* Outline button colors */
-  .button.outline.first {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-action-first-default);
-
-    border-color: var(--fds-semantic-border-action-first-default);
-    background: var(--fds-semantic-surface-action-first-no_fill);
-  }
-
-  .button.outline.first:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-action-first-active);
-
-    border-color: var(--fds-semantic-border-action-first-active);
-    background: var(--fds-semantic-surface-action-first-no_fill-active);
-  }
-
-  .button.outline.second {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-action-second-default);
-
-    border-color: var(--fds-semantic-border-action-second-default);
-    background: var(--fds-semantic-surface-action-second-no_fill);
-  }
-
-  .button.outline.second:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-action-second-active);
-
-    border-color: var(--fds-semantic-border-action-second-active);
-
-    /* Hard coded color due to rgba issue, https://github.com/digdir/designsystem/issues/604 */
-    background: #ccd6df;
-  }
-
-  .button.outline.success {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-success-default);
-
-    border-color: var(--fds-semantic-border-success-default);
-    background: var(--fds-semantic-surface-success-no_fill);
-  }
-
-  .button.outline.success:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-success-active);
-
-    border-color: var(--fds-semantic-border-success-active);
-    background: var(--fds-semantic-surface-success-no_fill-active);
-  }
-
-  .button.outline.danger {
-    --fdsc-font-and-icon-color: var(
-      --fds-semantic-border-danger-default,
-      #e02e49
+  .ds-btn--accent {
+    --dsc-btn-primary-background: var(--ds-color-accent-base-default);
+    --dsc-btn-primary-color: var(--ds-color-accent-contrast-default);
+    --dsc-btn-primary-hover-background: var(--ds-color-accent-base-hover);
+    --dsc-btn-primary-active-background: var(--ds-color-accent-base-active);
+    --dsc-btn-secondary-color: var(--ds-color-accent-text-subtle);
+    --dsc-btn-secondary-hover-color: var(--ds-color-accent-text-default);
+    --dsc-btn-secondary-active-color: var(--ds-color-accent-text-default);
+    --dsc-btn-secondary-border-color: var(--ds-color-accent-border-strong);
+    --dsc-btn-secondary-hover-background: var(
+      --ds-color-accent-surface-default
     );
-
-    border-color: var(--fds-semantic-border-danger-default);
-    background: var(--fds-semantic-surface-danger-no_fill);
+    --dsc-btn-secondary-active-background: var(--ds-color-accent-surface-hover);
+    --dsc-btn-tertiary-color: var(--ds-color-accent-text-subtle);
+    --dsc-btn-tertiary-hover-color: var(--ds-color-accent-text-default);
+    --dsc-btn-tertiary-active-color: var(--ds-color-accent-text-default);
+    --dsc-btn-tertiary-hover-background: var(--ds-color-accent-surface-default);
+    --dsc-btn-tertiary-active-background: var(--ds-color-accent-surface-hover);
   }
 
-  .button.outline.danger:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-danger-active);
-
-    border-color: var(--fds-semantic-border-danger-active);
-    background: var(--fds-semantic-surface-danger-no_fill-active);
-  }
-
-  .button.outline.inverted {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-neutral-on_inverted);
-
-    border: 1px solid var(--fds-semantic-border-on_inverted-default);
-    background: transparent;
-  }
-
-  .button.outline.inverted:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-neutral-on_inverted);
-
-    background: var(--fds-semantic-surface-on_inverted-no_fill-active);
-  }
-
-  /* Quiet button colors */
-  .button.quiet.first {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-action-first-default);
-  }
-
-  .button.quiet.first:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-action-first-active);
-
-    background: var(--fds-semantic-surface-action-first-no_fill-active);
-  }
-
-  .button.quiet.second {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-action-second-default);
-  }
-
-  .button.quiet.second:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-action-second-active);
-
-    /* Hard coded color due to rgba issue, https://github.com/digdir/designsystem/issues/604 */
-    background: #ccd6df;
-  }
-
-  .button.quiet.success {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-success-default);
-  }
-
-  .button.quiet.success:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-success-active);
-
-    background: var(--fds-semantic-surface-success-no_fill-active);
-  }
-
-  .button.quiet.danger {
-    --fdsc-font-and-icon-color: var(
-      --fds-semantic-border-danger-default,
-      #e02e49
+  .ds-btn--neutral {
+    --dsc-btn-primary-background: var(--ds-color-neutral-base-default);
+    --dsc-btn-primary-color: var(--ds-color-neutral-contrast-default);
+    --dsc-btn-primary-hover-background: var(--ds-color-neutral-base-hover);
+    --dsc-btn-primary-active-background: var(--ds-color-neutral-base-active);
+    --dsc-btn-secondary-color: var(--ds-color-neutral-text-subtle);
+    --dsc-btn-secondary-hover-color: var(--ds-color-neutral-text-default);
+    --dsc-btn-secondary-active-color: var(--ds-color-neutral-text-default);
+    --dsc-btn-secondary-border-color: var(--ds-color-neutral-border-strong);
+    --dsc-btn-secondary-hover-background: var(
+      --ds-color-neutral-surface-default
     );
+    --dsc-btn-secondary-active-background: var(
+      --ds-color-neutral-surface-hover
+    );
+    --dsc-btn-tertiary-color: var(--ds-color-neutral-text-subtle);
+    --dsc-btn-tertiary-hover-color: var(--ds-color-neutral-text-default);
+    --dsc-btn-tertiary-active-color: var(--ds-color-neutral-text-default);
+    --dsc-btn-tertiary-hover-background: var(
+      --ds-color-neutral-surface-default
+    );
+    --dsc-btn-tertiary-active-background: var(--ds-color-neutral-surface-hover);
   }
 
-  .button.quiet.danger:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-danger-active);
-
-    background: var(--fds-semantic-surface-danger-no_fill-active);
+  .ds-btn--danger {
+    --dsc-btn-primary-background: var(--ds-color-danger-base-default);
+    --dsc-btn-primary-color: var(--ds-color-danger-contrast-default);
+    --dsc-btn-primary-hover-background: var(--ds-color-danger-base-hover);
+    --dsc-btn-primary-active-background: var(--ds-color-danger-base-active);
+    --dsc-btn-secondary-color: var(--ds-color-danger-text-subtle);
+    --dsc-btn-secondary-hover-color: var(--ds-color-danger-text-default);
+    --dsc-btn-secondary-active-color: var(--ds-color-danger-text-default);
+    --dsc-btn-secondary-border-color: var(--ds-color-danger-border-strong);
+    --dsc-btn-secondary-hover-background: var(
+      --ds-color-danger-surface-default
+    );
+    --dsc-btn-secondary-active-background: var(--ds-color-danger-surface-hover);
+    --dsc-btn-tertiary-color: var(--ds-color-danger-text-subtle);
+    --dsc-btn-tertiary-hover-color: var(--ds-color-danger-text-default);
+    --dsc-btn-tertiary-active-color: var(--ds-color-danger-text-default);
+    --dsc-btn-tertiary-hover-background: var(--ds-color-danger-surface-default);
+    --dsc-btn-tertiary-active-background: var(--ds-color-danger-surface-hover);
+  }
+  .ds-search__search-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
-  .button.quiet.inverted {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-neutral-on_inverted);
-
-    background: transparent;
+  .ds-search__search-button:not(:focus-visible) {
+    border-left: 0;
   }
 
-  .button.quiet.inverted:not([aria-disabled='true'], :disabled):active {
-    --fdsc-font-and-icon-color: var(--fds-semantic-text-neutral-on_inverted);
-
-    background: var(--fds-semantic-surface-on_inverted-no_fill-active);
+  .ds-search__search-button:focus-visible {
+    z-index: 1;
   }
 </style>

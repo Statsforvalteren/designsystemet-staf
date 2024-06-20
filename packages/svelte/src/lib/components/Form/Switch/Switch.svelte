@@ -1,24 +1,75 @@
 <script>
-  import { createEventDispatcher, onMount } from 'svelte';
+  import { Label } from "$lib";
+  import Paragraph from "$lib/components/Typography/Paragraph/Paragraph.svelte";
+  import { createEventDispatcher } from "svelte";
+
   /**
-   * `Switch` component for toggling between two states.
-   * @prop {string} [value=''] - Value of the `input` element.
-   * @prop {string} [position='left'] - Position of switch around the label. Options are 'left', 'right'.
-   * @prop {boolean} [disabled=false] - If `Switch` is disabled.
-   * @prop {boolean} [readOnly=false] - If `Switch` is read-only.
-   * @prop {string} [description=''] - Description text for the `Switch`.
-   * @prop {string} [size='medium'] - Size of the paragraph. Options are 'small', 'medium', 'large'.
-   * @prop {string} [id=''] - ID for the `input` element.
-   * @prop {boolean} [checked=false] - If `Switch` is checked.
+   * Value of the `input` element.
+   * @type {string}
    */
-  export let value = '';
-  export let position = 'left';
+  export let value = "";
+
+  /**
+   * Position of switch around the label. Options are 'left', 'right'.
+   * @type {'left' | 'right'}
+   */
+  export let position = "left";
+
+  /**
+   * If `Switch` is disabled.
+   * @type {boolean}
+   */
   export let disabled = false;
+
+  /**
+   * If `Switch` is read-only.
+   * @type {boolean}
+   */
   export let readOnly = false;
-  export let description = '';
-  export let size = 'medium';
-  export let id = '';
+
+  /**
+   * Description text for the `Switch`.
+   * @type {string}
+   */
+  export let description = "";
+
+  /**
+   * Size of the paragraph. Options are 'small', 'medium', 'large'.
+   * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
+   */
+  export let size = "medium";
+
+  /**
+   * ID for the `input` element.
+   * @type {string}
+   */
+  export let id = "";
+
+  /**
+   * If `Switch` is checked.
+   * @type {boolean}
+   */
   export let checked = false;
+
+  let standardizedSize;
+
+  switch (size) {
+    case "small":
+    case "sm":
+      standardizedSize = "sm";
+      break;
+    case "medium":
+    case "md":
+      standardizedSize = "md";
+      break;
+    case "large":
+    case "lg":
+      standardizedSize = "lg";
+      break;
+    default:
+      standardizedSize = "md";
+      break;
+  }
 
   const dispatch = createEventDispatcher();
 
@@ -27,7 +78,7 @@
       event.preventDefault();
       return;
     }
-    dispatch('click', event);
+    dispatch("click", event);
   }
 
   function handleInputChange(event) {
@@ -35,305 +86,371 @@
       event.preventDefault();
       return;
     }
-    dispatch('change', { checked: event.target.checked });
+    dispatch("change", { checked: event.target.checked });
   }
 
-  $: computedClass = `wrapper paragraph ${size} ${
-    position === 'right' ? 'right' : ''
-  } ${disabled ? 'disabled' : ''} ${readOnly ? 'readonly' : ''} ${
-    $$props.class || ''
+  $: computedClass = `ds-switch ds-switch--${standardizedSize} ${
+    disabled ? "ds-switch--disabled" : ""
+  } ${readOnly ? "ds-switch--readonly" : ""} ${$$props.class || ""}`;
+  $: labelClass = `ds-switch__label ds-label ds-label--${standardizedSize} ds-label--regular-weight ${
+    position === "right" ? "ds-switch__label--right" : ""
   }`;
-  $: labelClass = `label ${size}`;
-  $: descriptionClass = `paragraph description ${size}`;
+  $: descriptionClass = `ds-switch__description`;
 </script>
 
-<div class={computedClass}>
-  <input
-    class="input"
-    {id}
-    {value}
-    type="checkbox"
-    readonly={readOnly}
-    {disabled}
-    bind:checked
-    on:click={handleInputClick}
-    on:change={handleInputChange}
-  />
-  <svg
-    class="icon"
-    width="54"
-    height="32"
-    viewBox="0 0 56 34"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect
-      class="track"
-      x="1"
-      y="1"
-      width="54"
-      height="32"
-      rx="16"
-      stroke="currentcolor"
-      fill="currentcolor"
+<Paragraph as="div" {size}>
+  <div class={computedClass}>
+    <input
+      width="100%"
+      class="ds-switch__input"
+      {id}
+      {value}
+      type="checkbox"
+      readonly={readOnly}
+      {disabled}
+      bind:checked
+      on:click={handleInputClick}
+      on:change={handleInputChange}
     />
-    <g class="thumb">
-      <circle
-        cx="17"
-        cy="17"
-        r="14"
-        fill="currentcolor"
-      />
-      <path
-        class="checkmark"
-        d="M18.1958 5.63756C18.8792 6.32098 18.8792 7.42902 18.1958 8.11244L10.4041 15.9041C9.72068 16.5875 8.61264 16.5875 7.92922 15.9041L3.80422 11.7791C3.1208 11.0957 3.1208 9.98765 3.80422 9.30423C4.48764 8.62081 5.59568 8.62081 6.27909 9.30423L9.16666 12.1918L15.7209 5.63756C16.4043 4.95415 17.5123 4.95415 18.1958 5.63756Z"
-        fill="currentcolor"
-      />
-    </g>
-  </svg>
-
-  {#if $$slots.default}
-    <label
-      class={labelClass}
-      for={id}
-    >
-      {#if readOnly}
-        <span
-          aria-hidden
-          class="padlock-icon"
-        >
+    {#if $$slots.default}
+      <label
+        class={labelClass}
+        for={id}
+        style="display: inline-flex; justify-content: center; align-items: center"
+      >
+        <span class="ds-switch__track">
+          <span class="ds-switch__thumb" />
+        </span>
+        {#if readOnly}
           <svg
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
-            fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            width="1.5em"
+            height="1.5em"
+            fill="none"
+            viewBox="0 0 24 24"
             focusable="false"
             role="img"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M12 2.25A4.75 4.75 0 0 0 7.25 7v2.25H7A1.75 1.75 0 0 0 5.25 11v9c0 .414.336.75.75.75h12a.75.75 0 0 0 .75-.75v-9A1.75 1.75 0 0 0 17 9.25h-.25V7A4.75 4.75 0 0 0 12 2.25Zm3.25 7V7a3.25 3.25 0 0 0-6.5 0v2.25h6.5ZM12 13a1.5 1.5 0 0 0-.75 2.8V17a.75.75 0 0 0 1.5 0v-1.2A1.5 1.5 0 0 0 12 13Z"
+            ><path
               fill="currentColor"
-            />
-          </svg>
+              fill-rule="evenodd"
+              d="M7.25 7a4.75 4.75 0 0 1 9.5 0v2.25H17c.966 0 1.75.784 1.75 1.75v9a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75v-9c0-.966.784-1.75 1.75-1.75h.25zm1.5 0a3.25 3.25 0 0 1 6.5 0v2.25h-6.5zM7 10.75a.25.25 0 0 0-.25.25v8.25h10.5V11a.25.25 0 0 0-.25-.25zm3.5 3.75a1.5 1.5 0 1 1 2.25 1.3V17a.75.75 0 0 1-1.5 0v-1.2a1.5 1.5 0 0 1-.75-1.3"
+              clip-rule="evenodd"
+            /></svg
+          >
+        {/if}
+        <span>
+          <slot />
         </span>
-      {/if}
-      <slot />
-    </label>
-  {/if}
-  {#if description}
-    <div
-      id="description-{id}"
-      class={descriptionClass}
-    >
-      {description}
-    </div>
-  {/if}
-</div>
+      </label>
+    {/if}
+    {#if description}
+      <div id="description-{id}" class={descriptionClass}>
+        <Paragraph as="div" {size}>
+          {description}
+        </Paragraph>
+      </div>
+    {/if}
+  </div>
+</Paragraph>
 
 <style>
-  .wrapper {
-    display: grid;
-    align-items: center;
-    width: fit-content;
-    min-height: 44px;
-    gap: 0 var(--fds-spacing-2);
-    grid-template-columns: auto 1fr;
-    grid-template-areas:
-      'input label'
-      '. description';
-  }
-  .switch {
-    --fds-inner-focus-border-color: var(--fds-semantic-border-focus-boxshadow);
-    --fds-outer-focus-border-color: var(--fds-semantic-border-focus-outline);
-    --fds-focus-border-width: 3px;
-    --fds-transition: 200ms;
-    min-width: 44px;
-    min-height: 44px;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr;
-  }
+  .ds-switch {
+    --dsc-switch--transition: 200ms;
+    --dsc-switch-height: 1.75rem;
+    --dsc-switch-focus-border-width: 3px;
+    --dsc-switch-check_color: transparent;
+    --dsc-switch-thumb-background-color: var(
+      --ds-color-neutral-background-default
+    );
 
-  .input {
-    min-width: 54px;
-    min-height: 32px;
-    width: 100%;
-    opacity: 0;
-    grid-area: input;
-    cursor: pointer;
+    position: relative;
   }
 
   @media (prefers-reduced-motion) {
-    .container {
-      --fds-transition: 0;
+    .switch {
+      --dsc-switch--transition: 0;
     }
   }
 
-  .paragraph {
-    --fdsc-typography-font-family: inherit;
-    --fdsc-bottom-spacing: var(--fds-spacing-5);
-
-    color: var(--fds-semantic-text-neutral-default);
-    margin: 0;
-  }
-  .paragraph.large {
-    --fdsc-bottom-spacing: var(--fds-spacing-6);
-
-    font: var(--fds-typography-paragraph-large);
-    font-family: var(--fdsc-typography-font-family);
-  }
-  .paragraph.medium {
-    --fdsc-bottom-spacing: var(--fds-spacing-5);
-
-    font: var(--fds-typography-paragraph-medium);
-    font-family: var(--fdsc-typography-font-family);
-  }
-  .paragraph.small {
-    --fdsc-bottom-spacing: var(--fds-spacing-4);
-
-    font: var(--fds-typography-paragraph-small);
-    font-family: var(--fdsc-typography-font-family);
-  }
-
-  .right {
-    grid-template-columns: 1fr auto;
-    grid-template-rows: 1fr auto;
-    grid-template-areas:
-      'label input'
-      'description .';
-  }
-
-  .icon {
-    grid-area: input;
-    pointer-events: none;
-    height: 1.75em;
-    width: auto;
-    margin: auto;
-    overflow: visible;
-    border-radius: 16px;
-    --fds-transition: 200ms;
-  }
-
-  .label {
-    grid-area: label;
+  .ds-switch__label {
+    min-height: var(--ds-sizing-10);
     min-width: min-content;
-    display: inline-flex;
-    flex-direction: row;
-    gap: var(--fds-spacing-1);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--ds-spacing-1);
+    align-items: center;
     cursor: pointer;
   }
 
-  .description {
-    grid-area: description;
-    padding-left: 3px;
-    margin-top: calc(var(--fds-spacing-2) * -1);
-    color: var(--fds-semantic-text-neutral-subtle);
+  .ds-switch__track {
+    position: relative;
+    display: inline-block;
+    pointer-events: none;
+    width: var(--dsc-switch-width);
+    height: var(--dsc-switch-height);
+    margin: auto;
+    overflow: visible;
+    border-radius: var(--ds-border-radius-full);
+    background-color: var(--ds-color-neutral-border-default);
+    transition: background-color var(--dsc-switch--transition) ease;
+    margin-right: var(--ds-spacing-1);
   }
 
-  .readonly > .input,
-  .readonly > .label {
+  .ds-switch__description {
+    padding-left: calc(var(--dsc-switch-width) + var(--ds-spacing-2));
+    margin-top: var(--ds-spacing-1);
+    color: var(--ds-color-neutral-text-subtle);
+    width: fit-content;
+  }
+
+  .ds-switch__readonly__icon {
+    height: 1.2em;
+    width: 1.2em;
+  }
+
+  .ds-switch__label--right {
+    grid-template-columns: 1fr auto;
+    grid-auto-flow: dense;
+  }
+
+  .ds-switch__label--right .ds-switch__track {
+    order: 1;
+    margin-right: 0;
+  }
+
+  .ds-switch__label--right + .ds-switch__description {
+    margin-top: 11px;
+    padding-left: 0;
+  }
+
+  .ds-switch__input {
+    position: absolute;
+    width: 2.75rem;
+    height: 2.75rem;
+    z-index: 1;
+    opacity: 0;
+    cursor: pointer;
+    margin: 0;
+  }
+
+  .ds-switch--readonly > .ds-switch__label {
+    grid-template-columns: auto min-content 1fr;
+  }
+
+  .ds-switch--readonly > .ds-switch__label:where(.ds-switch__label--right) {
+    grid-template-columns: min-content 1fr auto;
+  }
+
+  .ds-switch--readonly > .ds-switch__input,
+  .ds-switch--readonly > .ds-switch__label {
     cursor: default;
   }
 
-  .disabled > .input,
-  .disabled > .label,
-  .disabled > .description {
-    color: var(--fds-semantic-border-neutral-subtle);
+  .ds-switch--readonly > .ds-switch__description {
+    margin-left: var(--ds-spacing-1);
   }
 
-  .disabled > .input,
-  .disabled > .label {
+  .ds-switch--sm,
+  .ds-switch--sm .ds-switch__label {
+    min-height: var(--ds-sizing-6);
+  }
+
+  .ds-switch--md,
+  .ds-switch--md .ds-switch__label {
+    min-height: var(--ds-sizing-7);
+  }
+
+  .ds-switch--lg,
+  .ds-switch--lg .ds-switch__label {
+    min-height: var(--ds-sizing-8);
+  }
+
+  .ds-switch--sm {
+    --dsc-switch-height: var(--ds-sizing-6);
+    --dsc-switch-width: var(--ds-sizing-11);
+  }
+
+  .ds-switch--sm .ds-switch__input {
+    left: -0.25rem;
+    top: -0.25rem;
+  }
+
+  .ds-switch--md {
+    --dsc-switch-height: var(--ds-sizing-7);
+    --dsc-switch-width: var(--ds-sizing-13);
+  }
+
+  .ds-switch--md .ds-switch__input {
+    left: 0;
+    top: 0;
+  }
+
+  .ds-switch--lg {
+    --dsc-switch-height: var(--ds-sizing-8);
+    --dsc-switch-width: var(--ds-sizing-15);
+  }
+
+  .ds-switch--lg .ds-switch__input {
+    left: 0;
+    top: 0.25rem;
+  }
+
+  .ds-switch__label:has(.ds-switch__track:only-child) {
+    grid-template-columns: auto;
+  }
+
+  .ds-switch__label:has(.ds-switch__track:only-child) .ds-switch__track {
+    margin-right: 0;
+  }
+
+  .ds-switch__input:disabled,
+  .ds-switch:has(.ds-switch__input:disabled) > .ds-switch__label {
     cursor: not-allowed;
   }
 
-  .icon > .track {
-    transition: color var(--fds-transition) ease;
-    color: var(--fds-semantic-surface-neutral-dark);
+  .ds-switch:has(.ds-switch__input:disabled) > .ds-switch__label,
+  .ds-switch:has(.ds-switch__input:disabled) > .ds-switch__description {
+    opacity: var(--ds-disabled-opacity);
   }
 
-  .icon > .thumb {
-    transition: transform var(--fds-transition) ease;
-    color: var(--fds-semantic-background-default);
+  /*   .ds-switch__input:focus-visible + .ds-switch__label .ds-switch__track {
+    outline: var(--dsc-switch-focus-border-width) solid var(--ds-color-focus-outer);
+    outline-offset: var(--dsc-switch-focus-border-width);
+    box-shadow: 0 0 0 var(--dsc-switch-focus-border-width) var(--ds-color-focus-inner);
+  } */
+
+  /**
+ * Apply a focus outline on an element when it is focused with keyboard
+ */
+  .ds-switch:has(.ds-switch__input:focus-visible) {
+    --dsc-focus-border-width: 3px;
+
+    outline: var(--dsc-focus-border-width) solid var(--ds-color-focus-outer);
+    outline-offset: var(--dsc-focus-border-width);
+    box-shadow: 0 0 0 var(--dsc-focus-border-width) var(--ds-color-focus-inner);
+    border-radius: var(--ds-border-radius-md);
   }
 
-  .icon > .thumb > .checkmark {
-    opacity: 0;
-    transition: opacity var(--fds-transition) ease-in-out;
-    transform: translate(6px, 6px);
+  .ds-switch__input:not([readonly]):checked
+    + .ds-switch__label
+    .ds-switch__track {
+    background-color: var(--ds-color-accent-base-default);
   }
 
-  .input:disabled ~ .icon > .track {
-    color: var(--fds-semantic-border-neutral-subtle);
+  .ds-switch__thumb {
+    scale: 0.8;
+    position: absolute;
+    height: var(--dsc-switch-height);
+    width: var(--dsc-switch-height);
+    border-radius: var(--ds-border-radius-full);
+    background-color: var(--dsc-switch-thumb-background-color);
+    transition: transform var(--dsc-switch--transition) ease;
   }
 
-  .input:not([readonly], :disabled):checked ~ .icon > .track,
-  .input:not([readonly], :disabled):checked ~ .icon > .thumb > .checkmark {
-    opacity: 1;
-    color: var(--fds-semantic-surface-success-default);
+  .ds-switch__input:checked
+    + .ds-switch__label
+    .ds-switch__track
+    .ds-switch__thumb {
+    --dsc-switch-check_color: var(--ds-color-accent-base-default);
+    --dsc-switch-thumb-background-color: var(
+      --ds-color-accent-contrast-default
+    );
+
+    transform: translateX(
+      calc((var(--dsc-switch-width) - var(--dsc-switch-height)) * 1.2)
+    );
   }
 
-  .input:checked ~ .icon > .thumb {
-    transform: translateX(22px);
+  .ds-switch__thumb::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--dsc-switch-check_color);
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='-3 -3 17 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.1339 2.86612C10.622 3.35427 10.622 4.14573 10.1339 4.63388L5.88388 8.88388C5.39573 9.37204 4.60427 9.37204 4.11612 8.88388L1.86612 6.63388C1.37796 6.14573 1.37796 5.35427 1.86612 4.86612C2.35427 4.37796 3.14573 4.37796 3.63388 4.86612L5 6.23223L8.36612 2.86612C8.85427 2.37796 9.64573 2.37796 10.1339 2.86612Z' fill='%23118849' /%3E%3C/svg%3E");
+    transition: background-color var(--dsc-switch--transition) ease;
+  }
+
+  .ds-switch--readonly
+    .ds-switch__input[readonly]
+    + .ds-switch__label
+    .ds-switch__track {
+    box-shadow: inset 0 0 0 2px var(--ds-color-neutral-border-subtle);
+    background-color: var(--ds-color-neutral-background-subtle);
+  }
+
+  .ds-switch--readonly
+    .ds-switch__input[readonly]
+    + .ds-switch__label
+    .ds-switch__track
+    > .ds-switch__thumb {
+    --dsc-switch-check_color: var(--ds-color-neutral-background-subtle);
+
+    background-color: var(--ds-color-neutral-border-strong);
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .input:not([readonly], :disabled):hover ~ .icon > .thumb {
-      transform: translateX(4px);
+    .ds-switch__input:not([readonly], :disabled):hover
+      + .ds-switch__label
+      .ds-switch__track
+      > .ds-switch__thumb {
+      transform: translateX(
+        calc((var(--dsc-switch-width) - var(--dsc-switch-height)) * 0.2)
+      );
     }
 
-    .input:not([readonly], :disabled):hover ~ .label {
-      color: var(--fds-semantic-border-input-hover);
+    .ds-switch__input:not([readonly], :disabled):hover + .ds-switch__label {
+      color: var(--ds-color-accent-text-subtle);
     }
 
-    .input:not(:disabled, [readonly]):checked:hover ~ .icon > .thumb {
-      transform: translateX(17px);
+    .ds-switch__input:not(:disabled, [readonly]):checked:hover
+      + .ds-switch__label
+      .ds-switch__track
+      > .ds-switch__thumb {
+      --dsc-switch-check_color: var(--ds-color-accent-base-hover);
+
+      transform: translateX(
+        calc((var(--dsc-switch-width) - var(--dsc-switch-height)))
+      );
     }
 
-    .input:not(:checked, :disabled, [readonly]):hover ~ .icon > .track {
-      color: var(--fds-semantic-surface-neutral-dark-hover);
+    .ds-switch__input:not(:checked, :disabled, [readonly]):hover
+      + .ds-switch__label
+      .ds-switch__track {
+      background-color: var(--ds-color-neutral-border-strong);
     }
 
-    .input:not(:disabled, [readonly]):checked:hover ~ .icon > .track,
-    .input:not(:disabled, [readonly]):checked:hover
-      ~ .icon
-      > .thumb
-      > .checkmark {
-      color: var(--fds-semantic-surface-success-hover);
+    .ds-switch__input:not(:disabled, [readonly]):checked:hover
+      + .ds-switch__label
+      .ds-switch__track {
+      background-color: var(--ds-color-accent-base-hover);
     }
   }
+  .ds-label {
+    --dsc-bottom-spacing: var(--ds-spacing-1);
 
-  .readonly .input[readonly] ~ .icon > .track {
-    stroke: var(--fds-semantic-border-neutral-subtle);
-    color: var(--fds-semantic-background-subtle);
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    color: var(--ds-color-neutral-text-default);
   }
 
-  .readonly .input[readonly]:checked ~ .icon .thumb > .checkmark {
-    opacity: 1;
-    color: var(--fds-semantic-background-subtle);
+  .ds-label--spacing {
+    margin-bottom: var(--dsc-bottom-spacing);
   }
 
-  .readonly .input[readonly] ~ .icon .thumb {
-    color: var(--fds-semantic-border-neutral-default);
+  .ds-label--regular-weight {
+    font-weight: 400;
   }
 
-  .input:focus-visible:not(:disabled) ~ .icon {
-    outline: var(--fds-focus-border-width) solid
-      var(--fds-outer-focus-border-color);
-    outline-offset: 0;
+  .ds-label--medium-weight {
+    font-weight: 500;
   }
 
-  .input:focus-visible:not(:disabled) ~ .icon .track {
-    stroke: var(--fds-inner-focus-border-color);
-    stroke-width: var(--fds-focus-border-width);
-  }
-
-  .padlock-icon {
-    grid-area: label;
-    position: relative;
-    top: 3px;
-    scale: 1.4;
+  .ds-label--semibold-weight {
+    font-weight: 600;
   }
 </style>

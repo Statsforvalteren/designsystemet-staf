@@ -1,9 +1,9 @@
 <script>
-  import { getContext, onMount } from 'svelte';
+  import { getContext, onMount } from "svelte";
 
-  import MultiSelectOption from './MultiSelectOption.svelte';
-  import Chevron from './Chevron.svelte';
-  import ClearButton from './ClearButton.svelte';
+  import MultiSelectOption from "./MultiSelectOption.svelte";
+  import Chevron from "./Chevron.svelte";
+  import ClearButton from "./ClearButton.svelte";
 
   export let multiple;
   export let inputId;
@@ -20,10 +20,10 @@
   export let clearable;
   export let size;
 
-  const selectContext = getContext('selectContext-' + inputId);
+  const selectContext = getContext("selectContext-" + inputId);
   $: selected = $selectContext.selected;
 
-  let inputValue = '';
+  let inputValue = "";
   let isFiltering = false;
   let inputElement;
   let initialized = false;
@@ -62,8 +62,8 @@
       clearAll();
     }
     if (hasFilter && inputValue) {
-      inputValue = '';
-      handleFilterChange('');
+      inputValue = "";
+      handleFilterChange("");
     }
   }
 
@@ -75,7 +75,7 @@
       // No change to inputValue, keep it as user's input
     } else {
       // Reset inputValue in other cases
-      inputValue = '';
+      inputValue = "";
     }
   }
 </script>
@@ -112,7 +112,7 @@
             !hasFilter &&
             selected &&
             selected.length > 0
-              ? ''
+              ? ""
               : placeholder}
             aria-label={searchLabel}
             readonly={readOnly || (!multiple && !hasFilter)}
@@ -129,7 +129,7 @@
         class="textInput {hasFilter ? '' : 'no-filter'}"
         id={inputId}
         placeholder={multiple && !hasFilter && selected && selected.length > 0
-          ? ''
+          ? ""
           : placeholder}
         aria-label={searchLabel}
         readonly={readOnly || (!multiple && !hasFilter)}
@@ -137,16 +137,11 @@
     {/if}
   </div>
   {#if (multiple || clearable) && selected.length > 0}
-    <ClearButton
-      handleClick={handleClearAll}
-      {disabled}
-      {readOnly}
-      {size}
-    />
+    <ClearButton handleClick={handleClearAll} {disabled} {readOnly} {size} />
     <div class="separator {disabled ? 'disabled' : ''}" />
   {/if}
 
-  <div class={`chevron-container ${disabled ? 'disabled' : ''}`}>
+  <div class={`chevron-container ${disabled ? "disabled" : ""}`}>
     <Chevron />
   </div>
 </div>
@@ -160,7 +155,7 @@
     gap: 4px;
     max-width: 100%;
     overflow: hidden;
-    padding-left: var(--fds-spacing-1);
+    padding-left: var(--ds-spacing-1);
   }
 
   .textInput {
@@ -185,8 +180,8 @@
     height: 100%;
     display: flex;
     align-items: center;
-    gap: var(--fds-spacing-2);
-    margin-right: var(--fds-spacing-1);
+    gap: var(--ds-spacing-2);
+    margin-right: var(--ds-spacing-1);
 
     &.disabled {
       color: lightgrey;
@@ -196,12 +191,12 @@
   .selected-options {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--fds-spacing-2);
+    gap: var(--ds-spacing-2);
     width: 100%;
   }
 
   .clearAll {
-    background: var(--colors-white, #ffffff);
+    background: var(--ds-color-accent-1, #ffffff);
     border: none;
     cursor: pointer;
     padding: 4px 8px;
@@ -210,9 +205,9 @@
   }
 
   .field {
-    background-color: var(--fds-semantic-background-default, #ffffff);
+    background-color: var(--ds-color-accent-1, #ffffff);
     display: flex;
-    border: 1px solid var(--interface-common-info-900, #022f51);
+    border: 1px solid var(--ds-color-accent-9, #00244e);
     border-radius: 3px;
     background: fff;
     align-items: center;
@@ -235,7 +230,7 @@
       border: 1px solid lightgrey;
     }
     &.error {
-      border: 1px solid var(--fds-semantic-border-danger-default, #e02e49);
+      border: 1px solid var(--ds-color-danger-text-subtle, #c22020);
     }
     &.read-only {
       border: 1px solid rgb(194, 194, 194);
@@ -246,7 +241,7 @@
   .separator {
     width: 1px;
     align-self: stretch;
-    background: var(--interface-common-info-900, #022f51);
+    background: var(--ds-color-accent-9, #00244e);
     margin-right: 0.25rem;
     margin-left: 0.125rem;
     &.disabled {

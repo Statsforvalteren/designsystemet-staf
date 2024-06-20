@@ -1,22 +1,16 @@
 {
   "tokenSetOrder": [
-    "Base/Core",
-    "Base/Semantic",
-    "Base/Fluid",
-    "Brand/Digdir",
-    "Brand/Tilsynet",
-    "Brand/Altinn",
-    "Brand/Brreg",
-    "Brand/STAF",
-    "Density/Default",
-    "Density/Compact",
-    "Viewport/@320",
-    "Viewport/@375",
-    "Viewport/@576",
-    "Viewport/@768",
-    "Viewport/@992",
-    "Viewport/@1200",
-    "Viewport/@1440",
-    "Figma/components"
+    "primitives/globals",
+    "primitives/typography/default",
+    "primitives/colors/dark/global",
+    "primitives/colors/dark/theme",
+    "primitives/colors/dark/theme2",
+    "primitives/colors/light/global",
+    "primitives/colors/light/theme",
+    "primitives/colors/light/theme2",
+    "themes/theme",
+    "themes/theme2",
+    "semantic/color",
+    "semantic/style"
   ]
 }

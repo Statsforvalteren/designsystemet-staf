@@ -10,7 +10,6 @@ yarn-error.log
 
 # Really don't want that
 node_modules
-.svelte-kit
 
 # Local env variables should stay local
 .env
@@ -22,6 +21,7 @@ coverage/
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
+*.code-workspace
 
 # JetBrains IntelliJ IDEA
 .idea
@@ -37,10 +37,3 @@ coverage/
 
 # Typescript
 next-env.d.ts
-
-packages/svelte/.vscode/settings.json
-packages/svelte/.vscode/launch.json
-.vscode/*code-workspace
-packages/cli/brand/staf
-apps/storefront/tokens/staf.ts
-packages/cli/release.config.cjs

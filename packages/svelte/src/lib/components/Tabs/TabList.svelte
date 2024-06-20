@@ -1,14 +1,14 @@
 <!-- TabList.svelte -->
-<div
-  class={`tab-list`}
-  {...$$restProps}
->
+<div class={`ds-tabs__tablist`} {...$$restProps}>
   <slot />
 </div>
 
 <style>
-  .tab-list {
-    border-bottom: var(--fds-border_width-default) solid
-      var(--fds-semantic-border-neutral-subtle);
+  .ds-tabs__tablist {
+    display: flex;
+    flex-direction: row;
+    border-bottom: var(--ds-border-width-default) solid
+      var(--ds-color-neutral-border-subtle);
+    position: relative;
   }
 </style>
