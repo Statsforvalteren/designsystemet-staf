@@ -1,17 +1,13 @@
 {
-  "name": "@digdir/designsystemet",
-  "version": "0.1.0-alpha.5",
-  "description": "CLI for Designsystemet",
-  "author": "Designsystemet team",
+  "name": "@fmfadigitalisering/staf-design-system-tokens",
+  "version": "1.1.1",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/digdir/designsystemet.git"
+    "url": "https://github.com/fmfaDigitalisering/staf-komponentbibliotek-svelte.git"
   },
-  "homepage": "https://github.com/digdir/designsystemet/tree/main/scripts/cli",
-  "license": "MIT",
   "type": "module",
   "publishConfig": {
-    "access": "public"
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "designsystemet": "tsx ./bin/designsystemet.ts",
@@ -40,6 +36,10 @@
     "tsup": "^8.0.2"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^9.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/release-notes-generator": "^10.0.0",
     "@types/fs-extra": "^11.0.4",
     "@types/glob": "^8.1.0",
     "@types/jscodeshift": "^0.11.11",
@@ -48,6 +48,8 @@
     "@types/ramda": "^0.29.9",
     "fs-extra": "^11.2.0",
     "tsx": "^4.11.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "semantic-release": "^23.1.1",
+    "semantic-release-yarn": "^3.0.2"
   }
 }
