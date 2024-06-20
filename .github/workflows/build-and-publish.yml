@@ -33,7 +33,7 @@ jobs:
     if: needs.check-changes.outputs.design-tokens == 'true'
     defaults:
       run:
-        working-directory: ./packages/tokens
+        working-directory: ./packages/cli
     permissions:
       checks: write
       contents: write
@@ -56,7 +56,7 @@ jobs:
         run: yarn install
 
       - name: Build the project
-        run: yarn build
+        run: yarn build:tokens
 
       - name: Set up Git
         run: |
@@ -71,7 +71,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
           YARN_NPM_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
-        run: semantic-release --extends ./release.config.cjs
+        run: semantic-release --extends ../svelte/release.config.cjs
 
   build-and-publish-library:
     runs-on: ubuntu-latest
