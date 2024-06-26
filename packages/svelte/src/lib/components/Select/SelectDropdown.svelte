@@ -1,6 +1,6 @@
 <script>
-  import SelectCheckmark from "./SelectCheckmark.svelte";
-  import { getContext } from "svelte";
+  import SelectCheckmark from './SelectCheckmark.svelte';
+  import { getContext } from 'svelte';
 
   /**
    * @typedef {Object} SelectOption
@@ -32,10 +32,10 @@
   //svelte-ignore unused-export-let
   export let hideSelected = false;
   //svelte-ignore unused-export-let
-  export let size = "medium";
+  export let size = 'medium';
   export let inputId;
 
-  const selectContext = getContext("selectContext-" + inputId);
+  const selectContext = getContext('selectContext-' + inputId);
 
   $: selected = $selectContext.selected;
   $: error = $selectContext.error;
@@ -130,6 +130,9 @@
     overflow-y: auto;
     margin-top: var(--ds-spacing-1);
     padding: var(--ds-spacing-2, 9px);
+    z-index: 1000;
+    position: absolute;
+    width: calc(100% - 17px);
   }
   .options-list {
     max-width: 100%;

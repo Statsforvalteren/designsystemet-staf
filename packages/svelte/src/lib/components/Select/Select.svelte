@@ -1,11 +1,11 @@
 <script>
   // @ts-nocheck
-  import { onMount, setContext } from "svelte";
-  import { v4 as uuidv4 } from "uuid";
-  import SelectControl from "./SelectControl.svelte";
-  import SelectDropdown from "./SelectDropdown.svelte";
-  import { Paragraph } from "$lib";
-  import { writable } from "svelte/store";
+  import { onMount, setContext } from 'svelte';
+  import { v4 as uuidv4 } from 'uuid';
+  import SelectControl from './SelectControl.svelte';
+  import SelectDropdown from './SelectDropdown.svelte';
+  import { Paragraph } from '$lib';
+  import { writable } from 'svelte/store';
 
   /**
    * @typedef {Object} SelectOption
@@ -42,25 +42,25 @@
    * Placeholder text for the select input.
    * @type {string}
    */
-  export let placeholder = "Select an option...";
+  export let placeholder = 'Select an option...';
 
   /**
    * Description text for the select.
    * @type {string}
    */
-  export let description = "";
+  export let description = '';
 
   /**
    * Size of the select.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
    * ARIA label for accessibility.
    * @type {string}
    */
-  export let ariaLabel = "Select";
+  export let ariaLabel = 'Select';
 
   let inputId = `select-${uuidv4()}`;
 
@@ -74,7 +74,7 @@
    * ARIA label for the search input inside the select.
    * @type {string}
    */
-  export let searchLabel = "Search";
+  export let searchLabel = 'Search';
 
   /**
    * If true, hides selected options from the dropdown list.
@@ -97,7 +97,7 @@
   /**
    * @type {string}
    */
-  export let error = "";
+  export let error = '';
 
   /**
    * @type {boolean}
@@ -117,27 +117,27 @@
   export let onChange = () => {};
 
   $: isDropdownVisible = false;
-  let selectClasses = "select";
-  let inputClasses = "textInput";
+  let selectClasses = 'select';
+  let inputClasses = 'textInput';
   let node;
   let standardizedSize;
   let selectedStore = writable(normalizeSelected(selected));
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
@@ -148,7 +148,7 @@
     multiple,
   });
 
-  setContext("selectContext-" + inputId, selectContext);
+  setContext('selectContext-' + inputId, selectContext);
   $: {
     let newSelected = $selectedStore;
     if (!Array.isArray(selected)) {
@@ -191,7 +191,7 @@
       } else {
         if (hasFilter) {
           // Clear options filter on single selection
-          handleFilterChange("");
+          handleFilterChange('');
         }
         // If only single selection is allowed
         // selected = option;
@@ -252,26 +252,26 @@
   }
 
   onMount(() => {
-    document.addEventListener("click", handleOutsideClick);
+    document.addEventListener('click', handleOutsideClick);
     return () => {
-      document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener('click', handleOutsideClick);
     };
   });
 
   $: if (disabled) {
-    selectClasses = "select disabled";
-    inputClasses += " disabled";
+    selectClasses = 'select disabled';
+    inputClasses += ' disabled';
   } else if (readOnly) {
-    selectClasses = "select readOnly";
-    inputClasses += " readOnly";
+    selectClasses = 'select readOnly';
+    inputClasses += ' readOnly';
   } else if (error) {
-    selectClasses = "select error";
-    inputClasses += " error";
+    selectClasses = 'select error';
+    inputClasses += ' error';
   } else {
-    selectClasses = "select";
+    selectClasses = 'select';
   }
 
-  let searchTerm = "";
+  let searchTerm = '';
   $: filteredOptions = options;
 
   function handleFilterChange(newFilter) {
@@ -337,15 +337,18 @@
     {size}
   />
 
-  <SelectDropdown
-    {isDropdownVisible}
-    options={filteredOptions}
-    {selectOption}
-    {hideSelected}
-    {multiple}
-    {inputId}
-    {size}
-  />
+  <div>
+    <SelectDropdown
+      {isDropdownVisible}
+      options={filteredOptions}
+      {selectOption}
+      {hideSelected}
+      {multiple}
+      {inputId}
+      {size}
+    />
+  </div>
+
   {#if error}
     <div class="error-message">{error}</div>
   {/if}
@@ -357,6 +360,7 @@
     flex-direction: column;
     gap: var(--ds-spacing-2);
     margin: var(--ds-spacing-1) 0;
+    position: relative;
   }
   .error-message {
     color: var(--ds-color-danger-text-subtle, #c22020);
