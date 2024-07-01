@@ -612,12 +612,13 @@
 <br />
 <div class="selectForm">
   <Select
-    {options}
+    options={[]}
     bind:selected={unSelected}
     label="Single, unselected"
     hideSelected
     clearable
     size="large"
+    emptyOptionsPlaceholder="No options available"
   />
   <Select
     {options}

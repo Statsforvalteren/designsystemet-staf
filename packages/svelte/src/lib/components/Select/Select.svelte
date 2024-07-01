@@ -116,6 +116,11 @@
    */
   export let onChange = () => {};
 
+  /**
+   * Informational text to display when no options are available.
+   */
+  export let emptyOptionsPlaceholder = '';
+
   $: isDropdownVisible = false;
   let selectClasses = 'select';
   let inputClasses = 'textInput';
@@ -346,6 +351,7 @@
       {multiple}
       {inputId}
       {size}
+      {emptyOptionsPlaceholder}
     />
   </div>
 

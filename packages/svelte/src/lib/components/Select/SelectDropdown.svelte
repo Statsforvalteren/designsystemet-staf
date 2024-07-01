@@ -35,6 +35,11 @@
   export let size = 'medium';
   export let inputId;
 
+  /**
+   * Informational text to display when no options are available.
+   */
+  export let emptyOptionsPlaceholder = '';
+
   const selectContext = getContext('selectContext-' + inputId);
 
   $: selected = $selectContext.selected;
@@ -53,6 +58,13 @@
 
 <div class="select-dropdown" class:visible={isDropdownVisible}>
   <ul class="options-list">
+    {#if options.length === 0}
+      <li class="option-item-no-hover" role="option" aria-selected="false">
+        <div class="option-content">
+          <div class="option-label">{emptyOptionsPlaceholder}</div>
+        </div>
+      </li>
+    {/if}
     {#each options as option, index (index)}
       {@const isSelected = isOptionSelected(option)}
 
@@ -150,20 +162,22 @@
     margin: 0;
   }
 
-  .option-item {
+  .option-item,
+  .option-item-no-hover {
     display: flex;
     padding: 9px 12px;
     align-items: flex-start;
     gap: 10px;
     align-self: stretch;
     list-style: none;
-    &:hover {
-      background: var(--ds-color-brand1-4, #c5d3e9);
-      border-radius: var(--ds-border-radius-md, 4px);
-      border-left: 5px solid var(--ds-color-accent-8, #335071);
-      cursor: pointer;
-      padding: 9px 12px 9px 7.5px;
-    }
+  }
+
+  .option-item:hover {
+    background: var(--ds-color-brand1-4, #c5d3e9);
+    border-radius: var(--ds-border-radius-md, 4px);
+    border-left: 5px solid var(--ds-color-accent-8, #335071);
+    cursor: pointer;
+    padding: 9px 12px 9px 7.5px;
   }
 
   .option-item:hover rect {
