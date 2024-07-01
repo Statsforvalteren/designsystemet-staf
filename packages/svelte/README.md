@@ -76,3 +76,31 @@ BREAKING CHANGE: The component now requires a new prop
 #### Versioning
 
 Semantic Release analyzes the commit messages and determines the appropriate version bump (major, minor, or patch) based on the changes made. Summarized a commit message with the type `fix` will result in a patch release, `feat` in a minor release, and `perf` (with `BREAKING CHANGE` in the footer of the commit message) in a major release. Once Semantic Release has determined a new version it publishes that version to the npm registry and updates the changelog accordingly.
+
+## Installing from Github Packages
+
+To install the component library and design tokens from GitHub Packages in a Svelte project, you need to authenticate with GitHub Packages. This can be done by logging into the GitHub package registry locally with the following command:
+
+```
+npm login --scope=@fmfaDigitalisering --registry=https://npm.pkg.github.com
+```
+
+You will be prompted to enter your GitHub username and a personal access token. The personal access token should have the `read:packages` scope.
+
+**Note:** Before creating a personal access token, make sure you have access to the **staf-komponentbibliotek-svelte** repository. (Since you are able to read this documentation, this should already be taken care of.)
+
+Once you have logged in, add a `.npmrc` file to the root of your project with the following content:
+
+```
+registry=https://registry.npmjs.org/
+@fmfadigitalisering:registry=https://npm.pkg.github.com
+```
+
+These lines tell npm to use the GitHub package registry for packages with the `@fmfaDigitalisering` scope, while using the normal npm registry for all other packages.
+
+The last step is to add the packages to your project. This is done by adding the following lines to your `package.json`:
+
+```
+"@fmfadigitalisering/staf-komponentbibliotek-svelte": "x.x.x",
+"@fmfadigitalisering/staf-design-system-tokens": "x.x.x",
+```
