@@ -56,7 +56,7 @@ jobs:
         run: yarn install
 
       - name: Build the project
-        run: yarn build:tokens
+        run: yarn clean:theme && yarn designsystemet tokens -p -t ../../design-tokens -o dist/theme
 
       - name: Set up Git
         run: |
@@ -71,7 +71,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
           YARN_NPM_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
-        run: semantic-release --extends ../svelte/release.config.cjs
+        run: semantic-release --extends ../svelte/design-tokens-release.config.cjs
 
   build-and-publish-library:
     runs-on: ubuntu-latest
@@ -118,4 +118,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
           YARN_NPM_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
-        run: semantic-release --extends ./release.config.cjs
+        run: semantic-release --extends ./components-release.config.cjs
