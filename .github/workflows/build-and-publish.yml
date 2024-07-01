@@ -56,7 +56,7 @@ jobs:
         run: yarn install
 
       - name: Build the project
-        run: yarn clean:theme && yarn designsystemet tokens -p -t ../../design-tokens -o dist/theme
+        run: yarn clean:theme && yarn designsystemet tokens -p -t ../../design-tokens -o dist
 
       - name: Set up Git
         run: |
