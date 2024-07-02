@@ -1,30 +1,30 @@
 <script>
-  import { ErrorMessage, Paragraph } from "$lib";
-  import { v4 as uuidv4 } from "uuid";
-  import CharacterCounter from "../CharacterCounter.svelte";
+  import { ErrorMessage, Paragraph } from '$lib';
+  import { v4 as uuidv4 } from 'uuid';
+  import CharacterCounter from '../CharacterCounter.svelte';
 
   /**
    * Label for the textfield.
    */
-  export let label = "";
+  export let label = '';
 
   /**
    * Description for the textfield.
    */
-  export let description = "";
+  export let description = '';
 
   /**
    * Changes field size and paddings. Options are 'small', 'medium', 'large', 'sm', 'md', 'lg'.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
    * Supported `input` types.
    * @type {'date' | 'datetime-local' | 'email' | 'file' | 'month' | 'number'
     | 'password' | 'search' | 'tel' | 'text' | 'time' | 'url' | 'week'}
    */
-  export let type = "text";
+  export let type = 'text';
 
   /**
    * Visually hides `label` and `description` (still available for screen readers).
@@ -44,17 +44,17 @@
   /**
    * Error message to display.
    */
-  export let error = "";
+  export let error = '';
 
   /**
    * Prefix for field.
    */
-  export let prefix = "";
+  export let prefix = '';
 
   /**
    * Suffix for field.
    */
-  export let suffix = "";
+  export let suffix = '';
 
   /**
    * Sets limit for number of characters.
@@ -71,38 +71,38 @@
   let fontSizeClass;
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
-      fontSizeClass = "font--sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
+      fontSizeClass = 'font--sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
-      fontSizeClass = "font--md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
+      fontSizeClass = 'font--md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
-      fontSizeClass = "font--lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
+      fontSizeClass = 'font--lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
   // Computed class names for the component elements
   let formFieldClasses = `ds-textfield ds-textfield--${standardizedSize} ${
-    error ? "ds-textfield--error" : ""
-  } ${readOnly ? "readonly" : ""} ${$$props.class || ""} ${fontSizeClass}`;
-  let labelClasses = `ds-textfield__label ${hideLabel ? "ds-sr-only" : ""}`;
+    error ? 'ds-textfield--error' : ''
+  } ${readOnly ? 'readonly' : ''} ${$$props.class || ''} ${fontSizeClass}`;
+  let labelClasses = `ds-textfield__label ${hideLabel ? 'ds-sr-only' : ''}`;
   let descriptionClasses = `ds-textfield__description ${
-    hideLabel ? "ds-sr-only" : ""
+    hideLabel ? 'ds-sr-only' : ''
   } ${fontSizeClass}`;
-  let fieldClasses = "ds-textfield__field";
+  let fieldClasses = 'ds-textfield__field';
   let inputClasses = `ds-textfield__input ds-focus ${
-    prefix ? "ds-textfield__input--with-prefix" : ""
-  } ${suffix ? "ds-textfield__input--with-suffix" : ""} ${fontSizeClass}`;
+    prefix ? 'ds-textfield__input--with-prefix' : ''
+  } ${suffix ? 'ds-textfield__input--with-suffix' : ''} ${fontSizeClass}`;
   let errorMessageClasses = `ds-textfield__error-message ${fontSizeClass}`;
 </script>
 
@@ -111,7 +111,11 @@
     {#if label}
       <label for={`input-field-${componentId}`} class={labelClasses}>
         {#if readOnly}
-          <span aria-hidden class="ds-textfield__readonly__icon">
+          <span
+            aria-hidden
+            class="ds-textfield__readonly__icon"
+            style="margin: -5px 3px 0 -5px;"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="1.5em"

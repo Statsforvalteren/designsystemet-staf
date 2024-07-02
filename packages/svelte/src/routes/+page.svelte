@@ -452,7 +452,7 @@
   <Modal onClose={closeModal}>
     <div slot="header">Modal header</div>
     <div slot="content">
-      <p>
+      <p style="font-size: 300%;">
         Lorem Ipsum er rett og slett dummytekst fra og for trykkeindustrien.
         Lorem Ipsum har vært bransjens standard for dummytekst helt siden
         1500-tallet, da en ukjent boktrykker stokket en mengde bokstaver for å
