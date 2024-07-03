@@ -5,8 +5,16 @@ The repository was originally a fork of `digdir/designsystemet` but is now a pri
 
 ## Adding or updating dependencies
 
-1. In the terminal, navigate to the /packages/svelte folder.
+1. In the terminal, navigate to the `/packages/svelte` folder.
 2. Run `yarn install`
+
+### Updating design tokens
+
+Once changes to the design tokens have been made in Figma Token Studio, and the new tokens have been pushed to the `design-tokens` folder. Run the following command, from inside the `/packages/svelte` folder, to update the tokens in the component library:
+
+```
+yarn updateTokens
+```
 
 ## Creating new component
 

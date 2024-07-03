@@ -2568,7 +2568,6 @@ __metadata:
   resolution: "@fmfadigitalisering/staf-komponentbibliotek-svelte@workspace:packages/svelte"
   dependencies:
     "@altinn/figma-design-tokens": "npm:^6.0.1"
-    "@kjetil-hoel/design-system-tokens": "npm:^0.0.9"
     "@navikt/aksel-icons": "npm:^5.6.0"
     "@playwright/test": "npm:^1.28.1"
     "@semantic-release/changelog": "npm:^6.0.3"
@@ -2772,13 +2771,6 @@ __metadata:
   peerDependencies:
     tslib: 2
   checksum: 10/6af58b3d34266f1f8e4f953668f163ef1028a5d372a90391bd238c2ea637e0ea3792b18b99162b8ec072af35baebe0e947d9eedd702ad942e697ed419f1e54eb
-  languageName: node
-  linkType: hard
-
-"@kjetil-hoel/design-system-tokens@npm:^0.0.9":
-  version: 0.0.9
-  resolution: "@kjetil-hoel/design-system-tokens@npm:0.0.9"
-  checksum: 10/9134d9555db05665830e4d0bbc2eabd8db4e17eb5d1961aaa59c4b2d224357f9c29e04ce0bf4cb63731fa1d6f11a1220f3a46b4df0daf49d87b9ba250f2edf3f
   languageName: node
   linkType: hard
 
