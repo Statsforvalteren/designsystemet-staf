@@ -23,6 +23,12 @@
    */
   export let isDropdownVisible;
 
+  /**
+   * Whether the dropdown should be displayed on top of other content (hiding it) or if it displays above it (moving other content downwards).
+   * @type {boolean}
+   */
+  export let displayDropdownOnTop;
+
   export let multiple;
 
   /**
@@ -56,7 +62,13 @@
   };
 </script>
 
-<div class="select-dropdown" class:visible={isDropdownVisible}>
+<div
+  class="select-dropdown"
+  class:visible={isDropdownVisible}
+  style={`postition: ${displayDropdownOnTop ? 'absolute' : 'relative'} ${
+    displayDropdownOnTop ? 'z-index: 1000;' : ''
+  }`}
+>
   <ul class="options-list">
     {#if options.length === 0}
       <li class="option-item-no-hover" role="option" aria-selected="false">
@@ -142,8 +154,6 @@
     overflow-y: auto;
     margin-top: var(--ds-spacing-1);
     padding: var(--ds-spacing-2, 9px);
-    z-index: 1000;
-    position: absolute;
     width: calc(100% - 17px);
   }
   .options-list {

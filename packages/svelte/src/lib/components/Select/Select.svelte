@@ -121,6 +121,12 @@
    */
   export let emptyOptionsPlaceholder = '';
 
+  /**
+   * Whether the dropdown should be displayed on top of other content (hiding it) or if it displays above it (moving other content downwards).
+   * @type {boolean}
+   */
+  export let displayDropdownOnTop;
+
   $: isDropdownVisible = false;
   let selectClasses = 'select';
   let inputClasses = 'textInput';
@@ -352,6 +358,7 @@
       {inputId}
       {size}
       {emptyOptionsPlaceholder}
+      {displayDropdownOnTop}
     />
   </div>
 
