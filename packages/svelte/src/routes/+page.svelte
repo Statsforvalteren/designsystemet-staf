@@ -384,9 +384,9 @@
 <br />
 
 <div class="display-flex">
-  <Tag color="brand1">Tag Primary</Tag>
-  <Tag color="brand2">Tag Secondary</Tag>
-  <Tag color="brand3">Tag tertiary</Tag>
+  <Tag color="brand1" hasBorder={true}>Tag Primary</Tag>
+  <Tag color="brand2" hasBorder={true}>Tag Secondary</Tag>
+  <Tag color="brand3" hasBorder={true}>Tag tertiary</Tag>
   <Tag color="neutral">Tag neutral</Tag>
   <Tag color="success">Tag success</Tag>
   <Tag color="warning">Tag warning</Tag>
@@ -394,7 +394,7 @@
   <Tag color="info">Tag info</Tag>
   <Tag size="small">Tag small</Tag>
   <Tag size="medium">Tag medium</Tag>
-  <Tag size="large">Tag large</Tag>
+  <Tag size="large" hasBorder={true}>Tag large</Tag>
 </div>
 
 <br />

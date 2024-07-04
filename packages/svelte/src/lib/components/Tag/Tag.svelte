@@ -3,40 +3,46 @@
    * Color of the tag.
    * @type {'brand1' | 'brand2' | 'brand3' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'}
    */
-  export let color = "neutral";
+  export let color = 'neutral';
 
   /**
    * Size of the tag.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
+
+  /**
+   * Whether the tag has a border.
+   * @type {boolean}
+   */
+  export let hasBorder = false;
 
   let standardizedSize;
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 </script>
 
 <div>
   <span
-    class={`ds-tag ds-tag--${color} ds-tag--${standardizedSize} ${
-      $$props.class || ""
-    }`}
+    class={`ds-tag ${
+      hasBorder ? 'ds-tag-border' : ''
+    } ds-tag--${color} ds-tag--${standardizedSize} ${$$props.class || ''}`}
   >
     <slot />
   </span>
@@ -57,6 +63,11 @@
     box-sizing: border-box;
     word-break: break-word;
     width: max-content;
+  }
+
+  .ds-tag-border {
+    --dsc-tag-color: var(--ds-color-neutral-text-default);
+    border: 1px solid var(--dsc-tag-color);
   }
 
   .ds-tag--sm {
