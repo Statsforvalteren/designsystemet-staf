@@ -65,7 +65,7 @@
 <div
   class="select-dropdown"
   class:visible={isDropdownVisible}
-  style={`postition: ${displayDropdownOnTop ? 'absolute' : 'relative'} ${
+  style={`postition: ${displayDropdownOnTop ? 'absolute' : 'relative'}; ${
     displayDropdownOnTop ? 'z-index: 1000;' : ''
   }`}
 >
