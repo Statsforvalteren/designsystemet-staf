@@ -125,7 +125,7 @@
    * Whether the dropdown should be displayed on top of other content (hiding it) or if it displays above it (moving other content downwards).
    * @type {boolean}
    */
-  export let displayDropdownOnTop;
+  export let displayDropdownOnTop = false;
 
   $: isDropdownVisible = false;
   let selectClasses = 'select';
