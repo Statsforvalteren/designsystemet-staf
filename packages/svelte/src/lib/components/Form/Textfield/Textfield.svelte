@@ -94,7 +94,9 @@
   // Computed class names for the component elements
   let formFieldClasses = `ds-textfield ds-textfield--${standardizedSize} ${
     error ? 'ds-textfield--error' : ''
-  } ${readOnly ? 'readonly' : ''} ${$$props.class || ''} ${fontSizeClass}`;
+  } ${readOnly ? 'ds-textfield--readonly' : ''} ${
+    $$props.class || ''
+  } ${fontSizeClass}`;
   let labelClasses = `ds-textfield__label ${hideLabel ? 'ds-sr-only' : ''}`;
   let descriptionClasses = `ds-textfield__description ${
     hideLabel ? 'ds-sr-only' : ''
@@ -102,7 +104,9 @@
   let fieldClasses = 'ds-textfield__field';
   let inputClasses = `ds-textfield__input ds-focus ${
     prefix ? 'ds-textfield__input--with-prefix' : ''
-  } ${suffix ? 'ds-textfield__input--with-suffix' : ''} ${fontSizeClass}`;
+  } ${suffix ? 'ds-textfield__input--with-suffix' : ''} ${
+    readOnly ? 'ds-textfield--readonly' : ''
+  } ${fontSizeClass}`;
   let errorMessageClasses = `ds-textfield__error-message ${fontSizeClass}`;
 </script>
 
@@ -307,7 +311,12 @@
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .ds-textfield__input:not(:focus-visible, :disabled, [aria-disabled]):hover {
+    .ds-textfield__input:not(
+        :focus-visible,
+        :disabled,
+        [aria-disabled],
+        .ds-textfield--readonly
+      ):hover {
       border-color: var(--ds-color-accent-border-strong);
       box-shadow: inset 0 0 0 1px var(--ds-color-accent-border-strong);
     }

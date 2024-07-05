@@ -1,23 +1,23 @@
 <script>
-  import { ErrorMessage, Paragraph } from "$lib";
-  import { v4 as uuidv4 } from "uuid";
-  import CharacterCounter from "../CharacterCounter.svelte";
+  import { ErrorMessage, Paragraph } from '$lib';
+  import { v4 as uuidv4 } from 'uuid';
+  import CharacterCounter from '../CharacterCounter.svelte';
 
   /**
    * Label for the textfield.
    */
-  export let label = "";
+  export let label = '';
 
   /**
    * Description for the textfield.
    */
-  export let description = "";
+  export let description = '';
 
   /**
    * Changes field size and paddings. Options are 'small', 'medium', 'large', 'sm', 'md', 'lg'.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
    * Visually hides `label` and `description` (still available for screen readers).
@@ -37,7 +37,7 @@
   /**
    * Error message to display.
    */
-  export let error = "";
+  export let error = '';
 
   /**
    * Sets limit for number of characters.
@@ -54,33 +54,33 @@
   let fontSizeClass;
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
-      fontSizeClass = "font--sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
+      fontSizeClass = 'font--sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
-      fontSizeClass = "font--md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
+      fontSizeClass = 'font--md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
-      fontSizeClass = "font--lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
+      fontSizeClass = 'font--lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
   // Computed class names for the component elements
   let formFieldClasses = `ds-textarea ds-textarea--${standardizedSize} ${
-    error ? "ds-textarea--error" : ""
-  } ${$$props.class || ""} ${fontSizeClass}`;
-  let labelClasses = `ds-textarea__label ${hideLabel ? "ds-sr-only" : ""}`;
+    error ? 'ds-textarea--error' : ''
+  } ${$$props.class || ''} ${fontSizeClass}`;
+  let labelClasses = `ds-textarea__label ${hideLabel ? 'ds-sr-only' : ''}`;
   let descriptionClasses = `ds-textarea__description ${
-    hideLabel ? "ds-sr-only" : ""
+    hideLabel ? 'ds-sr-only' : ''
   } ${fontSizeClass}`;
   let textareaClasses = `ds-textarea__input ds-focus ${fontSizeClass}`;
   let errorMessageClasses = `ds-textarea__error-message ${fontSizeClass}`;
@@ -122,6 +122,7 @@
     <textarea
       bind:value
       on:input
+      readonly={readOnly}
       class={textareaClasses}
       id={`textarea-${componentId}`}
       aria-describedby="description"
@@ -224,7 +225,12 @@
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .ds-textarea__input:not(:focus-visible, :disabled, [aria-disabled]):hover {
+    .ds-textarea__input:not(
+        :focus-visible,
+        :disabled,
+        [aria-disabled],
+        :read-only
+      ):hover {
       border-color: var(--ds-color-accent-border-strong);
       box-shadow: inset 0 0 0 1px var(--ds-color-accent-border-strong);
     }

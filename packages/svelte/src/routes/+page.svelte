@@ -259,6 +259,7 @@
   size="md"
   label="Textfield Overskrift"
   description="Beskrivelse"
+  readOnly={true}
 />
 
 <br />
