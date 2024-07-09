@@ -46,6 +46,12 @@
    */
   export let emptyOptionsPlaceholder = '';
 
+  /**
+   * Gap between the dropdown and the select input. Default is 0.
+   * @type {number}
+   */
+  export let dropdownGap = 0;
+
   const selectContext = getContext('selectContext-' + inputId);
 
   $: selected = $selectContext.selected;
@@ -67,7 +73,7 @@
   class:visible={isDropdownVisible}
   style={`position: ${displayDropdownOnTop ? 'absolute' : 'relative'}; ${
     displayDropdownOnTop ? 'z-index: 1000;' : ''
-  }`}
+  } margin-top: ${dropdownGap}px;`}
 >
   <ul class="options-list">
     {#if options.length === 0}

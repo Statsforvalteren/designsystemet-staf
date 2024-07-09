@@ -127,6 +127,12 @@
    */
   export let displayDropdownOnTop = false;
 
+  /**
+   * Gap between the dropdown and the select input. Default is 0.
+   * @type {number}
+   */
+  export let dropdownGap = 5;
+
   $: isDropdownVisible = false;
   let selectClasses = 'select';
   let inputClasses = 'textInput';
@@ -300,7 +306,7 @@
   {...$$restProps}
 >
   {#if label}
-    <div class="heading-wrapper">
+    <div class="heading-wrapper select-container-spacing">
       {#if readOnly}
         <span aria-hidden class={`padlock-icon icon-size--${standardizedSize}`}>
           <svg
@@ -328,7 +334,9 @@
   {/if}
 
   {#if description}
-    <p class="select-description">{description}</p>
+    <div class="select-container-spacing">
+      <p class="select-description">{description}</p>
+    </div>
   {/if}
 
   <SelectControl
@@ -348,7 +356,7 @@
     {size}
   />
 
-  <div>
+  <div class="select-container-spacing">
     <SelectDropdown
       {isDropdownVisible}
       options={filteredOptions}
@@ -359,6 +367,7 @@
       {size}
       {emptyOptionsPlaceholder}
       {displayDropdownOnTop}
+      {dropdownGap}
     />
   </div>
 
@@ -371,14 +380,15 @@
   .select-container {
     display: flex;
     flex-direction: column;
-    gap: var(--ds-spacing-2);
     margin: var(--ds-spacing-1) 0;
     position: relative;
+  }
+  .select-container-spacing {
+    margin-bottom: var(--ds-spacing-2);
   }
   .error-message {
     color: var(--ds-color-danger-text-subtle, #c22020);
   }
-
   .select-label {
     font-weight: 500;
     padding: 0;

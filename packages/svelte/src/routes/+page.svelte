@@ -620,6 +620,7 @@
     clearable
     size="large"
     emptyOptionsPlaceholder="No options available"
+    dropdownGap={10}
   />
   <Select
     {options}
