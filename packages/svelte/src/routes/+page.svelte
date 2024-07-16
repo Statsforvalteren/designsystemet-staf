@@ -1,19 +1,19 @@
 <script>
   // @ts-nocheck
-  import Alert from '$lib/components/Alert/Alert.svelte';
-  import Button from '$lib/components/Button/Button.svelte';
-  import Switch from '$lib/components/Form/Switch/Switch.svelte';
-  import Radio from '$lib/components/Form/Radio/Radio.svelte';
-  import RadioGroup from '$lib/components/Form/Radio/RadioGroup.svelte';
-  import Textfield from '$lib/components/Form/Textfield/Textfield.svelte';
-  import Checkbox from '$lib/components/Form/Checkbox/Checkbox.svelte';
-  import Link from '$lib/components/Link/Link.svelte';
-  import List from '$lib/components/List/List.svelte';
-  import ListItem from '$lib/components/List/ListItem.svelte';
-  import Tag from '$lib/components/Tag/Tag.svelte';
-  import Paragraph from '$lib/components/Typography/Paragraph/Paragraph.svelte';
-  import Modal from '$lib/components/Modal/Modal.svelte';
   import {
+    Alert,
+    Button,
+    Switch,
+    Radio,
+    RadioGroup,
+    Textfield,
+    Checkbox,
+    Link,
+    List,
+    ListItem,
+    Tag,
+    Paragraph,
+    Modal,
     Accordion,
     AccordionContent,
     AccordionHeader,
@@ -25,15 +25,17 @@
     TabItem,
     TabContent,
     Files,
+    CheckboxGroup,
+    Textarea,
+    Search,
+    DropdownMenu,
+    Chip,
+    ChipGroup,
+    Spinner,
   } from '$lib';
   import InformationSquareFillIcon from '@navikt/aksel-icons/svg/InformationSquareFill.svg?raw';
   import CheckmarkCircleFillIcon from '@navikt/aksel-icons/svg/CheckmarkCircleFill.svg?raw';
   import XMarkOctagonFillIcon from '@navikt/aksel-icons/svg/XMarkOctagonFill.svg?raw';
-  import Spinner from '$lib/components/Spinner/Spinner.svelte';
-  import CheckboxGroup from '$lib/components/Form/Checkbox/CheckboxGroup.svelte';
-  import Textarea from '$lib/components/Form/Textarea/Textarea.svelte';
-  import Search from '$lib/components/Form/Search/Search.svelte';
-  import DropdownMenu from '$lib/components/Dropdown/DropdownMenu.svelte';
 
   function handleTabChange(value) {
     // console.log('Tab changed:', value);
@@ -839,6 +841,23 @@
   <Spinner size="xLarge" title="xLarge accent" color="accent" />
   <Spinner size="xLarge" title="xLarge neutral (default)" color="neutral" />
 </div>
+<br />
+<br />
+
+<h1 class="componentHeader">Chip & ChipGroup</h1>
+<Chip size="sm">Bokmål</Chip>
+<Chip size="md">Engelsk</Chip>
+<br />
+<br />
+<Chip size="lg" checkmark selected>Nynorsk</Chip>
+<br />
+<br />
+<ChipGroup size="sm" disabled={true}>
+  <Chip>Bokmål</Chip>
+  <Chip checkmark selected>Engelsk</Chip>
+  <Chip>Nynorsk</Chip>
+</ChipGroup>
+
 <br />
 <br />
 

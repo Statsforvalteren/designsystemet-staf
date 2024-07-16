@@ -1,19 +1,19 @@
 <script>
-  import { Button } from "$lib";
-  import { SvelteComponent, getContext } from "svelte";
+  import { Button } from '$lib';
+  import { getContext } from 'svelte';
 
   /**
    * The link to be navigated to.
    * @default ''
    * @type {string}
    */
-  export let href = "";
+  export let href = '';
   /**
    * Target of the link.
    * @default '_blank'
    * @type {'_blank' | '_self' | '_parent' | '_top'}
    */
-  export let target = "_blank";
+  export let target = '_blank';
   /**
    * Icon to be displayed in the dropdown menu item.
    * @default null
@@ -21,13 +21,13 @@
    */
   export let IconComponent = undefined;
 
-  let height = "100%";
-  let width = "100%";
+  let height = '100%';
+  let width = '100%';
 
   export let onClick = (e) => {};
 
-  let parentProps = getContext("parentProps");
-  let size = parentProps?.size || "medium";
+  let parentProps = getContext('parentProps');
+  let size = parentProps?.size || 'medium';
 </script>
 
 <li>
@@ -60,7 +60,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--fds-semantic-surface-action-default, "#00244E");
+    color: var(--fds-semantic-surface-action-default, '#00244E');
     height: 1.25rem;
     width: 1.25rem;
   }

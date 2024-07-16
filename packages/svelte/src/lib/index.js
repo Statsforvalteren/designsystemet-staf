@@ -37,6 +37,7 @@ import TabItem from './components/Tabs/TabItem.svelte';
 import TabList from './components/Tabs/TabList.svelte';
 import Spinner from './components/Spinner/Spinner.svelte';
 import DropdownMenu from './components/Dropdown/DropdownMenu.svelte';
+import { Chip, ChipGroup } from './components/Chip';
 
 export {
   Button,
@@ -71,4 +72,6 @@ export {
   Search,
   DropdownMenu,
   Files,
+  Chip,
+  ChipGroup,
 };
