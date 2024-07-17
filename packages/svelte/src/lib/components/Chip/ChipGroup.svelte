@@ -39,6 +39,9 @@
     --dsc-chip-group-gap: var(--ds-spacing-2);
 
     display: flex;
+    flex-flow: row wrap;
+    flex-wrap: wrap;
+    flex-direction: row;
     gap: var(--dsc-chip-group-gap);
     list-style-type: none;
     padding: 0;
