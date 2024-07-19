@@ -88,7 +88,7 @@
   let dropdown = null;
   setContext('parentProps', parentProps);
 
-  function onWindowClick(e) {
+  function hideMenu(e) {
     if (menuVisible == false) return;
     if (
       dropdown.contains(e.target) == false &&
@@ -143,7 +143,7 @@
   }
 </script>
 
-<svelte:window on:click={onWindowClick} />
+<svelte:window on:click={hideMenu} />
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -154,6 +154,7 @@
   style="top:{top}px; left:{left}px; {menuVisible
     ? 'visibility:visible;'
     : 'visibility:hidden;'}"
+  on:click={() => hideMenu}
 >
   <slot {C} />
 </ul>
