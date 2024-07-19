@@ -42,7 +42,7 @@
    */
   export let gap = 0;
 
-  const uniqueId = `dropdwonMenu-${uuidv4()}`;
+  const uniqueId = `dropdownMenu-${uuidv4()}`;
   let standardizedSize;
 
   switch (size) {
@@ -88,7 +88,7 @@
   let dropdown = null;
   setContext('parentProps', parentProps);
 
-  function hideMenu(e) {
+  function onWindowClick(e) {
     if (menuVisible == false) return;
     if (
       dropdown.contains(e.target) == false &&
@@ -143,18 +143,21 @@
   }
 </script>
 
-<svelte:window on:click={hideMenu} />
+<svelte:window on:click={onWindowClick} />
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <ul
+  id={uniqueId}
   role="menu"
   bind:this={dropdown}
   class={`ds-dropdownmenu ds-dropdownmenu--${standardizedSize}`}
   style="top:{top}px; left:{left}px; {menuVisible
     ? 'visibility:visible;'
     : 'visibility:hidden;'}"
-  on:click={() => hideMenu}
+  on:click={(event) => {
+    event.stopPropagation();
+  }}
 >
   <slot {C} />
 </ul>
