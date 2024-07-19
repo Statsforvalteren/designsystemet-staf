@@ -749,6 +749,7 @@
     options={dropdownPlacements}
     bind:selected={currentDropdownPlacement}
     label="Placement"
+    displayDropdownOnTop={true}
   />
 
   {#each [0, 1, 2] as i (i)}
@@ -817,16 +818,16 @@
 </Tooltip>
 
 <p>
-  Tooltips kan også legges <nobr
+  Tooltips can also be added to a text snippet <nobr
     ><Tooltip open={true} placement="bottom">
       <abbr
         slot="anchor"
         style="font-weight: bold; text-decoration: underline dotted;"
-        >til i en tekst</abbr
+        >to give more</abbr
       >
-      <span slot="content">Ganske kult?</span>
+      <span slot="content">Pretty cool?</span>
     </Tooltip>
-  </nobr> for å gi mer informasjon!
+  </nobr> information!
 </p>
 
 <h1 class="componentHeader">Spinner</h1>
