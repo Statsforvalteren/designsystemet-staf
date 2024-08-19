@@ -17,7 +17,9 @@
    */
   export let href = '';
 
-  $: computedClass = `ds-link ds-link--${color} ${$$props.class || ''}`;
+  $: computedClass = `ds-link ds-link--${color} ${
+    $$props.class || ''
+  } ds-link--${as}`;
 </script>
 
 {#if as === 'a'}
@@ -43,12 +45,16 @@
     position: relative;
     color: var(--dsc-link-color);
     cursor: pointer;
-    text-decoration: underline;
+
     text-decoration-thickness: max(1px, 0.0625rem);
     text-underline-offset: max(5px, 0.25rem);
     display: inline-flex;
     align-items: center;
     gap: var(--ds-spacing-1);
+  }
+
+  .ds-link:not(.ds-link--button) {
+    text-decoration: underline;
   }
 
   .ds-link--accent {

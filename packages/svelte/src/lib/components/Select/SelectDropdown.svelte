@@ -86,63 +86,65 @@
     {#each options as option, index (index)}
       {@const isSelected = isOptionSelected(option)}
 
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <li
-        class="option-item"
-        role="option"
-        aria-selected={isSelected}
-        on:click={(event) => {
-          event.stopPropagation();
-          selectOption(option);
-        }}
-      >
-        <div class="option-content">
-          {#if multiple}
-            <div class="checkbox-container">
-              <input class="input" type="checkbox" checked={isSelected} />
-              <svg
-                class="icon icon-xsmall"
-                width="22"
-                height="22"
-                viewBox="0 0 22 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  class="box"
-                  x="1"
-                  y="1"
-                  width="20"
-                  height="20"
-                  rx="0.125rem"
-                  ry="0.125rem"
-                  fill="white"
-                  stroke-width="2"
-                  stroke-linejoin="round"
-                />
-                <path
-                  class="checked"
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M17.7876 6.27838C18.1171 6.60788 18.1171 7.14212 17.7876 7.47162L9.99591 15.2633C9.6664 15.5928 9.13217 15.5928 8.80267 15.2633L4.67767 11.1383C4.34816 10.8088 4.34816 10.2745 4.67767 9.94505C5.00717 9.61554 5.5414 9.61554 5.87091 9.94505L9.39929 13.4734L16.5943 6.27838C16.9238 5.94887 17.4581 5.94887 17.7876 6.27838Z"
-                  fill="white"
-                />
-              </svg>
-            </div>
-          {/if}
-          <div class="option-text">
-            <div class="option-label">{option.label}</div>
-            {#if option.description}
-              <div class="option-description">{option.description}</div>
-            {/if}
-            {#if !multiple && isSelected}
-              <div class="checkmark-container">
-                <SelectCheckmark />
+      {#if !(hideSelected && isSelected)}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <li
+          class="option-item"
+          role="option"
+          aria-selected={isSelected}
+          on:click={(event) => {
+            event.stopPropagation();
+            selectOption(option);
+          }}
+        >
+          <div class="option-content">
+            {#if multiple}
+              <div class="checkbox-container">
+                <input class="input" type="checkbox" checked={isSelected} />
+                <svg
+                  class="icon icon-xsmall"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 22 22"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    class="box"
+                    x="1"
+                    y="1"
+                    width="20"
+                    height="20"
+                    rx="0.125rem"
+                    ry="0.125rem"
+                    fill="white"
+                    stroke-width="2"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    class="checked"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M17.7876 6.27838C18.1171 6.60788 18.1171 7.14212 17.7876 7.47162L9.99591 15.2633C9.6664 15.5928 9.13217 15.5928 8.80267 15.2633L4.67767 11.1383C4.34816 10.8088 4.34816 10.2745 4.67767 9.94505C5.00717 9.61554 5.5414 9.61554 5.87091 9.94505L9.39929 13.4734L16.5943 6.27838C16.9238 5.94887 17.4581 5.94887 17.7876 6.27838Z"
+                    fill="white"
+                  />
+                </svg>
               </div>
             {/if}
+            <div class="option-text">
+              <div class="option-label">{option.label}</div>
+              {#if option.description}
+                <div class="option-description">{option.description}</div>
+              {/if}
+              {#if !multiple && isSelected}
+                <div class="checkmark-container">
+                  <SelectCheckmark />
+                </div>
+              {/if}
+            </div>
           </div>
-        </div>
-      </li>
+        </li>
+      {/if}
     {/each}
   </ul>
 </div>

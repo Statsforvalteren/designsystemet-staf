@@ -1,52 +1,51 @@
 <script>
-  import { Label } from "$lib";
-  import Paragraph from "$lib/components/Typography/Paragraph/Paragraph.svelte";
-  import { createEventDispatcher } from "svelte";
+  import { Paragraph } from '../../..';
+  import { createEventDispatcher } from 'svelte';
 
   /**
-   * Value of the `input` element.
+   * Value of the internal input element.
    * @type {string}
    */
-  export let value = "";
+  export let value = '';
 
   /**
-   * Position of switch around the label. Options are 'left', 'right'.
+   * Position of switch around the label.
    * @type {'left' | 'right'}
    */
-  export let position = "left";
+  export let position = 'left';
 
   /**
-   * If `Switch` is disabled.
+   * If the switch is disabled.
    * @type {boolean}
    */
   export let disabled = false;
 
   /**
-   * If `Switch` is read-only.
+   * If the switch is read-only.
    * @type {boolean}
    */
   export let readOnly = false;
 
   /**
-   * Description text for the `Switch`.
+   * Description text for the switch.
    * @type {string}
    */
-  export let description = "";
+  export let description = '';
 
   /**
-   * Size of the paragraph. Options are 'small', 'medium', 'large'.
+   * Size of the paragraph wrapper of the description.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
-   * ID for the `input` element.
+   * ID for the internal input element.
    * @type {string}
    */
-  export let id = "";
+  export let id = '';
 
   /**
-   * If `Switch` is checked.
+   * If the switch is checked.
    * @type {boolean}
    */
   export let checked = false;
@@ -54,20 +53,20 @@
   let standardizedSize;
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
@@ -78,7 +77,7 @@
       event.preventDefault();
       return;
     }
-    dispatch("click", event);
+    dispatch('click', event);
   }
 
   function handleInputChange(event) {
@@ -86,14 +85,14 @@
       event.preventDefault();
       return;
     }
-    dispatch("change", { checked: event.target.checked });
+    dispatch('change', { checked: event.target.checked });
   }
 
   $: computedClass = `ds-switch ds-switch--${standardizedSize} ${
-    disabled ? "ds-switch--disabled" : ""
-  } ${readOnly ? "ds-switch--readonly" : ""} ${$$props.class || ""}`;
+    disabled ? 'ds-switch--disabled' : ''
+  } ${readOnly ? 'ds-switch--readonly' : ''} ${$$props.class || ''}`;
   $: labelClass = `ds-switch__label ds-label ds-label--${standardizedSize} ds-label--regular-weight ${
-    position === "right" ? "ds-switch__label--right" : ""
+    position === 'right' ? 'ds-switch__label--right' : ''
   }`;
   $: descriptionClass = `ds-switch__description`;
 </script>
@@ -221,6 +220,10 @@
   .ds-switch__label--right + .ds-switch__description {
     margin-top: 11px;
     padding-left: 0;
+  }
+
+  .ds-switch__label--right .ds-switch__track {
+    margin-left: 5px;
   }
 
   .ds-switch__input {
@@ -362,7 +365,7 @@
   }
 
   .ds-switch__thumb::after {
-    content: "";
+    content: '';
     width: 100%;
     height: 100%;
     position: absolute;

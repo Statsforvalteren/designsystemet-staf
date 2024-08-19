@@ -1,5 +1,9 @@
 <script>
-  export let className = "";
+  /**
+   * Additional classes to add to the component.
+   * @type {string}
+   */
+  export let className = '';
 </script>
 
 <li class={`ds-list__item ${className}`} {...$$restProps}>

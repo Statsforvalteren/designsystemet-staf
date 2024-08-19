@@ -3,54 +3,59 @@
    * Sets the title of the spinner for accessibility purposes.
    * @type {string}
    */
-  export let title = "";
+  export let title = '';
 
   /**
-   * The size of the spinner to render. Options are 'xSmall', 'small', 'medium', 'large', 'xLarge', '2xs', 'xs', 'sm', 'md', 'lg', 'xl'. Defaults to 'medium'.
+   * The size of the spinner to render.
    * @type {'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
-   * What variant of the spinner to render. Options are 'neutral' and 'accent'. Defaults to 'neutral'.
+   * What variant of the spinner to render.
    * @type {'neutral' | 'accent'}
    */
-  export let color = "neutral";
-  export let className = "";
+  export let color = 'neutral';
+
+  /**
+   * Additional classes to add to the component.
+   * @type {string}
+   */
+  export let className = '';
 
   let standardizedSize;
 
   switch (size) {
-    case "2xs":
-      standardizedSize = "2xs";
+    case '2xs':
+      standardizedSize = '2xs';
       break;
-    case "xsmall":
-    case "xs":
-      standardizedSize = "xs";
+    case 'xsmall':
+    case 'xs':
+      standardizedSize = 'xs';
       break;
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
-    case "xlarge":
-    case "xl":
-      standardizedSize = "xl";
+    case 'xlarge':
+    case 'xl':
+      standardizedSize = 'xl';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
   const sizeMap = {
-    "2xs": 13,
+    '2xs': 13,
     xs: 20,
     sm: 27,
     md: 40,

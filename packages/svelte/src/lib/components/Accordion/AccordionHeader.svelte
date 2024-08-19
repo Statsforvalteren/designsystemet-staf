@@ -1,6 +1,10 @@
 <script>
-  import { getContext } from "svelte";
+  import { getContext } from 'svelte';
 
+  /**
+   * Specify the heading level for the accordion header. Level 1 does not have a top border.
+   * @type {number}
+   */
   export let level = 1;
 
   let accordionContext = null;
@@ -9,12 +13,12 @@
 
   $: {
     try {
-      accordionContext = getContext("accordion");
-      accordionItemContext = getContext("accordionItem");
+      accordionContext = getContext('accordion');
+      accordionItemContext = getContext('accordionItem');
       open = accordionItemContext.open;
     } catch {
       console.error(
-        "<Accordion.Header> has to be used within an <Accordion.Item>"
+        '<Accordion.Header> has to be used within an <Accordion.Item>'
       );
     }
   }
@@ -28,7 +32,7 @@
 <svelte:element
   this={`h${level}`}
   class="ds-accordion__header"
-  style={`${level == 1 ? "border-top: none;" : ""}`}
+  style={`${level == 1 ? 'border-top: none;' : ''}`}
 >
   <button
     type="button"

@@ -1,20 +1,20 @@
 <script>
-  import { ErrorMessage, Paragraph } from "$lib";
-  import { onMount, setContext } from "svelte";
-  import { writable } from "svelte/store";
-  import { v4 as uuidv4 } from "uuid";
+  import { ErrorMessage, Paragraph } from '../../..';
+  import { onMount, setContext } from 'svelte';
+  import { writable } from 'svelte/store';
+  import { v4 as uuidv4 } from 'uuid';
 
   /**
    * The legend of the fieldset.
    * @type {string}
    */
-  export let legend = "";
+  export let legend = '';
 
   /**
    * A description of the fieldset. This will appear below the legend.
    * @type {string}
    */
-  export let description = "";
+  export let description = '';
 
   /**
    * Toggle readOnly on fieldset context.
@@ -32,7 +32,7 @@
    * If set, this will diplay an error message at the bottom of the fieldset.
    * @type {string}
    */
-  export let error = "";
+  export let error = '';
 
   /**
    * Controlled state for Checkbox.
@@ -56,7 +56,7 @@
    * Changes field size and paddings.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
    * Visually hide legend and description (still available for screen readers).
@@ -79,20 +79,20 @@
   });
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
@@ -106,7 +106,7 @@
   function handleCheckboxChange(change) {
     if (
       change.target instanceof HTMLInputElement &&
-      change.target.type === "checkbox"
+      change.target.type === 'checkbox'
     ) {
       if (change.target.checked) {
         value = [...value, change.target.value];
@@ -117,13 +117,13 @@
   }
 
   $: legendWrapperClasses = `legend-wrapper ${
-    hideLegend ? "visually-hidden" : ""
+    hideLegend ? 'visually-hidden' : ''
   }`;
   $: descriptionClasses = `ds-checkbox__description ${
-    hideLegend ? "visually-hidden" : ""
+    hideLegend ? 'visually-hidden' : ''
   }`;
 
-  $: setContext("checkboxGroup", checkboxGroup);
+  $: setContext('checkboxGroup', checkboxGroup);
 
   $: {
     checkboxGroup.update((storeValue) => ({

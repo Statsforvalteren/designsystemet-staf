@@ -27,11 +27,40 @@ yarn updateTokens
 
 ## Testing your component
 
-1. Add your component to the homepage or a route of your choosing.
-2. Navigate to the `/packages/svelte` folder.
+1. Add your component to the homepage (`+page.svelte` under `/packages/svelte/src/routes/`) or a route of your choosing.
+2. Navigate to the `/packages/svelte` folder in the terminal.
 3. Run `npm run dev`.
 4. In your browser, navigate to the route you placed the component.
 5. You should now be able to iterate over and test your component as you would in a regular Svelte application.
+
+## Documenting your component with Storybook
+
+1. Add a new file in the same folder as your component called `ComponentName.stories.svelte`.'
+2. Add the following code to the file:
+
+```svelte
+<script context="module">
+   import { Story, Template } from '@storybook/addon-svelte-csf';
+   import ComponentName from './ComponentName.svelte';
+
+   export const meta = {
+    title: 'Komponenter/ComponentName',
+    component: ComponentName,
+  };
+</script>
+
+<Template let:args>
+  <ComponentName {...args} />
+</Template>
+
+<Story name="Default" />
+
+<Story name="With props" args={{ /* Add props here */ }} />
+```
+
+3. Add more `Story` tags with varying properties to display different use-cases of the component.
+4. Run `npm run storybook:svelte` from the root folder and open Storybook in your browser.
+5. Verify that your component is displayed correctly in Storybook.
 
 ## Publishing to Github Packages
 

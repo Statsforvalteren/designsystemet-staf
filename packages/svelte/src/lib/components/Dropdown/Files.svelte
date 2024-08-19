@@ -6,7 +6,7 @@
 
 <svg xmlns="http://www.w3.org/2000/svg" {width} {height} viewBox="0 0 21 20">
 	<path
-	role="img"
+		role="img"
 		aria-hidden="true"
 		fill-rule="evenodd"
 		clip-rule="evenodd"

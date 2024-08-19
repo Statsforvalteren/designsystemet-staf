@@ -1,7 +1,6 @@
-<!-- TabItem.svelte -->
 <script>
-  import { Paragraph } from "$lib";
-  import { getContext } from "svelte";
+  import { Paragraph } from '../..';
+  import { getContext } from 'svelte';
 
   /**
    * Value of the tab.
@@ -10,28 +9,29 @@
 
   /**
    * Icon to be displayed in the tab.
+   * @type {ConstructorOfATypedSvelteComponent | undefined}
    */
-  export let icon = null;
+  export let icon = undefined;
 
-  const { selectedTab, select, tabSize } = getContext("tabsStore");
+  const { selectedTab, select, tabSize } = getContext('tabsStore');
   let isSelected;
   let standardizedSize;
 
   switch ($tabSize) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
@@ -44,15 +44,17 @@
 </script>
 
 <Paragraph asChild variant="short" size={$tabSize}>
-  <div class={`${isSelected ? "selected" : ""}`}>
+  <div class={`${isSelected ? 'selected' : ''}`}>
     <button
       class={`ds-tabs__tab ds-tabs--${standardizedSize} ds-focus ${
-        !icon ? "no-icon" : ""
+        !icon ? 'no-icon' : ''
       }`}
       on:click={handleClick}
     >
       {#if icon}
-        <div class="icon">{@html icon}</div>
+        <div class="icon">
+          <svelte:component this={icon} />
+        </div>
       {/if}
 
       <slot />
@@ -93,7 +95,7 @@
     padding: var(--ds-spacing-4) var(--ds-spacing-6);
   }
   @media (hover: hover) and (pointer: fine) {
-    .ds-tabs__tab:hover:not([aria-selected="true"]) {
+    .ds-tabs__tab:hover:not([aria-selected='true']) {
       --dsc-tabs__tab-bottom-border-color: var(
         --ds-color-neutral-border-subtle
       );
@@ -113,7 +115,7 @@
   }
 
   .ds-tabs__tab::after {
-    content: "";
+    content: '';
     display: block;
     height: 3px;
     width: 100%;

@@ -8,7 +8,6 @@ import { List, ListItem } from './components/List';
 import Alert from './components/Alert/Alert.svelte';
 import Tag from './components/Tag/Tag.svelte';
 import Tooltip from './components/Tooltip/Tooltip.svelte';
-import Files from './components/Files/Files.svelte';
 import {
   Accordion,
   AccordionContent,
@@ -31,12 +30,9 @@ import {
   Switch,
   Search,
 } from './components/Form';
-import Tabs from './components/Tabs/Tabs.svelte';
-import TabContent from './components/Tabs/TabContent.svelte';
-import TabItem from './components/Tabs/TabItem.svelte';
-import TabList from './components/Tabs/TabList.svelte';
+import { Tabs, TabContent, TabItem, TabList } from './components/Tabs';
 import Spinner from './components/Spinner/Spinner.svelte';
-import DropdownMenu from './components/Dropdown/DropdownMenu.svelte';
+import { DropdownMenu } from './components/Dropdown';
 import { Chip, ChipGroup } from './components/Chip';
 
 export {
@@ -71,7 +67,6 @@ export {
   TabList,
   Search,
   DropdownMenu,
-  Files,
   Chip,
   ChipGroup,
 };

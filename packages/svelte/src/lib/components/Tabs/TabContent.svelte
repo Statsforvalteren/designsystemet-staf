@@ -1,32 +1,32 @@
 <!-- TabContent.svelte -->
 <script>
-  import { getContext } from "svelte";
-  import { Paragraph } from "$lib";
+  import { getContext } from 'svelte';
+  import { Paragraph } from '../..';
 
   /**
    * Value of the tab content.
    */
   export let value;
 
-  const { selectedTab, tabSize } = getContext("tabsStore");
+  const { selectedTab, tabSize } = getContext('tabsStore');
 
   let standardizedSize;
 
   switch ($tabSize) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 </script>

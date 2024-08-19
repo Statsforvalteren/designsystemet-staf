@@ -4,15 +4,8 @@
   import { v4 as uuidv4 } from 'uuid';
   import SelectControl from './SelectControl.svelte';
   import SelectDropdown from './SelectDropdown.svelte';
-  import { Paragraph } from '$lib';
+  import { Paragraph } from '../..';
   import { writable } from 'svelte/store';
-
-  /**
-   * @typedef {Object} SelectOption
-   * @property {string} label - Display label of the option.
-   * @property {string} [description] - Description of the option.
-   * @property {string} value - Unique value of the option.
-   */
 
   /**
    * List of options for the select.
@@ -80,7 +73,7 @@
    * If true, hides selected options from the dropdown list.
    * @type {boolean}
    */
-  export let hideSelected = true; //multiple ? true : false;
+  export let hideSelected = false;
 
   /**
    * If true, enables the search/filter input inside the dropdown.
@@ -89,12 +82,13 @@
   export let hasFilter = false;
 
   /**
-   * If true, closes the dropdown menu when an option is selected. Default true if single, default false if multiple.
+   * If true, closes the dropdown menu when an option is selected. Default true if it's a single select, otherwise default is false.
    * @type {boolean}
    */
   export let closeMenuOnSelect = multiple ? false : true;
 
   /**
+   * Error message to display.
    * @type {string}
    */
   export let error = '';
@@ -128,7 +122,7 @@
   export let displayDropdownOnTop = false;
 
   /**
-   * Gap between the dropdown and the select input. Default is 0.
+   * Gap between the dropdown and the select input.
    * @type {number}
    */
   export let dropdownGap = 5;

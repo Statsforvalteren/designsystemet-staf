@@ -1,84 +1,81 @@
 <script>
   /**
-   * `Button` used for interaction.
-   * @prop {any} icon - Icon to be rendered in the button. This SVG object needs to be passed to the component as a named slot called "icon".
-   */
-
-  /**
-   * Specify which variant to use. Options are 'primary' | 'secondary' | 'tertiary'.
+   * Specify which variant to use.
    * @type {'primary' | 'secondary' | 'tertiary'}
    */
-  export let variant = "primary";
+  export let variant = 'primary';
 
   /**
-   * Specify which color palette to use. Options are 'accent' | 'neutral' | 'danger'.
+   * Specify which color palette to use.
    * @type {'accent' | 'neutral' | 'danger'}
    */
-  export let color = "accent";
+  export let color = 'accent';
 
   /**
-   * Size of the button. Options are 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'.
+   * Size of the button.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
    * If `Button` should fill full width of its container.
+   * @type {boolean}
    */
   export let fullWidth = false;
 
   /**
-   * Icon position inside Button. Options are 'right' or 'left'.
+   * Icon position inside Button.
    * @type {'right' | 'left'}
    */
-  export let iconPlacement = "left";
+  export let iconPlacement = 'left';
 
   /**
-   * Custom class to be added to the component.
+   * Additional classes to add to the component.
+   * @type {string}
    */
-  export let className = "";
+  export let className = '';
 
   let standardizedSize;
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
   const computedClass = `ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${
-    fullWidth ? "ds-btn--full-width" : ""
+    fullWidth ? 'ds-btn--full-width' : ''
   } ${className}`;
 </script>
 
 <button on:click class={computedClass} {...$$restProps}>
   <div
     style="display: flex; gap: 0.5rem; align-items: center; justify-content: center;"
-    class={`${$$slots.icon !== undefined ? "ds-btn--icon-only" : ""}`}
+    class={`${$$slots.icon !== undefined ? 'ds-btn--icon-only' : ''}`}
   >
-    {#if $$slots.icon !== undefined && iconPlacement === "left"}
+    {#if $$slots.icon !== undefined && iconPlacement === 'left'}
       <slot name="icon" />
     {/if}
     <slot />
-    {#if $$slots.icon !== undefined && iconPlacement === "right"}
+    {#if $$slots.icon !== undefined && iconPlacement === 'right'}
       <slot name="icon" />
     {/if}
   </div>
 </button>
 
-<style>
+<style lang="css">
   .ds-btn {
     --dsc-btn-padding: var(--ds-spacing-2) var(--ds-spacing-4);
     --dsc-btn-primary-background: var(--ds-color-accent-base-default);
@@ -122,7 +119,7 @@
   }
 
   .ds-btn:disabled,
-  .ds-btn[aria-disabled="true"] {
+  .ds-btn[aria-disabled='true'] {
     cursor: not-allowed;
     opacity: var(--ds-disabled-opacity);
   }
@@ -142,7 +139,7 @@
     left: 0;
     width: auto;
     min-height: auto;
-    content: "";
+    content: '';
   }
 
   .ds-btn--sm::after {
@@ -151,7 +148,7 @@
     left: 0;
     width: 100%;
     height: 44px;
-    content: "";
+    content: '';
   }
 
   .ds-btn--md {
@@ -187,17 +184,17 @@
 
   /* Only use hover for non-touch devices to prevent sticky-hovering */
   @media (hover: hover) and (pointer: fine) {
-    .ds-btn--primary:not([aria-disabled="true"], :disabled):hover {
+    .ds-btn--primary:not([aria-disabled='true'], :disabled):hover {
       background-color: var(--dsc-btn-primary-hover-background);
     }
 
-    .ds-btn--secondary:not([aria-disabled="true"], :disabled):hover {
+    .ds-btn--secondary:not([aria-disabled='true'], :disabled):hover {
       color: var(--dsc-btn-secondary-hover-color);
       border-color: var(--dsc-btn-secondary-border-color);
       background-color: var(--dsc-btn-secondary-hover-background);
     }
 
-    .ds-btn--tertiary:not([aria-disabled="true"], :disabled):hover {
+    .ds-btn--tertiary:not([aria-disabled='true'], :disabled):hover {
       color: var(--dsc-btn-tertiary-hover-color);
       background-color: var(--dsc-btn-tertiary-hover-background);
     }
@@ -208,7 +205,7 @@
     background-color: var(--dsc-btn-primary-background);
   }
 
-  .ds-btn--primary:not([aria-disabled="true"], :disabled):active {
+  .ds-btn--primary:not([aria-disabled='true'], :disabled):active {
     background-color: var(--dsc-btn-primary-active-background);
   }
 
@@ -219,7 +216,7 @@
     background-color: transparent;
   }
 
-  .ds-btn--secondary:not([aria-disabled="true"], :disabled):active {
+  .ds-btn--secondary:not([aria-disabled='true'], :disabled):active {
     color: var(--dsc-btn-secondary-active-color);
     border-color: var(--dsc-btn-secondary-border-color);
     background-color: var(--dsc-btn-secondary-active-background);
@@ -230,7 +227,7 @@
     color: var(--dsc-btn-tertiary-color);
   }
 
-  .ds-btn--tertiary:not([aria-disabled="true"], :disabled):active {
+  .ds-btn--tertiary:not([aria-disabled='true'], :disabled):active {
     color: var(--dsc-btn-tertiary-active-color);
     background-color: var(--dsc-btn-tertiary-active-background);
   }

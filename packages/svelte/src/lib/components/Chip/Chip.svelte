@@ -3,25 +3,25 @@
   import { getContext } from 'svelte';
 
   /**
-   * Enables check mark icon
+   * Enables check mark icon.
    * @type {boolean}
    */
   export let checkmark = false;
 
   /**
-   * Changes Chip size and gap between chips. Defaults to `medium`.
+   * Changes Chip size and gap between chips.
    * @type {'sm' | 'md' | 'lg'}
    */
   export let size = 'md';
 
   /**
-   * Toggles `aria-pressed` and visual-changes
+   * Toggles `aria-pressed` and visual-changes.
    * @type {boolean}
    */
   export let selected = false;
 
   /**
-   * Toggles hover and focus effects. Defaults to `false`.
+   * Toggles hover and focus effects.
    * @type {boolean}
    */
   export let disabled = false;
@@ -171,9 +171,11 @@
       );
     }
   }
-
-  .ds-chip--button:is([aria-pressed='true']),
   .ds-chip--button:not(:disabled, [aria-disabled='true']):active,
+  .ds-chip--button:is([aria-pressed='true']) {
+    --dsc-chip-background: var(--ds-color-accent-7);
+  }
+
   .ds-chip--removable:is([aria-pressed='true']),
   .ds-chip--removable:not(:disabled, [aria-disabled='true']):active {
     --dsc-chip-background: var(--ds-color-accent-base-active);

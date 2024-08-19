@@ -1,90 +1,86 @@
 <script>
   /**
-   * @prop {string} [size='xlarge'] - Specify the size. Options are 'xxsmall', 'xsmall', 'small', 'medium', 'large' and 'xlarge'.
-   */
-
-  /**
    * Heading level. This will translate into any h1-6 level unless `as` is defined.
    * @type {1 | 2 | 3 | 4 | 5 | 6}
    */
   export let level = 1;
 
   /**
-   * Changes text sizing.
+   * Defines the size of the spacing after the heading. Must be used in conjunction with the `spacing` prop.
    * @type {'xxsmall' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'}
    */
-  export let size = "xlarge";
+  export let size = 'xlarge';
 
   /**
-   * Adds margin-bottom.
+   * Adds margin-bottom. Must be used in conjunction with the `size` prop.
    * @type {boolean}
    */
   export let spacing = false;
 
   /**
-   * The type of element to render. Default is heading.
+   * The type of element to render. Default is a heading.
    * @type {string}
    */
   export let as = `h${level}`;
 
   /**
-   * Custom class name.
+   * Additional classes to add to the component.
    * @type {string}
    */
-  export let className = "";
+  export let className = '';
 
   let standardizedSize;
 
   switch (size) {
-    case "xxsmall":
-    case "2xs":
-      standardizedSize = "2xs";
+    case 'xxsmall':
+    case '2xs':
+      standardizedSize = '2xs';
       break;
-    case "xsmall":
-    case "xs":
-      standardizedSize = "xs";
+    case 'xsmall':
+    case 'xs':
+      standardizedSize = 'xs';
       break;
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
-    case "xlarge":
-    case "xl":
-      standardizedSize = "xl";
+    case 'xlarge':
+    case 'xl':
+      standardizedSize = 'xl';
       break;
-    case "xxlarge":
-    case "2xl":
-      standardizedSize = "2xl";
+    case 'xxlarge':
+    case '2xl':
+      standardizedSize = '2xl';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
   $: computedClass = `ds-heading ds-heading--${standardizedSize} ${className} ${
-    spacing ? "ds-heading--spacing" : ""
+    spacing ? 'ds-heading--spacing' : ''
   }`;
 </script>
 
-{#if as === "h1"}
+{#if as === 'h1'}
   <h1 class={computedClass}><slot /></h1>
-{:else if as === "h2"}
+{:else if as === 'h2'}
   <h2 class={computedClass}><slot /></h2>
-{:else if as === "h3"}
+{:else if as === 'h3'}
   <h3 class={computedClass}><slot /></h3>
-{:else if as === "h4"}
+{:else if as === 'h4'}
   <h4 class={computedClass}><slot /></h4>
-{:else if as === "h5"}
+{:else if as === 'h5'}
   <h5 class={computedClass}><slot /></h5>
-{:else if as === "h6"}
+{:else if as === 'h6'}
   <h6 class={computedClass}><slot /></h6>
 {:else}
   <div class={computedClass}><slot /></div>

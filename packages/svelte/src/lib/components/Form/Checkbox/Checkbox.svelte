@@ -1,7 +1,7 @@
 <script>
-  import { Paragraph } from "$lib";
-  import { getContext } from "svelte";
-  import { v4 as uuidv4 } from "uuid";
+  import { Paragraph } from '../../..';
+  import { getContext } from 'svelte';
+  import { v4 as uuidv4 } from 'uuid';
 
   /**
    * Label for checkbox.
@@ -13,7 +13,7 @@
    * Description for checkbox.
    * @type {string}
    */
-  export let description = "";
+  export let description = '';
 
   /**
    * Toggle disabled for checkbox.
@@ -43,7 +43,7 @@
   const checkboxId = `checkbox-${uniqueId}`;
   const labelId = `label-${uniqueId}`;
   const descriptionId = `description-${uniqueId}`;
-  const checkboxGroup = getContext("checkboxGroup");
+  const checkboxGroup = getContext('checkboxGroup');
 
   let size;
   let standardizedSize;
@@ -67,20 +67,20 @@
   }
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
@@ -107,9 +107,9 @@
   }
 
   $: checkboxClasses = `ds-checkbox ds-checkbox--${standardizedSize} ${
-    error ? "ds-checkbox--error" : ""
-  } ${readOnly || groupReadOnly ? "ds-checkbox--readonly" : ""} ${
-    $$props.class || ""
+    error ? 'ds-checkbox--error' : ''
+  } ${readOnly || groupReadOnly ? 'ds-checkbox--readonly' : ''} ${
+    $$props.class || ''
   }`;
 </script>
 
@@ -134,6 +134,28 @@
       disabled={disabled || readOnly || groupDisabled || groupReadOnly}
     />
     <label for={labelId} class="ds-checkbox__label">
+      {#if readOnly}
+        <span
+          aria-hidden
+          class="ds-checkbox__label ds-checkbox__readyonly-icon"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1.5em"
+            height="1.5em"
+            fill="none"
+            viewBox="0 0 24 24"
+            focusable="false"
+            role="img"
+            ><path
+              fill="currentColor"
+              fill-rule="evenodd"
+              d="M7.25 7a4.75 4.75 0 0 1 9.5 0v2.25H17c.966 0 1.75.784 1.75 1.75v9a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75v-9c0-.966.784-1.75 1.75-1.75h.25zm1.5 0a3.25 3.25 0 0 1 6.5 0v2.25h-6.5zM7 10.75a.25.25 0 0 0-.25.25v8.25h10.5V11a.25.25 0 0 0-.25-.25zm3.5 3.75a1.5 1.5 0 1 1 2.25 1.3V17a.75.75 0 0 1-1.5 0v-1.2a1.5 1.5 0 0 1-.75-1.3"
+              clip-rule="evenodd"
+            /></svg
+          >
+        </span>
+      {/if}
       <span>
         {label}
       </span>
@@ -183,7 +205,7 @@
 
   .ds-checkbox__input::before {
     position: absolute;
-    content: "";
+    content: '';
     display: block;
     width: 2.75rem;
     height: 2.75rem;
@@ -231,7 +253,7 @@
   } */
 
   .ds-checkbox__input::after {
-    content: "";
+    content: '';
     width: 100%;
     height: 100%;
     position: absolute;
@@ -351,5 +373,9 @@
     --dsc-checkbox-size: var(--ds-sizing-7);
 
     /* min-height: var(--ds-sizing-12); */
+  }
+
+  .ds-checkbox__readyonly-icon {
+    cursor: not-allowed;
   }
 </style>

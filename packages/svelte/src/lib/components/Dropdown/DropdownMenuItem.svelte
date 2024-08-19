@@ -1,22 +1,19 @@
 <script>
-  import { Button } from '$lib';
+  import { Button } from '../..';
   import { getContext } from 'svelte';
 
   /**
    * The link to be navigated to.
-   * @default ''
    * @type {string}
    */
   export let href = '';
   /**
    * Target of the link.
-   * @default '_blank'
    * @type {'_blank' | '_self' | '_parent' | '_top'}
    */
   export let target = '_blank';
   /**
    * Icon to be displayed in the dropdown menu item.
-   * @default null
    * @type {ConstructorOfATypedSvelteComponent | undefined}
    */
   export let IconComponent = undefined;

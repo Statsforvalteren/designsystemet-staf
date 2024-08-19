@@ -1,5 +1,5 @@
 <script>
-  import { ErrorMessage, Paragraph } from '$lib';
+  import { ErrorMessage, Paragraph } from '../../..';
   import { v4 as uuidv4 } from 'uuid';
   import CharacterCounter from '../CharacterCounter.svelte';
 
@@ -14,7 +14,7 @@
   export let description = '';
 
   /**
-   * Changes field size and paddings. Options are 'small', 'medium', 'large', 'sm', 'md', 'lg'.
+   * Changes the textfield size and paddings.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
   export let size = 'medium';
@@ -27,17 +27,17 @@
   export let type = 'text';
 
   /**
-   * Visually hides `label` and `description` (still available for screen readers).
+   * Visually hides the label and description for the textfield (still available for screen readers).
    */
   export let hideLabel = false;
 
   /**
-   * Makes the field read-only.
+   * Makes the textfield read-only.
    */
   export let readOnly = false;
 
   /**
-   * Value of the input field.
+   * Value of the internal input field.
    */
   export let value;
 
@@ -47,12 +47,12 @@
   export let error = '';
 
   /**
-   * Prefix for field.
+   * Prefix for textfield.
    */
   export let prefix = '';
 
   /**
-   * Suffix for field.
+   * Suffix for textfield.
    */
   export let suffix = '';
 
@@ -360,5 +360,8 @@
   }
   .font--lg {
     font-size: 1.25rem;
+  }
+  .ds-sr-only {
+    visibility: hidden;
   }
 </style>

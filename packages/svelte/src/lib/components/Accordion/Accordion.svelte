@@ -1,5 +1,5 @@
 <script>
-  import { setContext } from "svelte";
+  import { setContext } from 'svelte';
 
   /**
    * Specify if the Accordion has a visible border around it self.
@@ -13,12 +13,13 @@
    */
   export let color;
 
-  setContext("accordion", { border, color });
+  setContext('accordion', { border, color });
 </script>
 
 <div
+  {...$$restProps}
   class={`ds-accordion ${color} ${
-    border ? "ds-accordion--border" : ""
+    border ? 'ds-accordion--border' : ''
   } ds-accordion--${color}`}
 >
   <slot />

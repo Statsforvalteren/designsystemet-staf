@@ -12,19 +12,19 @@
   };
 
   /**
-   * Callback function when dropdown closes
+   * Callback function when dropdown closes.
    */
   export let onClose = () => {};
 
   /**
-   * Sets the placement of the dropdown menu relative to the anchor element. Defaults to `bottom-start`.
+   * Sets the placement of the dropdown menu relative to the anchor element.
    * @type {'bottom-start' | 'bottom-end' | 'bottom' | 'top' | 'top-start' | 'top-end' 
    | 'left' | 'right' | 'right-start' | 'right-end' | 'left-start' | 'left-end'}
    */
   export let placement = 'bottom-start';
 
   /**
-   * Controls the size of the dropdown component. Defaults to `medium`.
+   * Controls the size of the dropdown component.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
   export let size = 'medium';

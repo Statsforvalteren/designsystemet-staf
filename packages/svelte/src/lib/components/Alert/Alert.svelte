@@ -2,7 +2,7 @@
   import Paragraph from '../Typography/Paragraph/Paragraph.svelte';
 
   /**
-   * Alert component to show notifications with varying severity. Options are 'info', 'warning', 'success', or 'danger'.
+   * Alert component to show notifications with varying severity.
    * @type {'info' | 'warning' | 'success' | 'danger'}
    */
   export let severity = 'info';

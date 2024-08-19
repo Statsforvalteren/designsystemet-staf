@@ -1,5 +1,5 @@
 <script>
-  import { Button, Heading, Paragraph } from '$lib';
+  import { Button, Heading, Paragraph } from '../..';
   import { createEventDispatcher, onMount } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 

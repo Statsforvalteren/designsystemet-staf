@@ -1,17 +1,17 @@
 <script>
   /**
-   * The type of element to render. Default is 'p'.
+   * The type of element to render.
    * @type {string}
    */
-  export let as = "p";
+  export let as = 'p';
   /**
-   * Text sizing.
+   * Defines the size of the spacing after the heading. Must be used in conjunction with the `spacing` prop.
    * @type {'xsmall' | 'small' | 'medium' | 'large' | 'xs' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
-   * Adds margin-bottom.
+   * Adds margin-bottom. Must be used in conjunction with the `size` prop.
    * @type {boolean}
    */
   export let spacing = false;
@@ -23,50 +23,51 @@
   export let weight;
 
   /**
-   * Custom class to be added to the component.
+   * Additional classes to add to the component.
+   * @type {string}
    */
-  export let className = "";
+  export let className = '';
 
   let standardizedSize;
 
   switch (size) {
-    case "xsmall":
-    case "xs":
-      standardizedSize = "xs";
+    case 'xsmall':
+    case 'xs':
+      standardizedSize = 'xs';
       break;
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
   $: computedClass = [
-    "ds-label",
+    'ds-label',
     `ds-label--${standardizedSize}`,
-    spacing ? "ds-label--spacing" : "",
-    weight ? `ds-label--${weight}-weight` : "",
+    spacing ? 'ds-label--spacing' : '',
+    weight ? `ds-label--${weight}-weight` : '',
     className,
   ]
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
 </script>
 
-{#if as === "p"}
+{#if as === 'p'}
   <p class={computedClass}>
     <slot />
   </p>
-{:else if as === "span"}
+{:else if as === 'span'}
   <span class={computedClass}>
     <slot />
   </span>

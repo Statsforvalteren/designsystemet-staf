@@ -1,20 +1,20 @@
 <script>
-  import { Paragraph, ErrorMessage } from "$lib";
-  import { setContext } from "svelte";
-  import { writable } from "svelte/store";
-  import { v4 as uuidv4 } from "uuid";
+  import { Paragraph, ErrorMessage } from '../../..';
+  import { setContext } from 'svelte';
+  import { writable } from 'svelte/store';
+  import { v4 as uuidv4 } from 'uuid';
 
   /**
    * The legend of the fieldset.
    * @type {string}
    */
-  export let legend = "";
+  export let legend = '';
 
   /**
    * A description of the fieldset. This will appear below the legend.
    * @type {string}
    */
-  export let description = "";
+  export let description = '';
 
   /**
    * Toggle readOnly on fieldset context.
@@ -32,7 +32,7 @@
    * If set, this will diplay an error message at the bottom of the fieldset.
    * @type {string}
    */
-  export let error = "";
+  export let error = '';
 
   /**
    * Controlled state for Radio.
@@ -41,13 +41,13 @@
   export let value;
 
   /**
-   * Default checked Radio
+   * Default checked Radio.
    * @type {string}
    */
-  export let defaultValue = "";
+  export let defaultValue = '';
 
   /**
-   * Toggle if collection of Radio are required. Note: Not fully implemented for Svelte.
+   * Toggle if collection of Radio are required. `Note:` Not fully implemented for Svelte.
    * @type {boolean}
    */
   export let required = false;
@@ -62,7 +62,7 @@
    * Changes field size and paddings.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
    * Visually hide legend and description (still available for screen readers).
@@ -83,34 +83,34 @@
     required,
   });
 
-  if (value === undefined || value === "") value = defaultValue;
+  if (value === undefined || value === '') value = defaultValue;
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
   $: legendWrapperClasses = `legend-wrapper ${
-    hideLegend ? "visually-hidden" : ""
+    hideLegend ? 'visually-hidden' : ''
   }`;
   $: descriptionClasses = `ds-radio__description ${
-    hideLegend ? "visually-hidden" : ""
+    hideLegend ? 'visually-hidden' : ''
   }`;
 
-  $: setContext("radioGroup", radioGroup);
+  $: setContext('radioGroup', radioGroup);
 
   $: {
     radioGroup.update((storeValue) => ({
@@ -132,7 +132,7 @@
   on:change={(change) => {
     if (
       change.target instanceof HTMLInputElement &&
-      change.target.type === "radio"
+      change.target.type === 'radio'
     ) {
       value = change.target.value;
     }
@@ -172,7 +172,7 @@
       </div>
     </Paragraph>
   {/if}
-  <div class={`ds-radio-group ${inline ? "ds-radio-group--horizontal" : ""}`}>
+  <div class={`ds-radio-group ${inline ? 'ds-radio-group--horizontal' : ''}`}>
     <slot />
   </div>
   {#if error}

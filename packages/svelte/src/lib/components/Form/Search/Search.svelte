@@ -1,27 +1,27 @@
 <script>
-  import { Button, ErrorMessage } from "$lib";
-  import CharacterCounter from "../CharacterCounter.svelte";
-  import { v4 as uuidv4 } from "uuid";
+  import { Button, ErrorMessage } from '../../..';
+  import CharacterCounter from '../CharacterCounter.svelte';
+  import { v4 as uuidv4 } from 'uuid';
 
   /**
    * Label for the search component.
    */
-  export let label = "";
+  export let label = '';
 
   /**
-   * Changes field size and paddings. Options are 'xsmall', 'small', 'medium', 'large'.
+   * Changes field size and paddings.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
-   * Adjusts styling for search. Options are 'primary', 'secondary', 'simple'.
+   * Adjusts styling for search.
    * @type {'primary' | 'secondary' | 'simple'}
    */
-  export let variant = "simple";
+  export let variant = 'simple';
 
   /**
-   * Visually hides `label` and `description` (still available for screen readers).
+   * Visually hides `label`(still available for screen readers).
    */
   export let hideLabel = false;
 
@@ -38,7 +38,7 @@
   /**
    * Error message to display.
    */
-  export let error = "";
+  export let error = '';
 
   /**
    * Sets limit for number of characters.
@@ -48,12 +48,12 @@
   /**
    * Clear button label. Hidden visually. Used for screen readers.
    */
-  export let clearButtonLabel = "";
+  export let clearButtonLabel = '';
 
   /**
    * Search button label. Only visible when variant is not "simple".
    */
-  export let searchButtonLabel = "Søk";
+  export let searchButtonLabel = 'Søk';
 
   /**
    * onChange handler for when a value has been choosen.
@@ -70,47 +70,45 @@
   let standardizedSize;
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
-  const isSimple = variant === "simple";
+  const isSimple = variant === 'simple';
   $: showClearButton = String(value).length > 0 && !disabled;
 
   // Computed class names for the component elements
   let formFieldClasses = `ds-search ds-search--${standardizedSize} ${
-    disabled ? "ds-search--disabled" : ""
-  } ${$$props.class || ""}`;
+    disabled ? 'ds-search--disabled' : ''
+  } ${$$props.class || ''}`;
   let labelClasses = `ds-search--${standardizedSize} ds-search__label ${
-    hideLabel ? "ds-sr-only" : ""
+    hideLabel ? 'ds-sr-only' : ''
   }`;
-  $: fieldClasses = `ds-search__field ${hideLabel ? "ds-sr-only" : ""} ${
-    error ? "error" : ""
-  }`;
+  $: fieldClasses = `ds-search__field ${error ? 'error' : ''}`;
   let inputClasses = `ds-search__input ds-focus ${
     isSimple
-      ? "ds-search__input--simple"
-      : "ds-search__input--with-search-button"
+      ? 'ds-search__input--simple'
+      : 'ds-search__input--with-search-button'
   }`;
   let errorMessageClasses = `ds-search__error-message`;
 
   let inputRef;
 
   function handleClear() {
-    value = "";
+    value = '';
     inputRef?.current && inputRef.current.focus();
   }
 </script>
@@ -162,12 +160,13 @@
       />
       {#if showClearButton}
         <button
-          class={"ds-search__clear-button ds-focus"}
+          class={'ds-search__clear-button ds-focus'}
           type="button"
           on:click={handleClear}
           {disabled}
+          style="width: fit-content; padding: 6px;"
         >
-          <span class={`ds-sr-only`}>{clearButtonLabel}</span>
+          <span>{clearButtonLabel}</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="1em"
@@ -186,12 +185,13 @@
     </div>
     {#if !isSimple}
       <Button
-        className={"ds-search__search-button"}
+        className={'ds-search__search-button'}
         {size}
-        variant={variant !== "simple" ? variant : undefined}
+        variant={variant !== 'simple' ? variant : undefined}
         type="submit"
         on:click={(e) => onSearchClick(e, value)}
         {disabled}
+        style="width: fit-content; white-space:nowrap;"
       >
         {searchButtonLabel}
       </Button>
@@ -265,8 +265,8 @@
     pointer-events: none;
   }
 
-  [type="search"]::-webkit-search-decoration,
-  [type="search"]::-webkit-search-cancel-button {
+  [type='search']::-webkit-search-decoration,
+  [type='search']::-webkit-search-cancel-button {
     appearance: none;
   }
 
@@ -295,7 +295,7 @@
     cursor: not-allowed;
   }
 
-  .ds-search__input[type="search"]:focus-visible {
+  .ds-search__input[type='search']:focus-visible {
     z-index: 1;
   }
 
@@ -381,5 +381,9 @@
       ):hover {
       background: var(--ds-color-accent-surface-hover);
     }
+  }
+
+  .ds-sr-only {
+    visibility: hidden;
   }
 </style>

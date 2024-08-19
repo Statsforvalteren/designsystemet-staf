@@ -1,9 +1,20 @@
 <script>
-  import { setContext, createEventDispatcher } from "svelte";
-  import { writable } from "svelte/store";
-  import { v4 as uuidv4 } from "uuid";
+  // @ts-nocheck
 
+  import { setContext, createEventDispatcher } from 'svelte';
+  import { writable } from 'svelte/store';
+  import { v4 as uuidv4 } from 'uuid';
+
+  /**
+   * Specify if the accordion item is open or closed on rendering.
+   * @type {writeable<boolean>}
+   */
   export let open = writable(undefined);
+
+  /**
+   * Fallback state for defining if the accordion item is open or closed.
+   * @type {boolean}
+   */
   export let defaultOpen = false;
 
   let internalOpen = writable(defaultOpen);
@@ -15,10 +26,10 @@
       internalOpen.update((iOpen) => !iOpen);
     }
     $open = !$open;
-    dispatch("toggleOpen");
+    dispatch('toggleOpen');
   };
 
-  setContext("accordionItem", {
+  setContext('accordionItem', {
     open: open ?? $internalOpen,
     toggleOpen,
     contentId,
@@ -27,7 +38,7 @@
 
 <div
   class={`ds-accordion__item ${
-    open || internalOpen ? "ds-accordion__item--open" : ""
+    open || internalOpen ? 'ds-accordion__item--open' : ''
   }`}
 >
   <slot />

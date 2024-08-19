@@ -1,7 +1,7 @@
 <script>
-  import { writable } from "svelte/store";
-  import { offset, flip, shift } from "svelte-floating-ui/dom";
-  import { arrow, createFloatingActions } from "svelte-floating-ui";
+  import { writable } from 'svelte/store';
+  import { offset, flip, shift } from 'svelte-floating-ui/dom';
+  import { arrow, createFloatingActions } from 'svelte-floating-ui';
 
   const ARROW_HEIGHT = 7;
 
@@ -9,7 +9,7 @@
    * Placement of the tooltip on the trigger.
    * @type {'top' | 'right' | 'bottom' | 'left' | 'top-start' | 'top-end' | 'right-start' | 'right-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end'}
    */
-  export let placement = "top";
+  export let placement = 'top';
 
   /**
    * Delay in milliseconds before opening.
@@ -25,7 +25,7 @@
   export let open = undefined;
 
   /**
-   * Whether the tooltip is open by default or not.
+   * Interal state to define if the tooltip is open by default or not.
    * @type {boolean}
    */
   export let defaultOpen = false;
@@ -46,12 +46,12 @@
 
   const arrowRef = writable(null);
   const [floatingRef, floatingContent] = createFloatingActions({
-    strategy: "absolute",
+    strategy: 'absolute',
     placement: placement,
     middleware: [
       offset(ARROW_HEIGHT + arrowGap),
       flip({
-        fallbackAxisSideDirection: "start",
+        fallbackAxisSideDirection: 'start',
       }),
       shift(),
       arrow({ element: arrowRef }),
@@ -61,37 +61,37 @@
       let staticSide, dynamicSide;
 
       // Split placement into base and variation
-      const [basePlacement] = placement.split("-");
+      const [basePlacement] = placement.split('-');
 
       // Define static and dynamic sides based on base placement
       switch (basePlacement) {
-        case "top":
-          staticSide = "bottom";
-          dynamicSide = "left";
+        case 'top':
+          staticSide = 'bottom';
+          dynamicSide = 'left';
           break;
-        case "bottom":
-          staticSide = "top";
-          dynamicSide = "left";
+        case 'bottom':
+          staticSide = 'top';
+          dynamicSide = 'left';
           break;
-        case "left":
-          staticSide = "right";
-          dynamicSide = "bottom";
+        case 'left':
+          staticSide = 'right';
+          dynamicSide = 'bottom';
           break;
-        case "right":
-          staticSide = "left";
-          dynamicSide = "bottom";
+        case 'right':
+          staticSide = 'left';
+          dynamicSide = 'bottom';
           break;
         default:
-          staticSide = "bottom";
-          dynamicSide = "50%";
+          staticSide = 'bottom';
+          dynamicSide = '50%';
       }
 
       if ($arrowRef) {
         Object.assign($arrowRef.style, {
-          left: x != null ? `${x - 0}px` : "",
-          top: y != null ? `${y - 0}px` : "",
-          [staticSide]: "-4px",
-          [dynamicSide]: "calc(50% - 4px)",
+          left: x != null ? `${x - 0}px` : '',
+          top: y != null ? `${y - 0}px` : '',
+          [staticSide]: '-4px',
+          [dynamicSide]: 'calc(50% - 4px)',
         });
       }
     },

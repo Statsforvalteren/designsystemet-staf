@@ -1,42 +1,42 @@
 <script>
-  import { Paragraph } from "$lib";
+  import { Paragraph } from '../..';
 
   /**
    * List component to render a list.
-   * @prop {string} [as='ul'] - The HTML element to render the component as. Options are 'ul', 'ol', 'none'. Defaults to 'ul'.
+   * @prop {string} [as='ul'] - The HTML element to render the component as.
    * @type { 'ul' | 'ol' | 'none' }
    */
-  export let as = "ul";
+  export let as = 'ul';
 
   /**
    * Additional classes to add to the component.
    * @type {string}
    */
-  export let className = "";
+  export let className = '';
 
   /**
-   * Controls the size (padding) of the List. Defaults to `medium`.
+   * Controls the size (padding) of the List.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   let standardizedSize;
 
   switch (size) {
-    case "small":
-    case "sm":
-      standardizedSize = "sm";
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
       break;
-    case "medium":
-    case "md":
-      standardizedSize = "md";
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
       break;
-    case "large":
-    case "lg":
-      standardizedSize = "lg";
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
       break;
     default:
-      standardizedSize = "md";
+      standardizedSize = 'md';
       break;
   }
 
@@ -44,7 +44,7 @@
 </script>
 
 <Paragraph {size} asChild>
-  {#if as === "ul"}
+  {#if as === 'ul'}
     <div style="text-align: center">
       <ul class={listClasses} {...$$restProps}>
         <slot />
@@ -52,13 +52,13 @@
     </div>
   {/if}
 
-  {#if as === "ol"}
+  {#if as === 'ol'}
     <ol class={listClasses} {...$$restProps}>
       <slot />
     </ol>
   {/if}
 
-  {#if as === "none"}
+  {#if as === 'none'}
     <ul class={`none ${listClasses}`} {...$$restProps}>
       <slot class="none" />
     </ul>

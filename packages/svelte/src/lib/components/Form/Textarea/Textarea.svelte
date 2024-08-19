@@ -1,5 +1,5 @@
 <script>
-  import { ErrorMessage, Paragraph } from '$lib';
+  import { ErrorMessage, Paragraph } from '../../..';
   import { v4 as uuidv4 } from 'uuid';
   import CharacterCounter from '../CharacterCounter.svelte';
 
@@ -14,13 +14,13 @@
   export let description = '';
 
   /**
-   * Changes field size and paddings. Options are 'small', 'medium', 'large', 'sm', 'md', 'lg'.
+   * Changes field size and paddings.
    * @type {'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg'}
    */
   export let size = 'medium';
 
   /**
-   * Visually hides `label` and `description` (still available for screen readers).
+   * Visually hides the label and description for the textarea (still available for screen readers).
    */
   export let hideLabel = false;
 
@@ -30,7 +30,7 @@
   export let readOnly = false;
 
   /**
-   * Value of the input field.
+   * Value of the internal input field.
    */
   export let value;
 
@@ -91,7 +91,11 @@
     {#if label}
       <label for={`textarea-${componentId}`} class={labelClasses}>
         {#if readOnly}
-          <span aria-hidden class="ds-textfield__readonly__icon">
+          <span
+            aria-hidden
+            class="ds-textarea__readonly__icon"
+            style="margin: -5px 3px 0 -5px;"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="1.5em"
@@ -156,7 +160,7 @@
     gap: var(--ds-spacing-2);
   }
 
-  .ds-textarea__readonly-icon {
+  .ds-textarea__readonly__icon {
     height: 1.2em;
     width: 1.2em;
   }
@@ -243,5 +247,8 @@
   }
   .font--lg {
     font-size: 1.25rem;
+  }
+  .ds-sr-only {
+    visibility: hidden;
   }
 </style>

@@ -1,12 +1,12 @@
 <script>
   /**
-   * Text sizing.
+   * Defines the size of the spacing after the heading. Must be used in conjunction with the `spacing` prop.
    * @type {'xsmall' | 'small' | 'medium' | 'large' | 'xs' | 'sm' | 'md' | 'lg'}
    */
-  export let size = "medium";
+  export let size = 'medium';
 
   /**
-   * Adds margin-bottom.
+   * Adds margin-bottom. Must be used in conjunction with the `size` prop.
    * @type {boolean}
    */
   export let spacing = false;
@@ -18,14 +18,14 @@
   export let error = true;
 
   $: computedClass = [
-    "ds-error-message",
+    'ds-error-message',
     `ds-error_message--${size}`,
-    spacing ? "ds-error-message--spacing" : "",
-    error ? "ds-error-message--error" : "",
-    $$props.class || "",
+    spacing ? 'ds-error-message--spacing' : '',
+    error ? 'ds-error-message--error' : '',
+    $$props.class || '',
   ]
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
 </script>
 
 <div class={computedClass}>
@@ -48,7 +48,7 @@
   }
 
   .ds-error_message--lg {
-    --dsc-bottom-spacing: var(--ds-spacing-5);
+    --dsc-bottom-spacing: var(--ds-spacing-6);
   }
 
   .ds-error_message--md {

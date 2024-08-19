@@ -24,7 +24,6 @@
     TabList,
     TabItem,
     TabContent,
-    Files,
     CheckboxGroup,
     Textarea,
     Search,
@@ -33,9 +32,8 @@
     ChipGroup,
     Spinner,
   } from '$lib';
-  import InformationSquareFillIcon from '@navikt/aksel-icons/svg/InformationSquareFill.svg?raw';
-  import CheckmarkCircleFillIcon from '@navikt/aksel-icons/svg/CheckmarkCircleFill.svg?raw';
-  import XMarkOctagonFillIcon from '@navikt/aksel-icons/svg/XMarkOctagonFill.svg?raw';
+  import { Files, Pencil } from '$lib/components/Dropdown';
+  import { House, Cog } from '$lib/components/Tabs';
 
   function handleTabChange(value) {
     // console.log('Tab changed:', value);
@@ -177,6 +175,7 @@
     label: 'bottom-start',
     value: 'bottom-start',
   };
+
   let menuVisible = false;
   let dropdownButtons = [];
 
@@ -722,9 +721,9 @@
 <div class="tabs">
   <Tabs onChange={handleTabChange} size="md">
     <TabList>
-      <TabItem value="1" icon={InformationSquareFillIcon}>Tab 1</TabItem>
-      <TabItem value="2" icon={CheckmarkCircleFillIcon}>Tab 2</TabItem>
-      <TabItem value="3" icon={XMarkOctagonFillIcon}>Tab 3</TabItem>
+      <TabItem value="1" icon={Files}>Tab 1</TabItem>
+      <TabItem value="2" icon={House}>Tab 2</TabItem>
+      <TabItem value="3" icon={Pencil}>Tab 3</TabItem>
     </TabList>
     <TabContent value="1"><button>Content 1</button></TabContent>
     <TabContent value="2">Content 2</TabContent>
@@ -734,9 +733,9 @@
 
 <Tabs onChange={handleTabChange} size="lg" defaultValue="3">
   <TabList>
-    <TabItem value="1" icon={InformationSquareFillIcon}>Tab 1</TabItem>
-    <TabItem value="2" icon={CheckmarkCircleFillIcon}>Tab 2</TabItem>
-    <TabItem value="3" icon={XMarkOctagonFillIcon}>Tab 3</TabItem>
+    <TabItem value="1" icon={Cog}>Tab 1</TabItem>
+    <TabItem value="2" icon={House}>Tab 2</TabItem>
+    <TabItem value="3" icon={Pencil}>Tab 3</TabItem>
   </TabList>
   <TabContent value="1"><button>Content 1</button></TabContent>
   <TabContent value="2">Content 2</TabContent>
@@ -793,7 +792,7 @@
           <C.MenuGroup>
             <C.MenuItem IconComponent={Files}>Element link {i}</C.MenuItem>
             <C.MenuItem
-              IconComponent={Files}
+              IconComponent={Pencil}
               on:Click={() => {
                 isModalOpen = true;
               }}>Element link {i + 1}</C.MenuItem
@@ -832,15 +831,15 @@
 
 <h1 class="componentHeader">Spinner</h1>
 <div class="spinner">
-  <Spinner size="xLarge" title="xLarge" />
+  <Spinner size="xlarge" title="xLarge" />
   <Spinner size="large" title="large" />
   <Spinner size="medium" title="medium" />
   <Spinner size="small" title="small" />
-  <Spinner size="xSmall" title="xSmall" />
+  <Spinner size="xsmall" title="xSmall" />
 </div>
 <div class="spinner">
-  <Spinner size="xLarge" title="xLarge accent" color="accent" />
-  <Spinner size="xLarge" title="xLarge neutral (default)" color="neutral" />
+  <Spinner size="xlarge" title="xLarge accent" color="accent" />
+  <Spinner size="xlarge" title="xLarge neutral (default)" color="neutral" />
 </div>
 <br />
 <br />

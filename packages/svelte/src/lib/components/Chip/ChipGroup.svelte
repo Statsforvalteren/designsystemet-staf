@@ -4,13 +4,13 @@
   import { v4 as uuidv4 } from 'uuid';
 
   /**
-   * Changes Chip size and gap between chips. Defaults to `medium`.
+   * Changes Chip size and gap between chips.
    * @type {'sm' | 'md' | 'lg'}
    */
   export let size = 'md';
 
   /**
-   * Toggles hover and focus effects. Defaults to `false`.
+   * Toggles hover and focus effects.
    * @type {boolean}
    */
   export let disabled = false;
