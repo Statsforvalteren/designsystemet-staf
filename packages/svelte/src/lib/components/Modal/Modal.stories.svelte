@@ -17,7 +17,7 @@
 </script>
 
 <Template let:args>
-  <div style="height: 30vh; width: 60vh;">
+  <div style="height: 400px; width: 700px;">
     <Button on:click={() => (isModalOpen = true)} style="margin: 0 auto;">
       Åpne modalen
     </Button>

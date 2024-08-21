@@ -18,7 +18,7 @@
 </script>
 
 <Template let:args>
-  <div bind:this={anchorEl} style="height: 25vh;">
+  <div bind:this={anchorEl} style="height: 300px;">
     <Button
       aria-haspopup="menu"
       aria-expanded={menuVisible}

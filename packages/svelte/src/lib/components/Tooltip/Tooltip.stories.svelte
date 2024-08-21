@@ -10,7 +10,7 @@
 </script>
 
 <Template let:args>
-  <div style="height: 10vh; margin-top: 20px">
+  <div style="height: 150px; margin-top: 20px">
     <Tooltip content="Tooltip text" {...args} style="white-space: nowrap">
       <Button slot="anchor">Hover over me</Button>
       <span slot="content">Tooltip where extra information can go.</span>

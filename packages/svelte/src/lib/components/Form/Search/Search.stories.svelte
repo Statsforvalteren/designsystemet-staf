@@ -13,7 +13,7 @@
 </script>
 
 <Template let:args>
-  <div style="width: 20vw;">
+  <div style="width: 600px;">
     <Search
       bind:value={searchValue}
       label="Søk etter noe"
