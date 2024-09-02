@@ -1,15 +1,6 @@
 import { addons } from '@storybook/manager-api';
 
-import favicon from './assets/staf-logo.svg';
 import stafThemeLight from './themes/stafThemeLight';
-
-// Set favicon for the browser tab
-function setBrowserTabFavicon() {
-  const link = document.createElement('link');
-  link.setAttribute('rel', 'shortcut icon');
-  link.setAttribute('href', favicon);
-  document.head.appendChild(link);
-}
 
 // Remove the "Show Code" button from the docblocks.
 function removeDocBlocksCodeToggle() {
@@ -110,8 +101,7 @@ addons.setConfig({
   theme: stafThemeLight,
 });
 
-setBrowserTabFavicon();
-setTimeout(moveDarkModeButton, 100);
+setTimeout(moveDarkModeButton, 1200);
 setTimeout(() => setSidebarWidth(320), 100);
 setInterval(removeDocBlocksCodeToggle, 100);
 setInterval(removeProxyFromTabTitle, 100);

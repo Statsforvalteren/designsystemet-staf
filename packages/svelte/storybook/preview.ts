@@ -2,9 +2,11 @@ import '../../theme/brand/theme1.css';
 import '@altinn/figma-design-tokens/dist/tokens.css';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import type { Preview } from '@storybook/react';
+import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
 import stafThemeLight from './themes/stafThemeLight';
 import stafThemeDark from './themes/stafThemeDark';
+import docsTheme from './themes/docsTheme';
 import './docs-pages/docsPage.css';
 
 const preview: Preview = {
@@ -16,6 +18,7 @@ const preview: Preview = {
       source: {
         code: null,
       },
+      theme: docsTheme,
     },
     backgrounds: {
       default: 'light',
@@ -40,5 +43,16 @@ const preview: Preview = {
     },
   },
 };
+
+export const decorators = [
+  withThemeByDataAttribute({
+    themes: {
+      Light: 'light',
+      Dark: 'dark',
+    },
+    defaultTheme: 'Light',
+    attributeName: 'data-ds-color-mode',
+  }),
+];
 
 export default preview;

@@ -1,15 +1,15 @@
 import { create } from '@storybook/theming';
 
 export default create({
-  base: 'dark',
+  base: 'light',
 
-  colorPrimary: '#F39200',
-  colorSecondary: '#4c76ba',
+  colorPrimary: '#4c76ba',
+  colorSecondary: '#00244e',
 
   // UI
-  appBg: '#2F2F2F',
-  appContentBg: '#2F2F2F',
-  appBorderColor: '#6D6D6D',
+  appBg: '#e2e2e2',
+  appContentBg: '#ffffff',
+  appBorderColor: '#e2e2e2',
   appBorderRadius: 3,
 
   // Typography
@@ -17,18 +17,18 @@ export default create({
   fontCode: 'monospace',
 
   // Text colors
-  textColor: '#EFF0EF',
+  textColor: '#00244e',
   // textInverseColor: 'rgba(255,255,255,0.9)',
 
   // Toolbar default and active colors
   barSelectedColor: '#4c76ba',
-  barHoverColor: '#f39200',
-  barBg: '#434343',
+  barHoverColor: '#00244e',
+  barBg: '#e2e2e2',
 
   // Form colors
   // inputBg: '',
-  inputBorder: '#6D6D6D',
-  inputTextColor: '#ffffff',
+  inputBorder: '#4c76ba',
+  inputTextColor: '#00244e',
   inputBorderRadius: 3,
 
   brandTitle: 'Komponentbiblioteket',

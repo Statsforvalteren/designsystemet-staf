@@ -113,6 +113,7 @@
     padding: var(--ds-spacing-4);
     background-color: transparent;
     border: none;
+    font-family: inherit;
   }
 
   .ds-accordion__expand-icon {

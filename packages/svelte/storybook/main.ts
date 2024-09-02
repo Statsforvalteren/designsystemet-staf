@@ -38,15 +38,6 @@ const config: StorybookConfig = {
       },
     });
   },
-  managerHead: () => `
-        <style>
-            .css-1rb1jn6 {
-                scale: 1.5;
-                margin-left: 10px;
-                max-width: 100% !important;
-            }
-        </style>
-    `,
 };
 
 export default config;

@@ -1,7 +1,5 @@
 import { create } from '@storybook/theming';
 
-import logo from '../assets/STAF-nynorsk-svart.svg';
-
 export default create({
   base: 'light',
 
@@ -9,32 +7,32 @@ export default create({
   colorSecondary: '#00244e',
 
   // UI
-  appBg: '#DFE0DF',
-  appContentBg: '#DFE0DF',
-  appBorderColor: '#BFC2C0',
+  appBg: '#edf1f8',
+  appContentBg: '#edf1f8',
+  appBorderColor: '#e2e2e2',
   appBorderRadius: 3,
 
   // Typography
   fontBase: '"Open Sans", sans-serif',
-  // fontCode: 'monospace',
+  fontCode: 'monospace',
 
   // Text colors
   textColor: '#00244e',
   // textInverseColor: 'rgba(255,255,255,0.9)',
 
   // Toolbar default and active colors
-  // barTextColor: '',
-  // barSelectedColor: '',
-  barBg: '#EFF0EF',
+  barSelectedColor: '#4c76ba',
+  barHoverColor: '#f39200',
+  barBg: '#ffffff',
 
   // Form colors
   // inputBg: '',
-  inputBorder: '#BFC2C0',
+  inputBorder: '#4c76ba',
   inputTextColor: '#00244e',
   inputBorderRadius: 3,
 
-  brandTitle: 'Statsforvalterens fellestenester',
-  brandUrl: 'https://bak.statsforvalteren.no/',
-  brandImage: logo,
-  brandTarget: '_blank',
+  brandTitle: 'Komponentbiblioteket',
+  brandUrl: '',
+  // brandImage: logo,
+  // brandTarget: '_blank',
 });
