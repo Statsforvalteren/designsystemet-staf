@@ -268,11 +268,11 @@
   }
 
   function handleSelectControlClick() {
-    // if (isDropdownVisible) {
-    //   closeDropdown();
-    // } else {
-    //   openDropdown();
-    // }
+    if (isDropdownVisible) {
+      closeDropdown();
+    } else {
+      openDropdown();
+    }
   }
 
   onMount(() => {

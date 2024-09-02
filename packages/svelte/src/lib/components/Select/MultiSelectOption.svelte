@@ -1,6 +1,6 @@
 <script>
-  import Cross from "./Cross.svelte";
-  import ClearButton from "./ClearButton.svelte";
+  import Cross from './Cross.svelte';
+  import ClearButton from './ClearButton.svelte';
 
   /**
    * Represents an option in a multi-select dropdown.
@@ -25,29 +25,34 @@
    * ARIA label for the delete button.
    * @type {string}
    */
-  export let deleteButtonLabel = "Slett";
+  export let deleteButtonLabel = 'Slett';
 
   export let disabled;
   //svelte-ignore unused-export-let
-  export let size = "medium";
+  export let size = 'medium';
 </script>
 
 <span
-  class={`multiSelectedOption ${disabled ? "disabled" : ""} ${
-    readOnly ? "read-only" : ""
+  class={`multiSelectedOption ${disabled ? 'disabled' : ''} ${
+    readOnly ? 'read-only' : ''
   }`}
 >
   <span class="optionLabel">{option.label}</span>
   <span
-    class={`delete-button-container ${disabled ? "disabled" : ""} ${
-      readOnly ? "read-only" : ""
+    class={`delete-button-container ${disabled ? 'disabled' : ''} ${
+      readOnly ? 'read-only' : ''
     }`}
   >
     <button
-      on:click={disabled || readOnly ? null : () => removeOption(option)}
+      on:click={disabled || readOnly
+        ? null
+        : (e) => {
+            e.stopPropagation();
+            removeOption(option);
+          }}
       aria-label={`${deleteButtonLabel} ${option.label}`}
-      class={`delete-button ${disabled ? "disabled" : ""} ${
-        readOnly ? "read-only" : ""
+      class={`delete-button ${disabled ? 'disabled' : ''} ${
+        readOnly ? 'read-only' : ''
       }`}><Cross /></button
     >
   </span>

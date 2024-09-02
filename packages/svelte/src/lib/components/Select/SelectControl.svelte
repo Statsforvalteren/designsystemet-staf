@@ -1,9 +1,9 @@
 <script>
-  import { getContext, onMount } from "svelte";
+  import { getContext, onMount } from 'svelte';
 
-  import MultiSelectOption from "./MultiSelectOption.svelte";
-  import Chevron from "./Chevron.svelte";
-  import ClearButton from "./ClearButton.svelte";
+  import MultiSelectOption from './MultiSelectOption.svelte';
+  import Chevron from './Chevron.svelte';
+  import ClearButton from './ClearButton.svelte';
 
   export let multiple;
   export let inputId;
@@ -20,10 +20,10 @@
   export let clearable;
   export let size;
 
-  const selectContext = getContext("selectContext-" + inputId);
+  const selectContext = getContext('selectContext-' + inputId);
   $: selected = $selectContext.selected;
 
-  let inputValue = "";
+  let inputValue = '';
   let isFiltering = false;
   let inputElement;
   let initialized = false;
@@ -62,8 +62,8 @@
       clearAll();
     }
     if (hasFilter && inputValue) {
-      inputValue = "";
-      handleFilterChange("");
+      inputValue = '';
+      handleFilterChange('');
     }
   }
 
@@ -75,7 +75,7 @@
       // No change to inputValue, keep it as user's input
     } else {
       // Reset inputValue in other cases
-      inputValue = "";
+      inputValue = '';
     }
   }
 </script>
@@ -112,7 +112,7 @@
             !hasFilter &&
             selected &&
             selected.length > 0
-              ? ""
+              ? ''
               : placeholder}
             aria-label={searchLabel}
             readonly={readOnly || (!multiple && !hasFilter)}
@@ -129,7 +129,7 @@
         class="textInput {hasFilter ? '' : 'no-filter'}"
         id={inputId}
         placeholder={multiple && !hasFilter && selected && selected.length > 0
-          ? ""
+          ? ''
           : placeholder}
         aria-label={searchLabel}
         readonly={readOnly || (!multiple && !hasFilter)}
@@ -141,7 +141,7 @@
     <div class="separator {disabled ? 'disabled' : ''}" />
   {/if}
 
-  <div class={`chevron-container ${disabled ? "disabled" : ""}`}>
+  <div class={`chevron-container ${disabled ? 'disabled' : ''}`}>
     <Chevron />
   </div>
 </div>
