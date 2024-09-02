@@ -133,6 +133,12 @@
    */
   export let maxDropdownHeight = 400;
 
+  /**
+   * onOpen handler for when the Select Dropdown is opened.
+   * @type {Function}
+   */
+  export let onOpen = () => {};
+
   $: isDropdownVisible = false;
   let selectClasses = 'select';
   let inputClasses = 'textInput';
@@ -251,6 +257,7 @@
   function openDropdown() {
     if (!disabled && !readOnly) {
       isDropdownVisible = true;
+      onOpen();
     }
   }
 
@@ -261,11 +268,11 @@
   }
 
   function handleSelectControlClick() {
-    if (isDropdownVisible) {
-      closeDropdown();
-    } else {
-      openDropdown();
-    }
+    // if (isDropdownVisible) {
+    //   closeDropdown();
+    // } else {
+    //   openDropdown();
+    // }
   }
 
   onMount(() => {
