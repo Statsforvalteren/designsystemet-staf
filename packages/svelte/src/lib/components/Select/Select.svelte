@@ -127,6 +127,12 @@
    */
   export let dropdownGap = 5;
 
+  /**
+   * Maximum height of the dropdown.
+   * @type {number}
+   */
+  export let maxDropdownHeight = 400;
+
   $: isDropdownVisible = false;
   let selectClasses = 'select';
   let inputClasses = 'textInput';
@@ -362,6 +368,7 @@
       {emptyOptionsPlaceholder}
       {displayDropdownOnTop}
       {dropdownGap}
+      {maxDropdownHeight}
     />
   </div>
 

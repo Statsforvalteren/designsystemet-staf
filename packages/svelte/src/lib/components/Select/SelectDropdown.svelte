@@ -47,15 +47,20 @@
   export let emptyOptionsPlaceholder = '';
 
   /**
-   * Gap between the dropdown and the select input. Default is 0.
+   * Gap between the dropdown and the select input.
    * @type {number}
    */
   export let dropdownGap = 0;
 
+  /**
+   * Maximum height of the dropdown.
+   * @type {number}
+   */
+  export let maxDropdownHeight = 400;
+
   const selectContext = getContext('selectContext-' + inputId);
 
   $: selected = $selectContext.selected;
-  $: error = $selectContext.error;
 
   $: isOptionSelected = (option) => {
     if (Array.isArray(selected)) {
@@ -73,7 +78,7 @@
   class:visible={isDropdownVisible}
   style={`position: ${displayDropdownOnTop ? 'absolute' : 'relative'}; ${
     displayDropdownOnTop ? 'z-index: 1000;' : ''
-  } margin-top: ${dropdownGap}px;`}
+  } margin-top: ${dropdownGap}px; max-height: ${maxDropdownHeight}px;`}
 >
   <ul class="options-list">
     {#if options.length === 0}
@@ -158,7 +163,6 @@
     &:not(.visible) {
       display: none;
     }
-    max-height: 400px;
     overflow-y: auto;
     margin-top: var(--ds-spacing-1);
     padding: var(--ds-spacing-2, 9px);
