@@ -1,6 +1,5 @@
 <script>
   import Cross from './Cross.svelte';
-  import ClearButton from './ClearButton.svelte';
 
   /**
    * Represents an option in a multi-select dropdown.

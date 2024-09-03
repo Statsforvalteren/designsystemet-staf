@@ -125,6 +125,9 @@
     .ds-accordion__header:hover .ds-accordion__expand-icon {
       background-color: var(--dsc-accordion-icon-background-hover);
     }
+    .ds-accordion__header:hover {
+      background-color: var(--ds-color-brand1-surface-hover);
+    }
   }
 
   .ds-accordion__item:where(.ds-accordion__item--open)
