@@ -164,7 +164,7 @@
           type="button"
           on:click={handleClear}
           {disabled}
-          style="width: fit-content; padding: 6px;"
+          style="width: max-content; height: fit-content; padding: 6px;"
         >
           <span>{clearButtonLabel}</span>
           <svg
