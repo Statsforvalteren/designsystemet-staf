@@ -1,3 +1,4 @@
+# Cleans up pre-release packages and release-tags in the repository when a related pull request is merged/closed.
 name: Cleanup pre-releases
 
 on:

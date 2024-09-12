@@ -1,3 +1,5 @@
+# Build and publish the design tokens or the component library based on the changes in the design-tokens directory.
+# Workflow is triggered on push to main or PRs with branch name starting with pr-.
 name: Build and Publish
 
 on:
