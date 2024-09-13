@@ -1,13 +1,13 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import ListItem from './ListItem.svelte';
   import List from './List.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/List',
     component: List,
     subcomponents: { ListItem },
-  };
+  });
 </script>
 
 <Template let:args>

@@ -1,12 +1,12 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import Button from '../Button/Button.svelte';
   import Modal from './Modal.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Modal',
     component: Modal,
-  };
+  });
 </script>
 
 <script>

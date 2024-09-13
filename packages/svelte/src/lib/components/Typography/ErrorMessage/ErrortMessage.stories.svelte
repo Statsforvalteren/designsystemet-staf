@@ -1,11 +1,11 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import ErrorMessage from './ErrorMessage.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Typografi/ErrorMessage',
     component: ErrorMessage,
-  };
+  });
 </script>
 
 <Template let:args>

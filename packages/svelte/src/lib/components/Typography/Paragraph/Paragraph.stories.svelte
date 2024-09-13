@@ -1,11 +1,11 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import Paragraph from './Paragraph.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Typografi/Paragraph',
     component: Paragraph,
-  };
+  });
 </script>
 
 <Template let:args>

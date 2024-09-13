@@ -1,16 +1,16 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import Accordion from './Accordion.svelte';
   import AccordionContent from './AccordionContent.svelte';
   import AccordionItem from './AccordionItem.svelte';
   import AccordionHeader from './AccordionHeader.svelte';
   import { writable } from 'svelte/store';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Accordion',
     component: Accordion,
     subcomponents: { AccordionContent, AccordionItem, AccordionHeader },
-  };
+  });
 </script>
 
 <Template let:args>

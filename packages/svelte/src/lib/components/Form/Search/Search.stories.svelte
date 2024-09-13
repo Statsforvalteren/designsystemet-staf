@@ -1,11 +1,11 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import Search from './Search.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Search',
     component: Search,
-  };
+  });
 </script>
 
 <script>

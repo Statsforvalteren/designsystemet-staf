@@ -1,11 +1,11 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import Textfield from './Textfield.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Textfield',
     component: Textfield,
-  };
+  });
 </script>
 
 <script>

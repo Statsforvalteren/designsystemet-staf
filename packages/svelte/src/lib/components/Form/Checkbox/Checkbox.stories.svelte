@@ -1,13 +1,13 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import Checkbox from './Checkbox.svelte';
   import CheckboxGroup from './CheckboxGroup.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Checkbox',
     component: Checkbox,
     subcomponents: { CheckboxGroup },
-  };
+  });
 </script>
 
 <script>

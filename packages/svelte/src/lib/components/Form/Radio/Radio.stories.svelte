@@ -1,13 +1,13 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import Radio from './Radio.svelte';
   import RadioGroup from './RadioGroup.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Radio',
     component: Radio,
     subcomponents: { RadioGroup },
-  };
+  });
 </script>
 
 <script>

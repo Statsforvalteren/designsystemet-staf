@@ -1,5 +1,5 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import Tabs from './Tabs.svelte';
   import TabList from './TabList.svelte';
   import TabItem from './TabItem.svelte';
@@ -9,11 +9,11 @@
   import SignLanguage from './SignLanguage.svelte';
   import Button from '../Button/Button.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Tabs',
     component: Tabs,
     subcomponents: { TabList, TabItem, TabContent },
-  };
+  });
 </script>
 
 <script>

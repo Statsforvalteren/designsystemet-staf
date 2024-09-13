@@ -1,14 +1,14 @@
 <script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
   import DropdownMenu from './DropdownMenu.svelte';
   import Button from '../Button/Button.svelte';
   import Files from './Files.svelte';
   import Pencil from './Pencil.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/DropdownMenu',
     component: DropdownMenu,
-  };
+  });
 </script>
 
 <script>
