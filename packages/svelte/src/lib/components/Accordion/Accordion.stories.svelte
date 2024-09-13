@@ -1,5 +1,5 @@
-<script context="module">
-  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Accordion from './Accordion.svelte';
   import AccordionContent from './AccordionContent.svelte';
   import AccordionItem from './AccordionItem.svelte';
@@ -13,7 +13,11 @@
   });
 </script>
 
-<Template let:args>
+<script>
+  setTemplate(template);
+</script>
+
+{#snippet template(args)}
   <Accordion {...args}>
     <AccordionItem>
       <AccordionHeader level={2}>
@@ -40,7 +44,7 @@
       </AccordionContent>
     </AccordionItem>
   </Accordion>
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

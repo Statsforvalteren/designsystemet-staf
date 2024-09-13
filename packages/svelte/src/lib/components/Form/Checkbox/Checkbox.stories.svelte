@@ -1,5 +1,5 @@
-<script context="module">
-  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Checkbox from './Checkbox.svelte';
   import CheckboxGroup from './CheckboxGroup.svelte';
 
@@ -11,11 +11,12 @@
 </script>
 
 <script>
+  setTemplate(template);
   let selectedCheckValue = false;
   let selectedValues;
 </script>
 
-<Template let:args>
+{#snippet template(args)}
   <Checkbox
     {...args}
     value="standalone"
@@ -23,7 +24,7 @@
     label="Lorem ipsum label"
     description="Lorem ipsum description"
   />
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

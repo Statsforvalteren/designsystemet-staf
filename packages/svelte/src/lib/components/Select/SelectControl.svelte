@@ -138,7 +138,7 @@
   </div>
   {#if (multiple || clearable) && selected.length > 0}
     <ClearButton handleClick={handleClearAll} {disabled} {readOnly} {size} />
-    <div class="separator {disabled ? 'disabled' : ''}" />
+    <div class="separator {disabled ? 'disabled' : ''}"></div>
   {/if}
 
   <div class={`chevron-container ${disabled ? 'disabled' : ''}`}>

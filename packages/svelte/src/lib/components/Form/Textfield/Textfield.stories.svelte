@@ -1,5 +1,5 @@
-<script context="module">
-  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Textfield from './Textfield.svelte';
 
   const { Story } = defineMeta({
@@ -9,10 +9,11 @@
 </script>
 
 <script>
+  setTemplate(template);
   let textareaValue = '';
 </script>
 
-<Template let:args>
+{#snippet template(args)}
   <div style="width: 30vw">
     <Textfield
       bind:value={textareaValue}
@@ -28,7 +29,7 @@
       {...args}
     />
   </div>
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

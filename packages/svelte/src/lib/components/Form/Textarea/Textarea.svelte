@@ -1,5 +1,5 @@
 <script>
-  import { ErrorMessage, Paragraph } from '../../..';
+  import { ErrorMessage, Paragraph, ParagraphWrapper } from '../../..';
   import { v4 as uuidv4 } from 'uuid';
   import CharacterCounter from '../CharacterCounter.svelte';
 
@@ -86,13 +86,13 @@
   let errorMessageClasses = `ds-textarea__error-message ${fontSizeClass}`;
 </script>
 
-<Paragraph as="div" {size}>
+<ParagraphWrapper {size}>
   <div class={formFieldClasses}>
     {#if label}
       <label for={`textarea-${componentId}`} class={labelClasses}>
         {#if readOnly}
           <span
-            aria-hidden
+            aria-hidden="true"
             class="ds-textarea__readonly__icon"
             style="margin: -5px 3px 0 -5px;"
           >
@@ -117,10 +117,10 @@
       </label>
     {/if}
     {#if description}
-      <Paragraph as="p" {size}>
-        <div id="description" class={descriptionClasses}>
+      <Paragraph {size}>
+        <span id="description" class={descriptionClasses}>
           {description}
-        </div>
+        </span>
       </Paragraph>
     {/if}
     <textarea
@@ -131,7 +131,7 @@
       id={`textarea-${componentId}`}
       aria-describedby="description"
       {...$$restProps}
-    />
+    ></textarea>
     {#if characterLimit}
       <CharacterCounter
         maxCount={characterLimit}
@@ -152,7 +152,7 @@
       </div>
     {/if}
   </div>
-</Paragraph>
+</ParagraphWrapper>
 
 <style>
   .ds-textarea {

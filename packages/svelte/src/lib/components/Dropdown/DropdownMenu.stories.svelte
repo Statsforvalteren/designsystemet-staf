@@ -1,5 +1,5 @@
-<script context="module">
-  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import DropdownMenu from './DropdownMenu.svelte';
   import Button from '../Button/Button.svelte';
   import Files from './Files.svelte';
@@ -12,12 +12,13 @@
 </script>
 
 <script>
+  setTemplate(template);
   let menuVisible = false;
   let anchorEl = null;
   $: clicked = false;
 </script>
 
-<Template let:args>
+{#snippet template(args)}
   <div bind:this={anchorEl} style="height: 300px;">
     <Button
       aria-haspopup="menu"
@@ -53,7 +54,7 @@
       </C.MenuGroup>
     </DropdownMenu>
   {/if}
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

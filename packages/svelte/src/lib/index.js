@@ -16,6 +16,7 @@ import {
 } from './components/Accordion';
 import {
   Paragraph,
+  ParagraphWrapper,
   Heading,
   ErrorMessage,
   Label,
@@ -44,6 +45,7 @@ export {
   ListItem,
   Alert,
   Paragraph,
+  ParagraphWrapper,
   Heading,
   ErrorMessage,
   Label,

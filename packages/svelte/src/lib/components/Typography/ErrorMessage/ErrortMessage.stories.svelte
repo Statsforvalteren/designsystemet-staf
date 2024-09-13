@@ -1,5 +1,5 @@
-<script context="module">
-  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import ErrorMessage from './ErrorMessage.svelte';
 
   const { Story } = defineMeta({
@@ -8,11 +8,15 @@
   });
 </script>
 
-<Template let:args>
+<script>
+  setTemplate(template);
+</script>
+
+{#snippet template(args)}
   <ErrorMessage {...args}>
     Lorem Ipsum er en dummytekst fra og for trykkeindustrien.
   </ErrorMessage>
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

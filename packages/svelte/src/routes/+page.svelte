@@ -816,7 +816,7 @@
   </ul>
 </Tooltip>
 
-<p>
+<div>
   Tooltips can also be added to a text snippet <nobr
     ><Tooltip open={true} placement="bottom">
       <abbr
@@ -827,7 +827,7 @@
       <span slot="content">Pretty cool?</span>
     </Tooltip>
   </nobr> information!
-</p>
+</div>
 
 <h1 class="componentHeader">Spinner</h1>
 <div class="spinner">

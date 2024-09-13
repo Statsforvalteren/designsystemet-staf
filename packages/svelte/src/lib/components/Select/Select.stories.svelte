@@ -1,5 +1,5 @@
-<script context="module">
-  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Select from './Select.svelte';
 
   const { Story } = defineMeta({
@@ -9,6 +9,7 @@
 </script>
 
 <script>
+  setTemplate(template);
   $: options = [
     { label: 'Norge', value: '1' },
     { label: 'Sverige', value: '2' },
@@ -44,9 +45,9 @@
   ];
 </script>
 
-<Template let:args>
+{#snippet template(args)}
   <Select {options} bind:selected={unSelected} label="Velg et land" {...args} />
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

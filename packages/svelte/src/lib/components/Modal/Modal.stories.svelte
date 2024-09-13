@@ -1,5 +1,5 @@
-<script context="module">
-  import { defineMeta, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Button from '../Button/Button.svelte';
   import Modal from './Modal.svelte';
 
@@ -10,13 +10,14 @@
 </script>
 
 <script>
+  setTemplate(template);
   let isModalOpen = false;
   function closeModal() {
     isModalOpen = false;
   }
 </script>
 
-<Template let:args>
+{#snippet template(args)}
   <div style="height: 400px; width: 700px;">
     <Button on:click={() => (isModalOpen = true)} style="margin: 0 auto;">
       Åpne modalen
@@ -38,7 +39,7 @@
       </div>
     </Modal>
   {/if}
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

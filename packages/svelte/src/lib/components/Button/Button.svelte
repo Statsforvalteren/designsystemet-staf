@@ -112,12 +112,6 @@
     min-height: var(--ds-sizing-10);
   }
 
-  .ds-btn {
-    & > svg {
-      overflow: visible;
-    }
-  }
-
   .ds-btn:disabled,
   .ds-btn[aria-disabled='true'] {
     cursor: not-allowed;

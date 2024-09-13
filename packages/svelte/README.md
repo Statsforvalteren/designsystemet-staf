@@ -39,19 +39,23 @@ yarn updateTokens
 2. Add the following code to the file:
 
 ```svelte
-<script context="module">
-   import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+   import { Story, setTemplate } from '@storybook/addon-svelte-csf';
    import ComponentName from './ComponentName.svelte';
 
-   export const meta = {
-    title: 'Komponenter/ComponentName',
-    component: ComponentName,
-  };
+   const { Story } = defineMeta({
+      title: 'Komponenter/ComponentName',
+      component: ComponentName,
+   });
 </script>
 
-<Template let:args>
+<script>
+  setTemplate(template);
+</script>
+
+{#snippet template(args)}
   <ComponentName {...args} />
-</Template>
+{/snippet}
 
 <Story name="Default" />
 
