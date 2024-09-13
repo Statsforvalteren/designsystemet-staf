@@ -1,6 +1,6 @@
 {
   "name": "@fmfadigitalisering/staf-komponentbibliotek-svelte",
-  "version": "1.5.0-pr-svelte-v5-support.1",
+  "version": "1.4.7-0",
   "type": "module",
   "exports": {
     ".": {
