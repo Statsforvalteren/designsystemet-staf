@@ -40,7 +40,7 @@ yarn updateTokens
 
 ```svelte
 <script module>
-   import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+   import { setTemplate, defineMeta } from '@storybook/addon-svelte-csf';
    import ComponentName from './ComponentName.svelte';
 
    const { Story } = defineMeta({
