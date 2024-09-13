@@ -1,5 +1,5 @@
-<script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Tabs from './Tabs.svelte';
   import TabList from './TabList.svelte';
   import TabItem from './TabItem.svelte';
@@ -9,19 +9,20 @@
   import SignLanguage from './SignLanguage.svelte';
   import Button from '../Button/Button.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Tabs',
     component: Tabs,
     subcomponents: { TabList, TabItem, TabContent },
-  };
+  });
 </script>
 
 <script>
+  setTemplate(template);
   $: tabsSwitchingCounter = 0;
   $: selectedTabId = 1;
 </script>
 
-<Template let:args>
+{#snippet template(args)}
   <Tabs {...args}>
     <TabList>
       <TabItem value="1" icon={House}>Tab 1</TabItem>
@@ -37,7 +38,7 @@
     </TabContent>
     <TabContent value="3">Tab 3 innhold</TabContent>
   </Tabs>
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

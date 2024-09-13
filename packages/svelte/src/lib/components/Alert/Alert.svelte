@@ -167,9 +167,6 @@
     width: var(--icon-size);
     color: var(--fdsc-alert-icon-color);
     scale: 1.5;
-    & > svg {
-      margin: 5px;
-    }
   }
 
   .content {

@@ -122,7 +122,7 @@
         class="ds-tooltip__arrow"
         style="height: {ARROW_HEIGHT}px"
         bind:this={$arrowRef}
-      />
+      ></div>
     {/if}
   </div>
 {/if}

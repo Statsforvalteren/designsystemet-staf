@@ -1,5 +1,5 @@
 <script>
-  import { Paragraph } from '../../..';
+  import { ParagraphWrapper } from '../../..';
   import { createEventDispatcher } from 'svelte';
 
   /**
@@ -97,7 +97,7 @@
   $: descriptionClass = `ds-switch__description`;
 </script>
 
-<Paragraph as="div" {size}>
+<ParagraphWrapper {size}>
   <div class={computedClass}>
     <input
       width="100%"
@@ -118,7 +118,7 @@
         style="display: inline-flex; justify-content: center; align-items: center"
       >
         <span class="ds-switch__track">
-          <span class="ds-switch__thumb" />
+          <span class="ds-switch__thumb"></span>
         </span>
         {#if readOnly}
           <svg
@@ -144,13 +144,13 @@
     {/if}
     {#if description}
       <div id="description-{id}" class={descriptionClass}>
-        <Paragraph as="div" {size}>
+        <ParagraphWrapper {size}>
           {description}
-        </Paragraph>
+        </ParagraphWrapper>
       </div>
     {/if}
   </div>
-</Paragraph>
+</ParagraphWrapper>
 
 <style>
   .ds-switch {

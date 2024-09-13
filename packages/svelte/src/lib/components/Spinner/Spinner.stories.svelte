@@ -1,16 +1,20 @@
-<script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Spinner from './Spinner.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Spinner',
     component: Spinner,
-  };
+  });
 </script>
 
-<Template let:args>
+<script>
+  setTemplate(template);
+</script>
+
+{#snippet template(args)}
   <Spinner {...args} />
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

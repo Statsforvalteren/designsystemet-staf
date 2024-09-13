@@ -1,5 +1,5 @@
 <script>
-  import { Paragraph } from '../../..';
+  import { ParagraphWrapper } from '../../..';
   import { getContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 
@@ -83,7 +83,7 @@
   }`;
 </script>
 
-<Paragraph as="div" {size}>
+<ParagraphWrapper {size}>
   <div
     class={radioClasses}
     tabindex="-1"
@@ -104,7 +104,10 @@
     />
     <label for={labelId} class="ds-radio__label">
       {#if readOnly}
-        <span aria-hidden class="ds-radio__label ds-radio__readyonly-icon">
+        <span
+          aria-hidden="true"
+          class="ds-radio__label ds-radio__readyonly-icon"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="1.5em"
@@ -132,7 +135,7 @@
       </p>
     {/if}
   </div>
-</Paragraph>
+</ParagraphWrapper>
 
 <style lang="scss">
   .ds-radio {
@@ -215,7 +218,8 @@
   }
 
   .ds-radio__input:focus-visible {
-    box-shadow: inset 0 0 0 2px var(--dsc-radio-border-color),
+    box-shadow:
+      inset 0 0 0 2px var(--dsc-radio-border-color),
       inset 0 0 0 6px var(--dsc-radio-background);
   }
 
@@ -240,7 +244,8 @@
   }
 
   .ds-radio__input:checked:not(:focus-visible) {
-    box-shadow: inset 0 0 0 2px var(--dsc-radio-border-color),
+    box-shadow:
+      inset 0 0 0 2px var(--dsc-radio-border-color),
       inset 0 0 0 6px var(--dsc-radio-background);
   }
 
@@ -266,13 +271,15 @@
       > .ds-radio__input:hover:not(:checked, :disabled, :focus-visible) {
       --dsc-radio-border-color: var(--ds-color-accent-border-strong);
 
-      box-shadow: var(--dsc-radio-border__hover),
+      box-shadow:
+        var(--dsc-radio-border__hover),
         inset 0 0 0 2px var(--dsc-radio-border-color);
     }
 
     .ds-radio:not(.ds-radio--readonly)
       > .ds-radio__input:hover:checked:not(:disabled, :focus-visible) {
-      box-shadow: var(--dsc-radio-border__hover),
+      box-shadow:
+        var(--dsc-radio-border__hover),
         inset 0 0 0 2px var(--dsc-radio-border-color),
         inset 0 0 0 6px var(--dsc-radio-background);
     }

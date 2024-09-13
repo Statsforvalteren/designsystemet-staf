@@ -101,7 +101,7 @@ addons.setConfig({
   theme: stafThemeLight,
 });
 
-setTimeout(moveDarkModeButton, 1200);
+setTimeout(moveDarkModeButton, 2000);
 setTimeout(() => setSidebarWidth(320), 100);
 setInterval(removeDocBlocksCodeToggle, 100);
 setInterval(removeProxyFromTabTitle, 100);

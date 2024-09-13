@@ -1,5 +1,5 @@
 <script>
-  import { Paragraph } from '../../..';
+  import { ParagraphWrapper } from '../../..';
   import { getContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 
@@ -113,7 +113,7 @@
   }`;
 </script>
 
-<Paragraph as="div" {size}>
+<ParagraphWrapper {size}>
   <div
     class={checkboxClasses}
     tabindex="-1"
@@ -136,7 +136,7 @@
     <label for={labelId} class="ds-checkbox__label">
       {#if readOnly}
         <span
-          aria-hidden
+          aria-hidden="true"
           class="ds-checkbox__label ds-checkbox__readyonly-icon"
         >
           <svg
@@ -166,7 +166,7 @@
       </p>
     {/if}
   </div>
-</Paragraph>
+</ParagraphWrapper>
 
 <style lang="scss">
   .ds-checkbox {
@@ -338,7 +338,8 @@
       .ds-checkbox__input:hover:not(:checked, :disabled, :focus-visible) {
       --dsc-checkbox-border-color: var(--ds-color-accent-border-strong);
 
-      box-shadow: var(--dsc-checkbox-border__hover),
+      box-shadow:
+        var(--dsc-checkbox-border__hover),
         inset 0 0 0 2px var(--dsc-checkbox-border-color);
     }
 

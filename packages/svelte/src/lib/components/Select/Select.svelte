@@ -4,7 +4,7 @@
   import { v4 as uuidv4 } from 'uuid';
   import SelectControl from './SelectControl.svelte';
   import SelectDropdown from './SelectDropdown.svelte';
-  import { Paragraph } from '../..';
+  import { ParagraphWrapper } from '../..';
   import { writable } from 'svelte/store';
 
   /**
@@ -196,7 +196,7 @@
         if (Array.isArray(currentSelected)) {
           if (
             !currentSelected.some(
-              (selectedOption) => selectedOption.value === option.value
+              (selectedOption) => selectedOption.value === option.value,
             )
           ) {
             // Add the option if it's not already selected
@@ -204,7 +204,7 @@
           } else {
             // Remove the option if it's already selected
             return currentSelected.filter(
-              (selectedOption) => selectedOption.value !== option.value
+              (selectedOption) => selectedOption.value !== option.value,
             );
           }
         } else {
@@ -237,7 +237,7 @@
     selectedStore.update((currentSelected) => {
       if (multiple) {
         return currentSelected.filter(
-          (option) => option.value !== optionToRemove.value
+          (option) => option.value !== optionToRemove.value,
         );
       } else {
         return [];
@@ -301,7 +301,7 @@
   function handleFilterChange(newFilter) {
     searchTerm = newFilter;
     filteredOptions = options.filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase())
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }
 </script>
@@ -315,7 +315,10 @@
   {#if label}
     <div class="heading-wrapper select-container-spacing">
       {#if readOnly}
-        <span aria-hidden class={`padlock-icon icon-size--${standardizedSize}`}>
+        <span
+          aria-hidden="true"
+          class={`padlock-icon icon-size--${standardizedSize}`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -332,11 +335,11 @@
           </svg>
         </span>
       {/if}
-      <Paragraph as="div" {size}>
+      <ParagraphWrapper {size}>
         <label class={`select-label`} for={inputId}>
           {label}
         </label>
-      </Paragraph>
+      </ParagraphWrapper>
     </div>
   {/if}
 

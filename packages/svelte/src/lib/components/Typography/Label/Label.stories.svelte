@@ -1,18 +1,22 @@
-<script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Label from './Label.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Typografi/Label',
     component: Label,
-  };
+  });
 </script>
 
-<Template let:args>
+<script>
+  setTemplate(template);
+</script>
+
+{#snippet template(args)}
   <Label {...args}>
     Lorem Ipsum er en dummytekst fra og for trykkeindustrien.
   </Label>
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

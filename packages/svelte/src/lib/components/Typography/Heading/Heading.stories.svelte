@@ -1,20 +1,24 @@
-<script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Heading from './Heading.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Typografi/Heading',
     component: Heading,
-  };
+  });
 </script>
 
-<Template let:args>
+<script>
+  setTemplate(template);
+</script>
+
+{#snippet template(args)}
   <div style="width: 100%">
     <Heading {...args}>
       Lorem Ipsum er en dummytekst fra og for trykkeindustrien.
     </Heading>
   </div>
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

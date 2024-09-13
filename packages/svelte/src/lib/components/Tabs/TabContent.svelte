@@ -1,7 +1,7 @@
 <!-- TabContent.svelte -->
 <script>
   import { getContext } from 'svelte';
-  import { Paragraph } from '../..';
+  import { ParagraphWrapper } from '../..';
 
   /**
    * Value of the tab content.
@@ -32,14 +32,14 @@
 </script>
 
 {#if $selectedTab === value}
-  <Paragraph as="div" variant="short" size={$tabSize}>
+  <ParagraphWrapper size={$tabSize}>
     <div
       class={`ds-tabs__content .ds-tabs--${standardizedSize}`}
       {...$$restProps}
     >
       <slot />
     </div>
-  </Paragraph>
+  </ParagraphWrapper>
 {/if}
 
 <style lang="scss">

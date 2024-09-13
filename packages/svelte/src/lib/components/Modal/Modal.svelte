@@ -63,8 +63,8 @@
 
 <div class="modal-background">
   <div id={`modal-${componentId}`} class="ds-modal" {...$$restProps}>
-    <a href="/" on:focus={() => closeButtonRef.focus()}><div /></a>
-    <a href="/" on:focus={() => lastButton.focus()}><div /></a>
+    <a href="/" on:focus={() => closeButtonRef.focus()}><div></div></a>
+    <a href="/" on:focus={() => lastButton.focus()}><div></div></a>
     <div
       class={`ds-modal__header ${
         !closeButton ? 'ds-modal__header--no-button' : ''
@@ -107,7 +107,7 @@
     <div class="ds-modal__footer">
       <slot name="footer" />
     </div>
-    <a href="/" on:focus={() => closeButtonRef.focus()}><div /></a>
+    <a href="/" on:focus={() => closeButtonRef.focus()}><div></div></a>
   </div>
 </div>
 
@@ -143,7 +143,9 @@
   }
 
   .ds-modal[open] {
-    animation: slide-in 300ms ease-in-out, fade-in 300ms ease-in-out;
+    animation:
+      slide-in 300ms ease-in-out,
+      fade-in 300ms ease-in-out;
   }
 
   .ds-modal--lock-scroll {

@@ -1,5 +1,5 @@
 <script>
-  import { Paragraph } from '../..';
+  import { ParagraphWrapper } from '../..';
   import { getContext } from 'svelte';
 
   /**
@@ -43,7 +43,7 @@
   }
 </script>
 
-<Paragraph asChild variant="short" size={$tabSize}>
+<ParagraphWrapper size={$tabSize}>
   <div class={`${isSelected ? 'selected' : ''}`}>
     <button
       class={`ds-tabs__tab ds-tabs--${standardizedSize} ds-focus ${
@@ -60,7 +60,7 @@
       <slot />
     </button>
   </div>
-</Paragraph>
+</ParagraphWrapper>
 
 <style lang="scss">
   .ds-tabs__tab {

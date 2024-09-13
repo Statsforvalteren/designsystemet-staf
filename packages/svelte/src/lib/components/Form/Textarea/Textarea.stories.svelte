@@ -1,18 +1,19 @@
-<script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Textarea from './Textarea.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Textarea',
     component: Textarea,
-  };
+  });
 </script>
 
 <script>
+  setTemplate(template);
   let textareaValue = '';
 </script>
 
-<Template let:args>
+{#snippet template(args)}
   <div style="width: 30vw">
     <Textarea
       bind:value={textareaValue}
@@ -28,7 +29,7 @@
       {...args}
     />
   </div>
-</Template>
+{/snippet}
 
 <Story name="Default" />
 
