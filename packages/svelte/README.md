@@ -6,7 +6,7 @@ The repository was originally a fork of `digdir/designsystemet` but is now a pri
 ## Adding or updating dependencies
 
 1. In the terminal, navigate to the `/packages/svelte` folder.
-2. Run `yarn install`
+2. Run the `yarn install` command.
 
 ### Updating design tokens
 
