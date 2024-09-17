@@ -1,16 +1,20 @@
-<script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Alert from './Alert.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Alert',
     component: Alert,
-  };
+  });
 </script>
 
-<Template let:args>
+<script>
+  setTemplate(template);
+</script>
+
+{#snippet template(args)}
   <Alert {...args}>Informasjonstekst som brukeren bør vite om.</Alert>
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

@@ -1,5 +1,5 @@
 <script>
-  import { Paragraph } from '../..';
+  import { ParagraphWrapper } from '../..';
 
   /**
    * List component to render a list.
@@ -43,7 +43,7 @@
   $: listClasses = `ds-list ds-list--${standardizedSize} ${className}`;
 </script>
 
-<Paragraph {size} asChild>
+<ParagraphWrapper {size}>
   {#if as === 'ul'}
     <div style="text-align: center">
       <ul class={listClasses} {...$$restProps}>
@@ -63,7 +63,7 @@
       <slot class="none" />
     </ul>
   {/if}
-</Paragraph>
+</ParagraphWrapper>
 
 <style>
   .ds-list--sm {

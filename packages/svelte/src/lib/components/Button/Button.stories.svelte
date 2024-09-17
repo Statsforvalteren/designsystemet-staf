@@ -1,25 +1,26 @@
-<script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Button from './Button.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Button',
     component: Button,
-  };
+  });
 </script>
 
 <script>
+  setTemplate(template);
   let count = 0;
   function handleClick() {
     count += 1;
   }
 </script>
 
-<Template let:args>
+{#snippet template(args)}
   <Button {...args} on:click={handleClick}>
     You clicked: {count}
   </Button>
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

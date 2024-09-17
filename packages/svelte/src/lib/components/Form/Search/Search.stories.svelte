@@ -1,18 +1,19 @@
-<script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Search from './Search.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Search',
     component: Search,
-  };
+  });
 </script>
 
 <script>
+  setTemplate(template);
   let searchValue = '';
 </script>
 
-<Template let:args>
+{#snippet template(args)}
   <div style="width: 600px;">
     <Search
       bind:value={searchValue}
@@ -27,7 +28,7 @@
       {...args}
     />
   </div>
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

@@ -43,7 +43,7 @@
     aria-expanded={$open}
     aria-controls={accordionItemContext.contentId}
   >
-    <div aria-hidden class="ds-accordion__expand-icon">
+    <div aria-hidden="true" class="ds-accordion__expand-icon">
       {#if !$open}
         <svg
           width="1.6em"
@@ -126,20 +126,12 @@
       background-color: var(--dsc-accordion-icon-background-hover);
     }
     .ds-accordion__header:hover {
-      background-color: var(--ds-color-brand1-surface-hover);
+      background-color: var(--dsc-accordion-background-hover);
     }
   }
 
   .ds-accordion__item:where(.ds-accordion__item--open)
     .ds-accordion__expand-icon {
     transform: rotateZ(180deg);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .ds-accordion__item--open
-      .ds-accordion__header:hover
-      .ds-accordion__expand-icon {
-      background-color: var(--dsc-accordion-icon-background-active);
-    }
   }
 </style>

@@ -1,5 +1,5 @@
 <script>
-  import { Paragraph, ErrorMessage } from '../../..';
+  import { ParagraphWrapper, ErrorMessage } from '../../..';
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
   import { v4 as uuidv4 } from 'uuid';
@@ -141,7 +141,10 @@
   {#if legend}
     <div class={legendWrapperClasses}>
       {#if readOnly}
-        <span aria-hidden class={`padlock-icon icon-size--${standardizedSize}`}>
+        <span
+          aria-hidden="true"
+          class={`padlock-icon icon-size--${standardizedSize}`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -158,27 +161,27 @@
           </svg>
         </span>
       {/if}
-      <Paragraph as="div" {size}>
+      <ParagraphWrapper {size}>
         <legend class="legend" id={`label-${uniqueId}`}>
           {legend}
         </legend>
-      </Paragraph>
+      </ParagraphWrapper>
     </div>
   {/if}
   {#if description}
-    <Paragraph as="div" {size}>
+    <ParagraphWrapper {size}>
       <div class={descriptionClasses}>
         {description}
       </div>
-    </Paragraph>
+    </ParagraphWrapper>
   {/if}
   <div class={`ds-radio-group ${inline ? 'ds-radio-group--horizontal' : ''}`}>
     <slot />
   </div>
   {#if error}
-    <Paragraph as="div" {size}>
+    <ParagraphWrapper {size}>
       <ErrorMessage {size}>{error}</ErrorMessage>
-    </Paragraph>
+    </ParagraphWrapper>
   {/if}
 </fieldset>
 

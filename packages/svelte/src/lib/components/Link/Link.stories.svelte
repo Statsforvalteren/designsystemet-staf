@@ -1,18 +1,22 @@
-<script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Link from './Link.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Link',
     component: Link,
-  };
+  });
 </script>
 
-<Template let:args>
+<script>
+  setTemplate(template);
+</script>
+
+{#snippet template(args)}
   <Link {...args} href="https://bak.statsforvalteren.no/"
     >Statsforvalterens fellestenester</Link
   >
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

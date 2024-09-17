@@ -42,6 +42,7 @@
     --dsc-accordion-icon-background-active: var(
       --ds-color-neutral-surface-default
     );
+    --dsc-accordion-background-hover: var(--ds-color-neutral-surface-hover);
 
     border-bottom: 1px solid var(--dsc-accordion-border-color);
     box-sizing: border-box;
@@ -74,6 +75,7 @@
     --dsc-accordion-icon-background-hover: var(
       --ds-color-neutral-surface-default
     );
+    --dsc-accordion-background-hover: var(--ds-color-neutral-surface-hover);
   }
 
   .ds-accordion--subtle {
@@ -91,6 +93,7 @@
     --dsc-accordion-icon-background-active: var(
       --ds-color-neutral-surface-active
     );
+    --dsc-accordion-background-hover: var(--ds-color-subtle-surface-hover);
   }
 
   .ds-accordion--brand1 {
@@ -106,6 +109,7 @@
     --dsc-accordion-icon-background-active: var(
       --ds-color-brand1-surface-active
     );
+    --dsc-accordion-background-hover: var(--ds-color-brand1-surface-hover);
   }
 
   .ds-accordion--brand2 {
@@ -121,6 +125,7 @@
     --dsc-accordion-icon-background-active: var(
       --ds-color-brand2-surface-active
     );
+    --dsc-accordion-background-hover: var(--ds-color-brand2-surface-hover);
   }
 
   .ds-accordion--brand3 {
@@ -136,5 +141,6 @@
     --dsc-accordion-icon-background-active: var(
       --ds-color-brand3-surface-active
     );
+    --dsc-accordion-background-hover: var(--ds-color-brand3-surface-hover);
   }
 </style>

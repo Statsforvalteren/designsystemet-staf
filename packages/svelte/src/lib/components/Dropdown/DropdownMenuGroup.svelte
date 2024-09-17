@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
-  import { Paragraph } from '../..';
+  import { ParagraphWrapper } from '../..';
 
   /**
    * Text to be displayed in the dropdown menu group.
@@ -20,9 +20,9 @@
     role="group"
   >
     {#if heading}
-      <Paragraph as="div" {size}>
+      <ParagraphWrapper {size}>
         <h2 class="ds-dropdownmenu__heading" id={componentId}>{heading}</h2>
-      </Paragraph>
+      </ParagraphWrapper>
     {/if}
     <slot />
   </ul>

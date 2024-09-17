@@ -47,12 +47,12 @@
   class={chipClasses}
   {...$$restProps}
 >
-  <Paragraph asChild size={groupSize || size} variant="short">
+  <Paragraph size={groupSize || size} variant="short">
     <span class="ds-chip__label">
       {#if shouldDisplayCheckmark}
-        <div
+        <span
           class="ds-chip__checkmark-icon"
-          aria-hidden
+          aria-hidden="true"
           style="display: flex; align-items: center;"
         >
           <svg
@@ -71,7 +71,7 @@
               clip-rule="evenodd"
             />
           </svg>
-        </div>
+        </span>
       {/if}
       <slot />
     </span>

@@ -1,27 +1,28 @@
-<script context="module">
-  import { Story, Template } from '@storybook/addon-svelte-csf';
+<script module>
+  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
   import Radio from './Radio.svelte';
   import RadioGroup from './RadioGroup.svelte';
 
-  export const meta = {
+  const { Story } = defineMeta({
     title: 'Komponenter/Radio',
     component: Radio,
     subcomponents: { RadioGroup },
-  };
+  });
 </script>
 
 <script>
+  setTemplate(template);
   let selectedValue;
 </script>
 
-<Template let:args>
+{#snippet template(args)}
   <Radio
     value="option"
     label="Lorem ipsum label."
     description="Lorem ipsum description."
     {...args}
   />
-</Template>
+{/snippet}
 
 <Story name="Default" />
 

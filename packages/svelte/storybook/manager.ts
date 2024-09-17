@@ -83,17 +83,23 @@ function setSidebarWidth(width: number) {
 
 // Moves the dark-mode button next to the fullscreen button on the toolbar.
 function moveDarkModeButton() {
-  const parent = document.querySelector(
-    '[title*="Go full screen"]',
-  )?.parentElement;
+  try {
+    const parent = document.querySelector(
+      '[title*="Go full screen"]',
+    )?.parentElement;
 
-  if (parent) {
-    const child = parent.childNodes[0];
-    const darkModeButton = document.querySelector('[title*="Change theme to"]');
+    if (parent) {
+      const child = parent.childNodes[0];
+      const darkModeButton = document.querySelector(
+        '[title*="Change theme to"]',
+      );
 
-    if (child && darkModeButton) {
-      parent.insertBefore(darkModeButton, child);
+      if (child && darkModeButton) {
+        parent.insertBefore(darkModeButton, child);
+      }
     }
+  } catch {
+    setTimeout(moveDarkModeButton, 1000);
   }
 }
 
@@ -101,7 +107,7 @@ addons.setConfig({
   theme: stafThemeLight,
 });
 
-setTimeout(moveDarkModeButton, 1200);
+setTimeout(moveDarkModeButton, 1000);
 setTimeout(() => setSidebarWidth(320), 100);
 setInterval(removeDocBlocksCodeToggle, 100);
 setInterval(removeProxyFromTabTitle, 100);

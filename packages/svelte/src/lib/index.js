@@ -16,6 +16,7 @@ import {
 } from './components/Accordion';
 import {
   Paragraph,
+  ParagraphWrapper,
   Heading,
   ErrorMessage,
   Label,
@@ -34,6 +35,7 @@ import { Tabs, TabContent, TabItem, TabList } from './components/Tabs';
 import Spinner from './components/Spinner/Spinner.svelte';
 import { DropdownMenu } from './components/Dropdown';
 import { Chip, ChipGroup } from './components/Chip';
+import { toast, Toast } from './components/Toast';
 
 export {
   Button,
@@ -44,6 +46,7 @@ export {
   ListItem,
   Alert,
   Paragraph,
+  ParagraphWrapper,
   Heading,
   ErrorMessage,
   Label,
@@ -69,4 +72,6 @@ export {
   DropdownMenu,
   Chip,
   ChipGroup,
+  toast,
+  Toast,
 };
