@@ -74,7 +74,7 @@
             </span>
             <span class="notification-message">{notification.message}</span>
           </div>
-          <button on:click={hideToast(notification)} aria-label="Lukk">
+          <button on:click={hideToast(notification)} aria-label="Close">
             <div class="close-icon">
               <svg
                 width="24"
@@ -118,7 +118,7 @@
             </span>
             <span class="notification-message">{notification.message}</span>
           </div>
-          <button on:click={hideToast(notification)} aria-label="Lukk">
+          <button on:click={hideToast(notification)} aria-label="Close">
             <div class="close-icon">
               <svg
                 width="24"
@@ -162,7 +162,7 @@
             </span>
             <span class="notification-message">{notification.message}</span>
           </div>
-          <button on:click={hideToast(notification)} aria-label="Lukk">
+          <button on:click={hideToast(notification)} aria-label="Close">
             <div class="close-icon">
               <svg
                 width="24"
@@ -267,17 +267,17 @@
     button {
       color: var(--ds-color-accent-9, #00244e);
       min-width: 2rem;
-      height: 2.25rem;
-      align-items: flex-start;
-      margin-top: -4px;
+      height: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 0;
       background: transparent;
       border: solid 2px transparent;
       cursor: pointer;
-
       .close-icon {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
         gap: var(--ds-spacing-1, 0.25rem);
         flex-shrink: 0;
@@ -298,7 +298,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
   }
   .left-section {
     display: flex;

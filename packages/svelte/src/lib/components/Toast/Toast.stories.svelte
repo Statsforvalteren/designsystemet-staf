@@ -14,7 +14,7 @@
 <Story name="Default">
   <div style="height: 100px; width: 700px;">
     <Button
-      on:click={() => toast('Dette er en toast', 'success', 'top')}
+      on:click={() => toast('Dette er en toast.', 'success', 'top')}
       style="margin: 150px auto;"
     >
       Åpne toast
@@ -33,10 +33,19 @@
   </div>
 </Story>
 
-<Story name="Info and short duration">
+<Story name="Long text and short duration">
   <div style="height: 100px; width: 700px;">
     <Button
-      on:click={() => toast('Dette er en toast', 'info', 'top', 500)}
+      on:click={() =>
+        toast(
+          `Lorem Ipsum er rett og slett dummytekst fra og for trykkeindustrien. Lorem
+      Ipsum har vært bransjens standard for dummytekst helt siden 1500-tallet,
+      da en ukjent boktrykker stokket en mengde bokstaver for å lage et
+      prøveeksemplar av en bok.`,
+          'info',
+          'top',
+          1000,
+        )}
       style="margin: 150px auto;"
     >
       Åpne toast
