@@ -1,4 +1,2 @@
-
 # SvelteKit
-.svelte-kit/*
-!.svelte-kit/tsconfig.json
+*.svelte-kit
