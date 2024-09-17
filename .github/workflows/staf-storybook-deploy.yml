@@ -10,6 +10,10 @@ on:
 jobs:
   build-storybook:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/svelte
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,7 +25,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       - name: Build Storybook
         run: yarn build:storybook:svelte
