@@ -1,18 +1,13 @@
 {
 	"compilerOptions": {
-		"paths": {
-			"$lib": [
-				"../src/lib"
-			],
-			"$lib/*": [
-				"../src/lib/*"
-			]
-		},
+		"paths": {},
 		"rootDirs": [
 			"..",
 			"./types"
 		],
+		"importsNotUsedAsValues": "error",
 		"isolatedModules": true,
+		"preserveValueImports": true,
 		"lib": [
 			"esnext",
 			"DOM",

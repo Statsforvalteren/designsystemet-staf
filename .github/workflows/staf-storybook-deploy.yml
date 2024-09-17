@@ -8,23 +8,7 @@ on:
       - main
 
 jobs:
-  install-dependencies:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Use node 20 and yarn cache
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install
-
   build-storybook:
-    needs: install-dependencies
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -39,6 +23,9 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Build Storybook
         run: yarn build:storybook:svelte

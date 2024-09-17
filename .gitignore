@@ -37,3 +37,7 @@ coverage/
 
 # Typescript
 next-env.d.ts
+
+#SvelteKit
+.svelte-kit/*
+!.svelte-kit/tsconfig.json
