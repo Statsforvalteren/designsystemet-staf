@@ -1,6 +1,6 @@
 {
   "name": "@fmfadigitalisering/staf-komponentbibliotek-svelte",
-  "version": "1.5.0-pr-svelte-v5-support.8",
+  "version": "1.5.0",
   "type": "module",
   "exports": {
     ".": {
@@ -70,6 +70,5 @@
     "@navikt/aksel-icons": "^5.6.0",
     "svelte-floating-ui": "^1.5.5",
     "uuid": "^9.0.1"
-  },
-  "stableVersion": "1.4.6"
+  }
 }
