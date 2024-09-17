@@ -15,7 +15,7 @@ const config = {
           importsNotUsedAsValues: _,
           // eslint-disable-next-line no-unused-vars
           preserveValueImports: __,
-          //keep the rest in a single object
+          // keep the rest in a single object
           ...compilerOptions
         } = tsconfig.compilerOptions;
 
