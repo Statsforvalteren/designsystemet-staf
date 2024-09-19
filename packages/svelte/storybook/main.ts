@@ -9,7 +9,7 @@ const config: StorybookConfig = {
   docs: {
     defaultName: 'Dokumentasjon',
   },
-  staticDirs: [{ from: './assets', to: 'assets/' }],
+  staticDirs: [{ from: './assets', to: 'assets/' }, '../static'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
