@@ -1,5 +1,5 @@
 <script>
-  import { Button, ErrorMessage } from '../../..';
+  import { Button, ErrorMessage } from '../../../index.js';
   import CharacterCounter from '../CharacterCounter.svelte';
   import { v4 as uuidv4 } from 'uuid';
 

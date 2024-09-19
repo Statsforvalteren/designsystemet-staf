@@ -1,5 +1,5 @@
 <script>
-  import { ParagraphWrapper } from '../../..';
+  import { ParagraphWrapper } from '../../../index.js';
   import { createEventDispatcher } from 'svelte';
 
   /**

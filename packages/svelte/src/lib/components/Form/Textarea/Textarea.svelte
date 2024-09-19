@@ -1,5 +1,5 @@
 <script>
-  import { ErrorMessage, Paragraph, ParagraphWrapper } from '../../..';
+  import { ErrorMessage, Paragraph, ParagraphWrapper } from '../../../index.js';
   import { v4 as uuidv4 } from 'uuid';
   import CharacterCounter from '../CharacterCounter.svelte';
 

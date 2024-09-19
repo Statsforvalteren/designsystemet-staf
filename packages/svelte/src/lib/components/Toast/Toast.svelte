@@ -1,6 +1,6 @@
-<script lang="ts">
+<script>
   import { crossfade } from 'svelte/transition';
-  import { notifications, hideToast } from './notifications';
+  import { notifications, hideToast } from './notifications.js';
   import { quintOut } from 'svelte/easing';
   import { flip } from 'svelte/animate';
   import ConditionalStatus from './ConditionalStatus.svelte';
@@ -256,14 +256,6 @@
       0px 1px 4px 0px rgba(0, 0, 0, 0.1),
       0px 1px 2px -1px rgba(0, 0, 0, 0.1);
 
-    &-text {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: var(--ds-spacing-2, 0.5rem);
-      width: 100%;
-    }
-
     button {
       color: var(--ds-color-accent-9, #00244e);
       min-width: 2rem;
@@ -294,10 +286,11 @@
     }
   }
   .notification-text {
-    width: 100%;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    align-items: baseline;
+    gap: var(--ds-spacing-2, 0.5rem);
+    width: 100%;
   }
   .left-section {
     display: flex;

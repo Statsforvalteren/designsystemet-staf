@@ -1,5 +1,5 @@
 <script>
-  import { Button } from '../..';
+  import { Button } from '../../index.js';
   import { getContext } from 'svelte';
 
   /**

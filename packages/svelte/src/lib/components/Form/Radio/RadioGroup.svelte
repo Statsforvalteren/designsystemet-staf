@@ -1,5 +1,5 @@
 <script>
-  import { ParagraphWrapper, ErrorMessage } from '../../..';
+  import { ParagraphWrapper, ErrorMessage } from '../../../index.js';
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
   import { v4 as uuidv4 } from 'uuid';

@@ -1,5 +1,5 @@
 <script>
-  import Paragraph from '../Typography/Paragraph/Paragraph.svelte';
+  import { Paragraph } from '../../index.js';
 
   /**
    * Alert component to show notifications with varying severity.

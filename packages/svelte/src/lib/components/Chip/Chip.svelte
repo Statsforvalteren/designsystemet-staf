@@ -1,5 +1,5 @@
 <script>
-  import { Paragraph } from '../Typography';
+  import { Paragraph } from '../../index.js';
   import { getContext } from 'svelte';
 
   /**

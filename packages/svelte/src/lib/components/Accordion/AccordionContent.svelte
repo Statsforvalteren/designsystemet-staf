@@ -9,7 +9,7 @@
       open = getContext('accordionItem').open;
     } catch {
       console.error(
-        '<AccordionContent> has to be used within an <AccordionItem>'
+        '<AccordionContent> has to be used within an <AccordionItem>',
       );
     }
   }

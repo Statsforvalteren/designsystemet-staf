@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
-  import { ParagraphWrapper } from '../..';
+  import { ParagraphWrapper } from '../../index.js';
 
   /**
    * Text to be displayed in the dropdown menu group.

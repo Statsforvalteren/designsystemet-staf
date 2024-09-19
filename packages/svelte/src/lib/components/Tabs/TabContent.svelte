@@ -1,7 +1,7 @@
 <!-- TabContent.svelte -->
 <script>
   import { getContext } from 'svelte';
-  import { ParagraphWrapper } from '../..';
+  import { ParagraphWrapper } from '../../index.js';
 
   /**
    * Value of the tab content.

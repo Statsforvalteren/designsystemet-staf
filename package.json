@@ -24,7 +24,7 @@
     "build:tokens": "yarn workspace @digdir/designsystemet build:tokens",
     "build:css": "yarn workspace @digdir/designsystemet-css build",
     "build:storybook": "storybook build -o ./dist/storybook --config-dir ./apps/storybook",
-    "build:storybook:svelte": "storybook build -o ./dist/storybook --config-dir ./packages/svelte/storybook",
+    "build:storybook:svelte": "storybook build -o ./dist/storybook -c ./packages/svelte/storybook",
     "build:storefront": "yarn workspace storefront building",
     "build:devsite": "yarn workspace dev building",
     "start:storefront": "yarn workspace storefront start",

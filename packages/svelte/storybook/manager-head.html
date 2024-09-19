@@ -1,4 +1,4 @@
-<link rel="shortcut icon" href="/staf-logo.svg" />
+<link rel="shortcut icon" href="./assets/favicon.svg" />
 <link rel="stylesheet" href="https://altinncdn.no/fonts/inter/inter.css" />
 <link
   rel="stylesheet"
@@ -222,7 +222,7 @@
       ? 'light'
       : 'dark';
     const logoImg = document.getElementsByClassName('header__logo')[0];
-    logoImg.src = `packages/svelte/storybook/assets/STAF-nynorsk-${colorMode === 'light' ? 'svart' : 'hvit'}.svg`;
+    logoImg.src = `./assets/STAF-nynorsk-${colorMode === 'light' ? 'svart' : 'hvit'}.svg`;
   }, 100);
 </script>
 
@@ -232,7 +232,7 @@
       <a href="https://bak.statsforvalteren.no/" class="header__logo-link"
         ><img
           class="header__logo"
-          src="packages/svelte/storybook/assets/STAF-nynorsk-svart.svg"
+          src="./assets/STAF-nynorsk-svart.svg"
           alt="Statsforvalterens profilhåndbok"
           width="200"
           height="200"
