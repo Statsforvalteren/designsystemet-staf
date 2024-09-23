@@ -55,7 +55,7 @@
       break;
   }
 
-  const computedClass = `ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${
+  $: computedClass = `ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${
     fullWidth ? 'ds-btn--full-width' : ''
   } ${className}`;
 </script>

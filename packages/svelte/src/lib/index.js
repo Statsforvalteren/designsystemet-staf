@@ -36,6 +36,13 @@ import Spinner from './components/Spinner/Spinner.svelte';
 import { DropdownMenu } from './components/Dropdown';
 import { Chip, ChipGroup } from './components/Chip';
 import { toast, Toast } from './components/Toast';
+import {
+  Table,
+  TableCell,
+  TableHeaderCell,
+  TableRow,
+} from './components/Table';
+import { Pagination } from './components/Pagination';
 
 export {
   Button,
@@ -74,4 +81,9 @@ export {
   ChipGroup,
   toast,
   Toast,
+  Table,
+  TableCell,
+  TableHeaderCell,
+  TableRow,
+  Pagination,
 };

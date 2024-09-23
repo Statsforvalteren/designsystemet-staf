@@ -2,7 +2,7 @@
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import Button from '../Button/Button.svelte';
   import Toast from './Toast.svelte';
-  import { toast } from './notifications';
+  import { toast } from './notifications.js';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Toast',
