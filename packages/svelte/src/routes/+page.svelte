@@ -31,6 +31,10 @@
     Chip,
     ChipGroup,
     Spinner,
+    Table,
+    TableHeaderCell,
+    TableCell,
+    TableRow,
   } from '$lib';
   import { Files, Pencil } from '$lib/components/Dropdown';
   import { House, Cog } from '$lib/components/Tabs';
@@ -182,6 +186,46 @@
   function handleDropdownClosing(value) {
     console.log('DropdownClosing', value);
   }
+
+  $: sortedData = [];
+  const dummyData = [
+    {
+      id: 1,
+      navn: 'Lise Nordmann',
+      epost: 'lise@nordmann.no',
+      telefon: '22345678',
+    },
+    {
+      id: 2,
+      navn: 'Kari Nordmann',
+      epost: 'kari@nordmann.no',
+      telefon: '87654321',
+    },
+    {
+      id: 3,
+      navn: 'Ola Nordmann',
+      epost: 'ola@nordmann.no',
+      telefon: '32345678',
+    },
+    {
+      id: 4,
+      navn: 'Per Nordmann',
+      epost: 'per@nordmann.no',
+      telefon: '12345678',
+    },
+    {
+      id: 5,
+      navn: 'Julie Nordmann',
+      epost: 'julie@nordmann.no',
+      telefon: '14646478',
+    },
+    {
+      id: 6,
+      navn: 'Roger Nordmann',
+      epost: 'roger@nordmann.no',
+      telefon: '66645678',
+    },
+  ];
 </script>
 
 <h1>Test components here!</h1>
@@ -860,6 +904,28 @@
 
 <br />
 <br />
+
+<h1 class="componentHeader">Table</h1>
+<Table>
+  <TableRow slot="headerRow">
+    <TableHeaderCell tableData={dummyData} sortFieldName="navn" bind:sortedData
+      >Navn</TableHeaderCell
+    >
+    <TableHeaderCell>Epost</TableHeaderCell>
+    <TableHeaderCell
+      tableData={dummyData}
+      sortFieldName="telefon"
+      bind:sortedData>Telefon</TableHeaderCell
+    >
+  </TableRow>
+  {#each sortedData as row}
+    <TableRow key={row.id}>
+      <TableCell>{row.navn}</TableCell>
+      <TableCell>{row.epost}</TableCell>
+      <TableCell>{row.telefon}</TableCell>
+    </TableRow>
+  {/each}
+</Table>
 
 <style>
   .componentHeader {
