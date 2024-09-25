@@ -171,6 +171,7 @@
     flex-grow: 1;
     flex-shrink: 1;
     overflow: hidden;
+    width: 100%;
     &.no-filter {
       cursor: pointer;
     }
