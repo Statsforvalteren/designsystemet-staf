@@ -4,12 +4,53 @@ name: Build and Publish storybook to GitHub Pages
 
 on:
   push:
-    branches:
-      - 'main'
+    branches: ['master']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/svelte
+
     steps:
-      - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.0
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use node 20 and yarn cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build Storybook
+        run: yarn build:storybook:svelte
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
           path: ./packages/svelte/dist/storybook
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
