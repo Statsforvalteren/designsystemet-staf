@@ -104,6 +104,7 @@
       : 'ds-search__input--with-search-button'
   }`;
   let errorMessageClasses = `ds-search__error-message`;
+  let clearButtonClasses = `ds-search__clear-button ds-focus ds-search__clear-button--${standardizedSize}`;
 
   let inputRef;
 
@@ -160,11 +161,11 @@
       />
       {#if showClearButton}
         <button
-          class={'ds-search__clear-button ds-focus'}
+          class={clearButtonClasses}
           type="button"
           on:click={handleClear}
           {disabled}
-          style="width: max-content; height: fit-content; padding: 6px;"
+          style="width: max-content; height: fit-content;"
         >
           <span>{clearButtonLabel}</span>
           <svg
@@ -311,7 +312,6 @@
     position: absolute;
     background: none;
     border: none;
-    right: 0.6em;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -319,10 +319,18 @@
     width: var(--dsc-search-button-clear-size);
     border-radius: var(--ds-border-radius-md);
     font-size: 1.25rem;
-    padding: 0;
+    padding: 6px;
     z-index: 2;
   }
-
+  .ds-search__clear-button--lg {
+    right: 0.6em;
+  }
+  .ds-search__clear-button--md {
+    right: 0.4em;
+  }
+  .ds-search__clear-button--sm {
+    right: 0.23em;
+  }
   .ds-search--sm .ds-search__input {
     --dsc-search-button-clear-size: var(--ds-sizing-4);
 
