@@ -113,3 +113,23 @@
     </TableRow>
   </Table>
 </Story>
+
+<Story name="With clickable rows">
+  <Table>
+    <TableRow slot="headerRow">
+        <TableHeaderCell>Header 1</TableHeaderCell>
+        <TableHeaderCell>Header 2</TableHeaderCell>
+        <TableHeaderCell>Header 3</TableHeaderCell>
+    </TableRow>
+    <TableRow clickable={true} onClick={()=> alert("You clicked row nr. 1!")}>
+        <TableCell>Cell 1.1</TableCell>
+        <TableCell>Cell 1.2</TableCell>
+        <TableCell>Cell 1.3</TableCell>
+    </TableRow>
+    <TableRow clickable={true} onClick={()=> alert("You clicked row nr. 2!")}>
+      <TableCell>Cell 2.1</TableCell>
+      <TableCell>Cell 2.2</TableCell>
+      <TableCell>Cell 2.3</TableCell>
+  </TableRow>
+  </Table>
+</Story>
