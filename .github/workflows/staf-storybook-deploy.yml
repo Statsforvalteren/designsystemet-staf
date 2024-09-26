@@ -30,6 +30,11 @@ jobs:
       - name: Build Storybook
         run: yarn build:storybook:svelte
 
+  upload-artifact:
+    needs: build-storybook
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -38,7 +43,7 @@ jobs:
 
   # https://github.com/actions/deploy-pages
   deploy:
-    needs: build-storybook
+    needs: upload-artifact
     runs-on: ubuntu-latest
 
     permissions:
