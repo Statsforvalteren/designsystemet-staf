@@ -49,6 +49,12 @@
    */
   export let characterLimitLabel = null;
 
+  /**
+   * Event handler for input event.
+   * @type {(event: Event) => void}
+   */
+  export let onInput = () => {};
+
   let componentId = uuidv4();
   let standardizedSize;
   let fontSizeClass;
@@ -126,6 +132,7 @@
     <textarea
       bind:value
       on:input
+      on:input={onInput}
       readonly={readOnly}
       class={textareaClasses}
       id={`textarea-${componentId}`}

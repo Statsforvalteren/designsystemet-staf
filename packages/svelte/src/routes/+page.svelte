@@ -259,8 +259,8 @@
 <br />
 
 <div class="display-flex">
-  <Button>First</Button>
-  <Button color="neutral">Secondary</Button>
+  <Button on:click={() => alert('Works')}>First</Button>
+  <Button color="neutral" onClick={() => alert('works2')}>Secondary</Button>
   <Button disabled={true} color="danger">Danger</Button>
   <Button variant="secondary">Variant secondary</Button>
   <Button variant="tertiary">Variant tertiary</Button>

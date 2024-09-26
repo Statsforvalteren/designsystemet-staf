@@ -66,6 +66,12 @@
    */
   export let characterLimitLabel = null;
 
+  /**
+   * Event handler for input event.
+   * @type {(event: Event) => void}
+   */
+  export let onInput = () => {};
+
   let componentId = uuidv4();
   let standardizedSize;
   let fontSizeClass;
@@ -159,6 +165,7 @@
       <input
         bind:value
         on:input
+        on:input={onInput}
         class={inputClasses}
         id={`input-field-${componentId}`}
         {...{ type }}

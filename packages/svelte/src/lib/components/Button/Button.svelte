@@ -35,6 +35,12 @@
    */
   export let className = '';
 
+  /**
+   * Event handler for click event.
+   * @type {(event: MouseEvent) => void}
+   */
+  export let onClick = () => {};
+
   let standardizedSize;
 
   switch (size) {
@@ -60,7 +66,8 @@
   } ${className}`;
 </script>
 
-<button on:click class={computedClass} {...$$restProps}>
+<!-- Two on:click element directives are being used to allow for the use of both on:click and onClick -->
+<button on:click on:click={onClick} class={computedClass} {...$$restProps}>
   <div
     style="display: flex; gap: 0.5rem; align-items: center; justify-content: center;"
     class={`${$$slots.icon !== undefined ? 'ds-btn--icon-only' : ''}`}

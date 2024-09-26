@@ -52,3 +52,11 @@
 <Story name="Ghost button">
   <Button variant="tertiary" size="lg">Hover me</Button>
 </Story>
+
+<Story name="Triggering an action with on:click">
+  <Button on:click={()=>alert("Triggered via on:click directive.")}>Click me</Button>
+</Story>
+
+<Story name="Triggering an action with onClick">
+  <Button on:click={()=>alert("Triggered via onClick property.")}>Click me</Button>
+</Story>

@@ -70,6 +70,12 @@
    */
   export let hideLegend = false;
 
+  /**
+   * Event handler for input event.
+   * @type {(event: Event) => void}
+   */
+  export let onInput = () => {};
+
   let standardizedSize;
 
   const uniqueId = uuidv4();
@@ -129,6 +135,7 @@
   id={`group-${uniqueId}`}
   aria-labelledby={`label-${uniqueId}`}
   on:input
+  on:input={onInput}
   on:change={(change) => {
     if (
       change.target instanceof HTMLInputElement &&

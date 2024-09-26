@@ -17,13 +17,19 @@
    */
   export let href = '';
 
+  /**
+   * Event handler for click event.
+   * @type {(event: MouseEvent) => void}
+   */
+  export let onClick = () => {};
+
   $: computedClass = `ds-link ds-link--${color} ${
     $$props.class || ''
   } ds-link--${as}`;
 </script>
 
 {#if as === 'a'}
-  <a class={computedClass} {href} {...$$restProps} on:click>
+  <a class={computedClass} {href} {...$$restProps} on:click on:click={onClick}>
     <slot />
   </a>
 {:else if as === 'button'}
