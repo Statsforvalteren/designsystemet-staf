@@ -31,7 +31,7 @@ jobs:
         run: yarn build:storybook:svelte
 
       - name: console.log
-        run: ls
+        run: ls dist/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
