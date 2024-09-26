@@ -25,5 +25,5 @@ jobs:
         with:
           install_command: yarn install
           build_command: yarn build:storybook:svelte
-          path: ../../dist/storybook
+          path: dist/storybook
           checkout: false
