@@ -8,55 +8,22 @@ on:
       - main
 
 jobs:
-  build-storybook:
+  deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./packages/svelte
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Use node 20 and yarn cache
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn'
 
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Build Storybook
-        run: yarn build:storybook:svelte
-
-  upload-artifact:
-    needs: build-storybook
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
         with:
-          name: github-pages
-          path: ./dist/storybook
-
-  # https://github.com/actions/deploy-pages
-  deploy:
-    needs: upload-artifact
-    runs-on: ubuntu-latest
-
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages
+          install_command: yarn install
+          build_command: yarn build:storybook:svelte
+          path: ../../dist/storybook
+          checkout: false
