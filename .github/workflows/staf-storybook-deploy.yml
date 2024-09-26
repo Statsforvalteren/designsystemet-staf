@@ -30,14 +30,11 @@ jobs:
       - name: Build Storybook
         run: yarn build:storybook:svelte
 
-      - name: console.log
-        run: ls dist/
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: ./dist/storybook
+          path: ./packages/svelte/dist/storybook
 
   # https://github.com/actions/deploy-pages
   deploy:
