@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: ./packages/svelte/dist/storybook
+          path: ./docs
 
   # https://github.com/actions/deploy-pages
   deploy:
