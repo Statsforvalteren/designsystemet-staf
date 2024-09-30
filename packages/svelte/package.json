@@ -34,6 +34,8 @@
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "updateTokens": "cd ../cli && yarn build:tokens",
+    "storybook:svelte": "storybook dev -p 6006 --config-dir ./storybook --no-open",
+    "build:storybook": "storybook build -o ./dist/storybook --config-dir ./apps/storybook",
     "build:storybook:svelte": "storybook build -o ./dist/storybook --config-dir ./storybook"
   },
   "peerDependencies": {

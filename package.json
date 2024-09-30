@@ -11,7 +11,6 @@
   "scripts": {
     "test": "vitest",
     "storybook": "storybook dev -p 6006 --config-dir ./apps/storybook",
-    "storybook:svelte": "storybook dev -p 6006 --config-dir ./packages/svelte/storybook --no-open",
     "storybook:clean": "storybook dev -p 6006 --no-manager-cache --config-dir ./apps/storybook",
     "storefront": "yarn workspace storefront dev",
     "theme": "yarn workspace theme dev",
@@ -24,7 +23,6 @@
     "build:tokens": "yarn workspace @digdir/designsystemet build:tokens",
     "build:css": "yarn workspace @digdir/designsystemet-css build",
     "build:storybook": "storybook build -o ./dist/storybook --config-dir ./apps/storybook",
-    "build:storybook:svelte": "storybook build -o ./dist/storybook -c ./packages/svelte/storybook",
     "build:storefront": "yarn workspace storefront building",
     "build:devsite": "yarn workspace dev building",
     "start:storefront": "yarn workspace storefront start",

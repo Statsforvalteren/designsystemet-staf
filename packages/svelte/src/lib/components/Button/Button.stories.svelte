@@ -53,10 +53,10 @@
   <Button variant="tertiary" size="lg">Hover me</Button>
 </Story>
 
-<Story name="Triggering an action with on:click">
+<Story name="Triggering on click event via element directive on:click">
   <Button on:click={()=>alert("Triggered via on:click directive.")}>Click me</Button>
 </Story>
 
-<Story name="Triggering an action with onClick">
+<Story name="Triggering on click event via onClick property">
   <Button on:click={()=>alert("Triggered via onClick property.")}>Click me</Button>
 </Story>
