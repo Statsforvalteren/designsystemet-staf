@@ -20,6 +20,7 @@
 
 <tr
   {...$$restProps}
+  on:click
   on:click={handleClick}
   class={`${clickable ? 'clickable' : ''}`}
 >
