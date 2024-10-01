@@ -151,7 +151,6 @@
   :global(.ds-table > thead > tr > [aria-sort]) {
     cursor: pointer;
     padding: 0;
-    height: 50px;
   }
   :global(
       .ds-table
@@ -171,9 +170,7 @@
     ) {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.97 9.47a.75.75 0 0 1 1.06 0L12 14.44l4.97-4.97a.75.75 0 1 1 1.06 1.06l-5.5 5.5a.75.75 0 0 1-1.06 0l-5.5-5.5a.75.75 0 0 1 0-1.06'/%3E%3C/svg%3E");
   }
-  :global(
-      .ds-table > thead > tr > [aria-sort]:not([aria-sort='none']) > button
-    ) {
+  :global(.ds-table > thead > tr > [aria-sort]:not([aria-sort='none'])) {
     background: var(--dsc-table-header-background--sorted);
   }
   :global(.ds-table > thead > tr > [aria-sort] > button) {
