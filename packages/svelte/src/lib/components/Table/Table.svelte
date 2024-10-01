@@ -151,6 +151,7 @@
   :global(.ds-table > thead > tr > [aria-sort]) {
     cursor: pointer;
     padding: 0;
+    height: 50px;
   }
   :global(
       .ds-table
@@ -181,7 +182,8 @@
     box-sizing: border-box;
     color: inherit;
     cursor: pointer;
-    display: block;
+    display: flex;
+    align-items: center;
     font: inherit;
     padding: var(--dsc-table-padding);
     text-align: inherit;
