@@ -10,6 +10,7 @@
   const { Story } = defineMeta({
     title: 'Komponenter/Table',
     component: Table,
+    // @ts-ignore Type error because subcomponents need to be isomorphic to main component.
     subcomponents: { TableCell, TableHeaderCell, TableRow },
   });
 </script>

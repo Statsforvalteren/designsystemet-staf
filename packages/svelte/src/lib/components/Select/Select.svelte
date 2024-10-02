@@ -106,7 +106,7 @@
 
   /**
    * onChange handler for when a value has been choosen.
-   * @type {Function}
+   * @type {(event: Event) => void}
    */
   export let onChange = () => {};
 
@@ -230,7 +230,7 @@
     if (closeMenuOnSelect) {
       isDropdownVisible = false;
     }
-    onChange();
+    onChange(option);
   }
 
   function removeOption(optionToRemove) {
