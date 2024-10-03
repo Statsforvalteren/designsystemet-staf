@@ -106,7 +106,7 @@
 
   /**
    * onChange handler for when a value has been choosen.
-   * @type {(event: Event) => void}
+   * @type {(event: any) => void}
    */
   export let onChange = () => {};
 
