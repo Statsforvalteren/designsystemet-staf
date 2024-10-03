@@ -8,6 +8,21 @@
   import { writable } from 'svelte/store';
 
   /**
+   * @typedef {Object} SelectOptionTag
+   * @property {string} text - The text to display in the tag.
+   * @property {'brand1' | 'brand2' | 'brand3' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'} [color] - The color of the tag.
+   * @property {string} [tooltipText] - The text to display in the tooltip of the tag. Tooltip is displayed only when this property is present.
+   */
+
+  /**
+   * @typedef {Object} SelectOption
+   * @property {string} label - Display label of the option.
+   * @property {string} [description] - Description of the option.
+   * @property {string} value - Unique value of the option.
+   * @property {SelectOptionTag} [tag] - Select option tag object. Tag is displayed only when this property is present.
+   */
+
+  /**
    * List of options for the select.
    * @type {SelectOption[]}
    */

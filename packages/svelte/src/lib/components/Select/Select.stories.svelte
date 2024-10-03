@@ -37,11 +37,34 @@
 
   let singlePreSelected = { label: 'Norge', value: '2' };
 
-  $: multiUnselected = [];
-
   let multiPreselected = [
     { label: 'Norge', value: '1' },
     { label: 'Outer Planets Alliance', value: '3' },
+  ];
+
+  /**
+   * @typedef {Object} SelectOptionTag
+   * @property {string} text - The text to display in the tag.
+   * @property {'brand1' | 'brand2' | 'brand3' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'} [color] - The color of the tag.
+   * @property {string} [tooltipText] - The text to display in the tooltip of the tag. Tooltip is displayed only when this property is present.
+   */
+
+  /**
+   * @type {SelectOptionTag[]}
+   */
+    let tags = [{
+      text: "Best",
+      color: "danger",
+      tooltipText: "Hurra"
+    },
+    { text: "Great", color: "info", tooltipText: "Surströmming"},
+    { text: "Okay", color: "warning", tooltipText: "Bacon"}
+  ];
+
+  let optionsWithTag = [
+    { label: 'Norge', value: '1', tag: tags[0] },
+    { label: 'Sverige', value: '2', tag: tags[1] },
+    { label: 'Danmark', value: '3', tag: tags[2] },
   ];
 </script>
 
@@ -95,5 +118,14 @@
     label="Velg et land"
     multiple
     readOnly
+  />
+</Story>
+
+
+<Story name="With tag">
+  <Select
+    options={optionsWithTag}
+    bind:selected={unSelected}
+    label="Velg et land"
   />
 </Story>

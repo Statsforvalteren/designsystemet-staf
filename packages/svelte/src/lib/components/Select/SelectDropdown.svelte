@@ -1,12 +1,22 @@
 <script>
+  import Tag from '../Tag/Tag.svelte';
+  import Tooltip from '../Tooltip/Tooltip.svelte';
   import SelectCheckmark from './SelectCheckmark.svelte';
   import { getContext } from 'svelte';
+
+  /**
+   * @typedef {Object} SelectOptionTag
+   * @property {string} text - The text to display in the tag.
+   * @property {'brand1' | 'brand2' | 'brand3' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'} [color] - The color of the tag.
+   * @property {string} [tooltipText] - The text to display in the tooltip of the tag. Tooltip is displayed only when this property is present.
+   */
 
   /**
    * @typedef {Object} SelectOption
    * @property {string} label - Display label of the option.
    * @property {string} [description] - Description of the option.
    * @property {string} value - Unique value of the option.
+   * @property {SelectOptionTag} [tag] - Select option tag object. Tag is displayed only when this property is present.
    */
 
   /**
@@ -103,43 +113,55 @@
           }}
         >
           <div class="option-content">
-            {#if multiple}
-              <div class="checkbox-container">
-                <input class="input" type="checkbox" checked={isSelected} />
-                <svg
-                  class="icon icon-xsmall"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 22 22"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    class="box"
-                    x="1"
-                    y="1"
-                    width="20"
-                    height="20"
-                    rx="0.125rem"
-                    ry="0.125rem"
-                    fill="white"
-                    stroke-width="2"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    class="checked"
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M17.7876 6.27838C18.1171 6.60788 18.1171 7.14212 17.7876 7.47162L9.99591 15.2633C9.6664 15.5928 9.13217 15.5928 8.80267 15.2633L4.67767 11.1383C4.34816 10.8088 4.34816 10.2745 4.67767 9.94505C5.00717 9.61554 5.5414 9.61554 5.87091 9.94505L9.39929 13.4734L16.5943 6.27838C16.9238 5.94887 17.4581 5.94887 17.7876 6.27838Z"
-                    fill="white"
-                  />
-                </svg>
+            <div class="option-content-left">
+              {#if multiple}
+                <div class="checkbox-container">
+                  <input class="input" type="checkbox" checked={isSelected} />
+                  <svg
+                    class="icon icon-xsmall"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 22 22"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      class="box"
+                      x="1"
+                      y="1"
+                      width="20"
+                      height="20"
+                      rx="0.125rem"
+                      ry="0.125rem"
+                      fill="white"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      class="checked"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M17.7876 6.27838C18.1171 6.60788 18.1171 7.14212 17.7876 7.47162L9.99591 15.2633C9.6664 15.5928 9.13217 15.5928 8.80267 15.2633L4.67767 11.1383C4.34816 10.8088 4.34816 10.2745 4.67767 9.94505C5.00717 9.61554 5.5414 9.61554 5.87091 9.94505L9.39929 13.4734L16.5943 6.27838C16.9238 5.94887 17.4581 5.94887 17.7876 6.27838Z"
+                      fill="white"
+                    />
+                  </svg>
+                </div>
+              {/if}
+              <div class="option-text">
+                <div class="option-label">{option.label}</div>
+                {#if option.description}
+                  <div class="option-description">{option.description}</div>
+                {/if}
               </div>
-            {/if}
-            <div class="option-text">
-              <div class="option-label">{option.label}</div>
-              {#if option.description}
-                <div class="option-description">{option.description}</div>
+            </div>
+            <div class="option-content-right">
+              {#if !multiple && option.tag}
+                <Tooltip {...option.tag.tooltipText ? {} : { open: false }}>
+                  <p slot="content">{option.tag.tooltipText}</p>
+                  <Tag color={option.tag.color ?? 'info'} slot="anchor">
+                    {option.tag.text}
+                  </Tag>
+                </Tooltip>
               {/if}
               {#if !multiple && isSelected}
                 <div class="checkmark-container">
@@ -173,7 +195,9 @@
     z-index: 1001;
     background-color: inherit;
     overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
+    transition:
+      max-height 0.3s ease,
+      opacity 0.3s ease;
     opacity: 1;
     display: flex;
     flex-direction: column;
@@ -206,19 +230,28 @@
     stroke: var(--ds-color-brand1-9, #4c76ba) !important;
   }
 
+  .option-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-top: 3px;
+  }
+  .option-content-left {
+    display: flex;
+    align-items: start;
+    align-items: center;
+  }
+  .option-content-right {
+    display: flex;
+
+    align-items: center;
+    gap: var(--ds-spacing-3);
+  }
   .option-text {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .option-content {
-    display: flex;
-    align-items: start;
-    width: 100%;
-    position: relative;
-    gap: 10px;
-    margin-top: 2px;
   }
   .checkbox-container {
     display: flex;
@@ -238,9 +271,7 @@
   }
 
   .checkmark-container {
-    position: absolute;
-    right: 0;
-    padding-right: 10px;
+    position: relative;
     margin-top: 2px;
   }
 

@@ -4,6 +4,8 @@
   import MultiSelectOption from './MultiSelectOption.svelte';
   import Chevron from './Chevron.svelte';
   import ClearButton from './ClearButton.svelte';
+  import Tooltip from '../Tooltip/Tooltip.svelte';
+  import Tag from '../Tag/Tag.svelte';
 
   export let multiple;
   export let inputId;
@@ -141,6 +143,16 @@
     <div class="separator {disabled ? 'disabled' : ''}"></div>
   {/if}
 
+  {#if !multiple && selected.length > 0 && selected[0].tag}
+    <div class="tag-container">
+      <Tooltip {...selected[0].tag.tooltipText ? {} : { open: false }}>
+        <p slot="content">{selected[0].tag.tooltipText}</p>
+        <Tag color={selected[0].tag.color ?? 'info'} slot="anchor">
+          {selected[0].tag.text}
+        </Tag>
+      </Tooltip>
+    </div>
+  {/if}
   <div class={`chevron-container ${disabled ? 'disabled' : ''}`}>
     <Chevron />
   </div>
@@ -155,7 +167,7 @@
     gap: 4px;
     max-width: 100%;
     overflow: hidden;
-    padding-left: var(--ds-spacing-1);
+    padding: 0 var(--ds-spacing-1);
   }
 
   .textInput {
@@ -175,6 +187,10 @@
     &.no-filter {
       cursor: pointer;
     }
+  }
+
+  .tag-container {
+    margin-right: 10px;
   }
 
   .chevron-container {

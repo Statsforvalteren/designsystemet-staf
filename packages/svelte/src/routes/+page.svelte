@@ -107,7 +107,12 @@
   let multiSelectValues = [];
 
   $: options = [
-    { label: 'Norge', value: '1' },
+    {
+      label: 'Norge',
+      value: '1',
+      description: 'Dårlige i fotball, gode i olje',
+      tag: { text: 'test', color: 'warning', tooltipText: 'Wowo' },
+    },
     { label: 'Sverige', value: '2' },
     { label: 'Outer Planets Alliance', value: '3' },
     { label: 'Outer Planets Alliance', value: '4' },
