@@ -146,7 +146,7 @@
   {#if !multiple && selected.length > 0 && selected[0].tag}
     <div class="tag-container">
       <Tooltip {...selected[0].tag.tooltipText ? {} : { open: false }}>
-        <p slot="content">{selected[0].tag.tooltipText}</p>
+        <p style="margin: 0;" slot="content">{selected[0].tag.tooltipText}</p>
         <Tag color={selected[0].tag.color ?? 'info'} slot="anchor">
           {selected[0].tag.text}
         </Tag>

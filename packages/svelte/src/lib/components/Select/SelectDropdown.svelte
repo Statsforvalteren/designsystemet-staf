@@ -157,7 +157,9 @@
             <div class="option-content-right">
               {#if !multiple && option.tag}
                 <Tooltip {...option.tag.tooltipText ? {} : { open: false }}>
-                  <p slot="content">{option.tag.tooltipText}</p>
+                  <p style="margin: 0;" slot="content">
+                    {option.tag.tooltipText}
+                  </p>
                   <Tag color={option.tag.color ?? 'info'} slot="anchor">
                     {option.tag.text}
                   </Tag>
