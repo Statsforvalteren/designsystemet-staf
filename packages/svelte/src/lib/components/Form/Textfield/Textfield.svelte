@@ -98,7 +98,7 @@
   }
 
   // Computed class names for the component elements
-  let formFieldClasses = `ds-textfield ds-textfield--${standardizedSize} ${
+  $: formFieldClasses = `ds-textfield ds-textfield--${standardizedSize} ${
     error ? 'ds-textfield--error' : ''
   } ${readOnly ? 'ds-textfield--readonly' : ''} ${
     $$props.class || ''

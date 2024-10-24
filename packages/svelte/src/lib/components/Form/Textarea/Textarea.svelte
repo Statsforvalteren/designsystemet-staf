@@ -81,7 +81,7 @@
   }
 
   // Computed class names for the component elements
-  let formFieldClasses = `ds-textarea ds-textarea--${standardizedSize} ${
+  $: formFieldClasses = `ds-textarea ds-textarea--${standardizedSize} ${
     error ? 'ds-textarea--error' : ''
   } ${$$props.class || ''} ${fontSizeClass}`;
   let labelClasses = `ds-textarea__label ${hideLabel ? 'ds-sr-only' : ''}`;
