@@ -932,6 +932,51 @@
   {/each}
 </Table>
 
+<br />
+<br />
+<div style="padding: 60px">
+  <Table accordionColSpan={3} hasAccordionRows>
+    <TableRow slot="headerRow" isHeaderRow>
+      <TableHeaderCell
+        tableData={dummyData}
+        sortFieldName="navn"
+        bind:sortedData
+      >
+        Navn
+      </TableHeaderCell>
+      <TableHeaderCell
+        tableData={dummyData}
+        sortFieldName="navn"
+        bind:sortedData>Epost</TableHeaderCell
+      >
+      <TableHeaderCell
+        tableData={dummyData}
+        sortFieldName="telefon"
+        bind:sortedData
+      >
+        Telefon
+      </TableHeaderCell>
+    </TableRow>
+    {#each sortedData as row}
+      <TableRow key={row.id} clickable>
+        <TableCell>{row.navn}</TableCell>
+        <TableCell>{row.epost}</TableCell>
+        <TableCell>{row.telefon}</TableCell>
+        <div
+          slot="accordionContent"
+          style="display: flex; gap: 1rem; align-items: center"
+        >
+          Her kan du plassere innhold av ulike slag. Dvs. <b>tekst</b> eller
+          andre komponenter: <Button>Click</Button>
+        </div>
+      </TableRow>
+    {/each}
+  </Table>
+</div>
+<br />
+<br />
+<br />
+
 <style>
   .componentHeader {
     width: 100%;

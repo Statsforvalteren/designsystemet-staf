@@ -83,7 +83,7 @@
 
 <Story name="Sticky header and fixed layout">
   <div style="height: 280px; overflow: auto">
-    <Table stickyHeader={true} style="table-layout: fixed">
+    <Table stickyHeader style="table-layout: fixed">
         <TableRow slot="headerRow">
             <TableHeaderCell>Header 1</TableHeaderCell>
             <TableHeaderCell>Header 2</TableHeaderCell>
@@ -122,15 +122,33 @@
         <TableHeaderCell>Header 2</TableHeaderCell>
         <TableHeaderCell>Header 3</TableHeaderCell>
     </TableRow>
-    <TableRow clickable={true} onClick={()=> alert("You clicked row nr. 1!")}>
+    <TableRow clickable onClick={()=> alert("You clicked row nr. 1!")}>
         <TableCell>Cell 1.1</TableCell>
         <TableCell>Cell 1.2</TableCell>
         <TableCell>Cell 1.3</TableCell>
     </TableRow>
-    <TableRow clickable={true} onClick={()=> alert("You clicked row nr. 2!")}>
+    <TableRow clickable onClick={()=> alert("You clicked row nr. 2!")}>
       <TableCell>Cell 2.1</TableCell>
       <TableCell>Cell 2.2</TableCell>
       <TableCell>Cell 2.3</TableCell>
   </TableRow>
+  </Table>
+</Story>
+
+<Story name="With accordion rows">
+  <Table hasAccordionRows accordionColSpan={3}>
+    <TableRow slot="headerRow" isHeaderRow>
+      <TableHeaderCell tableData={dummyData} sortFieldName="navn" bind:sortedData>Navn</TableHeaderCell>
+      <TableHeaderCell>Epost</TableHeaderCell>
+      <TableHeaderCell tableData={dummyData} sortFieldName="telefon" bind:sortedData>Telefon</TableHeaderCell>
+  </TableRow>
+  {#each sortedData as row}
+      <TableRow key={row.id}>
+          <TableCell>{row.navn}</TableCell>
+          <TableCell>{row.epost}</TableCell>
+          <TableCell>{row.telefon}</TableCell>
+          <div slot="accordionContent">Here you can place text, html-tags: <b>this is bold</b> or other components: <Button>Click</Button></div>
+      </TableRow>
+  {/each}
   </Table>
 </Story>

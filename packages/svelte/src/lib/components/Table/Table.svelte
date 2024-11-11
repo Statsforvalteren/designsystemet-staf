@@ -1,4 +1,5 @@
 <script>
+  import { setContext } from 'svelte';
   import { ParagraphWrapper } from '../../index.js';
 
   /**
@@ -30,11 +31,29 @@
    * @type {boolean}
    */
   export let hover = false;
+
+  /**
+   * If true, the table will have accordion rows.
+   * @type {boolean}
+   */
+  export let hasAccordionRows = false;
+
+  /**
+   * Number of columns the accordion should span.
+   * @type {number | undefined}
+   */
+  export let accordionColSpan = undefined;
+
+  setContext('accordionTableInfo', {
+    hasAccordionRows,
+    accordionColSpan,
+  });
 </script>
 
 <ParagraphWrapper {size}>
   <table
     class="ds-table"
+    class:hasAccordionRows
     data-border={border || undefined}
     data-hover={hover || undefined}
     data-size={size}
@@ -52,6 +71,14 @@
 </ParagraphWrapper>
 
 <style>
+  .hasAccordionRows {
+    border-collapse: collapse !important;
+    border-spacing: 5px !important;
+  }
+  .hasAccordionRows > thead {
+    border-bottom: 2px solid var(--ds-color-neutral-border-subtle);
+    background-color: var(--ds-color-neutral-background-default);
+  }
   .ds-table {
     --dsc-table-background--hover: var(--ds-color-neutral-surface-default);
     --dsc-table-background--zebra: var(--ds-color-neutral-background-subtle);
