@@ -192,7 +192,53 @@
     console.log('DropdownClosing', value);
   }
 
-  $: sortedData = [];
+  let sortedData = [];
+  let currentSortField = undefined;
+
+  let bergljotSortedData = [];
+  const bergljot = [
+    {
+      id: '4FWlFAdynkSIY-J315hG7N-d8Fco_qtGkbla02DuzXQ',
+      userId: '14a555e0-7207-449e-8863-e277d79846ec',
+      userName: 'Fardal, Helene',
+      appRoleId: 'f1cc7f81-8679-4961-9619-6b43bba888d7',
+      appRoleName: 'Administrator',
+      applicationClientId: '2f46d81c-14f1-4023-b550-d6088ffad8da',
+      applicationName: 'Kommunebildet Staf Azure TEST',
+      lastActivity: null,
+    },
+    {
+      id: 'HGX-dSHVSEyHs5w_SWkgaaiitOaZqSdAtYlL0K126xk',
+      userId: '75fe651c-d521-4c48-87b3-9c3f49692069',
+      userName: 'Gunnar Gudlaugsson (External - Egde)',
+      appRoleId: 'f1cc7f81-8679-4961-9619-6b43bba888d7',
+      appRoleName: 'Administrator',
+      applicationClientId: '2f46d81c-14f1-4023-b550-d6088ffad8da',
+      applicationName: 'Kommunebildet Staf Azure TEST',
+      lastActivity: '2024-12-19T15:39:02+00:00',
+    },
+    {
+      id: 'e0fQwwx3LU6Z2uS7qQ5XfS1CBPLtO-lJnymhg4s_qaA',
+      userId: 'c3d0477b-770c-4e2d-99da-e4bba90e577d',
+      userName: 'Philip Rothschild (External - Egde)',
+      appRoleId: 'f1cc7f81-8679-4961-9619-6b43bba888d7',
+      appRoleName: 'Administrator',
+      applicationClientId: '2f46d81c-14f1-4023-b550-d6088ffad8da',
+      applicationName: 'Kommunebildet Staf Azure TEST',
+      lastActivity: null,
+    },
+    {
+      id: 'HDzvzSuFdEmQb5SqMsdvP-vbzFmJhfRIhev4PP0BaaA',
+      userId: 'cdef3c1c-852b-4974-906f-94aa32c76f3f',
+      userName: 'Kjetil Ribe (External - Egde)',
+      appRoleId: 'f1cc7f81-8679-4961-9619-6b43bba888d7',
+      appRoleName: 'Administrator',
+      applicationClientId: '2f46d81c-14f1-4023-b550-d6088ffad8da',
+      applicationName: 'Kommunebildet Staf Azure TEST',
+      lastActivity: '2024-09-03T10:56:17+00:00',
+    },
+  ];
+
   const dummyData = [
     {
       id: 1,
@@ -913,14 +959,18 @@
 <h1 class="componentHeader">Table</h1>
 <Table>
   <TableRow slot="headerRow">
-    <TableHeaderCell tableData={dummyData} sortFieldName="navn" bind:sortedData
-      >Navn</TableHeaderCell
+    <TableHeaderCell
+      tableData={dummyData}
+      sortFieldName="navn"
+      bind:sortedData
+      bind:currentSortField>Navn</TableHeaderCell
     >
     <TableHeaderCell>Epost</TableHeaderCell>
     <TableHeaderCell
       tableData={dummyData}
       sortFieldName="telefon"
-      bind:sortedData>Telefon</TableHeaderCell
+      bind:sortedData
+      bind:currentSortField>Telefon</TableHeaderCell
     >
   </TableRow>
   {#each sortedData as row}
@@ -933,6 +983,33 @@
 </Table>
 
 <br />
+<Table>
+  <TableRow slot="headerRow">
+    <TableHeaderCell
+      tableData={bergljot}
+      sortFieldName="userId"
+      bind:sortedData={bergljotSortedData}
+      bind:currentSortField>userId</TableHeaderCell
+    >
+    <TableHeaderCell>userName</TableHeaderCell>
+    <TableHeaderCell
+      tableData={bergljot}
+      sortFieldName="lastActivity"
+      bind:sortedData={bergljotSortedData}
+      bind:currentSortField>lastActivity</TableHeaderCell
+    >
+  </TableRow>
+  {#each bergljotSortedData as row}
+    <TableRow key={row.id}>
+      <TableCell>{row.userId}</TableCell>
+      <TableCell>{row.userName}</TableCell>
+      <TableCell>{row.lastActivity}</TableCell>
+    </TableRow>
+  {/each}
+</Table>
+
+<br />
+
 <br />
 <div style="padding: 60px">
   <Table accordionColSpan={3} hasAccordionRows>
@@ -941,18 +1018,18 @@
         tableData={dummyData}
         sortFieldName="navn"
         bind:sortedData
+        bind:currentSortField
       >
         Navn
       </TableHeaderCell>
-      <TableHeaderCell
-        tableData={dummyData}
-        sortFieldName="navn"
-        bind:sortedData>Epost</TableHeaderCell
+      <TableHeaderCell tableData={dummyData} bind:sortedData
+        >Epost</TableHeaderCell
       >
       <TableHeaderCell
         tableData={dummyData}
         sortFieldName="telefon"
         bind:sortedData
+        bind:currentSortField
       >
         Telefon
       </TableHeaderCell>

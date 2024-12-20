@@ -4,8 +4,8 @@
   import TableHeaderCell from './TableHeaderCell.svelte';
   import TableCell from './TableCell.svelte';
   import TableRow from './TableRow.svelte';
-  import Button from "../Button/Button.svelte";
-  import Checkbox from "../Form/Checkbox/Checkbox.svelte";
+  import Button from '../Button/Button.svelte';
+  import Checkbox from '../Form/Checkbox/Checkbox.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Table',
@@ -14,11 +14,13 @@
     subcomponents: { TableCell, TableHeaderCell, TableRow },
   });
 </script>
-  
+
 <script>
   setTemplate(template);
 
-  $: sortedData = [];
+  let sortedData = [];
+  let currentSortField = undefined;
+
   const manyRows = Array.from({ length: 50 }, (_, i) => i + 1);
   const dummyData = [
     {
@@ -62,18 +64,28 @@
 
 {#snippet template(args)}
   <Table {...args}>
-      <TableRow slot="headerRow">
-          <TableHeaderCell tableData={dummyData} sortFieldName="navn" bind:sortedData>Navn</TableHeaderCell>
-          <TableHeaderCell>Epost</TableHeaderCell>
-          <TableHeaderCell tableData={dummyData} sortFieldName="telefon" bind:sortedData>Telefon</TableHeaderCell>
+    <TableRow slot="headerRow">
+      <TableHeaderCell
+        tableData={dummyData}
+        sortFieldName="navn"
+        bind:currentSortField
+        bind:sortedData>Navn</TableHeaderCell
+      >
+      <TableHeaderCell>Epost</TableHeaderCell>
+      <TableHeaderCell
+        tableData={dummyData}
+        sortFieldName="telefon"
+        bind:currentSortField
+        bind:sortedData>Telefon</TableHeaderCell
+      >
+    </TableRow>
+    {#each sortedData as row}
+      <TableRow key={row.id}>
+        <TableCell>{row.navn}</TableCell>
+        <TableCell>{row.epost}</TableCell>
+        <TableCell>{row.telefon}</TableCell>
       </TableRow>
-      {#each sortedData as row}
-          <TableRow key={row.id}>
-              <TableCell>{row.navn}</TableCell>
-              <TableCell>{row.epost}</TableCell>
-              <TableCell>{row.telefon}</TableCell>
-          </TableRow>
-      {/each}
+    {/each}
   </Table>
 {/snippet}
 
@@ -84,18 +96,22 @@
 <Story name="Sticky header and fixed layout">
   <div style="height: 280px; overflow: auto">
     <Table stickyHeader style="table-layout: fixed">
-        <TableRow slot="headerRow">
-            <TableHeaderCell>Header 1</TableHeaderCell>
-            <TableHeaderCell>Header 2</TableHeaderCell>
-            <TableHeaderCell>Header 3</TableHeaderCell>
+      <TableRow slot="headerRow">
+        <TableHeaderCell>Header 1</TableHeaderCell>
+        <TableHeaderCell>Header 2</TableHeaderCell>
+        <TableHeaderCell>Header 3</TableHeaderCell>
+      </TableRow>
+      {#each manyRows as row}
+        <TableRow key={row}>
+          <TableCell
+            >{row % 2 == 0
+              ? `Cell ${row}.1`
+              : 'LONG TEXT TO STRECH CELL'}</TableCell
+          >
+          <TableCell>Cell {row}.2</TableCell>
+          <TableCell>Cell {row}.3</TableCell>
         </TableRow>
-        {#each manyRows as row}
-            <TableRow key={row}>
-                <TableCell>{row % 2 == 0 ? `Cell ${row}.1` : "LONG TEXT TO STRECH CELL"}</TableCell>
-                <TableCell>Cell {row}.2</TableCell>
-                <TableCell>Cell {row}.3</TableCell>
-            </TableRow>
-        {/each}
+      {/each}
     </Table>
   </div>
 </Story>
@@ -103,14 +119,14 @@
 <Story name="With custom cell content">
   <Table>
     <TableRow slot="headerRow">
-        <TableHeaderCell>Header 1</TableHeaderCell>
-        <TableHeaderCell>Header 2</TableHeaderCell>
-        <TableHeaderCell>Header 3</TableHeaderCell>
+      <TableHeaderCell>Header 1</TableHeaderCell>
+      <TableHeaderCell>Header 2</TableHeaderCell>
+      <TableHeaderCell>Header 3</TableHeaderCell>
     </TableRow>
     <TableRow>
-        <TableCell><Button>Label</Button></TableCell>
-        <TableCell><Checkbox  label="" value="" /></TableCell>
-        <TableCell>Normal text</TableCell>
+      <TableCell><Button>Label</Button></TableCell>
+      <TableCell><Checkbox label="" value="" /></TableCell>
+      <TableCell>Normal text</TableCell>
     </TableRow>
   </Table>
 </Story>
@@ -118,37 +134,50 @@
 <Story name="With clickable rows">
   <Table>
     <TableRow slot="headerRow">
-        <TableHeaderCell>Header 1</TableHeaderCell>
-        <TableHeaderCell>Header 2</TableHeaderCell>
-        <TableHeaderCell>Header 3</TableHeaderCell>
+      <TableHeaderCell>Header 1</TableHeaderCell>
+      <TableHeaderCell>Header 2</TableHeaderCell>
+      <TableHeaderCell>Header 3</TableHeaderCell>
     </TableRow>
-    <TableRow clickable onClick={()=> alert("You clicked row nr. 1!")}>
-        <TableCell>Cell 1.1</TableCell>
-        <TableCell>Cell 1.2</TableCell>
-        <TableCell>Cell 1.3</TableCell>
+    <TableRow clickable onClick={() => alert('You clicked row nr. 1!')}>
+      <TableCell>Cell 1.1</TableCell>
+      <TableCell>Cell 1.2</TableCell>
+      <TableCell>Cell 1.3</TableCell>
     </TableRow>
-    <TableRow clickable onClick={()=> alert("You clicked row nr. 2!")}>
+    <TableRow clickable onClick={() => alert('You clicked row nr. 2!')}>
       <TableCell>Cell 2.1</TableCell>
       <TableCell>Cell 2.2</TableCell>
       <TableCell>Cell 2.3</TableCell>
-  </TableRow>
+    </TableRow>
   </Table>
 </Story>
 
 <Story name="With accordion rows">
   <Table hasAccordionRows accordionColSpan={3}>
     <TableRow slot="headerRow" isHeaderRow>
-      <TableHeaderCell tableData={dummyData} sortFieldName="navn" bind:sortedData>Navn</TableHeaderCell>
+      <TableHeaderCell
+        tableData={dummyData}
+        sortFieldName="navn"
+        bind:sortedData
+        bind:currentSortField>Navn</TableHeaderCell
+      >
       <TableHeaderCell>Epost</TableHeaderCell>
-      <TableHeaderCell tableData={dummyData} sortFieldName="telefon" bind:sortedData>Telefon</TableHeaderCell>
-  </TableRow>
-  {#each sortedData as row}
+      <TableHeaderCell
+        tableData={dummyData}
+        sortFieldName="telefon"
+        bind:sortedData
+        bind:currentSortField>Telefon</TableHeaderCell
+      >
+    </TableRow>
+    {#each sortedData as row}
       <TableRow key={row.id}>
-          <TableCell>{row.navn}</TableCell>
-          <TableCell>{row.epost}</TableCell>
-          <TableCell>{row.telefon}</TableCell>
-          <div slot="accordionContent">Here you can place text, html-tags: <b>this is bold</b> or other components: <Button>Click</Button></div>
+        <TableCell>{row.navn}</TableCell>
+        <TableCell>{row.epost}</TableCell>
+        <TableCell>{row.telefon}</TableCell>
+        <div slot="accordionContent">
+          Here you can place text, html-tags: <b>this is bold</b> or other
+          components: <Button>Click</Button>
+        </div>
       </TableRow>
-  {/each}
+    {/each}
   </Table>
 </Story>
