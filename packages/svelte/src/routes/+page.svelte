@@ -244,37 +244,37 @@
       id: 1,
       navn: 'Lise Nordmann',
       epost: 'lise@nordmann.no',
-      telefon: '22345678',
+      telefon: 22345678,
     },
     {
       id: 2,
       navn: 'Kari Nordmann',
       epost: 'kari@nordmann.no',
-      telefon: '87654321',
+      telefon: 87654321,
     },
     {
       id: 3,
       navn: 'Ola Nordmann',
       epost: 'ola@nordmann.no',
-      telefon: '32345678',
+      telefon: 32345678,
     },
     {
       id: 4,
       navn: 'Per Nordmann',
       epost: 'per@nordmann.no',
-      telefon: '12345678',
+      telefon: 12345678,
     },
     {
       id: 5,
       navn: 'Julie Nordmann',
       epost: 'julie@nordmann.no',
-      telefon: '14646478',
+      telefon: 14646478,
     },
     {
       id: 6,
       navn: 'Roger Nordmann',
       epost: 'roger@nordmann.no',
-      telefon: '66645678',
+      telefon: 66645678,
     },
   ];
 </script>
@@ -709,14 +709,14 @@
 <br />
 <div class="selectForm">
   <Select
-    options={[]}
+    {options}
     bind:selected={unSelected}
     label="Single, unselected"
     hideSelected
-    clearable
     size="large"
     emptyOptionsPlaceholder="No options available"
     dropdownGap={10}
+    onChange={(e) => setTimeout(() => (unSelected = undefined), 2000)}
   />
   <Select
     {options}

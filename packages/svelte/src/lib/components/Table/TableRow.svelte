@@ -19,10 +19,13 @@
    */
   export let isHeaderRow = false;
 
+  /**
+   * Determines if the row is open or not. Only works if the row is an accordion row.
+   */
+  export let isOpen = false;
+
   const accordionTableInfo = getContext('accordionTableInfo');
   const isAccordionRow = accordionTableInfo.hasAccordionRows && !isHeaderRow;
-
-  let isOpen = false;
 
   function handleClick() {
     if (clickable) {
