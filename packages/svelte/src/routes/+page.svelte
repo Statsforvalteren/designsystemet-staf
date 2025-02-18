@@ -189,6 +189,7 @@
   let dropdownButtons = [];
 
   function handleDropdownClosing(value) {
+    menuVisible = false;
     console.log('DropdownClosing', value);
   }
 

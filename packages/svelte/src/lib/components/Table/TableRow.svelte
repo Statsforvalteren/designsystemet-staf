@@ -75,27 +75,29 @@
     padding: 20px;
     border: 1px solid var(--ds-color-neutral-border-subtle);
     background-color: var(--ds-color-neutral-background-default);
+    position: relative;
     /* border-radius: 6px; */
     /* box-shadow: 0px 0px 6px var(--ds-color-neutral-border-subtle); */
   }
   :global(.accordion-header-row > *) {
     border-bottom: none !important;
-    padding: 20px !important;
+    padding: 20px 20px 20px 40px !important;
   }
   .accordion-header-row::before {
     content: '\276E';
-    width: 0;
     display: flex;
-    scale: 1;
+    justify-content: center;
     transform: rotate(-90deg);
-    margin: 25px 0 0 20px;
+    margin: 0;
+    position: absolute;
+    top: calc(50% - 12px);
+    left: 15px;
   }
   .accordion-header-row:hover {
     background-color: var(--ds-color-neutral-background-subtle);
   }
   .isOpen.accordion-header-row::before {
     transform: rotate(90deg);
-    margin: 13px 0 0 18px;
   }
   .empty-before-content::before {
     content: '';
