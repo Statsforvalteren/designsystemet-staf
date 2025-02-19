@@ -23,7 +23,6 @@
   const dispatch = createEventDispatcher();
 
   let closeButtonRef;
-  let lastButton;
   let componentId = uuidv4();
 
   function close(event) {
@@ -64,7 +63,6 @@
 <div class="modal-background">
   <div id={`modal-${componentId}`} class="ds-modal" {...$$restProps}>
     <a href="/" on:focus={() => closeButtonRef.focus()}><div></div></a>
-    <a href="/" on:focus={() => lastButton.focus()}><div></div></a>
     <div
       class={`ds-modal__header ${
         !closeButton ? 'ds-modal__header--no-button' : ''
@@ -122,7 +120,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 100000;
     overflow-y: auto;
   }
 
