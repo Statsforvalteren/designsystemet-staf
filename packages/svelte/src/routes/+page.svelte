@@ -958,7 +958,7 @@
 <br />
 
 <h1 class="componentHeader">Table</h1>
-<Table>
+<Table stickyHeader>
   <TableRow slot="headerRow">
     <TableHeaderCell
       tableData={dummyData}

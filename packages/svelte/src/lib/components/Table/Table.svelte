@@ -126,6 +126,7 @@
     &[data-sticky-header] {
       position: relative;
       overflow: auto;
+      z-index: 1000;
     }
   }
   :global(.ds-table > :is(tbody, thead) > tr > :is(th, td)) {
