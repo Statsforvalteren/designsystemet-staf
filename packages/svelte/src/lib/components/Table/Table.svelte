@@ -126,7 +126,6 @@
     &[data-sticky-header] {
       position: relative;
       overflow: auto;
-      z-index: 1000;
     }
   }
   :global(.ds-table > :is(tbody, thead) > tr > :is(th, td)) {
@@ -238,6 +237,7 @@
   :global(.ds-table[data-sticky-header] > thead > tr > :is(th, td)) {
     position: sticky;
     top: 0;
+    z-index: 10000;
   }
   :global(
       .ds-table[data-zebra]
