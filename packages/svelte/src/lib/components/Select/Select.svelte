@@ -154,6 +154,11 @@
    */
   export let onOpen = () => {};
 
+  /** Custom z-index for the dropdown. Works only in combination with displayDropdownOnTop.
+   * @type {number}
+   */
+  export let zIndex = 1000;
+
   $: isDropdownVisible = false;
   let selectClasses = 'select';
   let inputClasses = 'textInput';
@@ -394,6 +399,7 @@
       {displayDropdownOnTop}
       {dropdownGap}
       {maxDropdownHeight}
+      {zIndex}
     />
   </div>
 

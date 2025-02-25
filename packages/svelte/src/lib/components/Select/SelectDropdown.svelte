@@ -39,6 +39,15 @@
    */
   export let displayDropdownOnTop;
 
+  /** Custom z-index for the dropdown. Works only in combination with displayDropdownOnTop.
+   * @type {number}
+   */
+  export let zIndex;
+
+  /**
+   * If true, allows multiple options to be selected.
+   * @type {boolean}
+   */
   export let multiple;
 
   /**
@@ -87,10 +96,10 @@
   class="select-dropdown"
   class:visible={isDropdownVisible}
   style={`position: ${displayDropdownOnTop ? 'absolute' : 'relative'}; ${
-    displayDropdownOnTop ? 'z-index: 1000;' : ''
+    displayDropdownOnTop ? `z-index: ${zIndex};` : ''
   } margin-top: ${dropdownGap}px; max-height: ${maxDropdownHeight}px;`}
 >
-  <ul class="options-list">
+  <ul class="options-list" style={`z-index: ${zIndex + 1};`}>
     {#if options.length === 0}
       <li class="option-item-no-hover" role="option" aria-selected="false">
         <div class="option-content">
@@ -194,7 +203,6 @@
   }
   .options-list {
     max-width: 100%;
-    z-index: 1001;
     background-color: inherit;
     overflow: hidden;
     transition:
