@@ -134,14 +134,14 @@ Once you have logged in, add a `.npmrc` file to the root of your project with th
 
 ```
 registry=https://registry.npmjs.org/
-@fmfadigitalisering:registry=https://npm.pkg.github.com
+@statsforvalteren:registry=https://npm.pkg.github.com
 ```
 
-These lines tell npm to use the GitHub package registry for packages with the `@fmfaDigitalisering` scope, while using the normal npm registry for all other packages.
+These lines tell npm to use the GitHub package registry for packages with the `@statsforvalteren` scope, while using the normal npm registry for all other packages.
 
 The last step is to add the packages to your project. This is done by adding the following lines to your `package.json`:
 
 ```
-"@fmfadigitalisering/staf-komponentbibliotek-svelte": "x.x.x",
-"@fmfadigitalisering/staf-design-system-tokens": "x.x.x",
+"@statsforvalteren/staf-komponentbibliotek-svelte": "x.x.x",
+"@statsforvalteren/staf-design-system-tokens": "x.x.x",
 ```

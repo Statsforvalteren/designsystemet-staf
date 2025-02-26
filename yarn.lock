@@ -2526,99 +2526,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fmfadigitalisering/staf-design-system-tokens@workspace:packages/cli":
-  version: 0.0.0-use.local
-  resolution: "@fmfadigitalisering/staf-design-system-tokens@workspace:packages/cli"
-  dependencies:
-    "@commander-js/extra-typings": "npm:^12.0.1"
-    "@semantic-release/changelog": "npm:^6.0.3"
-    "@semantic-release/commit-analyzer": "npm:^9.0.0"
-    "@semantic-release/git": "npm:^10.0.1"
-    "@semantic-release/release-notes-generator": "npm:^10.0.0"
-    "@tokens-studio/sd-transforms": "npm:^0.16.1"
-    "@types/fs-extra": "npm:^11.0.4"
-    "@types/glob": "npm:^8.1.0"
-    "@types/jscodeshift": "npm:^0.11.11"
-    "@types/node": "npm:^20.12.7"
-    "@types/object-hash": "npm:^3"
-    "@types/ramda": "npm:^0.29.9"
-    chalk: "npm:^5.3.0"
-    commander: "npm:^12.0.0"
-    fast-glob: "npm:^3.3.2"
-    fs-extra: "npm:^11.2.0"
-    jscodeshift: "npm:^0.15.2"
-    object-hash: "npm:^3.0.0"
-    postcss: "npm:^8.4.38"
-    ramda: "npm:^0.29.1"
-    rimraf: "npm:^5.0.5"
-    semantic-release: "npm:^23.1.1"
-    semantic-release-yarn: "npm:^3.0.2"
-    style-dictionary: "npm:^4.0.0-prerelease.34"
-    tsup: "npm:^8.0.2"
-    tsx: "npm:^4.11.2"
-    typescript: "npm:^5.4.5"
-  bin:
-    staf-design-system-tokens: dist/build/bin/designsystemet.js
-  languageName: unknown
-  linkType: soft
-
-"@fmfadigitalisering/staf-komponentbibliotek-svelte@workspace:packages/svelte":
-  version: 0.0.0-use.local
-  resolution: "@fmfadigitalisering/staf-komponentbibliotek-svelte@workspace:packages/svelte"
-  dependencies:
-    "@altinn/figma-design-tokens": "npm:^6.0.1"
-    "@chromatic-com/storybook": "npm:1"
-    "@navikt/aksel-icons": "npm:^5.6.0"
-    "@playwright/test": "npm:^1.28.1"
-    "@semantic-release/changelog": "npm:^6.0.3"
-    "@semantic-release/commit-analyzer": "npm:^9.0.0"
-    "@semantic-release/git": "npm:^10.0.1"
-    "@semantic-release/release-notes-generator": "npm:^10.0.0"
-    "@storybook/addon-a11y": "npm:^8.3.0"
-    "@storybook/addon-essentials": "npm:^8.3.0"
-    "@storybook/addon-interactions": "npm:^8.3.0"
-    "@storybook/addon-links": "npm:^8.3.0"
-    "@storybook/addon-mdx-gfm": "npm:8.3.0"
-    "@storybook/addon-svelte-csf": "npm:^5.0.0-next.3"
-    "@storybook/addon-themes": "npm:^8.3.0"
-    "@storybook/blocks": "npm:^8.3.0"
-    "@storybook/manager-api": "npm:^8.3.0"
-    "@storybook/react": "npm:^8.3.0"
-    "@storybook/react-vite": "npm:^8.3.0"
-    "@storybook/svelte-vite": "npm:^8.3.0"
-    "@storybook/sveltekit": "npm:^8.3.0"
-    "@storybook/theming": "npm:^8.3.0"
-    "@storybook/types": "npm:^8.3.0"
-    "@sveltejs/adapter-auto": "npm:^2.0.0"
-    "@sveltejs/kit": "npm:^1.20.4"
-    "@sveltejs/package": "npm:^2.0.0"
-    eslint: "npm:^8.28.0"
-    eslint-config-prettier: "npm:^8.5.0"
-    eslint-plugin-storybook: "npm:^0.8.0"
-    eslint-plugin-svelte: "npm:^2.30.0"
-    prettier: "npm:^3.3.3"
-    prettier-plugin-svelte: "npm:^3.2.6"
-    publint: "npm:^0.1.9"
-    sass: "npm:^1.66.1"
-    semantic-release: "npm:^23.1.1"
-    semantic-release-yarn: "npm:^3.0.2"
-    storybook: "npm:^8.3.0"
-    storybook-css-modules: "npm:^1.0.8"
-    storybook-dark-mode: "npm:^4.0.2"
-    svelte: "npm:^5.0.0-next.244"
-    svelte-check: "npm:^3.4.3"
-    svelte-floating-ui: "npm:^1.5.5"
-    svelte-preprocess: "npm:^5.1.4"
-    tslib: "npm:^2.4.1"
-    typescript: "npm:^5.4.5"
-    uuid: "npm:^9.0.1"
-    vite: "npm:^4.4.2"
-    vitest: "npm:^0.32.2"
-  peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0
-  languageName: unknown
-  linkType: soft
-
 "@humanwhocodes/config-array@npm:^0.11.13, @humanwhocodes/config-array@npm:^0.11.14":
   version: 0.11.14
   resolution: "@humanwhocodes/config-array@npm:0.11.14"
@@ -4528,6 +4435,99 @@ __metadata:
   checksum: 10/16551c787f5328c8ef05fd9831ade64369ccc992df78deb635ec6c44af217d2f1b43f8728c348cdc4e00585ff2fad6e00d8155199cbf6b154acc45fe65cbf0aa
   languageName: node
   linkType: hard
+
+"@statsforvalteren/staf-design-system-tokens@workspace:packages/cli":
+  version: 0.0.0-use.local
+  resolution: "@statsforvalteren/staf-design-system-tokens@workspace:packages/cli"
+  dependencies:
+    "@commander-js/extra-typings": "npm:^12.0.1"
+    "@semantic-release/changelog": "npm:^6.0.3"
+    "@semantic-release/commit-analyzer": "npm:^9.0.0"
+    "@semantic-release/git": "npm:^10.0.1"
+    "@semantic-release/release-notes-generator": "npm:^10.0.0"
+    "@tokens-studio/sd-transforms": "npm:^0.16.1"
+    "@types/fs-extra": "npm:^11.0.4"
+    "@types/glob": "npm:^8.1.0"
+    "@types/jscodeshift": "npm:^0.11.11"
+    "@types/node": "npm:^20.12.7"
+    "@types/object-hash": "npm:^3"
+    "@types/ramda": "npm:^0.29.9"
+    chalk: "npm:^5.3.0"
+    commander: "npm:^12.0.0"
+    fast-glob: "npm:^3.3.2"
+    fs-extra: "npm:^11.2.0"
+    jscodeshift: "npm:^0.15.2"
+    object-hash: "npm:^3.0.0"
+    postcss: "npm:^8.4.38"
+    ramda: "npm:^0.29.1"
+    rimraf: "npm:^5.0.5"
+    semantic-release: "npm:^23.1.1"
+    semantic-release-yarn: "npm:^3.0.2"
+    style-dictionary: "npm:^4.0.0-prerelease.34"
+    tsup: "npm:^8.0.2"
+    tsx: "npm:^4.11.2"
+    typescript: "npm:^5.4.5"
+  bin:
+    staf-design-system-tokens: dist/build/bin/designsystemet.js
+  languageName: unknown
+  linkType: soft
+
+"@statsforvalteren/staf-komponentbibliotek-svelte@workspace:packages/svelte":
+  version: 0.0.0-use.local
+  resolution: "@statsforvalteren/staf-komponentbibliotek-svelte@workspace:packages/svelte"
+  dependencies:
+    "@altinn/figma-design-tokens": "npm:^6.0.1"
+    "@chromatic-com/storybook": "npm:1"
+    "@navikt/aksel-icons": "npm:^5.6.0"
+    "@playwright/test": "npm:^1.28.1"
+    "@semantic-release/changelog": "npm:^6.0.3"
+    "@semantic-release/commit-analyzer": "npm:^9.0.0"
+    "@semantic-release/git": "npm:^10.0.1"
+    "@semantic-release/release-notes-generator": "npm:^10.0.0"
+    "@storybook/addon-a11y": "npm:^8.3.0"
+    "@storybook/addon-essentials": "npm:^8.3.0"
+    "@storybook/addon-interactions": "npm:^8.3.0"
+    "@storybook/addon-links": "npm:^8.3.0"
+    "@storybook/addon-mdx-gfm": "npm:8.3.0"
+    "@storybook/addon-svelte-csf": "npm:^5.0.0-next.3"
+    "@storybook/addon-themes": "npm:^8.3.0"
+    "@storybook/blocks": "npm:^8.3.0"
+    "@storybook/manager-api": "npm:^8.3.0"
+    "@storybook/react": "npm:^8.3.0"
+    "@storybook/react-vite": "npm:^8.3.0"
+    "@storybook/svelte-vite": "npm:^8.3.0"
+    "@storybook/sveltekit": "npm:^8.3.0"
+    "@storybook/theming": "npm:^8.3.0"
+    "@storybook/types": "npm:^8.3.0"
+    "@sveltejs/adapter-auto": "npm:^2.0.0"
+    "@sveltejs/kit": "npm:^1.20.4"
+    "@sveltejs/package": "npm:^2.0.0"
+    eslint: "npm:^8.28.0"
+    eslint-config-prettier: "npm:^8.5.0"
+    eslint-plugin-storybook: "npm:^0.8.0"
+    eslint-plugin-svelte: "npm:^2.30.0"
+    prettier: "npm:^3.3.3"
+    prettier-plugin-svelte: "npm:^3.2.6"
+    publint: "npm:^0.1.9"
+    sass: "npm:^1.66.1"
+    semantic-release: "npm:^23.1.1"
+    semantic-release-yarn: "npm:^3.0.2"
+    storybook: "npm:^8.3.0"
+    storybook-css-modules: "npm:^1.0.8"
+    storybook-dark-mode: "npm:^4.0.2"
+    svelte: "npm:^5.0.0-next.244"
+    svelte-check: "npm:^3.4.3"
+    svelte-floating-ui: "npm:^1.5.5"
+    svelte-preprocess: "npm:^5.1.4"
+    tslib: "npm:^2.4.1"
+    typescript: "npm:^5.4.5"
+    uuid: "npm:^9.0.1"
+    vite: "npm:^4.4.2"
+    vitest: "npm:^0.32.2"
+  peerDependencies:
+    svelte: ^4.0.0 || ^5.0.0
+  languageName: unknown
+  linkType: soft
 
 "@storybook/addon-a11y@npm:^8.3.0":
   version: 8.3.0
