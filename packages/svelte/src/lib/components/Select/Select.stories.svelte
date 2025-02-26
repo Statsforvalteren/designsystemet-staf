@@ -52,13 +52,14 @@
   /**
    * @type {SelectOptionTag[]}
    */
-    let tags = [{
-      text: "Best",
-      color: "danger",
-      tooltipText: "Hurra"
+  let tags = [
+    {
+      text: 'Best',
+      color: 'danger',
+      tooltipText: 'Hurra',
     },
-    { text: "Great", color: "info", tooltipText: "Surströmming"},
-    { text: "Okay", color: "warning", tooltipText: "Bacon"}
+    { text: 'Great', color: 'info', tooltipText: 'Surströmming' },
+    { text: 'Okay', color: 'warning', tooltipText: 'Bacon' },
   ];
 
   let optionsWithTag = [
@@ -69,10 +70,12 @@
 </script>
 
 {#snippet template(args)}
-  <Select {options} bind:selected={unSelected} label="Velg et land" {...args} />
+  <Select {...args} />
 {/snippet}
 
-<Story name="Default" />
+<Story name="Default">
+  <Select {options} bind:selected={unSelected} label="Velg et land" />
+</Story>
 
 <Story name="With description and without automatic menu close">
   <Select
@@ -83,14 +86,15 @@
   />
 </Story>
 
-<Story
-  name="Has filter and hides selected option"
-  args={{
-    hideSelected: true,
-    hasFilter: true,
-    label: 'Write something to filter after',
-  }}
-/>
+<Story name="Has filter and hides selected option">
+  <Select
+    {options}
+    bind:selected={unSelected}
+    hideSelected={true}
+    hasFilter={true}
+    label="Write something to filter after"
+  />
+</Story>
 
 <Story name="Clearable and with error">
   <Select
@@ -120,7 +124,6 @@
     readOnly
   />
 </Story>
-
 
 <Story name="With tag">
   <Select
