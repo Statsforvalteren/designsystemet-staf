@@ -123,7 +123,7 @@ Semantic Release analyzes the commit messages and determines the appropriate ver
 To install the component library and design tokens from GitHub Packages in a Svelte project, you need to authenticate with GitHub Packages. This can be done by logging into the GitHub package registry locally with the following command:
 
 ```
-npm login --scope=@fmfaDigitalisering --registry=https://npm.pkg.github.com
+npm login --scope=@statsforvalteren --registry=https://npm.pkg.github.com
 ```
 
 You will be prompted to enter your GitHub username and a personal access token. The personal access token should have the `read:packages` scope.
