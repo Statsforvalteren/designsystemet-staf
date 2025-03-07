@@ -190,7 +190,7 @@
 
 <style lang="scss">
   .notification-container {
-    z-index: 10000;
+    z-index: 1000000;
     height: 0;
   }
   .top {
