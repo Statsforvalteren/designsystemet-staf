@@ -1,6 +1,6 @@
 # Component library for Statsforvalternes Fellesorganisasjon
 
-This is a component library for Statsforvalternes Fellesorganisasjon. It is built using Svelte and based on the design system provided by Digdir (https://github.com/digdir/designsystemet) .
+This is a component library for Statsforvalternes Fellesorganisasjon. It is built using Svelte and based on the design system provided by Digdir (https://github.com/digdir/designsystemet).
 The repository was originally a fork of `digdir/designsystemet` but is now a private copy of said repository. The STAF component library resides under the path `packages/svelte` and the design tokens which designers update via Figma Token Studio are stored in the `design-tokens` folder.
 
 ## Adding or updating dependencies
