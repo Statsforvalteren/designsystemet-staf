@@ -4489,7 +4489,7 @@ __metadata:
     "@storybook/addon-interactions": "npm:^8.3.0"
     "@storybook/addon-links": "npm:^8.3.0"
     "@storybook/addon-mdx-gfm": "npm:8.3.0"
-    "@storybook/addon-svelte-csf": "npm:^5.0.0-next.3"
+    "@storybook/addon-svelte-csf": "npm:^5.0.0-next.28"
     "@storybook/addon-themes": "npm:^8.3.0"
     "@storybook/blocks": "npm:^8.3.0"
     "@storybook/manager-api": "npm:^8.3.0"
@@ -4704,25 +4704,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-svelte-csf@npm:^5.0.0-next.3":
-  version: 5.0.0-next.3
-  resolution: "@storybook/addon-svelte-csf@npm:5.0.0-next.3"
+"@storybook/addon-svelte-csf@npm:^5.0.0-next.28":
+  version: 5.0.0-next.28
+  resolution: "@storybook/addon-svelte-csf@npm:5.0.0-next.28"
   dependencies:
     "@storybook/csf": "npm:^0.1.11"
-    "@storybook/docs-tools": "npm:^8.0.0"
-    "@storybook/node-logger": "npm:^8.0.0"
-    "@storybook/types": "npm:^8.0.0"
     dedent: "npm:^1.5.3"
+    es-toolkit: "npm:^1.26.1"
     esrap: "npm:^1.2.2"
-    lodash-es: "npm:^4.17.21"
-    magic-string: "npm:^0.30.10"
+    magic-string: "npm:^0.30.12"
+    svelte-ast-print: "npm:^0.4.0"
     zimmerframe: "npm:^1.1.2"
   peerDependencies:
-    "@storybook/svelte": ^8.0.0
-    "@sveltejs/vite-plugin-svelte": ^4.0.0-next.0 || ^4.0.0
-    svelte: ^5.0.0-next.117 || ^5.0.0
-    vite: ^5.0.0
-  checksum: 10/44eb82cd945a3103baea508ff6176783d2dd36cf3061f7381db5874079ac02425aabbc997f93741721ea21d858ce250c95463dc53a1d45b019e877dcdf2e71df
+    "@storybook/svelte": ^0.0.0-0 || ^8.2.0 || ^9.0.0-0
+    "@sveltejs/vite-plugin-svelte": ^4.0.0 || ^5.0.0
+    storybook: ^0.0.0-0 || ^8.2.0 || ^9.0.0-0
+    svelte: ^5.0.0
+    vite: ^5.0.0 || ^6.0.0
+  checksum: 10/105eea9c7b685dfc84b560092c5b9835115912b8c80d4b8520a484fe34bfc0a765a43f0470cf6d4030c5762588ae3659db6b0936611063445e8be6ead7291b8f
   languageName: node
   linkType: hard
 
@@ -4893,15 +4892,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/docs-tools@npm:^8.0.0":
-  version: 8.3.0
-  resolution: "@storybook/docs-tools@npm:8.3.0"
-  peerDependencies:
-    storybook: ^8.3.0
-  checksum: 10/76edb8444f6a0f0acf901e09ec1038465b8ac2e248ec8b9ddba623ed81bb066bcd8d472452cb82baf29aa9d5e783b55756815a9844c265b21c6344f643d6b172
-  languageName: node
-  linkType: hard
-
 "@storybook/global@npm:^5.0.0":
   version: 5.0.0
   resolution: "@storybook/global@npm:5.0.0"
@@ -4957,15 +4947,6 @@ __metadata:
   peerDependencies:
     storybook: ^8.3.0
   checksum: 10/f44e8d428bf94a4d0e306fcc0d887cdd2564ee1b1dfd5a48392cee71be6ae3e065628d5ca44d9307b8b071f9929c4a9ac7a44d7035e52fb17cb94dd9b810a399
-  languageName: node
-  linkType: hard
-
-"@storybook/node-logger@npm:^8.0.0":
-  version: 8.3.0
-  resolution: "@storybook/node-logger@npm:8.3.0"
-  peerDependencies:
-    storybook: ^8.3.0
-  checksum: 10/02b495d94b088a21456761a05664ecfca0b04ccd105bf7258ccd884ae22a09fa2cd7f162067dd9902e4c39c1e2a7e93b95b939c386bbfce76ccee84913ff5e49
   languageName: node
   linkType: hard
 
@@ -5141,7 +5122,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/types@npm:^8.0.0, @storybook/types@npm:^8.3.0":
+"@storybook/types@npm:^8.3.0":
   version: 8.3.0
   resolution: "@storybook/types@npm:8.3.0"
   peerDependencies:
@@ -10393,6 +10374,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"es-toolkit@npm:^1.26.1":
+  version: 1.34.1
+  resolution: "es-toolkit@npm:1.34.1"
+  dependenciesMeta:
+    "@trivago/prettier-plugin-sort-imports@4.3.0":
+      unplugged: true
+    prettier-plugin-sort-re-exports@0.0.1:
+      unplugged: true
+  checksum: 10/4542c82c382a2116265cd53708a4fc2c5700f57dca7889e59c2d02c3d1cd71079467f130441594d325c4e689f7f4201e8a58c5b06989262c91e6324b45e8594a
+  languageName: node
+  linkType: hard
+
 "es6-promise@npm:^3.1.2":
   version: 3.3.1
   resolution: "es6-promise@npm:3.3.1"
@@ -11171,7 +11164,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esrap@npm:^1.2.2":
+"esrap@npm:1.2.2, esrap@npm:^1.2.2":
   version: 1.2.2
   resolution: "esrap@npm:1.2.2"
   dependencies:
@@ -14973,6 +14966,15 @@ __metadata:
   dependencies:
     "@jridgewell/sourcemap-codec": "npm:^1.5.0"
   checksum: 10/b784d2240252f5b1e755d487354ada4c672cbca16f045144f7185a75b059210e5fcca7be7be03ef1bac2ca754c4428b21d36ae64a9057ba429916f06b8c54eb2
+  languageName: node
+  linkType: hard
+
+"magic-string@npm:^0.30.12":
+  version: 0.30.17
+  resolution: "magic-string@npm:0.30.17"
+  dependencies:
+    "@jridgewell/sourcemap-codec": "npm:^1.5.0"
+  checksum: 10/2f71af2b0afd78c2e9012a29b066d2c8ba45a9cd0c8070f7fd72de982fb1c403b4e3afdb1dae00691d56885ede66b772ef6bedf765e02e3a7066208fe2fec4aa
   languageName: node
   linkType: hard
 
@@ -21006,7 +21008,7 @@ __metadata:
     "@storybook/addon-interactions": "npm:^8.3.0"
     "@storybook/addon-links": "npm:^8.3.0"
     "@storybook/addon-mdx-gfm": "npm:8.3.0"
-    "@storybook/addon-svelte-csf": "npm:^5.0.0-next.3"
+    "@storybook/addon-svelte-csf": "npm:^5.0.0-next.28"
     "@storybook/addon-themes": "npm:^8.3.0"
     "@storybook/blocks": "npm:^8.3.0"
     "@storybook/manager-api": "npm:^8.3.0"
@@ -22521,6 +22523,18 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 10/a9dc19ae2220c952bd2231d08ddeecb1b0328b61e72071ff4000c8384e145cc07c1c0bdb3b5a1cb06e186a7b2790f1dee793418b332f6ddf320de25d9125be7e
+  languageName: node
+  linkType: hard
+
+"svelte-ast-print@npm:^0.4.0":
+  version: 0.4.2
+  resolution: "svelte-ast-print@npm:0.4.2"
+  dependencies:
+    esrap: "npm:1.2.2"
+    zimmerframe: "npm:1.1.2"
+  peerDependencies:
+    svelte: ^5.0.0
+  checksum: 10/6ab9ab812a3936ba226b76a5a43a80800cb9335cadadad05eee27296382c5be29e2dbf1adf8f3d398e6208d865423380f180c4e2471f939d0cf2a1db538bb884
   languageName: node
   linkType: hard
 
@@ -24969,7 +24983,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zimmerframe@npm:^1.1.2":
+"zimmerframe@npm:1.1.2, zimmerframe@npm:^1.1.2":
   version: 1.1.2
   resolution: "zimmerframe@npm:1.1.2"
   checksum: 10/495e1b263b288d2c423bafb6897060856b86a32c21a3550ed2b4b30779051824b7cd3e606f46cbcdfd5b0d47660fe3ef418e9c2369d0f0709f0e6111c4d096d4
