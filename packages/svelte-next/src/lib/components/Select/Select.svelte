@@ -1,0 +1,410 @@
+<script>
+  import { run } from 'svelte/legacy';
+
+  // @ts-nocheck
+  import { onMount, setContext } from 'svelte';
+  import { v4 as uuidv4 } from 'uuid';
+  import SelectControl from './SelectControl.svelte';
+  import SelectDropdown from './SelectDropdown.svelte';
+  import { ParagraphWrapper } from '../..';
+  import { writable } from 'svelte/store';
+
+  /**
+   * @typedef {Object} SelectOptionTag
+   * @property {string} text - The text to display in the tag.
+   * @property {'brand1' | 'brand2' | 'brand3' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'} [color] - The color of the tag.
+   * @property {string} [tooltipText] - The text to display in the tooltip of the tag. Tooltip is displayed only when this property is present.
+   */
+
+  /**
+   * @typedef {Object} SelectOption
+   * @property {string} label - Display label of the option.
+   * @property {string} [description] - Description of the option.
+   * @property {string} value - Unique value of the option.
+   * @property {SelectOptionTag} [tag] - Select option tag object. Tag is displayed only when this property is present.
+   */
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  let inputId = `select-${uuidv4()}`;
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  /** @type {{Record<string, any>}} */
+  let {
+    options = [],
+    selected = $bindable(null),
+    multiple = false,
+    disabled = false,
+    placeholder = 'Select an option...',
+    description = '',
+    size = 'medium',
+    ariaLabel = 'Select',
+    label,
+    searchLabel = 'Search',
+    hideSelected = false,
+    hasFilter = false,
+    closeMenuOnSelect = multiple ? false : true,
+    error = '',
+    readOnly = false,
+    clearable = false,
+    onChange = () => {},
+    emptyOptionsPlaceholder = '',
+    displayDropdownOnTop = false,
+    dropdownGap = 5,
+    maxDropdownHeight = 400,
+    onOpen = () => {},
+    zIndex = 1000,
+    ...rest
+  } = $props();
+
+  let selectClasses = $state('select');
+  let inputClasses = $state('textInput');
+  let node = $state();
+  let standardizedSize = $state();
+  let selectedStore = writable(normalizeSelected(selected));
+
+  switch (size) {
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
+      break;
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
+      break;
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
+      break;
+    default:
+      standardizedSize = 'md';
+      break;
+  }
+
+  // Add other values here if necessary for reactivity
+  const selectContext = writable({
+    selected: $selectedStore,
+    error,
+    multiple,
+  });
+
+  setContext('selectContext-' + inputId, selectContext);
+
+  function closeDropdown() {
+    isDropdownVisible = false;
+  }
+
+  function normalizeSelected(selectedOptions) {
+    if (!selectedOptions) return [];
+    return Array.isArray(selectedOptions) ? selectedOptions : [selectedOptions];
+  }
+
+  function selectOption(option) {
+    selectedStore.update((currentSelected) => {
+      if (multiple) {
+        // If multiple selections are allowed
+        if (Array.isArray(currentSelected)) {
+          if (
+            !currentSelected.some(
+              (selectedOption) => selectedOption.value === option.value,
+            )
+          ) {
+            // Add the option if it's not already selected
+            return [...currentSelected, option];
+          } else {
+            // Remove the option if it's already selected
+            return currentSelected.filter(
+              (selectedOption) => selectedOption.value !== option.value,
+            );
+          }
+        } else {
+          // If currently selected is not an array, start a new array with the option
+          return [option];
+        }
+      } else {
+        if (hasFilter) {
+          // Clear options filter on single selection
+          handleFilterChange('');
+        }
+        // If only single selection is allowed
+        // selected = option;
+        return [option];
+      }
+    });
+    if (multiple) {
+      selected = $selectedStore;
+    } else {
+      selected = $selectedStore[0];
+    }
+
+    if (closeMenuOnSelect) {
+      isDropdownVisible = false;
+    }
+    onChange(option);
+  }
+
+  function removeOption(optionToRemove) {
+    selectedStore.update((currentSelected) => {
+      if (multiple) {
+        return currentSelected.filter(
+          (option) => option.value !== optionToRemove.value,
+        );
+      } else {
+        return [];
+      }
+    });
+    selected = $selectedStore;
+  }
+
+  function clearAll() {
+    if ((multiple || clearable) && !readOnly) {
+      selectedStore.set([]);
+      selectContext.update((ctx) => ({ ...ctx, selected: [] }));
+      selected = !multiple ? null : $selectedStore;
+    }
+  }
+
+  function openDropdown() {
+    if (!disabled && !readOnly) {
+      isDropdownVisible = true;
+      onOpen();
+    }
+  }
+
+  function handleOutsideClick(event) {
+    if (isDropdownVisible && !event.composedPath().includes(node)) {
+      closeDropdown();
+    }
+  }
+
+  function handleSelectControlClick() {
+    if (isDropdownVisible) {
+      closeDropdown();
+    } else {
+      openDropdown();
+    }
+  }
+
+  onMount(() => {
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  });
+
+
+  let searchTerm = '';
+
+  function handleFilterChange(newFilter) {
+    searchTerm = newFilter;
+    filteredOptions = options.filter((option) =>
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+  }
+  let isDropdownVisible;
+  run(() => {
+    isDropdownVisible = false;
+  });
+  run(() => {
+    let newSelected = $selectedStore;
+    if (!Array.isArray(selected)) {
+      newSelected = normalizeSelected(selected);
+    }
+    selectContext.set({ selected: newSelected, error, multiple });
+  });
+  run(() => {
+    if (disabled) {
+      selectClasses = 'select disabled';
+      inputClasses += ' disabled';
+    } else if (readOnly) {
+      selectClasses = 'select readOnly';
+      inputClasses += ' readOnly';
+    } else if (error) {
+      selectClasses = 'select error';
+      inputClasses += ' error';
+    } else {
+      selectClasses = 'select';
+    }
+  });
+  let filteredOptions;
+  run(() => {
+    filteredOptions = options;
+  });
+</script>
+
+<div
+  bind:this={node}
+  class="select-container"
+  aria-label={ariaLabel}
+  {...rest}
+>
+  {#if label}
+    <div class="heading-wrapper select-container-spacing">
+      {#if readOnly}
+        <span
+          aria-hidden="true"
+          class={`padlock-icon icon-size--${standardizedSize}`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            focusable="false"
+            role="img"
+          >
+            <path
+              fill="currentColor"
+              fill-rule="evenodd"
+              d="M7.25 7a4.75 4.75 0 0 1 9.5 0v2.25H17c.966 0 1.75.784 1.75 1.75v9a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75v-9c0-.966.784-1.75 1.75-1.75h.25zm1.5 0a3.25 3.25 0 0 1 6.5 0v2.25h-6.5zM7 10.75a.25.25 0 0 0-.25.25v8.25h10.5V11a.25.25 0 0 0-.25-.25zm3.5 3.75a1.5 1.5 0 1 1 2.25 1.3V17a.75.75 0 0 1-1.5 0v-1.2a1.5 1.5 0 0 1-.75-1.3"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+      {/if}
+      <ParagraphWrapper {size}>
+        <label class={`select-label`} for={inputId}>
+          {label}
+        </label>
+      </ParagraphWrapper>
+    </div>
+  {/if}
+
+  {#if description}
+    <div class="select-container-spacing">
+      <p class="select-description">{description}</p>
+    </div>
+  {/if}
+
+  <SelectControl
+    {inputId}
+    {placeholder}
+    {hasFilter}
+    {readOnly}
+    {removeOption}
+    {multiple}
+    {handleSelectControlClick}
+    {handleFilterChange}
+    {searchLabel}
+    {disabled}
+    {error}
+    {clearAll}
+    {clearable}
+    {size}
+  />
+
+  <div class="select-container-spacing">
+    <SelectDropdown
+      {isDropdownVisible}
+      options={filteredOptions}
+      {selectOption}
+      {hideSelected}
+      {multiple}
+      {inputId}
+      {size}
+      {emptyOptionsPlaceholder}
+      {displayDropdownOnTop}
+      {dropdownGap}
+      {maxDropdownHeight}
+      {zIndex}
+    />
+  </div>
+
+  {#if error}
+    <div class="error-message">{error}</div>
+  {/if}
+</div>
+
+<style lang="scss">
+  .select-container {
+    display: flex;
+    flex-direction: column;
+    margin: var(--ds-spacing-1) 0;
+    position: relative;
+  }
+  .select-container-spacing {
+    margin-bottom: var(--ds-spacing-2);
+  }
+  .error-message {
+    color: var(--ds-color-danger-text-subtle, #c22020);
+  }
+  .select-label {
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    display: table;
+    max-width: 100%;
+    white-space: normal;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    align-self: flex-start;
+  }
+  .select-description {
+    margin: 0;
+  }
+  .heading-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .padlock-icon {
+    grid-area: label;
+    position: relative;
+    top: 1px;
+    scale: 1.4;
+  }
+  .icon-size--sm {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+  .icon-size--md {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  .icon-size--lg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+</style>
