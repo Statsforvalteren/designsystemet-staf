@@ -1,5 +1,5 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Tabs from './Tabs.svelte';
   import TabList from './TabList.svelte';
   import TabItem from './TabItem.svelte';
@@ -13,13 +13,12 @@
     title: 'Komponenter/Tabs',
     component: Tabs,
     subcomponents: { TabList, TabItem, TabContent },
+    render: template,
   });
 </script>
 
 <script>
   import { run } from 'svelte/legacy';
-
-  setTemplate(template);
   let tabsSwitchingCounter = $state();
   run(() => {
     tabsSwitchingCounter = 0;

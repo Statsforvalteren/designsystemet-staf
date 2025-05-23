@@ -3,8 +3,8 @@ import type { StorybookConfig } from '@storybook/sveltekit';
 const config: StorybookConfig = {
   typescript: { check: true },
   stories: [
-    '../../svelte/**/*.stories.@(ts|tsx|svelte)',
-    '../../svelte/**/*.@(mdx)',
+    '../../svelte-next/**/*.stories.@(ts|tsx|svelte)',
+    '../../svelte-next/**/*.@(mdx)',
   ],
   docs: {
     defaultName: 'Dokumentasjon',

@@ -5,11 +5,7 @@
   import { writable } from 'svelte/store';
   import { v4 as uuidv4 } from 'uuid';
 
-  
-
-  
-  /** @type {{open?: boolean, defaultOpen?: boolean, children?: import('svelte').Snippet}} */
-  let { open = false, defaultOpen = false, children } = $props();
+  let { open = writable(false), defaultOpen = false, children } = $props();
 
   // Create a single source of truth for open state
   let isOpen = $state(defaultOpen || open);
@@ -24,9 +20,11 @@
 
   // Context for child components
   const itemContext = {
-    get open() { return isOpen; },
+    get open() {
+      return isOpen;
+    },
     toggleOpen,
-    contentId
+    contentId,
   };
 
   setContext('accordionItem', itemContext);

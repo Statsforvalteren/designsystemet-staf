@@ -1,16 +1,13 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Tooltip from './Tooltip.svelte';
   import Button from '../Button/Button.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Tooltip',
     component: Tooltip,
+    render: template,
   });
-</script>
-
-<script>
-  setTemplate(template);
 </script>
 
 {#snippet template(args)}

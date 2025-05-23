@@ -1,31 +1,46 @@
-<script>
-  
+<script lang="ts">
+  type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
+  type ButtonColor = 'accent' | 'danger' | 'neutral';
+  type ButtonSize = 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
+  type IconPlacement = 'left' | 'right';
 
-  
+  interface ButtonHTMLAttributes {
+    disabled?: boolean;
+    type?: 'submit' | 'reset' | 'button';
+    name?: string;
+    value?: string | string[] | number;
+    [key: string]: any;
+  }
 
-  
+  type ButtonProps = {
+    variant?: ButtonVariant;
+    color?: ButtonColor;
+    size?: ButtonSize;
+    fullWidth?: boolean;
+    iconPlacement?: IconPlacement;
+    className?: string;
+    onclick?: (event: MouseEvent) => void;
+    hasIcon?: boolean;
+    content: () => any;
+    icon?: () => any;
+  } & ButtonHTMLAttributes;
 
-  
-
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
+  const props = $props();
   let {
-    variant = 'primary',
-    color = 'accent',
-    size = 'medium',
+    variant = 'primary' satisfies ButtonVariant,
+    color = 'accent' satisfies ButtonColor,
+    size = 'medium' satisfies ButtonSize,
     fullWidth = false,
-    iconPlacement = 'left',
+    iconPlacement = 'left' satisfies IconPlacement,
     className = '',
-    onClick = () => {},
-    onclick,
+    onclick = () => {},
+    hasIcon = false,
+    content,
     icon,
-    children,
     ...rest
-  } = $props();
+  } = props as ButtonProps;
+
+  const showIcon = $state(hasIcon || icon !== undefined);
 
   let standardizedSize = $state();
 
@@ -47,26 +62,23 @@
       break;
   }
 
-  let computedClass = $derived(`ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${
-    fullWidth ? 'ds-btn--full-width' : ''
-  } ${className}`);
+  let computedClass = $derived(
+    `ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${
+      fullWidth ? 'ds-btn--full-width' : ''
+    } ${showIcon ? 'ds-btn--icon-only' : ''} ${className}`,
+  );
 </script>
 
 <!-- Two on:click element directives are being used to allow for the use of both on:click and onClick -->
-<button  onclick={(event) => {
-  onclick?.(event);
-
-  onClick?.(event);
-}} class={computedClass} {...rest}>
+<button {onclick} class={computedClass} {...rest}>
   <div
     style="display: flex; gap: 0.5rem; align-items: center; justify-content: center;"
-    class={`${icon !== undefined ? 'ds-btn--icon-only' : ''}`}
   >
-    {#if icon !== undefined && iconPlacement === 'left'}
+    {#if iconPlacement === 'left' && showIcon}
       {@render icon?.()}
     {/if}
-    {@render children?.()}
-    {#if icon !== undefined && iconPlacement === 'right'}
+    {@render content?.()}
+    {#if iconPlacement === 'right' && showIcon}
       {@render icon?.()}
     {/if}
   </div>

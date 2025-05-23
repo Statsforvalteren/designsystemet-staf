@@ -1,15 +1,12 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Heading from './Heading.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Typografi/Heading',
     component: Heading,
+    render: template,
   });
-</script>
-
-<script>
-  setTemplate(template);
 </script>
 
 {#snippet template(args)}

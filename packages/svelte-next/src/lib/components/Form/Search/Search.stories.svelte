@@ -1,15 +1,16 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Search from './Search.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Search',
     component: Search,
+    render: template,
   });
 </script>
 
 <script>
-  setTemplate(template);
+  let searchValue = $state('');
   let searchValue = $state('');
 </script>
 

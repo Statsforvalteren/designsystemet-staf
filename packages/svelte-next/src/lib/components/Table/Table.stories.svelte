@@ -1,5 +1,5 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Table from './Table.svelte';
   import TableHeaderCell from './TableHeaderCell.svelte';
   import TableCell from './TableCell.svelte';
@@ -12,12 +12,11 @@
     component: Table,
     // @ts-ignore Type error because subcomponents need to be isomorphic to main component.
     subcomponents: { TableCell, TableHeaderCell, TableRow },
+    render: template,
   });
 </script>
 
 <script>
-  setTemplate(template);
-
   let sortedData = $state([]);
   let currentSortField = $state(undefined);
 

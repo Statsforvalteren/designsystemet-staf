@@ -4,45 +4,6 @@
   import SelectCheckmark from './SelectCheckmark.svelte';
   import { getContext } from 'svelte';
 
-  /**
-   * @typedef {Object} SelectOptionTag
-   * @property {string} text - The text to display in the tag.
-   * @property {'brand1' | 'brand2' | 'brand3' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'} [color] - The color of the tag.
-   * @property {string} [tooltipText] - The text to display in the tooltip of the tag. Tooltip is displayed only when this property is present.
-   */
-
-  /**
-   * @typedef {Object} SelectOption
-   * @property {string} label - Display label of the option.
-   * @property {string} [description] - Description of the option.
-   * @property {string} value - Unique value of the option.
-   * @property {SelectOptionTag} [tag] - Select option tag object. Tag is displayed only when this property is present.
-   */
-
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  /**
-   * If true, hides selected options from the dropdown list.
-   * @type {boolean}
-   */
-  //svelte-ignore export_let_unused
-  //svelte-ignore export_let_unused
-
-  
-
-  
-
-  
-  /** @type {{options: SelectOption[], selectOption: function, isDropdownVisible: boolean, displayDropdownOnTop: boolean, zIndex: number, multiple: boolean, hideSelected?: boolean, size?: string, inputId: any, emptyOptionsPlaceholder?: string, dropdownGap?: number, maxDropdownHeight?: number}} */
   let {
     options,
     selectOption,
@@ -55,7 +16,7 @@
     inputId,
     emptyOptionsPlaceholder = '',
     dropdownGap = 0,
-    maxDropdownHeight = 400
+    maxDropdownHeight = 400,
   } = $props();
 
   const selectContext = getContext('selectContext-' + inputId);
@@ -88,7 +49,7 @@
         </div>
       </li>
     {/if}
-    {#each options as option, index (index)}
+    {#each options as option (option.value)}
       {@const isSelected = isOptionSelected(option)}
 
       {#if !(hideSelected && isSelected)}
@@ -106,35 +67,43 @@
             <div class="option-content-left">
               {#if multiple}
                 <div class="checkbox-container">
-                  <input class="input" type="checkbox" checked={isSelected} />
-                  <svg
-                    class="icon icon-xsmall"
-                    width="22"
-                    height="22"
-                    viewBox="0 0 22 22"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <div
+                    class="custom-checkbox"
+                    role="checkbox"
+                    aria-checked={isSelected}
                   >
-                    <rect
-                      class="box"
-                      x="1"
-                      y="1"
-                      width="20"
-                      height="20"
-                      rx="0.125rem"
-                      ry="0.125rem"
-                      fill="white"
-                      stroke-width="2"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      class="checked"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M17.7876 6.27838C18.1171 6.60788 18.1171 7.14212 17.7876 7.47162L9.99591 15.2633C9.6664 15.5928 9.13217 15.5928 8.80267 15.2633L4.67767 11.1383C4.34816 10.8088 4.34816 10.2745 4.67767 9.94505C5.00717 9.61554 5.5414 9.61554 5.87091 9.94505L9.39929 13.4734L16.5943 6.27838C16.9238 5.94887 17.4581 5.94887 17.7876 6.27838Z"
-                      fill="white"
-                    />
-                  </svg>
+                    <svg
+                      class="icon icon-xsmall"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 22 22"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        class="box"
+                        x="1"
+                        y="1"
+                        width="20"
+                        height="20"
+                        rx="0.125rem"
+                        ry="0.125rem"
+                        fill="white"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                        class:checked={isSelected}
+                      />
+                      {#if isSelected}
+                        <path
+                          class="checked"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M17.7876 6.27838C18.1171 6.60788 18.1171 7.14212 17.7876 7.47162L9.99591 15.2633C9.6664 15.5928 9.13217 15.5928 8.80267 15.2633L4.67767 11.1383C4.34816 10.8088 4.34816 10.2745 4.67767 9.94505C5.00717 9.61554 5.5414 9.61554 5.87091 9.94505L9.39929 13.4734L16.5943 6.27838C16.9238 5.94887 17.4581 5.94887 17.7876 6.27838Z"
+                          fill="white"
+                        />
+                      {/if}
+                    </svg>
+                  </div>
                 </div>
               {/if}
               <div class="option-text">
@@ -147,12 +116,16 @@
             <div class="option-content-right">
               {#if !multiple && option.tag}
                 <Tooltip {...option.tag.tooltipText ? {} : { open: false }}>
-                  <p style="margin: 0;" slot="content">
-                    {option.tag.tooltipText}
-                  </p>
-                  <Tag color={option.tag.color ?? 'info'} slot="anchor">
-                    {option.tag.text}
-                  </Tag>
+                  {#snippet content()}
+                    <p style="margin: 0;">
+                      {option.tag.tooltipText}
+                    </p>
+                  {/snippet}
+                  {#snippet anchor()}
+                    <Tag color={option.tag.color ?? 'info'}>
+                      {option.tag.text}
+                    </Tag>
+                  {/snippet}
                 </Tooltip>
               {/if}
               {#if !multiple && isSelected}
@@ -324,6 +297,24 @@
     height: 1.2rem;
     width: 1.2rem;
   }
+
+  .custom-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .box {
+    stroke: var(--ds-color-accent-9, #00244e);
+    fill: var(--ds-color-accent-1, #ffffff);
+
+    &.checked {
+      stroke: var(--ds-color-accent-9, #00244e);
+      fill: var(--ds-color-accent-9, #00244e);
+    }
+  }
+
   ::-webkit-scrollbar {
     width: 10px;
   }

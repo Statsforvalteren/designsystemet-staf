@@ -1,17 +1,16 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Select from './Select.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Select',
     component: Select,
+    render: template,
   });
 </script>
 
 <script>
   import { run } from 'svelte/legacy';
-
-  setTemplate(template);
   let options = $derived([
     { label: 'Norge', value: '1' },
     { label: 'Sverige', value: '2' },

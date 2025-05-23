@@ -1,14 +1,8 @@
 <script>
-  import { Button, Heading, Paragraph } from '../../index.js';
+  import { Button, Heading, Paragraph } from '$lib';
   import { createEventDispatcher, onMount } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     subtitle = '',
     closeButton = true,
@@ -61,7 +55,9 @@
 
 <div class="modal-background">
   <div id={`modal-${componentId}`} class="ds-modal" {...rest}>
-    <a href="/" onfocus={() => closeButtonRef.focus()}><div></div></a>
+    <a href="/" onfocus={() => closeButtonRef.focus()} aria-label="Close modal"
+      ><div></div></a
+    >
     <div
       class={`ds-modal__header ${
         !closeButton ? 'ds-modal__header--no-button' : ''
@@ -77,23 +73,25 @@
             variant="tertiary"
             color="neutral"
             size="md"
-            on:click={close}
+            onclick={close}
             bind:this={closeButtonRef}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="15"
-              viewBox="0 0 14 15"
-              fill="none"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M1.40533 0.71967C1.11244 0.426777 0.637563 0.426777 0.34467 0.71967C0.0517767 1.01256 0.0517767 1.48744 0.34467 1.78033L6.00184 7.4375L0.34467 13.0947C0.0517767 13.3876 0.0517767 13.8624 0.34467 14.1553C0.637563 14.4482 1.11244 14.4482 1.40533 14.1553L7.0625 8.49816L12.7197 14.1553C13.0126 14.4482 13.4874 14.4482 13.7803 14.1553C14.0732 13.8624 14.0732 13.3876 13.7803 13.0947L8.12316 7.4375L13.7803 1.78033C14.0732 1.48744 14.0732 1.01256 13.7803 0.71967C13.4874 0.426777 13.0126 0.426777 12.7197 0.71967L7.0625 6.37684L1.40533 0.71967Z"
-                fill="#00315D"
-              />
-            </svg>
+            {#snippet content()}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="15"
+                viewBox="0 0 14 15"
+                fill="none"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M1.40533 0.71967C1.11244 0.426777 0.637563 0.426777 0.34467 0.71967C0.0517767 1.01256 0.0517767 1.48744 0.34467 1.78033L6.00184 7.4375L0.34467 13.0947C0.0517767 13.3876 0.0517767 13.8624 0.34467 14.1553C0.637563 14.4482 1.11244 14.4482 1.40533 14.1553L7.0625 8.49816L12.7197 14.1553C13.0126 14.4482 13.4874 14.4482 13.7803 14.1553C14.0732 13.8624 14.0732 13.3876 13.7803 13.0947L8.12316 7.4375L13.7803 1.78033C14.0732 1.48744 14.0732 1.01256 13.7803 0.71967C13.4874 0.426777 13.0126 0.426777 12.7197 0.71967L7.0625 6.37684L1.40533 0.71967Z"
+                  fill="#00315D"
+                />
+              </svg>
+            {/snippet}
           </Button>
         </div>
       {/if}
@@ -104,7 +102,9 @@
     <div class="ds-modal__footer">
       {@render footer?.()}
     </div>
-    <a href="/" onfocus={() => closeButtonRef.focus()}><div></div></a>
+    <a href="/" onfocus={() => closeButtonRef.focus()} aria-label="Close modal"
+      ><div></div></a
+    >
   </div>
 </div>
 

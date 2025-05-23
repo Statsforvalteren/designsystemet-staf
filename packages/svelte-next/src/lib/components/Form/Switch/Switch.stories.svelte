@@ -1,15 +1,16 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Switch from './Switch.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Switch',
     component: Switch,
+    render: template,
   });
 </script>
 
 <script>
-  setTemplate(template);
+  let isSwitchChecked = $state(false);
   let isSwitchChecked = $state(false);
 </script>
 

@@ -1,16 +1,16 @@
 # Component library for Statsforvalternes Fellesorganisasjon
 
 This is a component library for Statsforvalternes Fellesorganisasjon. It is built using Svelte and based on the design system provided by Digdir (https://github.com/digdir/designsystemet).
-The repository was originally a fork of `digdir/designsystemet` but is now a private copy of said repository. The STAF component library resides under the path `packages/svelte` and the design tokens which designers update via Figma Token Studio are stored in the `design-tokens` folder.
+The repository was originally a fork of `digdir/designsystemet` but is now a private copy of said repository. The STAF component library resides under the path `packages/svelte-next` and the design tokens which designers update via Figma Token Studio are stored in the `design-tokens` folder.
 
 ## Adding or updating dependencies
 
-1. In the terminal, navigate to the `/packages/svelte` folder.
+1. In the terminal, navigate to the `/packages/svelte-next` folder.
 2. Run the `yarn install` command.
 
 ### Updating design tokens
 
-Once changes to the design tokens have been made in Figma Token Studio, and the new tokens have been pushed to the `design-tokens` folder. Run the following command, from inside the `/packages/svelte` folder, to update the tokens in the component library:
+Once changes to the design tokens have been made in Figma Token Studio, and the new tokens have been pushed to the `design-tokens` folder. Run the following command, from inside the `/packages/svelte-next` folder, to update the tokens in the component library:
 
 ```
 yarn updateTokens
@@ -27,8 +27,8 @@ yarn updateTokens
 
 ## Testing your component
 
-1. Add your component to the homepage (`+page.svelte` under `/packages/svelte/src/routes/`) or a route of your choosing.
-2. Navigate to the `/packages/svelte` folder in the terminal.
+1. Add your component to the homepage (`+page.svelte` under `/packages/svelte-next/src/routes/`) or a route of your choosing.
+2. Navigate to the `/packages/svelte-next` folder in the terminal.
 3. Run `npm run dev`.
 4. In your browser, navigate to the route you placed the component.
 5. You should now be able to iterate over and test your component as you would in a regular Svelte application.
@@ -40,17 +40,14 @@ yarn updateTokens
 
 ```svelte
 <script module>
-   import { setTemplate, defineMeta } from '@storybook/addon-svelte-csf';
+   import { defineMeta } from '@storybook/addon-svelte-csf';
    import ComponentName from './ComponentName.svelte';
 
    const { Story } = defineMeta({
       title: 'Komponenter/ComponentName',
       component: ComponentName,
+      render: template,
    });
-</script>
-
-<script>
-  setTemplate(template);
 </script>
 
 {#snippet template(args)}
@@ -84,7 +81,7 @@ When the workflow is triggered, it performs the following steps:
    - The project is built.
    - Semantic Release is used to publish the package to the npm registry which in this case is GitHub packages.
 
-To change any of the above settings, you can edit the `.github/workflows/build-and-publish.yml` and `packages/svelte/release.config.cjs` files.
+To change any of the above settings, you can edit the `.github/workflows/build-and-publish.yml` and `packages/svelte-next/release.config.cjs` files.
 
 ### Semantic Release
 
@@ -142,6 +139,6 @@ These lines tell npm to use the GitHub package registry for packages with the `@
 The last step is to add the packages to your project. This is done by adding the following lines to your `package.json`:
 
 ```
-"@statsforvalteren/staf-komponentbibliotek-svelte": "x.x.x",
+"@statsforvalteren/staf-komponentbibliotek-svelte-next": "x.x.x",
 "@statsforvalteren/staf-design-system-tokens": "x.x.x",
 ```

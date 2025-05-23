@@ -2,7 +2,7 @@
   import { getContext } from 'svelte';
 
   /** @type {{level?: number}} */
-  let { level = 1, header } = $props();
+  let { level = 1, header, ...rest } = $props();
 
   type AccordionContext = {
     color: string;
@@ -44,6 +44,7 @@
     onclick={handleClick}
     aria-expanded={accordionItemContext.open}
     aria-controls={accordionItemContext.contentId}
+    {...rest}
   >
     <!-- <slot name="header" /> -->
     {@render header?.()}
@@ -113,6 +114,7 @@
     background-color: transparent;
     border: none;
     font-family: inherit;
+    font-size: inherit;
   }
 
   .ds-accordion__expand-icon {

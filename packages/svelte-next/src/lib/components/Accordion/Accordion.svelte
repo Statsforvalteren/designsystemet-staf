@@ -1,10 +1,6 @@
 <script>
   import { setContext } from 'svelte';
 
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let { border, color, children, ...rest } = $props();
 
   setContext('accordion', { border, color });

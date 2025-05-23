@@ -1,5 +1,5 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import DropdownMenu from './DropdownMenu.svelte';
   import Button from '../Button/Button.svelte';
   import Files from './Files.svelte';
@@ -8,13 +8,12 @@
   const { Story } = defineMeta({
     title: 'Komponenter/DropdownMenu',
     component: DropdownMenu,
+    render: template,
   });
 </script>
 
 <script>
   import { run } from 'svelte/legacy';
-
-  setTemplate(template);
   let menuVisible = $state(false);
   let anchorEl = $state(null);
   let clicked;

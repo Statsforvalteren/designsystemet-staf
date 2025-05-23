@@ -1,16 +1,16 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Button from '../Button/Button.svelte';
   import Modal from './Modal.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Modal',
     component: Modal,
+    render: template,
   });
 </script>
 
 <script>
-  setTemplate(template);
   let isModalOpen = $state(false);
   function closeModal() {
     isModalOpen = false;

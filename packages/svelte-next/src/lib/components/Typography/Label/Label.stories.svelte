@@ -1,15 +1,12 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Label from './Label.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Typografi/Label',
     component: Label,
+    render: template,
   });
-</script>
-
-<script>
-  setTemplate(template);
 </script>
 
 {#snippet template(args)}

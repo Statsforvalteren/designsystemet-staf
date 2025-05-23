@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { run } from 'svelte/legacy';
 
   // @ts-nocheck
@@ -38,8 +38,6 @@
     TableCell,
     TableRow,
   } from '$lib';
-  import { Files, Pencil } from '$lib/components/Dropdown';
-  import { House, Cog } from '$lib/components/Tabs';
 
   function handleTabChange(value) {
     // console.log('Tab changed:', value);
@@ -104,16 +102,11 @@
   }
 
   // SELECT
-
-  let singleSelectValue = '';
-  let multiSelectValues = [];
-
-  let options = $derived([
+  let options = $state([
     {
       label: 'Norge',
       value: '1',
       description: 'Dårlige i fotball, gode i olje',
-      tag: { text: 'test', color: 'warning', tooltipText: 'Wowo' },
     },
     { label: 'Sverige', value: '2' },
     { label: 'Outer Planets Alliance', value: '3' },
@@ -130,49 +123,57 @@
     { label: 'Outer Planets Alliance', value: '14' },
   ]);
 
-  let optionsWithDescriptions = $derived([
+  let optionsWithDescriptions = $state([
     {
       label: 'Norge',
       value: '1',
       description: 'Dårlige i fotball, gode i olje',
+      tag: { tooltipText: 'Wowo', text: 'test1', color: 'warning' },
     },
     {
       label: 'Sverige',
       value: '2',
       description: 'Bedre i fotball, snakker litt rart',
+      tag: { tooltipText: 'Wowo2', text: 'test2', color: 'danger' },
     },
     {
       label: 'Outer Planets Alliance',
       value: '3',
       description:
         'Undertrykkede masser som må finne seg i det meste, inntil videre',
+      tag: { tooltipText: 'Wowo3', text: 'test3', color: 'info' },
     },
   ]);
 
-  let unSelected;
-  run(() => {
-    unSelected = null;
-  });
+  let unSelected = $state(null);
+  let unSelectedFilter = $state(null);
+  let unSelectedDesc = $state(null);
+  let unSelectedError = $state(null);
+  let unSelectedWithDesc = $state(null);
 
-  let singlePreSelected = $state({ label: 'Sverige', value: '2' });
+  let singlePreSelected = $state(options[2]);
 
-  let multiUnselected;
-  run(() => {
-    multiUnselected = [];
-  });
+  let multiUnselected = $state([]);
 
-  let multiPreselected = $state([
-    { label: 'Norge', value: '1' },
-    { label: 'Outer Planets Alliance', value: '3' },
-  ]);
+  let multiPreselected = $state([options[0], options[2]]);
 
   function changeSelected() {
     unSelected = { label: 'Sverige', value: '2' };
   }
 
-  run(() => {
-    if (unSelected) console.debug('here', unSelected);
+  $effect(() => {
+    // Update other select states based on unSelected if needed
+    if (unSelected && unSelected.value) {
+      console.debug('Selected value changed:', unSelected);
+    }
+    if (multiUnselected && multiUnselected.length > 0) {
+      console.debug('Multi selected values:', multiUnselected);
+    }
   });
+
+  // run(() => {
+  //   if (unSelected) console.debug('here', unSelected);
+  // });
 
   //dropdown:
   let dropdownPlacements = $derived([
@@ -321,26 +322,38 @@
 <br />
 
 <div class="display-flex">
-  <Button on:click={() => alert('Works')}>First</Button>
-  <Button color="neutral" onClick={() => alert('works2')}>Secondary</Button>
-  <Button disabled={true} color="danger">Danger</Button>
-  <Button variant="secondary">Variant secondary</Button>
-  <Button variant="tertiary">Variant tertiary</Button>
-  <Button iconPlacement="right" fullWidth={true}>
-    <svg
-      width="1rem"
-      height="1rem"
-      slot="icon"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12 0c6.627 0 12 5.373 12 12s-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0Zm0 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm5.047 5.671 1.399 1.43-8.728 8.398L6 14.02l1.395-1.434 2.319 2.118 7.333-7.032Z"
-        fill="currentColor"
-      />
-    </svg>
-    First Icon
+  <Button onclick={() => alert('Works')}
+    >{#snippet content()}First{/snippet}</Button
+  >
+  <Button color="neutral" onclick={() => alert('works2')}
+    >{#snippet content()}Secondary{/snippet}</Button
+  >
+  <Button disabled={true} color="danger"
+    >{#snippet content()}Danger{/snippet}</Button
+  >
+  <Button variant="secondary"
+    >{#snippet content()}Variant secondary{/snippet}</Button
+  >
+  <Button variant="tertiary"
+    >{#snippet content()}Variant tertiary{/snippet}</Button
+  >
+  <Button iconPlacement="right789" fullWidth={true}>
+    {#snippet icon()}
+      <svg
+        width="1rem"
+        height="1rem"
+        slot="icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 0c6.627 0 12 5.373 12 12s-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0Zm0 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm5.047 5.671 1.399 1.43-8.728 8.398L6 14.02l1.395-1.434 2.319 2.118 7.333-7.032Z"
+          fill="currentColor"
+        />
+      </svg>
+    {/snippet}
+    {#snippet content()}First icon{/snippet}
   </Button>
 </div>
 
@@ -422,10 +435,17 @@
 <h1 class="componentHeader">LINK</h1>
 <br />
 
-<Link href="/">Link</Link>
+<Link href="https://www.egde.no" target="_blank">Link</Link>
 <br />
 <br />
-<Link href="/" color="neutral"
+<Link
+  href="/"
+  color="neutral"
+  onclick={(e) => {
+    e.preventDefault();
+    alert('Link clicked!');
+  }}
+  as="button"
   ><svg
     xmlns="http://www.w3.org/2000/svg"
     width="1em"
@@ -556,66 +576,90 @@
 <br />
 
 <div style="display: flex; gap: 2rem">
-  <Button on:click={openModal}>Open Modal</Button>
-  <Button on:click={() => (isDangerModalOpen = true)}>Open Danger Modal</Button>
+  <Button onclick={openModal}>
+    {#snippet content()}Open Modal{/snippet}
+  </Button>
+  <Button onclick={() => (isDangerModalOpen = true)}>
+    {#snippet content()}Open Danger Modal{/snippet}
+  </Button>
 </div>
 
 {#if isModalOpen}
   <Modal onClose={closeModal}>
-    <div slot="header">Modal header</div>
-    <div slot="content">
-      <p style="font-size: 300%;">
-        Lorem Ipsum er rett og slett dummytekst fra og for trykkeindustrien.
-        Lorem Ipsum har vært bransjens standard for dummytekst helt siden
-        1500-tallet, da en ukjent boktrykker stokket en mengde bokstaver for å
-        lage et prøveeksemplar av en bok. Lorem Ipsum har tålt tidens tann
-        usedvanlig godt, og har i tillegg til å bestå gjennom fem århundrer også
-        tålt spranget over til elektronisk typografi uten vesentlige endringer.
-        Lorem Ipsum ble gjort allment kjent i 1960-årene ved lanseringen av
-        Letraset-ark med avsnitt fra Lorem Ipsum, og senere med
-        sideombrekkingsprogrammet Aldus PageMaker som tok i bruk nettopp Lorem
-        Ipsum for dummytekst. Hvorfor bruker vi det? Det er et velkjent faktum
-        at lesere distraheres av lesbart innhold på en side når man ser på dens
-        layout. Poenget med å bruke Lorem Ipsum er at det har en mer eller
-        mindre normal fordeling av bokstaver i ord, i motsetning til 'Innhold
-        her, innhold her', og gir inntrykk av å være lesbar tekst. Mange
-        webside- og sideombrekkingsprogrammer bruker nå Lorem Ipsum som sin
-        standard for provisorisk tekst, og et søk etter 'Lorem Ipsum' vil
-        avdekke mang en uferdig webside. Ulike versjoner har sprunget frem i
-        senere år, noen ved rene uhell og andre mer planlagte (med humor o.l.).
-      </p>
-      <Button on:click={() => (isModal2Open = true)}>Open Modal 2</Button>
-      {#if isModal2Open}
-        <Modal onClose={() => (isModal2Open = false)}
-          ><p slot="content">More Text</p></Modal
-        >
-      {/if}
-    </div>
-    <div slot="footer" style="display: flex; gap: 0.5rem">
-      <Button variant="primary" on:click={closeModal}>Save</Button>
-      <Button variant="secondary" on:click={closeModal}>Close</Button>
-    </div>
+    {#snippet header()}<div>Modal header</div>{/snippet}
+    {#snippet content()}
+      <div>
+        <p style="font-size: 100%;">
+          Lorem Ipsum er rett og slett dummytekst fra og for trykkeindustrien.
+          Lorem Ipsum har vært bransjens standard for dummytekst helt siden
+          1500-tallet, da en ukjent boktrykker stokket en mengde bokstaver for å
+          lage et prøveeksemplar av en bok. Lorem Ipsum har tålt tidens tann
+          usedvanlig godt, og har i tillegg til å bestå gjennom fem århundrer
+          også tålt spranget over til elektronisk typografi uten vesentlige
+          endringer. Lorem Ipsum ble gjort allment kjent i 1960-årene ved
+          lanseringen av Letraset-ark med avsnitt fra Lorem Ipsum, og senere med
+          sideombrekkingsprogrammet Aldus PageMaker som tok i bruk nettopp Lorem
+          Ipsum for dummytekst. Hvorfor bruker vi det? Det er et velkjent faktum
+          at lesere distraheres av lesbart innhold på en side når man ser på
+          dens layout. Poenget med å bruke Lorem Ipsum er at det har en mer
+          eller mindre normal fordeling av bokstaver i ord, i motsetning til
+          'Innhold her, innhold her', og gir inntrykk av å være lesbar tekst.
+          Mange webside- og sideombrekkingsprogrammer bruker nå Lorem Ipsum som
+          sin standard for provisorisk tekst, og et søk etter 'Lorem Ipsum' vil
+          avdekke mang en uferdig webside. Ulike versjoner har sprunget frem i
+          senere år, noen ved rene uhell og andre mer planlagte (med humor
+          o.l.).
+        </p>
+        <Button onclick={() => (isModal2Open = true)}>
+          {#snippet content()}Open Modal 2{/snippet}
+        </Button>
+        {#if isModal2Open}
+          <Modal onClose={() => (isModal2Open = false)}>
+            {#snippet content()}
+              <p slot="content">More Text</p>
+            {/snippet}
+          </Modal>
+        {/if}
+      </div>
+    {/snippet}
+    {#snippet footer()}
+      <div slot="footer" style="display: flex; gap: 0.5rem">
+        <Button variant="primary" onclick={closeModal}>
+          {#snippet content()}Save{/snippet}
+        </Button>
+        <Button variant="secondary" onclick={closeModal}>
+          {#snippet content()}Close{/snippet}
+        </Button>
+      </div>
+    {/snippet}
   </Modal>
 {/if}
 
 {#if isDangerModalOpen}
   <Modal onClose={() => (isDangerModalOpen = false)}>
-    <div slot="header" style="color: #c22020">Danger Modal header</div>
-    <div slot="content">
-      <p>Dangerous stuff here! Spooky!</p>
-      <hr style="border-top: 1px dashed red;" />
-    </div>
-
-    <div slot="footer" style="display: flex; gap: 0.5rem">
-      <Button
-        variant="primary"
-        color="danger"
-        on:click={() => (isDangerModalOpen = false)}>Oh no!</Button
-      >
-      <Button variant="secondary" on:click={() => (isDangerModalOpen = false)}
-        >Close</Button
-      >
-    </div>
+    {#snippet header()}
+      <div style="color: #c22020">Danger Modal header</div>
+    {/snippet}
+    {#snippet content()}
+      <div>
+        <p>Dangerous stuff here! Spooky!</p>
+        <hr style="border-top: 1px dashed red;" />
+      </div>
+    {/snippet}
+    {#snippet footer()}
+      <div slot="footer" style="display: flex; gap: 0.5rem">
+        <Button
+          variant="primary"
+          color="danger"
+          onclick={() => (isDangerModalOpen = false)}
+        >
+          {#snippet content()}Oh no!{/snippet}
+        </Button>
+        <Button variant="secondary" onclick={() => (isDangerModalOpen = false)}
+          >{#snippet content()}Close{/snippet}</Button
+        >
+      </div>
+    {/snippet}
   </Modal>
 {/if}
 
@@ -656,24 +700,36 @@
 <p>Selected RadioGroup value: {selectedValue}</p>
 
 <div style="display: flex; gap: 2rem">
-  <Button on:click={toggleIsHideLegend}
-    >{isHideLegend ? 'Show legend' : 'Hide legend'}</Button
-  >
-  <Button on:click={toggleInline}>{isInline ? 'Vertical' : 'Inline'}</Button>
-  <Button on:click={toggleShowError}
-    >{showError ? 'Hide error' : 'Show error'}</Button
-  >
-  <Button on:click={toggleIsDisabled}
-    >{isDisabled ? 'Enable' : 'Disable'}</Button
-  >
-  <Button on:click={toggleIsReadOnly}
-    >{isReadOnly ? 'Selectable' : 'ReadOnly'}</Button
-  >
+  <Button onclick={toggleIsHideLegend}>
+    {#snippet content()}
+      {isHideLegend ? 'Show legend' : 'Hide legend'}
+    {/snippet}
+  </Button>
+  <Button onclick={toggleInline}>
+    {#snippet content()}
+      {isInline ? 'Vertical' : 'Inline'}
+    {/snippet}
+  </Button>
+  <Button onclick={toggleShowError}>
+    {#snippet content()}
+      {showError ? 'Hide error' : 'Show error'}
+    {/snippet}
+  </Button>
+  <Button onclick={toggleIsDisabled}>
+    {#snippet content()}
+      {isDisabled ? 'Enabled' : 'Disabled'}
+    {/snippet}
+  </Button>
+  <Button onclick={toggleIsReadOnly}>
+    {#snippet content()}
+      {isReadOnly ? 'Selectable' : 'ReadOnly'}
+    {/snippet}
+  </Button>
 </div>
 <br />
 <h1 class="componentHeader">CHECKBOX</h1>
 <div class="selectForm">
-  <h3>Standalone Checkbox</h3>
+  <h2>Standalone Checkbox</h2>
   <Checkbox
     value="standalone"
     bind:checked={selectedCheckValue}
@@ -681,7 +737,7 @@
     description="Lorem ipsum standalone description"
   />
   <p>Checked value: {selectedCheckValue}</p>
-  <h3>Checkbox Group</h3>
+  <h2>Checkbox Group</h2>
   <CheckboxGroup
     bind:value={selectedValues}
     legend="CheckboxGroup legend"
@@ -716,11 +772,14 @@
 </div>
 <br />
 
-<!-- <Button on:click={changeSelected}>Change selected</Button>
-
 <h1 class="componentHeader">SELECT</h1>
 
-<Button on:click={() => console.log('unSelected', unSelected)}>LogValue</Button>
+<Button onclick={changeSelected}>
+  {#snippet content()}Change selected{/snippet}
+</Button><br />
+<Button onclick={() => console.log('unSelected', unSelected)}>
+  {#snippet content()}LogValue{/snippet}
+</Button>
 <br />
 <div class="selectForm">
   <Select
@@ -731,7 +790,6 @@
     size="large"
     emptyOptionsPlaceholder="No options available"
     dropdownGap={10}
-    onChange={(e) => setTimeout(() => (unSelected = undefined), 2000)}
   />
   <Select
     {options}
@@ -741,14 +799,14 @@
 
   <Select
     {options}
-    bind:selected={unSelected}
+    bind:selected={unSelectedFilter}
     label="Single, has filter"
     hasFilter
   />
 
   <Select
     {options}
-    bind:selected={unSelected}
+    bind:selected={unSelectedDesc}
     placeholder="Placeholder text"
     label="Single w/ placeholder & description"
     description="Dette er en beskrivelse"
@@ -756,14 +814,14 @@
 
   <Select
     {options}
-    bind:selected={unSelected}
+    bind:selected={unSelectedError}
     error="Error message"
     label="Single, unselected, w/ error"
   />
 
   <Select
     options={optionsWithDescriptions}
-    bind:selected={unSelected}
+    bind:selected={unSelectedWithDesc}
     label="Single, unselected, w/ option descriptions"
   />
 
@@ -778,6 +836,7 @@
 <br />
 <h1 class="componentHeader">MULTI SELECT</h1>
 <br />
+
 <div class="selectForm">
   <Select
     {options}
@@ -827,6 +886,7 @@
 </div>
 <br />
 
+<!-- 
 <h1 class="componentHeader">Tabs</h1>
 <div class="tabs">
   <Tabs onChange={handleTabChange} size="md">

@@ -1,15 +1,16 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Textfield from './Textfield.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Textfield',
     component: Textfield,
+    render: template,
   });
 </script>
 
 <script>
-  setTemplate(template);
+  let textareaValue = $state('');
   let textareaValue = $state('');
 </script>
 

@@ -1,38 +1,38 @@
 <script>
-  
-
-  
-
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     as = 'a',
     color = 'accent',
     href = '',
-    onClick = () => {},
     class_ = '',
     onclick,
     children,
     ...rest
   } = $props();
 
-  let computedClass = $derived(`ds-link ds-link--${color} ${class_ || ''} ds-link--${as}`);
+  let computedClass = $derived(
+    `ds-link ds-link--${color} ${class_ || ''} ds-link--${as}`,
+  );
 </script>
 
 {#if as === 'a'}
-  <a class={computedClass} {href} {...rest}  onclick={(event) => {
-    onclick?.(event);
-
-    onClick?.(event);
-}}>
+  <a
+    class={computedClass}
+    {href}
+    {...rest}
+    onclick={(event) => {
+      onclick?.(event);
+    }}
+  >
     {@render children?.()}
   </a>
 {:else if as === 'button'}
-  <button class={computedClass} {...rest}>
+  <button
+    class={computedClass}
+    onclick={(event) => {
+      onclick?.(event);
+    }}
+    {...rest}
+  >
     {@render children?.()}
   </button>
 {/if}

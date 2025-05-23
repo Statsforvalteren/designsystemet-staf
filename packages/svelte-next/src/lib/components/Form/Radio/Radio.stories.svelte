@@ -1,18 +1,19 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Radio from './Radio.svelte';
   import RadioGroup from './RadioGroup.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Radio',
     component: Radio,
-     // @ts-ignore Type error because subcomponents need to be isomorphic to main component.
-    subcomponents: { RadioGroup }
+    // @ts-ignore Type error because subcomponents need to be isomorphic to main component.
+    subcomponents: { RadioGroup },
+    render: template,
   });
 </script>
 
 <script>
-  setTemplate(template);
+  let selectedValue = $state();
   let selectedValue = $state();
 </script>
 

@@ -1,17 +1,14 @@
 <script module>
   import Chip from './Chip.svelte';
   import ChipGroup from './ChipGroup.svelte';
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Chip',
     component: Chip,
     subcomponents: { ChipGroup },
+    render: template,
   });
-</script>
-
-<script>
-  setTemplate(template);
 </script>
 
 {#snippet template(args)}

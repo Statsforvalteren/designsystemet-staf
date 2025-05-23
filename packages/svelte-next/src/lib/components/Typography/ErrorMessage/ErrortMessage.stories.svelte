@@ -1,15 +1,12 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import ErrorMessage from './ErrorMessage.svelte';
 
   const { Story } = defineMeta({
     title: 'Komponenter/Typografi/ErrorMessage',
     component: ErrorMessage,
+    render: template,
   });
-</script>
-
-<script>
-  setTemplate(template);
 </script>
 
 {#snippet template(args)}

@@ -1,5 +1,5 @@
 <script>
-  import { ParagraphWrapper } from '../../../index.js';
+  import { ParagraphWrapper } from '$lib';
   import { getContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 
@@ -85,7 +85,7 @@
       id={labelId}
       {value}
       {checked}
-      on:change={handleChange}
+      onchange={handleChange}
       name={`checkbox-${groupUniqueId}`}
       disabled={disabled || readOnly || groupDisabled || groupReadOnly}
     />

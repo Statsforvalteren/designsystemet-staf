@@ -1,12 +1,11 @@
 <script>
-  import { run } from 'svelte/legacy';
-  import { writable } from 'svelte/store';
+  //svelte-ignore export_let_unused
   import { offset, flip, shift } from 'svelte-floating-ui/dom';
   import { arrow, createFloatingActions } from 'svelte-floating-ui';
+  import { writable } from 'svelte/store';
 
   const ARROW_HEIGHT = 7;
 
-  /** @type {{Record<string, any>}} */
   let {
     placement = 'top',
     delay = 150,
@@ -19,9 +18,13 @@
     ...rest
   } = $props();
 
-  let internalOpen = $state(false);
-  run(() => {
-    internalOpen = open ?? defaultOpen;
+  let internalOpen = $state(open ?? defaultOpen);
+
+  // Watch for changes in open prop
+  $effect(() => {
+    if (open !== undefined) {
+      internalOpen = open;
+    }
   });
 
   const arrowRef = writable(null);
@@ -81,27 +84,36 @@
 <div
   role="tooltip"
   class="tooltip-wrapper"
-  onmouseenter={async () => {
-    await new Promise((resolve) => setTimeout(resolve, delay));
-    internalOpen = true;
+  onmouseenter={() => {
+    setTimeout(() => {
+      internalOpen = true;
+    }, delay);
   }}
-  onmouseleave={async () => {
-    await new Promise((resolve) => setTimeout(resolve, delay));
-    internalOpen = false;
+  onmouseleave={() => {
+    setTimeout(() => {
+      internalOpen = false;
+    }, delay);
   }}
   use:floatingRef
 >
   {@render anchor?.()}
 </div>
 
-{#if open || (open === undefined && internalOpen)}
-  <div class="ds-tooltip ds-paragraph--xs" use:floatingContent {...rest}>
+{#if open ?? internalOpen}
+  <div
+    class="ds-tooltip ds-paragraph--xs"
+    use:floatingContent
+    {...rest}
+    role="tooltip"
+    aria-live="polite"
+  >
     {@render content?.()}
     {#if showArrow}
       <div
         class="ds-tooltip__arrow"
-        style="height: {ARROW_HEIGHT}px"
+        style:height="{ARROW_HEIGHT}px"
         bind:this={$arrowRef}
+        aria-hidden="true"
       ></div>
     {/if}
   </div>

@@ -1,77 +1,14 @@
 <script>
   import { run } from 'svelte/legacy';
-
-  // @ts-nocheck
   import { onMount, setContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
   import SelectControl from './SelectControl.svelte';
   import SelectDropdown from './SelectDropdown.svelte';
-  import { ParagraphWrapper } from '../..';
+  import { ParagraphWrapper } from '$lib';
   import { writable } from 'svelte/store';
-
-  /**
-   * @typedef {Object} SelectOptionTag
-   * @property {string} text - The text to display in the tag.
-   * @property {'brand1' | 'brand2' | 'brand3' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'} [color] - The color of the tag.
-   * @property {string} [tooltipText] - The text to display in the tooltip of the tag. Tooltip is displayed only when this property is present.
-   */
-
-  /**
-   * @typedef {Object} SelectOption
-   * @property {string} label - Display label of the option.
-   * @property {string} [description] - Description of the option.
-   * @property {string} value - Unique value of the option.
-   * @property {SelectOptionTag} [tag] - Select option tag object. Tag is displayed only when this property is present.
-   */
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
   let inputId = `select-${uuidv4()}`;
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     options = [],
     selected = $bindable(null),
@@ -103,7 +40,52 @@
   let inputClasses = $state('textInput');
   let node = $state();
   let standardizedSize = $state();
-  let selectedStore = writable(normalizeSelected(selected));
+  let isDropdownVisible = $state(false);
+  let searchTerm = $state('');
+  let filteredOptions = $state(options);
+  let internalSelected = $state(normalizeSelected(selected));
+  let isUpdating = $state(false);
+
+  // Update internalSelected when selected changes
+  $effect(() => {
+    if (!isUpdating && selected !== undefined) {
+      const newSelectedValue = normalizeSelected(selected);
+      if (
+        JSON.stringify(newSelectedValue) !== JSON.stringify(internalSelected)
+      ) {
+        internalSelected = newSelectedValue;
+      }
+    }
+  });
+
+  // Only update selected when internalSelected changes and we're not in an update cycle
+  $effect(() => {
+    if (!isUpdating && selected !== undefined) {
+      const newValue = multiple
+        ? internalSelected
+        : (internalSelected[0] ?? null);
+      if (JSON.stringify(newValue) !== JSON.stringify(selected)) {
+        selected = newValue;
+      }
+    }
+  });
+
+  $effect(() => {
+    // Set complete class strings instead of appending
+    if (disabled) {
+      selectClasses = 'select disabled';
+      inputClasses = 'textInput disabled';
+    } else if (readOnly) {
+      selectClasses = 'select readOnly';
+      inputClasses = 'textInput readOnly';
+    } else if (error) {
+      selectClasses = 'select error';
+      inputClasses = 'textInput error';
+    } else {
+      selectClasses = 'select';
+      inputClasses = 'textInput';
+    }
+  });
 
   switch (size) {
     case 'small':
@@ -123,11 +105,19 @@
       break;
   }
 
-  // Add other values here if necessary for reactivity
   const selectContext = writable({
-    selected: $selectedStore,
+    selected: internalSelected,
     error,
     multiple,
+  });
+
+  // Update context when internalSelected changes
+  $effect(() => {
+    selectContext.set({
+      selected: internalSelected,
+      error,
+      multiple,
+    });
   });
 
   setContext('selectContext-' + inputId, selectContext);
@@ -142,67 +132,58 @@
   }
 
   function selectOption(option) {
-    selectedStore.update((currentSelected) => {
-      if (multiple) {
-        // If multiple selections are allowed
-        if (Array.isArray(currentSelected)) {
-          if (
-            !currentSelected.some(
-              (selectedOption) => selectedOption.value === option.value,
-            )
-          ) {
-            // Add the option if it's not already selected
-            return [...currentSelected, option];
-          } else {
-            // Remove the option if it's already selected
-            return currentSelected.filter(
-              (selectedOption) => selectedOption.value !== option.value,
-            );
-          }
-        } else {
-          // If currently selected is not an array, start a new array with the option
-          return [option];
-        }
-      } else {
-        if (hasFilter) {
-          // Clear options filter on single selection
-          handleFilterChange('');
-        }
-        // If only single selection is allowed
-        // selected = option;
-        return [option];
-      }
-    });
-    if (multiple) {
-      selected = $selectedStore;
-    } else {
-      selected = $selectedStore[0];
-    }
+    if (disabled || readOnly) return;
 
-    if (closeMenuOnSelect) {
-      isDropdownVisible = false;
+    isUpdating = true;
+    try {
+      const newSelected = multiple
+        ? internalSelected.some((item) => item.value === option.value)
+          ? internalSelected.filter((item) => item.value !== option.value)
+          : [...internalSelected, option]
+        : [option];
+
+      internalSelected = newSelected;
+      selected = multiple ? newSelected : newSelected[0];
+
+      if (closeMenuOnSelect) {
+        isDropdownVisible = false;
+      }
+
+      if (hasFilter) {
+        handleFilterChange('');
+      }
+
+      onChange?.(multiple ? newSelected : newSelected[0]);
+    } finally {
+      isUpdating = false;
     }
-    onChange(option);
   }
 
   function removeOption(optionToRemove) {
-    selectedStore.update((currentSelected) => {
-      if (multiple) {
-        return currentSelected.filter(
-          (option) => option.value !== optionToRemove.value,
-        );
-      } else {
-        return [];
-      }
-    });
-    selected = $selectedStore;
+    if (readOnly) return;
+
+    isUpdating = true;
+    try {
+      const newSelected = internalSelected.filter(
+        (option) => option.value !== optionToRemove.value,
+      );
+      internalSelected = newSelected;
+      selected = multiple ? newSelected : null;
+    } finally {
+      isUpdating = false;
+    }
   }
 
   function clearAll() {
     if ((multiple || clearable) && !readOnly) {
-      selectedStore.set([]);
-      selectContext.update((ctx) => ({ ...ctx, selected: [] }));
-      selected = !multiple ? null : $selectedStore;
+      isUpdating = true;
+      try {
+        const newSelected = [];
+        internalSelected = newSelected;
+        selected = multiple ? newSelected : null;
+      } finally {
+        isUpdating = false;
+      }
     }
   }
 
@@ -234,52 +215,15 @@
     };
   });
 
-
-  let searchTerm = '';
-
   function handleFilterChange(newFilter) {
     searchTerm = newFilter;
     filteredOptions = options.filter((option) =>
       option.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }
-  let isDropdownVisible;
-  run(() => {
-    isDropdownVisible = false;
-  });
-  run(() => {
-    let newSelected = $selectedStore;
-    if (!Array.isArray(selected)) {
-      newSelected = normalizeSelected(selected);
-    }
-    selectContext.set({ selected: newSelected, error, multiple });
-  });
-  run(() => {
-    if (disabled) {
-      selectClasses = 'select disabled';
-      inputClasses += ' disabled';
-    } else if (readOnly) {
-      selectClasses = 'select readOnly';
-      inputClasses += ' readOnly';
-    } else if (error) {
-      selectClasses = 'select error';
-      inputClasses += ' error';
-    } else {
-      selectClasses = 'select';
-    }
-  });
-  let filteredOptions;
-  run(() => {
-    filteredOptions = options;
-  });
 </script>
 
-<div
-  bind:this={node}
-  class="select-container"
-  aria-label={ariaLabel}
-  {...rest}
->
+<div bind:this={node} class="select-container" aria-label={ariaLabel} {...rest}>
   {#if label}
     <div class="heading-wrapper select-container-spacing">
       {#if readOnly}

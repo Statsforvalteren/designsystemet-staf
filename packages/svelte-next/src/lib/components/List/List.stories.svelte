@@ -1,5 +1,5 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import ListItem from './ListItem.svelte';
   import List from './List.svelte';
 
@@ -7,11 +7,8 @@
     title: 'Komponenter/List',
     component: List,
     subcomponents: { ListItem },
+    render: template,
   });
-</script>
-
-<script>
-  setTemplate(template);
 </script>
 
 {#snippet template(args)}

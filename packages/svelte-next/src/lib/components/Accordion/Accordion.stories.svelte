@@ -1,5 +1,5 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Accordion from './Accordion.svelte';
   import AccordionContent from './AccordionContent.svelte';
   import AccordionItem from './AccordionItem.svelte';
@@ -9,39 +9,36 @@
   const { Story } = defineMeta({
     title: 'Komponenter/Accordion',
     component: Accordion,
-     // @ts-ignore Type error because subcomponents need to be isomorphic to main component.
+    // @ts-ignore Type error because subcomponents need to be isomorphic to main component.
     subcomponents: { AccordionContent, AccordionItem, AccordionHeader },
+    render: template,
   });
-</script>
-
-<script>
-  setTemplate(template);
 </script>
 
 {#snippet template(args)}
   <Accordion {...args}>
     <AccordionItem>
-      <AccordionHeader level={2}>
-        <span slot="header">
-          Hvor kan jeg logge meg inn på nettsidene deres?</span
-        >
+      <AccordionHeader level={1}>
+        {#snippet header()}
+          <div>Hvor kan jeg logge meg inn på nettsidene deres?</div>
+        {/snippet}
       </AccordionHeader>
       <AccordionContent>
-        <span slot="content">
-          Trykk på "logg inn knappen" øverst på siden.
-        </span>
+        {#snippet content()}
+          <span> Trykk på "logg inn knappen" øverst på siden. </span>
+        {/snippet}
       </AccordionContent>
     </AccordionItem>
     <AccordionItem>
       <AccordionHeader level={2}>
-        <svelte:fragment slot="header">
+        {#snippet header()}
           <span>Hvordan sletter jeg kontoen min?</span>
-        </svelte:fragment>
+        {/snippet}
       </AccordionHeader>
       <AccordionContent>
-        <svelte:fragment slot="content">
+        {#snippet content()}
           <span>Gå til kontoinnstillinger og finn "slett konto".</span>
-        </svelte:fragment>
+        {/snippet}
       </AccordionContent>
     </AccordionItem>
   </Accordion>
@@ -53,26 +50,26 @@
   <Accordion border={true} color="brand1">
     <AccordionItem>
       <AccordionHeader level={1}>
-        <span slot="header">
-          Hvor kan jeg logge meg inn på nettsidene deres?</span
-        >
+        {#snippet header()}
+          <span> Hvor kan jeg logge meg inn på nettsidene deres?</span>
+        {/snippet}
       </AccordionHeader>
       <AccordionContent>
-        <span slot="content">
-          Trykk på "logg inn knappen" øverst på siden.
-        </span>
+        {#snippet content()}
+          <span> Trykk på "logg inn knappen" øverst på siden. </span>
+        {/snippet}
       </AccordionContent>
     </AccordionItem>
     <AccordionItem>
       <AccordionHeader level={2}>
-        <svelte:fragment slot="header">
+        {#snippet header()}
           <span>Hvordan sletter jeg kontoen min?</span>
-        </svelte:fragment>
+        {/snippet}
       </AccordionHeader>
       <AccordionContent>
-        <svelte:fragment slot="content">
+        {#snippet content()}
           <span>Gå til kontoinnstillinger og finn "slett konto".</span>
-        </svelte:fragment>
+        {/snippet}
       </AccordionContent>
     </AccordionItem>
   </Accordion>
@@ -82,28 +79,26 @@
   <Accordion border={true} color="brand3">
     <AccordionItem open={writable(true)}>
       <AccordionHeader level={1}>
-        <span slot="header"
-          >Lære noe nytt om agurker. Lære noe nytt om agurker. Lære noe nytt om
-          agurker. Lære noe nytt om agurker.</span
-        >
+        {#snippet header()}
+          <span slot="header">Lære noe nytt om agurker</span>
+        {/snippet}
       </AccordionHeader>
       <AccordionContent>
-        <span slot="content">Agurker er grønne. </span>
+        {#snippet content()}
+          <span slot="content">Agurker er grønne. </span>
+        {/snippet}
       </AccordionContent>
     </AccordionItem>
     <AccordionItem open={writable(true)}>
       <AccordionHeader level={4}>
-        <svelte:fragment slot="header">
-          <span
-            >Lære noe nytt om tomater. Lære noe nytt om tomater. Lære noe nytt
-            om tomater. Lære noe nytt om tomater.</span
-          >
-        </svelte:fragment>
+        {#snippet header()}
+          <span slot="header">Lære noe nytt om tomater</span>
+        {/snippet}
       </AccordionHeader>
       <AccordionContent>
-        <svelte:fragment slot="content">
-          <span>En tomat er faktisk en frukt.</span>
-        </svelte:fragment>
+        {#snippet content()}
+          <span slot="content">En tomat er faktisk en frukt.</span>
+        {/snippet}
       </AccordionContent>
     </AccordionItem>
   </Accordion>

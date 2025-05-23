@@ -1,5 +1,5 @@
 <script module>
-  import { defineMeta, setTemplate } from '@storybook/addon-svelte-csf';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
   import Checkbox from './Checkbox.svelte';
   import CheckboxGroup from './CheckboxGroup.svelte';
 
@@ -8,11 +8,13 @@
     component: Checkbox,
     // @ts-ignore Type error because subcomponents need to be isomorphic to main component.
     subcomponents: { CheckboxGroup },
+    render: template,
   });
 </script>
 
 <script>
-  setTemplate(template);
+  let selectedCheckValue = $state(false);
+  let selectedValues = $state();
   let selectedCheckValue = $state(false);
   let selectedValues = $state();
 </script>
