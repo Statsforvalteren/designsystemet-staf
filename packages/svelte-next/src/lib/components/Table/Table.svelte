@@ -2,20 +2,6 @@
   import { setContext } from 'svelte';
   import { ParagraphWrapper } from '../../index.js';
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     size = 'md',
     zebra = false,

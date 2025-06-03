@@ -1,14 +1,6 @@
 <script>
   import { getContext } from 'svelte';
 
-  
-
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     clickable = false,
     onClick = () => {},
@@ -43,11 +35,15 @@
   <tr class="spacing-row"></tr>
 {/if}
 
-<tr {...rest}  onclick={(event) => {
-  onclick?.(event);
+<tr
+  {...rest}
+  onclick={(event) => {
+    onclick?.(event);
 
-  handleClick?.(event);
-}} class={computedClasses}>
+    handleClick?.();
+  }}
+  class={computedClasses}
+>
   {@render children?.()}
 </tr>
 

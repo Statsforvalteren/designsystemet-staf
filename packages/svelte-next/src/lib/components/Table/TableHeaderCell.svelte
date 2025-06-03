@@ -3,16 +3,6 @@
 
   import { onMount } from 'svelte';
 
-  
-
-  
-
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     onClick = () => {},
     tableData = [],
@@ -27,11 +17,13 @@
   run(() => {
     sortDirection = undefined;
   });
-  let sort = $derived(sortFieldName
-    ? currentSortField === sortFieldName
-      ? sortDirection
-      : 'none'
-    : undefined);
+  let sort = $derived(
+    sortFieldName
+      ? currentSortField === sortFieldName
+        ? sortDirection
+        : 'none'
+      : undefined,
+  );
 
   function handleSort() {
     if (currentSortField === sortFieldName && sortDirection === 'descending') {

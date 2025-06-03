@@ -4,14 +4,6 @@
   import { Paragraph } from '../../index.js';
   import { getContext } from 'svelte';
 
-  
-
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     checkmark = false,
     size = 'md',
@@ -33,17 +25,14 @@
     }
   });
 
-  let chipClasses = $derived(`ds-focus ds-chip--button ds-chip--${groupSize || size} ${
-    shouldDisplayCheckmark ? 'ds-chip--spacing' : ''
-  } ${groupDisabled || disabled ? 'ds-chip--no-effects' : ''}`);
+  let chipClasses = $derived(
+    `ds-focus ds-chip--button ds-chip--${groupSize || size} ${
+      shouldDisplayCheckmark ? 'ds-chip--spacing' : ''
+    } ${groupDisabled || disabled ? 'ds-chip--no-effects' : ''}`,
+  );
 </script>
 
-<button
-  type="button"
-  aria-pressed={selected}
-  class={chipClasses}
-  {...rest}
->
+<button type="button" aria-pressed={selected} class={chipClasses} {...rest}>
   <Paragraph size={groupSize || size} variant="short">
     <span class="ds-chip__label">
       {#if shouldDisplayCheckmark}

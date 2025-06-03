@@ -1067,7 +1067,7 @@
 <br />
 <br />
 
-<!-- <h1 class="componentHeader">Chip & ChipGroup</h1>
+<h1 class="componentHeader">Chip & ChipGroup</h1>
 <Chip size="sm">Bokmål</Chip>
 <Chip size="md">Engelsk</Chip>
 <br />
@@ -1086,21 +1086,24 @@
 
 <h1 class="componentHeader">Table</h1>
 <Table stickyHeader>
-  <TableRow slot="headerRow">
-    <TableHeaderCell
-      tableData={dummyData}
-      sortFieldName="navn"
-      bind:sortedData
-      bind:currentSortField>Navn</TableHeaderCell
-    >
-    <TableHeaderCell>Epost</TableHeaderCell>
-    <TableHeaderCell
-      tableData={dummyData}
-      sortFieldName="telefon"
-      bind:sortedData
-      bind:currentSortField>Telefon</TableHeaderCell
-    >
-  </TableRow>
+  {#snippet headerRow()}
+    <TableRow slot="headerRow">
+      <TableHeaderCell
+        tableData={dummyData}
+        sortFieldName="navn"
+        bind:sortedData
+        bind:currentSortField>Navn</TableHeaderCell
+      >
+      <TableHeaderCell>Epost</TableHeaderCell>
+      <TableHeaderCell
+        tableData={dummyData}
+        sortFieldName="telefon"
+        bind:sortedData
+        bind:currentSortField>Telefon</TableHeaderCell
+      >
+    </TableRow>
+  {/snippet}
+
   {#each sortedData as row}
     <TableRow key={row.id}>
       <TableCell>{row.navn}</TableCell>
@@ -1112,21 +1115,23 @@
 
 <br />
 <Table>
-  <TableRow slot="headerRow">
-    <TableHeaderCell
-      tableData={bergljot}
-      sortFieldName="userId"
-      bind:sortedData={bergljotSortedData}
-      bind:currentSortField>userId</TableHeaderCell
-    >
-    <TableHeaderCell>userName</TableHeaderCell>
-    <TableHeaderCell
-      tableData={bergljot}
-      sortFieldName="lastActivity"
-      bind:sortedData={bergljotSortedData}
-      bind:currentSortField>lastActivity</TableHeaderCell
-    >
-  </TableRow>
+  {#snippet headerRow()}
+    <TableRow slot="headerRow">
+      <TableHeaderCell
+        tableData={bergljot}
+        sortFieldName="userId"
+        bind:sortedData={bergljotSortedData}
+        bind:currentSortField>userId</TableHeaderCell
+      >
+      <TableHeaderCell>userName</TableHeaderCell>
+      <TableHeaderCell
+        tableData={bergljot}
+        sortFieldName="lastActivity"
+        bind:sortedData={bergljotSortedData}
+        bind:currentSortField>lastActivity</TableHeaderCell
+      >
+    </TableRow>
+  {/snippet}
   {#each bergljotSortedData as row}
     <TableRow key={row.id}>
       <TableCell>{row.userId}</TableCell>
@@ -1141,46 +1146,49 @@
 <br />
 <div style="padding: 60px">
   <Table accordionColSpan={3} hasAccordionRows>
-    <TableRow slot="headerRow" isHeaderRow>
-      <TableHeaderCell
-        tableData={dummyData}
-        sortFieldName="navn"
-        bind:sortedData
-        bind:currentSortField
-      >
-        Navn
-      </TableHeaderCell>
-      <TableHeaderCell tableData={dummyData} bind:sortedData
-        >Epost</TableHeaderCell
-      >
-      <TableHeaderCell
-        tableData={dummyData}
-        sortFieldName="telefon"
-        bind:sortedData
-        bind:currentSortField
-      >
-        Telefon
-      </TableHeaderCell>
-    </TableRow>
+    {#snippet headerRow()}
+      <TableRow slot="headerRow" isHeaderRow>
+        <TableHeaderCell
+          tableData={dummyData}
+          sortFieldName="navn"
+          bind:sortedData
+          bind:currentSortField
+        >
+          Navn
+        </TableHeaderCell>
+        <TableHeaderCell tableData={dummyData} bind:sortedData
+          >Epost</TableHeaderCell
+        >
+        <TableHeaderCell
+          tableData={dummyData}
+          sortFieldName="telefon"
+          bind:sortedData
+          bind:currentSortField
+        >
+          Telefon
+        </TableHeaderCell>
+      </TableRow>
+    {/snippet}
     {#each sortedData as row}
       <TableRow key={row.id} clickable>
         <TableCell>{row.navn}</TableCell>
         <TableCell>{row.epost}</TableCell>
         <TableCell>{row.telefon}</TableCell>
-        <div
-          slot="accordionContent"
-          style="display: flex; gap: 1rem; align-items: center"
-        >
-          Her kan du plassere innhold av ulike slag. Dvs. <b>tekst</b> eller
-          andre komponenter: <Button>Click</Button>
-        </div>
+        {#snippet accordionContent()}
+          <div style="display: flex; gap: 1rem; align-items: center">
+            Her kan du plassere innhold av ulike slag. Dvs. <b>tekst</b> eller
+            andre komponenter: <Button
+              >{#snippet content()}Click{/snippet}</Button
+            >
+          </div>
+        {/snippet}
       </TableRow>
     {/each}
   </Table>
 </div>
 <br />
 <br />
-<br /> -->
+<br />
 
 <style>
   .componentHeader {

@@ -5,10 +5,6 @@
   import { writable } from 'svelte/store';
   import { v4 as uuidv4 } from 'uuid';
 
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let { size = 'md', disabled = false, children, ...rest } = $props();
 
   const uniqueId = uuidv4();
