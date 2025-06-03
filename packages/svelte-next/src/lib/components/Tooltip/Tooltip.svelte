@@ -14,7 +14,7 @@
     arrowGap = 4,
     showArrow = true,
     anchor,
-    content,
+    tooltipContent,
     ...rest
   } = $props();
 
@@ -107,7 +107,7 @@
     role="tooltip"
     aria-live="polite"
   >
-    {@render content?.()}
+    {@render tooltipContent?.()}
     {#if showArrow}
       <div
         class="ds-tooltip__arrow"

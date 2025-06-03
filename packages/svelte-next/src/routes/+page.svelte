@@ -1009,29 +1009,47 @@
 </div>
 
 <h1 class="componentHeader">Tooltip</h1>
-<Tooltip content="Tooltip text" placement="top-start" showArrow={true}>
-  <Button slot="anchor">Click me to display a Tooltip</Button>
-  <span slot="content">Tooltip text</span>
+<Tooltip content="Tooltip text" placement="top-end" showArrow={true}>
+  {#snippet anchor()}
+    <Button>
+      {#snippet content()}
+        Hover me to display a Tooltip (top-end)
+      {/snippet}
+    </Button>
+  {/snippet}
+  {#snippet tooltipContent()}
+    <span>Tooltip text</span>
+  {/snippet}
 </Tooltip>
 <Tooltip content="Tooltip text" placement="top" showArrow={true}>
-  <Button slot="anchor">Click me to display a Tooltip</Button>
-  <ul style="margin: 0" slot="content">
-    <li>First</li>
-    <li>Second</li>
-  </ul>
+  {#snippet anchor()}
+    <Button>
+      {#snippet content()}
+        Hover me to display a Tooltip (top)
+      {/snippet}
+    </Button>
+  {/snippet}
+  {#snippet tooltipContent()}
+    <ul style="margin: 0" slot="content">
+      <li>First</li>
+      <li>Second</li>
+    </ul>
+  {/snippet}
 </Tooltip>
 
-<div>
+<div style="margin-top: 1rem; padding: 1rem; background-color: #f0f0f0;">
   Tooltips can also be added to a text snippet <nobr
     ><Tooltip open={true} placement="bottom">
-      <abbr
-        slot="anchor"
-        style="font-weight: bold; text-decoration: underline dotted;"
-        >to give more</abbr
-      >
-      <span slot="content">Pretty cool?</span>
+      {#snippet anchor()}
+        <abbr style="font-weight: bold; text-decoration: underline dotted;"
+          >to give more</abbr
+        >
+      {/snippet}
+      {#snippet tooltipContent()}
+        <span>Pretty cool?</span>
+      {/snippet}
     </Tooltip>
-  </nobr> information!
+  </nobr>information!
 </div>
 
 <!-- <h1 class="componentHeader">Spinner</h1>
