@@ -1,91 +1,80 @@
-<script>
-  import { run } from 'svelte/legacy';
-
-  import { onMount, setContext } from 'svelte';
-  import MenuGroup from './DropdownMenuGroup.svelte';
-  import MenuItem from './DropdownMenuItem.svelte';
-  import Divider from './Divider.svelte';
+<script lang="ts">
   import { v4 as uuidv4 } from 'uuid';
+  import { Button, ParagraphWrapper } from '$lib/index.js';
+  import Divider from './Divider.svelte';
+  import type { Snippet } from 'svelte';
 
-  const C = {
-    MenuGroup,
-    MenuItem,
-    Divider,
+  //dropdown:
+  export type MenuItem = {
+    text: string; // Teksten som vises i MenuItem
+    onClick?: (event: Event) => void; // Funksjonen som skal kjøres ved klikk, valgfri
+    href?: string; // URL for lenken, valgfri
+    target?: string; // Mål for lenken, valgfri
+    iconComponent?: any; // Ikonkomponent, valgfri
   };
 
-  
+  // Definerer en type for MenuGroup
+  export type MenuGroup = {
+    heading?: string; // Overskriften til gruppen, valgfri
+    items: MenuItem[]; // Liste over MenuItem objekter
+  };
 
-  
-
-  
-
-  
-
-  
-  /** @type {{onClose?: any, placement?: string, size?: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg', anchorEl?: HTMLElement, gap?: number, children?: import('svelte').Snippet<[any]>}} */
   let {
-    onClose = () => {},
+    buttonContent,
+    menuGroups = [],
     placement = 'bottom-start',
     size = 'medium',
-    anchorEl = null,
     gap = 0,
-    children
+    onClose = () => {},
+  }: {
+    buttonContent: Snippet;
+    menuGroups: MenuGroup[];
+    placement: string;
+    size: string;
+    gap: number;
+    onClose: () => void;
   } = $props();
 
+  let containerRef: HTMLElement | null = null;
+
   const uniqueId = `dropdownMenu-${uuidv4()}`;
-  let standardizedSize = $state();
+  let standardizedSize = $state('md');
 
-  switch (size) {
-    case 'small':
-    case 'sm':
-      standardizedSize = 'sm';
-      break;
-    case 'medium':
-    case 'md':
-      standardizedSize = 'md';
-      break;
-    case 'large':
-    case 'lg':
-      standardizedSize = 'lg';
-      break;
-    default:
-      standardizedSize = 'md';
-      break;
-  }
-
-  let menuVisible;
-  run(() => {
-    menuVisible = false;
+  $effect(() => {
+    const newSize =
+      size === 'small' || size === 'sm'
+        ? 'sm'
+        : size === 'large' || size === 'lg'
+          ? 'lg'
+          : 'md';
+    standardizedSize = newSize;
   });
 
-  onMount(() => {
-    if (anchorEl) {
-      anchorEl.addEventListener('click', runTrigger);
-    }
+  let menuVisible = $state(false);
+  let top = $state(0);
+  let left = $state(0);
+  let dropdown: HTMLElement | null = null;
 
-    return () => {
-      anchorEl.removeEventListener('click', runTrigger);
-    };
-  });
-
-  function runTrigger() {
-    setPlacement();
+  function runTrigger(e: MouseEvent) {
+    e.stopPropagation();
+    console.log('runTrigger called');
     menuVisible = !menuVisible;
-    if (!menuVisible) {
+    if (menuVisible) {
+      setPlacement();
+    } else {
+      console.log('onClose called');
       onClose();
     }
   }
-  let parentProps = { standardizedSize };
-  let top = $state(0);
-  let left = $state(0);
-  let dropdown = $state(null);
-  setContext('parentProps', parentProps);
 
-  function onWindowClick(e) {
-    if (menuVisible == false) return;
+  function onWindowClick(e: MouseEvent) {
+    console.log('onWindowClick called');
+    if (!menuVisible) return;
     if (
-      dropdown.contains(e.target) == false &&
-      anchorEl.contains(e.target) == false
+      dropdown &&
+      containerRef &&
+      !dropdown.contains(e.target as Node) &&
+      !containerRef.contains(e.target as Node)
     ) {
       menuVisible = false;
       onClose();
@@ -93,69 +82,161 @@
   }
 
   function setPlacement() {
-    if (anchorEl) {
-      let rect = anchorEl.getBoundingClientRect();
-      if (placement == 'bottom-start') {
-        top = rect.height + gap;
-        left = 0;
-      } else if (placement == 'bottom-end') {
-        top = rect.height + gap;
-        left = rect.width - dropdown.getBoundingClientRect().width;
-      } else if (placement == 'bottom') {
-        top = rect.height + gap;
-        left = rect.width / 2 - dropdown.getBoundingClientRect().width / 2;
-      } else if (placement == 'top') {
-        top = -dropdown.getBoundingClientRect().height - gap;
-        left = rect.width / 2 - dropdown.getBoundingClientRect().width / 2;
-      } else if (placement == 'top-start') {
-        top = -dropdown.getBoundingClientRect().height - gap;
-        left = 0;
-      } else if (placement == 'top-end') {
-        top = -dropdown.getBoundingClientRect().height - gap;
-        left = rect.width - dropdown.getBoundingClientRect().width;
-      } else if (placement == 'left') {
-        top = rect.height / 2 - dropdown.getBoundingClientRect().height / 2;
-        left = -dropdown.getBoundingClientRect().width - gap;
-      } else if (placement == 'right') {
-        top = rect.height / 2 - dropdown.getBoundingClientRect().height / 2;
-        left = rect.width + gap;
-      } else if (placement == 'right-start') {
-        top = 0;
-        left = rect.width + gap;
-      } else if (placement == 'right-end') {
-        top = rect.height - dropdown.getBoundingClientRect().height;
-        left = rect.width + gap;
-      } else if (placement == 'left-start') {
-        top = 0;
-        left = -dropdown.getBoundingClientRect().width - gap;
-      } else if (placement == 'left-end') {
-        top = rect.height - dropdown.getBoundingClientRect().height;
-        left = -dropdown.getBoundingClientRect().width - gap;
+    if (containerRef && dropdown) {
+      const rect = containerRef
+        .querySelector('button')
+        ?.getBoundingClientRect();
+      if (!rect) return;
+      const dropdownRect = dropdown.getBoundingClientRect();
+      switch (placement) {
+        case 'bottom-start':
+          top = rect.height + gap;
+          left = 0;
+          break;
+        case 'bottom-end':
+          top = rect.height + gap;
+          left = rect.width - dropdownRect.width;
+          break;
+        case 'bottom':
+          top = rect.height + gap;
+          left = rect.width / 2 - dropdownRect.width / 2;
+          break;
+        case 'top':
+          top = -dropdownRect.height - gap;
+          left = rect.width / 2 - dropdownRect.width / 2;
+          break;
+        case 'top-start':
+          top = -dropdownRect.height - gap;
+          left = 0;
+          break;
+        case 'top-end':
+          top = -dropdownRect.height - gap;
+          left = rect.width - dropdownRect.width;
+          break;
+        case 'left':
+          top = rect.height / 2 - dropdownRect.height / 2;
+          left = -dropdownRect.width - gap;
+          break;
+        case 'right':
+          top = rect.height / 2 - dropdownRect.height / 2;
+          left = rect.width + gap;
+          break;
+        case 'right-start':
+          top = 0;
+          left = rect.width + gap;
+          break;
+        case 'right-end':
+          top = rect.height - dropdownRect.height;
+          left = rect.width + gap;
+          break;
+        case 'left-start':
+          top = 0;
+          left = -dropdownRect.width - gap;
+          break;
+        case 'left-end':
+          top = rect.height - dropdownRect.height;
+          left = -dropdownRect.width - gap;
+          break;
       }
     }
   }
 </script>
 
 <svelte:window onclick={onWindowClick} />
+{#snippet menuSnippet(d: MenuGroup[])}
+  <li>
+    {#each d as menuGroup, index (menuGroup)}
+      <ul
+        class="ds-dropdownmenu__section"
+        {...menuGroup.heading
+          ? {
+              'aria-labelledby': `dropdownMenu-${uuidv4()}-dropdown-menu-group`,
+            }
+          : {}}
+        role="group"
+      >
+        {#if menuGroup.heading}
+          <ParagraphWrapper {size}>
+            <h2
+              class="ds-dropdownmenu__heading"
+              id={`dropdownMenu-${uuidv4()}-dropdown-menu-group`}
+            >
+              {menuGroup.heading}
+            </h2>
+          </ParagraphWrapper>
+        {/if}
+        {#each menuGroup.items as item (item.text)}
+          <li>
+            <Button
+              href={item.href}
+              target={item.target}
+              {size}
+              fullWidth
+              variant="tertiary"
+              style="justify-content: start;"
+              onclick={(e) => {
+                e.preventDefault();
+                item.onClick?.(e);
+                if (item.href) {
+                  window.open(item.href, item.target);
+                }
+              }}
+            >
+              {#snippet content()}
+                {#if item.iconComponent}
+                  <div class="icon {size}">
+                    {#if item.iconComponent}
+                      <item.iconComponent height={24} width={24} />
+                    {/if}
+                  </div>
+                {/if}
+                {item.text}
+              {/snippet}
+            </Button>
+          </li>
+        {/each}
+        {#if index < d.length - 1}
+          <Divider />
+        {/if}
+      </ul>
+    {/each}
+  </li>
+{/snippet}
 
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<ul
-  id={uniqueId}
-  role="menu"
-  bind:this={dropdown}
-  class={`ds-dropdownmenu ds-dropdownmenu--${standardizedSize}`}
-  style="top:{top}px; left:{left}px; {menuVisible
-    ? 'visibility:visible;'
-    : 'visibility:hidden;'}"
-  onclick={(event) => {
-    event.stopPropagation();
-  }}
->
-  {@render children?.({ C, })}
-</ul>
+<div class="ds-dropdown-container" bind:this={containerRef}>
+  <Button onclick={runTrigger}
+    >{#snippet content()}{@render buttonContent?.()}{/snippet}</Button
+  >
+
+  <ul
+    id={uniqueId}
+    role="menu"
+    bind:this={dropdown}
+    class={`ds-dropdownmenu ds-dropdownmenu--${standardizedSize}`}
+    style="top:{top}px; left:{left}px; {menuVisible
+      ? 'visibility:visible;'
+      : 'visibility:hidden;'}"
+    onclick={(event) => {
+      event.stopPropagation();
+    }}
+    onkeydown={(event) => {
+      if (event.key === 'Escape') {
+        menuVisible = false;
+        onClose();
+      }
+    }}
+    tabindex="0"
+  >
+    {@render menuSnippet?.(menuGroups)}
+  </ul>
+</div>
 
 <style>
+  .ds-dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+
   .ds-dropdownmenu {
     position: absolute;
     padding: var(--ds-spacing-2);
@@ -181,5 +262,36 @@
   .ds-dropdownmenu--lg {
     min-width: 280px;
     padding: var(--ds-spacing-4) var(--ds-spacing-2);
+  }
+
+  .ds-dropdownmenu__section {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ds-dropdownmenu__heading {
+    padding: var(--ds-spacing-2) var(--ds-spacing-4);
+    margin: 0;
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--fds-semantic-surface-action-default, '#00244E');
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+  .icon.sm {
+    height: var(--fds-sizing-4);
+    width: var(--fds-sizing-4);
+  }
+  .icon.md {
+    height: var(--fds-sizing-6);
+    width: var(--fds-sizing-6);
+  }
+  .icon.lg {
+    height: var(--fds-sizing-8);
+    width: var(--fds-sizing-8);
   }
 </style>

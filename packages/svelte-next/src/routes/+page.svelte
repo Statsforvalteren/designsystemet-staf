@@ -39,6 +39,10 @@
     TableRow,
   } from '$lib';
 
+  import { Files, Pencil } from '../lib/components/Dropdown/index.js';
+  import { House, Cog } from '../lib/components/Tabs/index.js';
+  import { type MenuGroup } from '$lib/components/Dropdown/DropdownMenu.svelte';
+
   function handleTabChange(value) {
     // console.log('Tab changed:', value);
   }
@@ -171,11 +175,76 @@
     }
   });
 
-  // run(() => {
-  //   if (unSelected) console.debug('here', unSelected);
-  // });
+  const menuData: MenuGroup[] = [
+    {
+      heading: 'Links 123',
+      items: [
+        {
+          text: 'Test onClick event',
+          onClick: (e: Event) => {
+            console.log('clicked');
+          },
+        },
+        {
+          text: 'Designsystemet.no',
+          href: 'https://designsystemet.no',
+          target: '_blank',
+        },
+      ],
+    },
+    {
+      items: [
+        {
+          text: 'Element link',
+          iconComponent: Files,
+        },
+        {
+          text: 'Element link 2',
+          iconComponent: Pencil,
+          onClick: (e: Event) => {
+            // Endrer tilstand på modal
+            isModalOpen = true;
+          },
+        },
+      ],
+    },
+  ];
 
-  //dropdown:
+  const menuData1: MenuGroup[] = [
+    {
+      heading: 'Links 456',
+      items: [
+        {
+          text: 'console.log onClick event',
+          onClick: (e: Event) => {
+            console.log('clicked');
+          },
+        },
+        {
+          text: 'Egde.no',
+          href: 'https://egde.no',
+          target: '_blank',
+        },
+      ],
+    },
+    {
+      items: [
+        {
+          text: 'Element link',
+          iconComponent: Files,
+        },
+        {
+          text: 'Element link 2',
+          iconComponent: Pencil,
+          onClick: (e: Event) => {
+            // Endrer tilstand på modal
+            isModalOpen = true;
+          },
+        },
+      ],
+    },
+  ];
+
   let dropdownPlacements = $derived([
     { label: 'left', value: 'left' },
     { label: 'right', value: 'right' },
@@ -886,7 +955,6 @@
 </div>
 <br />
 
-<!-- 
 <h1 class="componentHeader">Tabs</h1>
 <div class="tabs">
   <Tabs onChange={handleTabChange} size="md">
@@ -921,58 +989,25 @@
     displayDropdownOnTop={true}
   />
 
-  {#each [0, 1, 2] as i (i)}
-    <div class="dropdown">
-      <div
-        bind:this={dropdownButtons[i]}
-        style="display: inline-block; box-sizing: border-box;"
-      >
-        <Button
-          aria-haspopup="menu"
-          aria-expanded={menuVisible}
-          on:click={() => {
-            menuVisible = true;
-          }}
-        >
-          Click me
-        </Button>
-      </div>
-      {#if menuVisible}
-        <DropdownMenu
-          let:C
-          gap={i * 5}
-          placement={currentDropdownPlacement.value}
-          size={i == 0 ? 'small' : i == 1 ? 'medium' : 'large'}
-          anchorEl={dropdownButtons[i]}
-          onClose={() => handleDropdownClosing(i)}
-        >
-          <C.MenuGroup heading={'Links'}>
-            <C.MenuItem
-              on:Click={(e) => {
-                console.log('clicked');
-              }}
-            >
-              Test onClick event {i}
-            </C.MenuItem>
-            <C.MenuItem href="https://designsystemet.no" target="_blank">
-              Designsystemet.no
-            </C.MenuItem>
-          </C.MenuGroup>
-          <C.Divider />
-          <C.MenuGroup>
-            <C.MenuItem IconComponent={Files}>Element link {i}</C.MenuItem>
-            <C.MenuItem
-              IconComponent={Pencil}
-              on:Click={() => {
-                isModalOpen = true;
-              }}>Element link {i + 1}</C.MenuItem
-            >
-          </C.MenuGroup>
-        </DropdownMenu>
-      {/if}
-    </div>
+  {#each [menuData, menuData1] as menuGroups, index (menuGroups)}
+    <DropdownMenu
+      {menuGroups}
+      placement={currentDropdownPlacement.value}
+      size={index === 0 ? 'md' : 'sm'}
+      onClose={() => console.log('Dropdown closed externally')}
+    >
+      {#snippet buttonContent()}
+        {#if index === 0}
+          <House />
+        {:else}
+          <Cog />
+        {/if}
+        Dropdown {index + 1}
+      {/snippet}
+    </DropdownMenu>
   {/each}
 </div>
+
 <h1 class="componentHeader">Tooltip</h1>
 <Tooltip content="Tooltip text" placement="top-start" showArrow={true}>
   <Button slot="anchor">Click me to display a Tooltip</Button>
@@ -999,7 +1034,7 @@
   </nobr> information!
 </div>
 
-<h1 class="componentHeader">Spinner</h1>
+<!-- <h1 class="componentHeader">Spinner</h1>
 <div class="spinner">
   <Spinner size="xlarge" title="xLarge" />
   <Spinner size="large" title="large" />
