@@ -33,7 +33,7 @@ yarn updateTokens
 4. In your browser, navigate to the route you placed the component.
 5. You should now be able to iterate over and test your component as you would in a regular Svelte application.
 
-## Documenting your component with Storybook
+## Documenting your component with Storybook **NOTE: does not work with svelte 5 as of now**
 
 1. Add a new file in the same folder as your component called `ComponentName.stories.svelte`.'
 2. Add the following code to the file:
