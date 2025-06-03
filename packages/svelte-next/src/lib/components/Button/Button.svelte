@@ -1,0 +1,313 @@
+<script lang="ts">
+  type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
+  type ButtonColor = 'accent' | 'danger' | 'neutral';
+  type ButtonSize = 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
+  type IconPlacement = 'left' | 'right';
+
+  interface ButtonHTMLAttributes {
+    disabled?: boolean;
+    type?: 'submit' | 'reset' | 'button';
+    name?: string;
+    value?: string | string[] | number;
+    [key: string]: any;
+  }
+
+  type ButtonProps = {
+    variant?: ButtonVariant;
+    color?: ButtonColor;
+    size?: ButtonSize;
+    fullWidth?: boolean;
+    iconPlacement?: IconPlacement;
+    className?: string;
+    onclick?: (event: MouseEvent) => void;
+    hasIcon?: boolean;
+    content: () => any;
+    icon?: () => any;
+  } & ButtonHTMLAttributes;
+
+  const props = $props();
+  let {
+    variant = 'primary' satisfies ButtonVariant,
+    color = 'accent' satisfies ButtonColor,
+    size = 'medium' satisfies ButtonSize,
+    fullWidth = false,
+    iconPlacement = 'left' satisfies IconPlacement,
+    className = '',
+    onclick = () => {},
+    hasIcon = false,
+    content,
+    icon,
+    ...rest
+  } = props as ButtonProps;
+
+  const showIcon = $state(hasIcon || icon !== undefined);
+
+  let standardizedSize = $state();
+
+  switch (size) {
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
+      break;
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
+      break;
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
+      break;
+    default:
+      standardizedSize = 'md';
+      break;
+  }
+
+  let computedClass = $derived(
+    `ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${
+      fullWidth ? 'ds-btn--full-width' : ''
+    } ${showIcon ? 'ds-btn--icon-only' : ''} ${className}`,
+  );
+</script>
+
+<!-- Two on:click element directives are being used to allow for the use of both on:click and onClick -->
+<button {onclick} class={computedClass} {...rest}>
+  <div
+    style="display: flex; gap: 0.5rem; align-items: center; justify-content: center;"
+  >
+    {#if iconPlacement === 'left' && showIcon}
+      {@render icon?.()}
+    {/if}
+    {@render content?.()}
+    {#if iconPlacement === 'right' && showIcon}
+      {@render icon?.()}
+    {/if}
+  </div>
+</button>
+
+<style lang="css">
+  .ds-btn {
+    --dsc-btn-padding: var(--ds-spacing-2) var(--ds-spacing-4);
+    --dsc-btn-primary-background: var(--ds-color-accent-base-default);
+    --dsc-btn-primary-hover-background: var(--ds-color-accent-base-hover);
+    --dsc-btn-primary-active-background: var(--ds-color-accent-base-active);
+    --dsc-btn-primary-hover-color: var(--ds-color-accent-contrast-default);
+    --dsc-btn-secondary-color: var(--ds-color-accent-text-default);
+    --dsc-btn-secondary-hover-color: var(--ds-color-accent-text-default);
+    --dsc-btn-secondary-active-color: var(--ds-color-accent-text-default);
+    --dsc-btn-secondary-border-color: var(--ds-color-accent-border-strong);
+    --dsc-btn-secondary-hover-background: var(--ds-color-accent-surface-hover);
+    --dsc-btn-secondary-active-background: var(--ds-color-accent-surface-hover);
+    --dsc-btn-tertiary-color: var(--ds-color-accent-text-default);
+    --dsc-btn-tertiary-hover-color: var(--ds-color-accent-text-default);
+    --dsc-btn-tertiary-active-color: var(--ds-color-accent-text-default);
+    --dsc-btn-tertiary-hover-background: var(--ds-color-accent-surface-hover);
+    --dsc-btn-tertiary-active-background: var(--ds-color-accent-surface-hover);
+
+    display: flex;
+    align-items: center;
+    border: var(--ds-border-width-default) solid transparent;
+    background-color: var(--dsc-btn-primary-background);
+    color: var(--dsc-btn-primary-color);
+    min-width: 2.5em;
+    padding: var(--dsc-btn-padding);
+    box-sizing: border-box;
+    cursor: pointer;
+    font-family: inherit;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    border-radius: var(--ds-border-radius-md);
+    min-height: var(--ds-sizing-10);
+  }
+
+  .ds-btn:disabled,
+  .ds-btn[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: var(--ds-disabled-opacity);
+  }
+
+  .ds-btn--sm {
+    --dsc-btn-padding: var(--ds-spacing-2) var(--ds-spacing-3);
+
+    gap: var(--ds-sizing-1);
+    font: var(--ds-typography-paragraph-short-sm);
+    font-family: inherit;
+    min-height: var(--ds-sizing-10);
+  }
+
+  .ds-btn--sm::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    min-height: auto;
+    content: '';
+  }
+
+  .ds-btn--sm::after {
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    content: '';
+  }
+
+  .ds-btn--md {
+    --dsc-btn-padding: var(--ds-spacing-2) var(--ds-spacing-4);
+
+    gap: var(--ds-sizing-2);
+    font: var(--ds-typography-paragraph-short-md);
+    font-family: inherit;
+    min-height: var(--ds-sizing-12);
+  }
+
+  .ds-btn--lg {
+    --dsc-btn-padding: var(--ds-spacing-3) var(--ds-spacing-5);
+
+    gap: var(--ds-sizing-2);
+    font: var(--ds-typography-paragraph-short-lg);
+    font-family: inherit;
+    min-height: var(--ds-sizing-14);
+  }
+
+  .ds-btn--full-width {
+    width: 100%;
+  }
+
+  .ds-btn--secondary,
+  .ds-btn--tertiary {
+    background-color: transparent;
+  }
+
+  .ds-btn--icon-only {
+    --dsc-btn-padding: 0;
+  }
+
+  /* Only use hover for non-touch devices to prevent sticky-hovering */
+  @media (hover: hover) and (pointer: fine) {
+    .ds-btn--primary:not([aria-disabled='true'], :disabled):hover {
+      background-color: var(--dsc-btn-primary-hover-background);
+    }
+
+    .ds-btn--secondary:not([aria-disabled='true'], :disabled):hover {
+      color: var(--dsc-btn-secondary-hover-color);
+      border-color: var(--dsc-btn-secondary-border-color);
+      background-color: var(--dsc-btn-secondary-hover-background);
+    }
+
+    .ds-btn--tertiary:not([aria-disabled='true'], :disabled):hover {
+      color: var(--dsc-btn-tertiary-hover-color);
+      background-color: var(--dsc-btn-tertiary-hover-background);
+    }
+  }
+
+  /* Primary button colors */
+  .ds-btn--primary {
+    background-color: var(--dsc-btn-primary-background);
+  }
+
+  .ds-btn--primary:not([aria-disabled='true'], :disabled):active {
+    background-color: var(--dsc-btn-primary-active-background);
+  }
+
+  /* Secondary button colors */
+  .ds-btn--secondary {
+    color: var(--dsc-btn-secondary-color);
+    border-color: var(--dsc-btn-secondary-border-color);
+    background-color: transparent;
+  }
+
+  .ds-btn--secondary:not([aria-disabled='true'], :disabled):active {
+    color: var(--dsc-btn-secondary-active-color);
+    border-color: var(--dsc-btn-secondary-border-color);
+    background-color: var(--dsc-btn-secondary-active-background);
+  }
+
+  /* Tertiary button colors */
+  .ds-btn--tertiary {
+    color: var(--dsc-btn-tertiary-color);
+  }
+
+  .ds-btn--tertiary:not([aria-disabled='true'], :disabled):active {
+    color: var(--dsc-btn-tertiary-active-color);
+    background-color: var(--dsc-btn-tertiary-active-background);
+  }
+
+  .ds-btn--accent {
+    --dsc-btn-primary-background: var(--ds-color-accent-base-default);
+    --dsc-btn-primary-color: var(--ds-color-accent-contrast-default);
+    --dsc-btn-primary-hover-background: var(--ds-color-accent-base-hover);
+    --dsc-btn-primary-active-background: var(--ds-color-accent-base-active);
+    --dsc-btn-secondary-color: var(--ds-color-accent-text-subtle);
+    --dsc-btn-secondary-hover-color: var(--ds-color-accent-text-default);
+    --dsc-btn-secondary-active-color: var(--ds-color-accent-text-default);
+    --dsc-btn-secondary-border-color: var(--ds-color-accent-border-strong);
+    --dsc-btn-secondary-hover-background: var(
+      --ds-color-accent-surface-default
+    );
+    --dsc-btn-secondary-active-background: var(--ds-color-accent-surface-hover);
+    --dsc-btn-tertiary-color: var(--ds-color-accent-text-subtle);
+    --dsc-btn-tertiary-hover-color: var(--ds-color-accent-text-default);
+    --dsc-btn-tertiary-active-color: var(--ds-color-accent-text-default);
+    --dsc-btn-tertiary-hover-background: var(--ds-color-accent-surface-default);
+    --dsc-btn-tertiary-active-background: var(--ds-color-accent-surface-hover);
+  }
+
+  .ds-btn--neutral {
+    --dsc-btn-primary-background: var(--ds-color-neutral-base-default);
+    --dsc-btn-primary-color: var(--ds-color-neutral-contrast-default);
+    --dsc-btn-primary-hover-background: var(--ds-color-neutral-base-hover);
+    --dsc-btn-primary-active-background: var(--ds-color-neutral-base-active);
+    --dsc-btn-secondary-color: var(--ds-color-neutral-text-subtle);
+    --dsc-btn-secondary-hover-color: var(--ds-color-neutral-text-default);
+    --dsc-btn-secondary-active-color: var(--ds-color-neutral-text-default);
+    --dsc-btn-secondary-border-color: var(--ds-color-neutral-border-strong);
+    --dsc-btn-secondary-hover-background: var(
+      --ds-color-neutral-surface-default
+    );
+    --dsc-btn-secondary-active-background: var(
+      --ds-color-neutral-surface-hover
+    );
+    --dsc-btn-tertiary-color: var(--ds-color-neutral-text-subtle);
+    --dsc-btn-tertiary-hover-color: var(--ds-color-neutral-text-default);
+    --dsc-btn-tertiary-active-color: var(--ds-color-neutral-text-default);
+    --dsc-btn-tertiary-hover-background: var(
+      --ds-color-neutral-surface-default
+    );
+    --dsc-btn-tertiary-active-background: var(--ds-color-neutral-surface-hover);
+  }
+
+  .ds-btn--danger {
+    --dsc-btn-primary-background: var(--ds-color-danger-base-default);
+    --dsc-btn-primary-color: var(--ds-color-danger-contrast-default);
+    --dsc-btn-primary-hover-background: var(--ds-color-danger-base-hover);
+    --dsc-btn-primary-active-background: var(--ds-color-danger-base-active);
+    --dsc-btn-secondary-color: var(--ds-color-danger-text-subtle);
+    --dsc-btn-secondary-hover-color: var(--ds-color-danger-text-default);
+    --dsc-btn-secondary-active-color: var(--ds-color-danger-text-default);
+    --dsc-btn-secondary-border-color: var(--ds-color-danger-border-strong);
+    --dsc-btn-secondary-hover-background: var(
+      --ds-color-danger-surface-default
+    );
+    --dsc-btn-secondary-active-background: var(--ds-color-danger-surface-hover);
+    --dsc-btn-tertiary-color: var(--ds-color-danger-text-subtle);
+    --dsc-btn-tertiary-hover-color: var(--ds-color-danger-text-default);
+    --dsc-btn-tertiary-active-color: var(--ds-color-danger-text-default);
+    --dsc-btn-tertiary-hover-background: var(--ds-color-danger-surface-default);
+    --dsc-btn-tertiary-active-background: var(--ds-color-danger-surface-hover);
+  }
+  .ds-search__search-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .ds-search__search-button:not(:focus-visible) {
+    border-left: 0;
+  }
+
+  .ds-search__search-button:focus-visible {
+    z-index: 1;
+  }
+</style>

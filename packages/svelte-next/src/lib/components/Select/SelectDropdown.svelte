@@ -1,0 +1,333 @@
+<script>
+  import Tag from '../Tag/Tag.svelte';
+  import Tooltip from '../Tooltip/Tooltip.svelte';
+  import SelectCheckmark from './SelectCheckmark.svelte';
+  import { getContext } from 'svelte';
+
+  let {
+    options,
+    selectOption,
+    isDropdownVisible,
+    displayDropdownOnTop,
+    zIndex,
+    multiple,
+    hideSelected = false,
+    size = 'medium',
+    inputId,
+    emptyOptionsPlaceholder = '',
+    dropdownGap = 0,
+    maxDropdownHeight = 400,
+  } = $props();
+
+  const selectContext = getContext('selectContext-' + inputId);
+
+  let selected = $derived($selectContext.selected);
+
+  let isOptionSelected = $derived((option) => {
+    if (Array.isArray(selected)) {
+      // Handling for multiple select
+      return selected.some((sel) => sel.value === option.value);
+    } else {
+      // Handling for single select
+      return selected && selected.value === option.value;
+    }
+  });
+</script>
+
+<div
+  class="select-dropdown"
+  class:visible={isDropdownVisible}
+  style={`position: ${displayDropdownOnTop ? 'absolute' : 'relative'}; ${
+    displayDropdownOnTop ? `z-index: ${zIndex};` : ''
+  } margin-top: ${dropdownGap}px; max-height: ${maxDropdownHeight}px;`}
+>
+  <ul class="options-list" style={`z-index: ${zIndex + 1};`}>
+    {#if options.length === 0}
+      <li class="option-item-no-hover" role="option" aria-selected="false">
+        <div class="option-content">
+          <div class="option-label">{emptyOptionsPlaceholder}</div>
+        </div>
+      </li>
+    {/if}
+    {#each options as option (option.value)}
+      {@const isSelected = isOptionSelected(option)}
+
+      {#if !(hideSelected && isSelected)}
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <li
+          class="option-item"
+          role="option"
+          aria-selected={isSelected}
+          onclick={(event) => {
+            event.stopPropagation();
+            selectOption(option);
+          }}
+        >
+          <div class="option-content">
+            <div class="option-content-left">
+              {#if multiple}
+                <div class="checkbox-container">
+                  <div
+                    class="custom-checkbox"
+                    role="checkbox"
+                    aria-checked={isSelected}
+                  >
+                    <svg
+                      class="icon icon-xsmall"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 22 22"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        class="box"
+                        x="1"
+                        y="1"
+                        width="20"
+                        height="20"
+                        rx="0.125rem"
+                        ry="0.125rem"
+                        fill="white"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                        class:checked={isSelected}
+                      />
+                      {#if isSelected}
+                        <path
+                          class="checked"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M17.7876 6.27838C18.1171 6.60788 18.1171 7.14212 17.7876 7.47162L9.99591 15.2633C9.6664 15.5928 9.13217 15.5928 8.80267 15.2633L4.67767 11.1383C4.34816 10.8088 4.34816 10.2745 4.67767 9.94505C5.00717 9.61554 5.5414 9.61554 5.87091 9.94505L9.39929 13.4734L16.5943 6.27838C16.9238 5.94887 17.4581 5.94887 17.7876 6.27838Z"
+                          fill="white"
+                        />
+                      {/if}
+                    </svg>
+                  </div>
+                </div>
+              {/if}
+              <div class="option-text">
+                <div class="option-label">{option.label}</div>
+                {#if option.description}
+                  <div class="option-description">{option.description}</div>
+                {/if}
+              </div>
+            </div>
+            <div class="option-content-right">
+              {#if !multiple && option.tag}
+                <Tooltip {...option.tag.tooltipText ? {} : { open: false }}>
+                  {#snippet content()}
+                    <p style="margin: 0;">
+                      {option.tag.tooltipText}
+                    </p>
+                  {/snippet}
+                  {#snippet anchor()}
+                    <Tag color={option.tag.color ?? 'info'}>
+                      {option.tag.text}
+                    </Tag>
+                  {/snippet}
+                </Tooltip>
+              {/if}
+              {#if !multiple && isSelected}
+                <div class="checkmark-container">
+                  <SelectCheckmark />
+                </div>
+              {/if}
+            </div>
+          </div>
+        </li>
+      {/if}
+    {/each}
+  </ul>
+</div>
+
+<style lang="scss">
+  .select-dropdown {
+    background-color: var(--ds-color-accent-1, #ffffff);
+    border-radius: 3px;
+    border: 1px solid var(--ds-color-neutral-12, #5b6471);
+    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
+    &:not(.visible) {
+      display: none;
+    }
+    overflow-y: auto;
+    margin-top: var(--ds-spacing-1);
+    padding: var(--ds-spacing-2, 9px);
+    width: calc(100% - 17px);
+  }
+  .options-list {
+    max-width: 100%;
+    background-color: inherit;
+    overflow: hidden;
+    transition:
+      max-height 0.3s ease,
+      opacity 0.3s ease;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1 0 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .option-item,
+  .option-item-no-hover {
+    display: flex;
+    padding: 9px 12px;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    list-style: none;
+  }
+
+  .option-item:hover {
+    background: var(--ds-color-brand1-4, #c5d3e9);
+    border-radius: var(--ds-border-radius-md, 4px);
+    border-left: 5px solid var(--ds-color-accent-8, #335071);
+    cursor: pointer;
+    padding: 9px 12px 9px 7.5px;
+  }
+
+  .option-item:hover rect {
+    stroke: var(--ds-color-brand1-9, #4c76ba) !important;
+  }
+
+  .option-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-top: 3px;
+  }
+  .option-content-left {
+    display: flex;
+    align-items: start;
+    align-items: center;
+  }
+  .option-content-right {
+    display: flex;
+
+    align-items: center;
+    gap: var(--ds-spacing-3);
+  }
+  .option-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 var(--ds-spacing-2);
+  }
+  .option-label {
+    color: var(--ds-color-neutral-9, #1e2b3c);
+    font-weight: 400;
+    line-height: 130%; /* 17.55px */
+  }
+
+  .option-label,
+  .option-description {
+    margin-right: auto;
+  }
+
+  .checkmark-container {
+    position: relative;
+    margin-top: 2px;
+  }
+
+  .icon {
+    grid-area: input;
+    pointer-events: none;
+    height: 1.75rem;
+    width: 1.75rem;
+    overflow: visible;
+  }
+
+  .input {
+    position: absolute;
+    opacity: 0;
+    margin: 0;
+    grid-area: input;
+    cursor: pointer;
+  }
+
+  .input:not(:checked) ~ .icon .checked {
+    display: none;
+  }
+
+  .input:checked ~ .icon .checked {
+    display: inline;
+  }
+
+  .input:not(:checked) ~ .icon .box {
+    stroke: var(--ds-color-accent-9, #00244e);
+    fill: var(--ds-color-accent-1, #ffffff);
+  }
+
+  .input:disabled ~ .icon .box {
+    stroke: var(--ds-color-neutral-4, #ced1d4);
+    fill: var(--ds-color-accent-1, #ffffff);
+  }
+
+  .input:checked:not(:disabled) ~ .icon .box {
+    stroke: var(--ds-color-accent-9, #00244e);
+    fill: var(--ds-color-accent-9, #00244e);
+  }
+
+  .input:focus-visible ~ .icon {
+    outline: var(--ds-border-width-highlight) solid
+      var(--ds-color-warning-border-subtle, #e0b726);
+    outline-offset: 0;
+  }
+
+  .input:focus-visible:not(:disabled) ~ .icon .box {
+    stroke: var(--ds-color-accent-9, #00244e);
+    stroke-width: var(--ds-border-width-highlight);
+  }
+
+  .input:disabled ~ .icon .checked {
+    fill: var(--ds-color-neutral-4, #ced1d4);
+  }
+
+  .icon-xsmall {
+    height: 1.2rem;
+    width: 1.2rem;
+  }
+
+  .custom-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .box {
+    stroke: var(--ds-color-accent-9, #00244e);
+    fill: var(--ds-color-accent-1, #ffffff);
+
+    &.checked {
+      stroke: var(--ds-color-accent-9, #00244e);
+      fill: var(--ds-color-accent-9, #00244e);
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--ds-color-neutral-3, #e1e3e5);
+  }
+  ::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 50px;
+    background-color: var(--ds-color-neutral-4, #ced1d4);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--ds-color-neutral-5, #bdc1c6);
+  }
+</style>

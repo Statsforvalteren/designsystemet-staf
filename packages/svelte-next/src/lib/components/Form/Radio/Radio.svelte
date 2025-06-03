@@ -1,0 +1,305 @@
+<script>
+  import { run } from 'svelte/legacy';
+
+  import { ParagraphWrapper } from '../../../index.js';
+  import { getContext } from 'svelte';
+  import { v4 as uuidv4 } from 'uuid';
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  /** @type {{description?: string, disabled?: boolean, readOnly?: boolean, label: string, value: string, class_?: string}} */
+  let {
+    description = '',
+    disabled = undefined,
+    readOnly = undefined,
+    label,
+    value,
+    class_ = ''
+  } = $props();
+
+  const uniqueId = uuidv4();
+  const radioId = `radio-${uniqueId}`;
+  const labelId = `label-${uniqueId}`;
+  const descriptionId = `description-${uniqueId}`;
+  const radioGroup = getContext('radioGroup');
+
+  let size = $state();
+  let standardizedSize = $state();
+  let selectedValue = $state();
+  let groupUniqueId = $state();
+  let error = $state();
+  let groupDisabled = $state(false);
+  let groupReadOnly = $state(false);
+
+  switch (size) {
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
+      break;
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
+      break;
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
+      break;
+    default:
+      standardizedSize = 'md';
+      break;
+  }
+
+  let checked = $derived(value === selectedValue);
+
+  run(() => {
+    if ($radioGroup) {
+      size = $radioGroup.size;
+      groupDisabled = $radioGroup.disabled;
+      groupReadOnly = $radioGroup.readOnly;
+      groupUniqueId = $radioGroup.uniqueId;
+      selectedValue = $radioGroup.value;
+      error = $radioGroup.error;
+    }
+  });
+
+  let radioClasses = $derived(`ds-radio ds-radio--${standardizedSize} ${
+    error ? 'ds-radio--error' : ''
+  } ${readOnly || groupReadOnly ? 'ds-radio--readonly' : ''} ${class_ || ''}`);
+</script>
+
+<ParagraphWrapper {size}>
+  <div
+    class={radioClasses}
+    tabindex="-1"
+    role="radio"
+    aria-checked={checked}
+    aria-label={label}
+    aria-labelledby={labelId}
+    id={radioId}
+  >
+    <input
+      class="ds-radio__input"
+      type="radio"
+      id={labelId}
+      {value}
+      bind:group={selectedValue}
+      name={`radio-${groupUniqueId}`}
+      disabled={disabled || readOnly || groupDisabled || groupReadOnly}
+    />
+    <label for={labelId} class="ds-radio__label">
+      {#if readOnly}
+        <span
+          aria-hidden="true"
+          class="ds-radio__label ds-radio__readyonly-icon"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1.5em"
+            height="1.5em"
+            fill="none"
+            viewBox="0 0 24 24"
+            focusable="false"
+            role="img"
+            ><path
+              fill="currentColor"
+              fill-rule="evenodd"
+              d="M7.25 7a4.75 4.75 0 0 1 9.5 0v2.25H17c.966 0 1.75.784 1.75 1.75v9a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75v-9c0-.966.784-1.75 1.75-1.75h.25zm1.5 0a3.25 3.25 0 0 1 6.5 0v2.25h-6.5zM7 10.75a.25.25 0 0 0-.25.25v8.25h10.5V11a.25.25 0 0 0-.25-.25zm3.5 3.75a1.5 1.5 0 1 1 2.25 1.3V17a.75.75 0 0 1-1.5 0v-1.2a1.5 1.5 0 0 1-.75-1.3"
+              clip-rule="evenodd"
+            /></svg
+          >
+        </span>
+      {/if}
+      <span>
+        {label}
+      </span>
+    </label>
+    {#if description}
+      <p id={descriptionId} class="ds-radio__description">
+        {description}
+      </p>
+    {/if}
+  </div>
+</ParagraphWrapper>
+
+<style lang="scss">
+  .ds-radio {
+    --dsc-radio-size: var(--ds-spacing-5);
+    --dsc-radio-focus-border-width: 3px;
+    --dsc-radio-background: var(--ds-color-neutral-background-default);
+    --dsc-radio-border-color: var(--ds-color-neutral-border-default);
+    --dsc-radio-border__hover--size: calc(var(--ds-spacing-3) / 2);
+    --dsc-radio-border__hover: 0 0 0 var(--dsc-radio-border__hover--size)
+      var(--ds-color-accent-surface-hover);
+
+    display: grid;
+  }
+
+  .ds-radio:has(.ds-radio__label) {
+    grid-template-columns: var(--dsc-radio-size) auto;
+    gap: var(--ds-spacing-2);
+  }
+
+  /* Radio */
+  .ds-radio__input {
+    position: relative;
+    width: var(--dsc-radio-size);
+    height: var(--dsc-radio-size);
+    z-index: 1;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+    align-self: center;
+    box-shadow: inset 0 0 0 2px var(--dsc-radio-border-color);
+    background: var(--dsc-radio-background);
+    border-radius: 50%;
+  }
+
+  .ds-radio__input::before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 2.75rem;
+    height: 2.75rem;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    cursor: pointer;
+    border-radius: var(--ds-border-radius-md);
+  }
+
+  .ds-radio__label {
+    /* min-height: var(--ds-sizing-10); */
+    min-width: min-content;
+    display: inline-flex;
+    flex-direction: row;
+    gap: var(--ds-spacing-1);
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .ds-radio__description {
+    margin: calc(var(--ds-spacing-1) * -1) 0 0 0;
+    color: var(--ds-color-neutral-text-subtle);
+    grid-column: 2;
+  }
+
+  .ds-radio--readonly > .ds-radio__input,
+  .ds-radio--readonly > .ds-radio__label,
+  .ds-radio--readonly > .ds-radio__input::before {
+    cursor: default;
+  }
+
+  .ds-radio:has(.ds-radio__input:disabled) > .ds-radio__description {
+    opacity: var(--ds-disabled-opacity);
+  }
+
+  .ds-radio__input:disabled,
+  .ds-radio__input:disabled::before,
+  .ds-radio:has(.ds-radio__input:disabled) > .ds-radio__label {
+    cursor: not-allowed;
+    opacity: var(--ds-disabled-opacity);
+  }
+
+  .ds-radio__input:focus-visible {
+    box-shadow:
+      inset 0 0 0 2px var(--dsc-radio-border-color),
+      inset 0 0 0 6px var(--dsc-radio-background);
+  }
+
+  .ds-radio:has(.ds-radio__input:focus-visible) {
+    --dsc-focus-border-width: 3px;
+
+    outline: var(--dsc-focus-border-width) solid var(--ds-color-focus-outer);
+    outline-offset: var(--dsc-focus-border-width);
+    box-shadow: 0 0 0 var(--dsc-focus-border-width) var(--ds-color-focus-inner);
+    border-radius: var(--ds-border-radius-md);
+  }
+
+  .ds-radio__input:checked {
+    --dsc-radio-border-color: var(--ds-color-accent-base-default);
+
+    background: var(--dsc-radio-border-color);
+  }
+
+  .ds-radio--readonly > .ds-radio__input {
+    --dsc-radio-border-color: var(--ds-color-neutral-border-subtle);
+    --dsc-radio-background: var(--ds-color-neutral-background-subtle);
+  }
+
+  .ds-radio__input:checked:not(:focus-visible) {
+    box-shadow:
+      inset 0 0 0 2px var(--dsc-radio-border-color),
+      inset 0 0 0 6px var(--dsc-radio-background);
+  }
+
+  .ds-radio--readonly > .ds-radio__input:checked {
+    background: var(--ds-color-neutral-border-strong);
+  }
+
+  .ds-radio--error > .ds-radio__input:not(:disabled, :focus-visible) {
+    --dsc-radio-border-color: var(--ds-color-danger-border-default);
+  }
+
+  /* Only use hover for non-touch devices to prevent sticky-hovering
+    "input:not(:read-only)" does not work so using ".container:not(.readonly) >" instead */
+  @media (hover: hover) and (pointer: fine) {
+    .ds-radio:not(.ds-radio--readonly) > .ds-radio__label:hover:not(:disabled),
+    .ds-radio:not(.ds-radio--readonly)
+      > .ds-radio__input:hover:not(:disabled)
+      + .ds-radio__label {
+      color: var(--ds-color-accent-text-subtle);
+    }
+
+    .ds-radio:not(.ds-radio--readonly)
+      > .ds-radio__input:hover:not(:checked, :disabled, :focus-visible) {
+      --dsc-radio-border-color: var(--ds-color-accent-border-strong);
+
+      box-shadow:
+        var(--dsc-radio-border__hover),
+        inset 0 0 0 2px var(--dsc-radio-border-color);
+    }
+
+    .ds-radio:not(.ds-radio--readonly)
+      > .ds-radio__input:hover:checked:not(:disabled, :focus-visible) {
+      box-shadow:
+        var(--dsc-radio-border__hover),
+        inset 0 0 0 2px var(--dsc-radio-border-color),
+        inset 0 0 0 6px var(--dsc-radio-background);
+    }
+  }
+
+  /** Sizing */
+
+  .ds-radio--sm {
+    --dsc-radio-size: var(--ds-sizing-5);
+
+    /* min-height: var(--ds-sizing-10); */
+  }
+
+  .ds-radio--md {
+    --dsc-radio-size: var(--ds-sizing-6);
+    --dsc-radio-border__hover--size: var(--ds-spacing-1);
+
+    /* min-height: var(--ds-sizing-11); */
+  }
+
+  .ds-radio--lg {
+    --dsc-radio-size: var(--ds-sizing-7);
+
+    /* min-height: var(--ds-sizing-12); */
+  }
+
+  .ds-radio__readyonly-icon {
+    cursor: not-allowed;
+  }
+</style>

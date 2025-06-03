@@ -1,0 +1,125 @@
+<script>
+  
+
+  
+
+  
+
+  
+  /** @type {{color?: 'brand1' | 'brand2' | 'brand3' | 'neutral' | 'success' | 'warning' | 'danger' | 'info', size?: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg', hasBorder?: boolean, class_?: string, children?: import('svelte').Snippet}} */
+  let {
+    color = 'neutral',
+    size = 'medium',
+    hasBorder = false,
+    class_ = '',
+    children
+  } = $props();
+
+  let standardizedSize = $state();
+
+  switch (size) {
+    case 'small':
+    case 'sm':
+      standardizedSize = 'sm';
+      break;
+    case 'medium':
+    case 'md':
+      standardizedSize = 'md';
+      break;
+    case 'large':
+    case 'lg':
+      standardizedSize = 'lg';
+      break;
+    default:
+      standardizedSize = 'md';
+      break;
+  }
+</script>
+
+<div>
+  <span
+    class={`ds-tag ${
+      hasBorder ? 'ds-tag-border' : ''
+    } ds-tag--${color} ds-tag--${standardizedSize} ${class_ || ''}`}
+  >
+    {@render children?.()}
+  </span>
+</div>
+
+<style lang="scss">
+  .ds-tag {
+    --dsc-tag-background: var(--ds-color-neutral-background-subtle);
+    --dsc-tag-color: var(--ds-color-neutral-text-default);
+
+    color: var(--dsc-tag-color);
+    padding: 0 var(--ds-spacing-2);
+    min-height: var(--ds-sizing-8);
+    background-color: var(--dsc-tag-background);
+    border-radius: var(--ds-border-radius-sm);
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    word-break: break-word;
+    width: max-content;
+  }
+
+  .ds-tag-border {
+    --dsc-tag-color: var(--ds-color-neutral-text-default);
+    border: 1px solid var(--dsc-tag-color);
+  }
+
+  .ds-tag--sm {
+    padding: 0 var(--ds-spacing-2);
+    min-height: var(--ds-sizing-7);
+  }
+
+  .ds-tag--md {
+    padding: 0 var(--ds-spacing-2);
+    min-height: var(--ds-sizing-8);
+  }
+
+  .ds-tag--lg {
+    padding: 0 var(--ds-spacing-3);
+    min-height: var(--ds-sizing-9);
+  }
+
+  .ds-tag--neutral {
+    --dsc-tag-background: var(--ds-color-neutral-surface-default);
+    --dsc-tag-color: var(--ds-color-neutral-text-default);
+  }
+
+  .ds-tag--info {
+    --dsc-tag-background: var(--ds-color-info-surface-default);
+    --dsc-tag-color: var(--ds-color-info-text-default);
+  }
+
+  .ds-tag--success {
+    --dsc-tag-background: var(--ds-color-success-surface-default);
+    --dsc-tag-color: var(--ds-color-success-text-default);
+  }
+
+  .ds-tag--warning {
+    --dsc-tag-background: var(--ds-color-warning-surface-default);
+    --dsc-tag-color: var(--ds-color-warning-text-default);
+  }
+
+  .ds-tag--danger {
+    --dsc-tag-background: var(--ds-color-danger-surface-default);
+    --dsc-tag-color: var(--ds-color-danger-text-default);
+  }
+
+  .ds-tag--brand1 {
+    --dsc-tag-background: var(--ds-color-brand1-surface-default);
+    --dsc-tag-color: var(--ds-color-brand1-text-default);
+  }
+
+  .ds-tag--brand2 {
+    --dsc-tag-background: var(--ds-color-brand2-surface-default);
+    --dsc-tag-color: var(--ds-color-brand2-text-default);
+  }
+
+  .ds-tag--brand3 {
+    --dsc-tag-background: var(--ds-color-brand3-surface-default);
+    --dsc-tag-color: var(--ds-color-brand3-text-default);
+  }
+</style>
