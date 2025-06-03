@@ -1,12 +1,4 @@
 <script>
-  
-
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     title = '',
     size = 'medium',

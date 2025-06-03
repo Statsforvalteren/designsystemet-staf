@@ -1052,7 +1052,7 @@
   </nobr>information!
 </div>
 
-<!-- <h1 class="componentHeader">Spinner</h1>
+<h1 class="componentHeader">Spinner</h1>
 <div class="spinner">
   <Spinner size="xlarge" title="xLarge" />
   <Spinner size="large" title="large" />
@@ -1067,7 +1067,7 @@
 <br />
 <br />
 
-<h1 class="componentHeader">Chip & ChipGroup</h1>
+<!-- <h1 class="componentHeader">Chip & ChipGroup</h1>
 <Chip size="sm">Bokmål</Chip>
 <Chip size="md">Engelsk</Chip>
 <br />
