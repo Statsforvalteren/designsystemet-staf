@@ -15,19 +15,19 @@
 
 <Story name="Default">
   <Button onclick={handleClick}>
-    {#snippet content()}You clicked: {count}{/snippet}
+    {#snippet dropdownButtonContent()}You clicked: {count}{/snippet}
   </Button>
 </Story>
 
 <Story name="With color and size">
   <Button color="danger" size="lg">
-    {#snippet content()}Dangerously colored{/snippet}
+    {#snippet dropdownButtonContent()}Dangerously colored{/snippet}
   </Button>
 </Story>
 
 <Story name="With icon and outline">
   <Button iconPlacement="left" variant="secondary" hasIcon={true}>
-    {#snippet content()}Accept{/snippet}
+    {#snippet dropdownButtonContent()}Accept{/snippet}
     {#snippet icon()}
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -51,12 +51,12 @@
 
 <Story name="Ghost button">
   <Button variant="tertiary" size="lg">
-    {#snippet content()}Hover me{/snippet}
+    {#snippet dropdownButtonContent()}Hover me{/snippet}
   </Button>
 </Story>
 
 <Story name="Click events">
   <Button onclick={() => alert('Button clicked!')}>
-    {#snippet content()}Click me{/snippet}
+    {#snippet dropdownButtonContent()}Click me{/snippet}
   </Button>
 </Story>

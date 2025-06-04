@@ -11,6 +11,7 @@
     href?: string; // URL for lenken, valgfri
     target?: string; // Mål for lenken, valgfri
     iconComponent?: any; // Ikonkomponent, valgfri
+    selected?: boolean; // Om MenuItem er valgt, valgfri
   };
 
   // Definerer en type for MenuGroup
@@ -20,19 +21,23 @@
   };
 
   let {
-    buttonContent,
+    dropdownButtonContent,
+    buttonVariant = 'primary',
     menuGroups = [],
     placement = 'bottom-start',
     size = 'medium',
     gap = 0,
     onClose = () => {},
+    headingLevel = 2,
   }: {
-    buttonContent: Snippet;
+    dropdownButtonContent: Snippet;
+    buttonVariant: 'primary' | 'secondary' | 'tertiary';
     menuGroups: MenuGroup[];
     placement: string;
     size: string;
     gap: number;
     onClose: () => void;
+    headingLevel?: 1 | 2 | 3 | 4;
   } = $props();
 
   let containerRef: HTMLElement | null = null;
@@ -157,43 +162,51 @@
       >
         {#if menuGroup.heading}
           <ParagraphWrapper {size}>
-            <h2
+            <svelte:element
+              this={`h${headingLevel}`}
               class="ds-dropdownmenu__heading"
               id={`dropdownMenu-${uuidv4()}-dropdown-menu-group`}
             >
               {menuGroup.heading}
-            </h2>
+            </svelte:element>
           </ParagraphWrapper>
         {/if}
         {#each menuGroup.items as item (item.text)}
-          <li>
-            <Button
-              href={item.href}
-              target={item.target}
-              {size}
-              fullWidth
-              variant="tertiary"
-              style="justify-content: start;"
-              onclick={(e) => {
-                e.preventDefault();
-                item.onClick?.(e);
-                if (item.href) {
-                  window.open(item.href, item.target);
-                }
-              }}
-            >
-              {#snippet content()}
-                {#if item.iconComponent}
-                  <div class="icon {size}">
-                    {#if item.iconComponent}
-                      <item.iconComponent height={24} width={24} />
+          <div class="dropdown-menu-item">
+            <li>
+              <Button
+                href={item.href}
+                target={item.target}
+                {size}
+                fullWidth
+                variant="tertiary"
+                style="justify-content: start;"
+                onclick={(e) => {
+                  e.preventDefault();
+                  item.onClick?.(e);
+                  if (item.href) {
+                    window.open(item.href, item.target);
+                  }
+                }}
+              >
+                {#snippet buttonContent()}
+                  {#if item.iconComponent}
+                    <div class="icon {size}">
+                      {#if item.iconComponent}
+                        <item.iconComponent height={24} width={24} />
+                      {/if}
+                    </div>
+                  {/if}
+                  <div class="flex-container">
+                    <p class="flex-item">{item.text}</p>
+                    {#if item.selected}
+                      <div class="check-indicator">✔</div>
                     {/if}
                   </div>
-                {/if}
-                {item.text}
-              {/snippet}
-            </Button>
-          </li>
+                {/snippet}
+              </Button>
+            </li>
+          </div>
         {/each}
         {#if index < d.length - 1}
           <Divider />
@@ -204,8 +217,8 @@
 {/snippet}
 
 <div class="ds-dropdown-container" bind:this={containerRef}>
-  <Button onclick={runTrigger}
-    >{#snippet content()}{@render buttonContent?.()}{/snippet}</Button
+  <Button onclick={runTrigger} variant={buttonVariant} size={standardizedSize}>
+    {#snippet buttonContent()}{@render dropdownButtonContent?.()}{/snippet}</Button
   >
 
   <ul
@@ -293,5 +306,40 @@
   .icon.lg {
     height: var(--fds-sizing-8);
     width: var(--fds-sizing-8);
+  }
+
+  .dropdown-menu-item :global(*) {
+    gap: var(--ds-spacing-4, 1rem);
+  }
+
+  .dropdown-menu-item :global(p) {
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    font-weight: 100;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .flex-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  p.flex-item {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .check-indicator {
+    margin-left: var(--ds-spacing-4, 1rem);
+    flex-shrink: 0;
   }
 </style>

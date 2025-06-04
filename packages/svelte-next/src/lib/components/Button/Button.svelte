@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte';
+
   type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
   type ButtonColor = 'accent' | 'danger' | 'neutral';
   type ButtonSize = 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large';
@@ -21,8 +23,8 @@
     className?: string;
     onclick?: (event: MouseEvent) => void;
     hasIcon?: boolean;
-    content: () => any;
-    icon?: () => any;
+    buttonContent?: Snippet;
+    icon?: Snippet;
   } & ButtonHTMLAttributes;
 
   const props = $props();
@@ -35,7 +37,7 @@
     className = '',
     onclick = () => {},
     hasIcon = false,
-    content,
+    buttonContent,
     icon,
     ...rest
   } = props as ButtonProps;
@@ -71,13 +73,11 @@
 
 <!-- Two on:click element directives are being used to allow for the use of both on:click and onClick -->
 <button {onclick} class={computedClass} {...rest}>
-  <div
-    style="display: flex; gap: 0.5rem; align-items: center; justify-content: center;"
-  >
+  <div class="ds-btn-content">
     {#if iconPlacement === 'left' && showIcon}
       {@render icon?.()}
     {/if}
-    {@render content?.()}
+    {@render buttonContent?.()}
     {#if iconPlacement === 'right' && showIcon}
       {@render icon?.()}
     {/if}
@@ -309,5 +309,12 @@
 
   .ds-search__search-button:focus-visible {
     z-index: 1;
+  }
+  .ds-btn-content {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 </style>

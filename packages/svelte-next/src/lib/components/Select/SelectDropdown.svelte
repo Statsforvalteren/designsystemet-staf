@@ -116,7 +116,7 @@
             <div class="option-content-right">
               {#if !multiple && option.tag}
                 <Tooltip {...option.tag.tooltipText ? {} : { open: false }}>
-                  {#snippet content()}
+                  {#snippet tooltipContent()}
                     <p style="margin: 0;">
                       {option.tag.tooltipText}
                     </p>
