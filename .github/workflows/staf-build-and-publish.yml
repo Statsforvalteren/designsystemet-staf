@@ -70,8 +70,8 @@ jobs:
       - name: Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
+          YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
         run: semantic-release --extends ../svelte/design-tokens-release.config.cjs
 
   build-and-publish-library:
@@ -110,8 +110,8 @@ jobs:
       - name: Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
+          YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
         run: semantic-release --extends ./svelte-release.config.cjs
 
   build-and-publish-svelte-next:
@@ -150,6 +150,6 @@ jobs:
       - name: Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_PACKAGE_TOKEN }}
+          YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
         run: semantic-release --extends ../svelte/svelte-next-release.config.cjs
