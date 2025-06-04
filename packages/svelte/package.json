@@ -1,6 +1,6 @@
 {
   "name": "@statsforvalteren/staf-komponentbibliotek-svelte",
-  "version": "1.9.13",
+  "version": "1.9.14",
   "type": "module",
   "exports": {
     ".": {
