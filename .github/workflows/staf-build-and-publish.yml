@@ -1,3 +1,10 @@
+# NOTE! IF SEMANTIC RELEASE IS NOT WORKING AND IS THROWING ERRORS ALONG THE LINES OF "Invalid authentication (as an unknown user)"
+# CREATE A NEW GITHUB TOKEN WITH THE FOLLOWING SCOPES:
+# - repo (Full control of private repositories)
+# - write:packages (Upload packages to GitHub Package Registry)
+# - read:packages (Download packages from GitHub Package Registry)
+# THE REPLACE THE EXISTING "PACKAGE_PUBLISH_TOKEN" IN THE REPOSITORY SECRETS WITH THIS NEW TOKEN.
+
 # Build and publish the design tokens or the component library based on the changes in the design-tokens directory.
 # Workflow is triggered on push to main or PRs with branch name starting with pr-.
 name: Build and Publish
