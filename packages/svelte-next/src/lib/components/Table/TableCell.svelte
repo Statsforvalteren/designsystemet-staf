@@ -1,11 +1,10 @@
 <script>
-  let { onClick = () => {}, onclick, children, ...rest } = $props();
+  let { onClick = () => {}, onclick = () => {}, children, ...rest } = $props();
 </script>
 
 <td
   onclick={(event) => {
     onclick?.(event);
-
     onClick?.(event);
   }}
   {...rest}

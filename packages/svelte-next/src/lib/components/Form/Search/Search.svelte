@@ -3,31 +3,6 @@
   import CharacterCounter from '../CharacterCounter.svelte';
   import { v4 as uuidv4 } from 'uuid';
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     label = '',
     size = 'medium',
@@ -42,7 +17,7 @@
     onSearchClick = (e, value) => {},
     characterLimitLabel = null,
     class_ = '',
-    oninput,
+    oninput = null,
     ...rest
   } = $props();
 
@@ -93,6 +68,10 @@
     value = '';
     inputElement?.focus();
   }
+
+  function defaultOnInput(event) {
+    console.log('Default input handler:', event.target.value);
+  }
 </script>
 
 <div class={formFieldClasses}>
@@ -131,7 +110,7 @@
       <input
         bind:this={inputElement}
         bind:value
-        {oninput}
+        oninput={(event) => (oninput ? oninput(event) : () => {})}
         class={inputClasses}
         name="search"
         id="search-field"

@@ -6,9 +6,9 @@
     onClick = () => {},
     isHeaderRow = false,
     isOpen = $bindable(false),
-    onclick,
-    children,
-    accordionContent,
+    onclick = () => {},
+    children = undefined,
+    accordionContent = undefined,
     ...rest
   } = $props();
 
