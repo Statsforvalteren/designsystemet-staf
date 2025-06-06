@@ -26,7 +26,7 @@
 </Story>
 
 <Story name="With icon and outline">
-  <Button iconPlacement="left" variant="secondary" hasIcon={true}>
+  <Button iconPlacement="left" variant="secondary">
     {#snippet dropdownButtonContent()}Accept{/snippet}
     {#snippet icon()}
       <svg

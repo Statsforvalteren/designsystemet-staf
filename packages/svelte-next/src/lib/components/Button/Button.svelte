@@ -22,8 +22,7 @@
     iconPlacement?: IconPlacement;
     className?: string;
     onclick?: (event: MouseEvent) => void;
-    hasIcon?: boolean;
-    buttonContent?: Snippet;
+    children: Snippet | undefined;
     icon?: Snippet;
   } & ButtonHTMLAttributes;
 
@@ -36,13 +35,12 @@
     iconPlacement = 'left' satisfies IconPlacement,
     className = '',
     onclick = () => {},
-    hasIcon = false,
-    buttonContent,
+    children = undefined,
     icon,
     ...rest
   } = props as ButtonProps;
 
-  const showIcon = $state(hasIcon || icon !== undefined);
+  const showIcon = $state(icon !== undefined);
 
   let standardizedSize = $state();
 
@@ -67,17 +65,17 @@
   let computedClass = $derived(
     `ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${
       fullWidth ? 'ds-btn--full-width' : ''
-    } ${showIcon ? 'ds-btn--icon-only' : ''} ${className}`,
+    }`,
   );
 </script>
 
 <!-- Two on:click element directives are being used to allow for the use of both on:click and onClick -->
 <button {onclick} class={computedClass} {...rest}>
-  <div class="ds-btn-content">
+  <div class="ds-btn-content {showIcon ? 'ds-btn--with-icon' : ''}">
     {#if iconPlacement === 'left' && showIcon}
       {@render icon?.()}
     {/if}
-    {@render buttonContent?.()}
+    {@render children?.()}
     {#if iconPlacement === 'right' && showIcon}
       {@render icon?.()}
     {/if}

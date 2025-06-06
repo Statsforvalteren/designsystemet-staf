@@ -189,21 +189,19 @@
                   }
                 }}
               >
-                {#snippet buttonContent()}
-                  {#if item.iconComponent}
-                    <div class="icon {size}">
-                      {#if item.iconComponent}
-                        <item.iconComponent height={24} width={24} />
-                      {/if}
-                    </div>
-                  {/if}
-                  <div class="flex-container">
-                    <p class="flex-item">{item.text}</p>
-                    {#if item.selected}
-                      <div class="check-indicator">✔</div>
+                {#if item.iconComponent}
+                  <div class="icon {size}">
+                    {#if item.iconComponent}
+                      <item.iconComponent height={24} width={24} />
                     {/if}
                   </div>
-                {/snippet}
+                {/if}
+                <div class="flex-container">
+                  <p class="flex-item">{item.text}</p>
+                  {#if item.selected}
+                    <div class="check-indicator">✔</div>
+                  {/if}
+                </div>
               </Button>
             </li>
           </div>
@@ -218,7 +216,7 @@
 
 <div class="ds-dropdown-container" bind:this={containerRef}>
   <Button onclick={runTrigger} variant={buttonVariant} size={standardizedSize}>
-    {#snippet buttonContent()}{@render dropdownButtonContent?.()}{/snippet}</Button
+    {@render dropdownButtonContent?.()}</Button
   >
 
   <ul

@@ -4,7 +4,7 @@
     color = 'accent',
     href = '',
     class_ = '',
-    onclick,
+    onclick = () => {},
     children,
     ...rest
   } = $props();
