@@ -116,7 +116,7 @@ jobs:
         run: npm install -g semantic-release
       - name: Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.STAF_PAT }}
           YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
           YARN_NPM_AUTH_TOKEN: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
         run: semantic-release --extends ./svelte-release.config.cjs
@@ -156,7 +156,7 @@ jobs:
         run: npm install -g semantic-release
       - name: Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.STAF_PAT }}
           YARN_NPM_PUBLISH_REGISTRY: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
           YARN_NPM_AUTH_TOKEN: ${{ secrets.PACKAGE_PUBLISH_TOKEN }}
         run: semantic-release --extends ../svelte/svelte-next-release.config.cjs
