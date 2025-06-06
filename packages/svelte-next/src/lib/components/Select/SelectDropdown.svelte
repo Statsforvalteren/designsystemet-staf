@@ -208,7 +208,6 @@
   }
   .option-content-right {
     display: flex;
-
     align-items: center;
     gap: var(--ds-spacing-3);
   }
@@ -226,7 +225,7 @@
   .option-label {
     color: var(--ds-color-neutral-9, #1e2b3c);
     font-weight: 400;
-    line-height: 130%; /* 17.55px */
+    line-height: 130%;
   }
 
   .option-label,
@@ -247,87 +246,8 @@
     overflow: visible;
   }
 
-  .input {
-    position: absolute;
-    opacity: 0;
-    margin: 0;
-    grid-area: input;
-    cursor: pointer;
-  }
-
-  .input:not(:checked) ~ .icon .checked {
-    display: none;
-  }
-
-  .input:checked ~ .icon .checked {
-    display: inline;
-  }
-
-  .input:not(:checked) ~ .icon .box {
-    stroke: var(--ds-color-accent-9, #00244e);
-    fill: var(--ds-color-accent-1, #ffffff);
-  }
-
-  .input:disabled ~ .icon .box {
-    stroke: var(--ds-color-neutral-4, #ced1d4);
-    fill: var(--ds-color-accent-1, #ffffff);
-  }
-
-  .input:checked:not(:disabled) ~ .icon .box {
-    stroke: var(--ds-color-accent-9, #00244e);
-    fill: var(--ds-color-accent-9, #00244e);
-  }
-
-  .input:focus-visible ~ .icon {
-    outline: var(--ds-border-width-highlight) solid
-      var(--ds-color-warning-border-subtle, #e0b726);
-    outline-offset: 0;
-  }
-
-  .input:focus-visible:not(:disabled) ~ .icon .box {
-    stroke: var(--ds-color-accent-9, #00244e);
-    stroke-width: var(--ds-border-width-highlight);
-  }
-
-  .input:disabled ~ .icon .checked {
-    fill: var(--ds-color-neutral-4, #ced1d4);
-  }
-
   .icon-xsmall {
     height: 1.2rem;
     width: 1.2rem;
-  }
-
-  .custom-checkbox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  .box {
-    stroke: var(--ds-color-accent-9, #00244e);
-    fill: var(--ds-color-accent-1, #ffffff);
-
-    &.checked {
-      stroke: var(--ds-color-accent-9, #00244e);
-      fill: var(--ds-color-accent-9, #00244e);
-    }
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--ds-color-neutral-3, #e1e3e5);
-  }
-  ::-webkit-scrollbar-thumb {
-    border: 3px solid transparent;
-    background-clip: padding-box;
-    border-radius: 50px;
-    background-color: var(--ds-color-neutral-4, #ced1d4);
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--ds-color-neutral-5, #bdc1c6);
   }
 </style>

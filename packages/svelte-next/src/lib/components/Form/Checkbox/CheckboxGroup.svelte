@@ -67,21 +67,34 @@
         : 'md',
   );
 
-  // Initialize with defaultValue if needed
-  if (valueState.length === 0 && defaultValue.length > 0) {
-    valueState = [...defaultValue];
-    value = valueState;
-  }
+  // Initialize valueState with defaultValue if provided
+  $effect.pre(() => {
+    if (defaultValue && defaultValue.length > 0) {
+      valueState = [...defaultValue];
+      value = [...defaultValue];
+    }
+  });
 
-  // Update groupState when props change
+  // Keep value and valueState in sync
   $effect(() => {
-    // Update all properties reactively
-    groupStore.readOnly = readOnly;
-    groupStore.disabled = disabled;
-    groupStore.size = size;
-    groupStore.value = value;
-    groupStore.error = error;
-    groupStore.required = required;
+    if (JSON.stringify(valueState) !== JSON.stringify(value)) {
+      value = [...valueState];
+    }
+  });
+
+  // Update groupStore when any dependency changes
+  $effect(() => {
+    const newStoreValue = {
+      readOnly: readOnlyState,
+      disabled: disabledState,
+      size: sizeState,
+      value: valueState,
+      error: errorState,
+      uniqueId,
+      required: requiredState,
+    };
+
+    Object.assign(groupStore, newStoreValue);
   });
 
   function handleCheckboxChange(change) {
@@ -89,13 +102,12 @@
       change.target instanceof HTMLInputElement &&
       change.target.type === 'checkbox'
     ) {
-      if (change.target.checked) {
-        valueState = [...valueState, change.target.value];
-        value = valueState;
-      } else {
-        valueState = valueState.filter((v) => v !== change.target.value);
-        value = valueState;
-      }
+      const newValue = change.target.checked
+        ? [...valueState, change.target.value]
+        : valueState.filter((v) => v !== change.target.value);
+
+      valueState = newValue;
+      value = newValue;
     }
   }
 

@@ -391,21 +391,11 @@
 <br />
 
 <div class="display-flex">
-  <Button onclick={() => alert('Works')}
-    >{#snippet content()}First{/snippet}</Button
-  >
-  <Button color="neutral" onclick={() => alert('works2')}
-    >{#snippet content()}Secondary{/snippet}</Button
-  >
-  <Button disabled={true} color="danger"
-    >{#snippet content()}Danger{/snippet}</Button
-  >
-  <Button variant="secondary"
-    >{#snippet content()}Variant secondary{/snippet}</Button
-  >
-  <Button variant="tertiary"
-    >{#snippet content()}Variant tertiary{/snippet}</Button
-  >
+  <Button onclick={() => alert('Works')}>First</Button>
+  <Button color="neutral" onclick={() => alert('works2')}>Secondary</Button>
+  <Button disabled={true} color="danger">Danger</Button>
+  <Button variant="secondary">Variant secondary</Button>
+  <Button variant="tertiary">Variant tertiary</Button>
   <Button iconPlacement="right789" fullWidth={true}>
     {#snippet icon()}
       <svg
@@ -422,7 +412,7 @@
         />
       </svg>
     {/snippet}
-    {#snippet content()}First icon{/snippet}
+    First icon
   </Button>
 </div>
 
@@ -645,12 +635,8 @@
 <br />
 
 <div style="display: flex; gap: 2rem">
-  <Button onclick={openModal}>
-    {#snippet content()}Open Modal{/snippet}
-  </Button>
-  <Button onclick={() => (isDangerModalOpen = true)}>
-    {#snippet content()}Open Danger Modal{/snippet}
-  </Button>
+  <Button onclick={openModal}>Open Modal</Button>
+  <Button onclick={() => (isDangerModalOpen = true)}>Open Danger Modal</Button>
 </div>
 
 {#if isModalOpen}
@@ -679,9 +665,7 @@
           senere år, noen ved rene uhell og andre mer planlagte (med humor
           o.l.).
         </p>
-        <Button onclick={() => (isModal2Open = true)}>
-          {#snippet content()}Open Modal 2{/snippet}
-        </Button>
+        <Button onclick={() => (isModal2Open = true)}>Open Modal 2</Button>
         {#if isModal2Open}
           <Modal onClose={() => (isModal2Open = false)}>
             {#snippet content()}
@@ -693,12 +677,8 @@
     {/snippet}
     {#snippet footer()}
       <div slot="footer" style="display: flex; gap: 0.5rem">
-        <Button variant="primary" onclick={closeModal}>
-          {#snippet content()}Save{/snippet}
-        </Button>
-        <Button variant="secondary" onclick={closeModal}>
-          {#snippet content()}Close{/snippet}
-        </Button>
+        <Button variant="primary" onclick={closeModal}>Save</Button>
+        <Button variant="secondary" onclick={closeModal}>Close</Button>
       </div>
     {/snippet}
   </Modal>
@@ -722,10 +702,10 @@
           color="danger"
           onclick={() => (isDangerModalOpen = false)}
         >
-          {#snippet content()}Oh no!{/snippet}
+          Oh no!
         </Button>
         <Button variant="secondary" onclick={() => (isDangerModalOpen = false)}
-          >{#snippet content()}Close{/snippet}</Button
+          >Close</Button
         >
       </div>
     {/snippet}
@@ -770,29 +750,19 @@
 
 <div style="display: flex; gap: 2rem">
   <Button onclick={toggleIsHideLegend}>
-    {#snippet content()}
-      {isHideLegend ? 'Show legend' : 'Hide legend'}
-    {/snippet}
+    {isHideLegend ? 'Show legend' : 'Hide legend'}
   </Button>
   <Button onclick={toggleInline}>
-    {#snippet content()}
-      {isInline ? 'Vertical' : 'Inline'}
-    {/snippet}
+    {isInline ? 'Vertical' : 'Inline'}
   </Button>
   <Button onclick={toggleShowError}>
-    {#snippet content()}
-      {showError ? 'Hide error' : 'Show error'}
-    {/snippet}
+    {showError ? 'Hide error' : 'Show error'}
   </Button>
   <Button onclick={toggleIsDisabled}>
-    {#snippet content()}
-      {isDisabled ? 'Enabled' : 'Disabled'}
-    {/snippet}
+    {isDisabled ? 'Enabled' : 'Disabled'}
   </Button>
   <Button onclick={toggleIsReadOnly}>
-    {#snippet content()}
-      {isReadOnly ? 'Selectable' : 'ReadOnly'}
-    {/snippet}
+    {isReadOnly ? 'Selectable' : 'ReadOnly'}
   </Button>
 </div>
 <br />
@@ -843,12 +813,8 @@
 
 <h1 class="componentHeader">SELECT</h1>
 
-<Button onclick={changeSelected}>
-  {#snippet content()}Change selected{/snippet}
-</Button><br />
-<Button onclick={() => console.log('unSelected', unSelected)}>
-  {#snippet content()}LogValue{/snippet}
-</Button>
+<Button onclick={changeSelected}>Change selected</Button><br />
+<Button onclick={() => console.log('unSelected', unSelected)}>LogValue</Button>
 <br />
 <div class="selectForm">
   <Select
@@ -1011,11 +977,7 @@
 <h1 class="componentHeader">Tooltip</h1>
 <Tooltip content="Tooltip text" placement="top-end" showArrow={true}>
   {#snippet anchor()}
-    <Button>
-      {#snippet content()}
-        Hover me to display a Tooltip (top-end)
-      {/snippet}
-    </Button>
+    <Button>Hover me to display a Tooltip (top-end)</Button>
   {/snippet}
   {#snippet tooltipContent()}
     <span>Tooltip text</span>
@@ -1023,11 +985,7 @@
 </Tooltip>
 <Tooltip content="Tooltip text" placement="top" showArrow={true}>
   {#snippet anchor()}
-    <Button>
-      {#snippet content()}
-        Hover me to display a Tooltip (top)
-      {/snippet}
-    </Button>
+    <Button>Hover me to display a Tooltip (top)</Button>
   {/snippet}
   {#snippet tooltipContent()}
     <ul style="margin: 0" slot="content">
@@ -1177,9 +1135,7 @@
         {#snippet accordionContent()}
           <div style="display: flex; gap: 1rem; align-items: center">
             Her kan du plassere innhold av ulike slag. Dvs. <b>tekst</b> eller
-            andre komponenter: <Button
-              >{#snippet content()}Click{/snippet}</Button
-            >
+            andre komponenter: <Button>Click</Button>
           </div>
         {/snippet}
       </TableRow>
@@ -1201,9 +1157,6 @@
     flex-direction: column;
     width: 40%;
     gap: var(--fds-spacing-2);
-  }
-  .dropdown {
-    position: relative;
   }
   .display-flex {
     display: flex;

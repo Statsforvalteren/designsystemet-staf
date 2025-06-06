@@ -5,17 +5,6 @@
   import { getContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
   /** @type {{description?: string, disabled?: boolean, readOnly?: boolean, label: string, value: string, class_?: string}} */
   let {
     description = '',
@@ -23,7 +12,7 @@
     readOnly = undefined,
     label,
     value,
-    class_ = ''
+    class_ = '',
   } = $props();
 
   const uniqueId = uuidv4();
@@ -33,30 +22,26 @@
   const radioGroup = getContext('radioGroup');
 
   let size = $state();
-  let standardizedSize = $state();
+  let standardizedSize = $derived(() => {
+    switch (size) {
+      case 'small':
+      case 'sm':
+        return 'sm';
+      case 'medium':
+      case 'md':
+        return 'md';
+      case 'large':
+      case 'lg':
+        return 'lg';
+      default:
+        return 'md';
+    }
+  });
   let selectedValue = $state();
   let groupUniqueId = $state();
   let error = $state();
   let groupDisabled = $state(false);
   let groupReadOnly = $state(false);
-
-  switch (size) {
-    case 'small':
-    case 'sm':
-      standardizedSize = 'sm';
-      break;
-    case 'medium':
-    case 'md':
-      standardizedSize = 'md';
-      break;
-    case 'large':
-    case 'lg':
-      standardizedSize = 'lg';
-      break;
-    default:
-      standardizedSize = 'md';
-      break;
-  }
 
   let checked = $derived(value === selectedValue);
 
@@ -71,9 +56,11 @@
     }
   });
 
-  let radioClasses = $derived(`ds-radio ds-radio--${standardizedSize} ${
-    error ? 'ds-radio--error' : ''
-  } ${readOnly || groupReadOnly ? 'ds-radio--readonly' : ''} ${class_ || ''}`);
+  let radioClasses = $derived(
+    `ds-radio ds-radio--${standardizedSize} ${
+      error ? 'ds-radio--error' : ''
+    } ${readOnly || groupReadOnly ? 'ds-radio--readonly' : ''} ${class_ || ''}`,
+  );
 </script>
 
 <ParagraphWrapper {size}>

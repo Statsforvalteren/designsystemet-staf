@@ -3,33 +3,6 @@
   import { v4 as uuidv4 } from 'uuid';
   import CharacterCounter from '../CharacterCounter.svelte';
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
   /** @type {{Record<string, any>}} */
   let {
     label = '',
@@ -76,22 +49,32 @@
   }
 
   // Computed class names for the component elements
-  let formFieldClasses = $derived(`ds-textfield ds-textfield--${standardizedSize} ${
-    error ? 'ds-textfield--error' : ''
-  } ${readOnly ? 'ds-textfield--readonly' : ''} ${
-    class_ || ''
-  } ${fontSizeClass}`);
-  let labelClasses = `ds-textfield__label ${hideLabel ? 'ds-sr-only' : ''}`;
-  let descriptionClasses = `ds-textfield__description ${
-    hideLabel ? 'ds-sr-only' : ''
-  } ${fontSizeClass}`;
-  let fieldClasses = 'ds-textfield__field';
-  let inputClasses = `ds-textfield__input ds-focus ${
-    prefix ? 'ds-textfield__input--with-prefix' : ''
-  } ${suffix ? 'ds-textfield__input--with-suffix' : ''} ${
-    readOnly ? 'ds-textfield--readonly' : ''
-  } ${fontSizeClass}`;
-  let errorMessageClasses = `ds-textfield__error-message ${fontSizeClass}`;
+  let formFieldClasses = $derived(
+    `ds-textfield ds-textfield--${standardizedSize} ${
+      error ? 'ds-textfield--error' : ''
+    } ${readOnly ? 'ds-textfield--readonly' : ''} ${
+      class_ || ''
+    } ${fontSizeClass}`,
+  );
+  let labelClasses = $derived(
+    `ds-textfield__label ${hideLabel ? 'ds-sr-only' : ''}`,
+  );
+  let descriptionClasses = $derived(
+    `ds-textfield__description ${
+      hideLabel ? 'ds-sr-only' : ''
+    } ${fontSizeClass}`,
+  );
+  let fieldClasses = $derived('ds-textfield__field');
+  let inputClasses = $derived(
+    `ds-textfield__input ds-focus ${
+      prefix ? 'ds-textfield__input--with-prefix' : ''
+    } ${suffix ? 'ds-textfield__input--with-suffix' : ''} ${
+      readOnly ? 'ds-textfield--readonly' : ''
+    } ${fontSizeClass}`,
+  );
+  let errorMessageClasses = $derived(
+    `ds-textfield__error-message ${fontSizeClass}`,
+  );
 </script>
 
 <ParagraphWrapper {size}>
@@ -142,12 +125,11 @@
       {/if}
       <input
         bind:value
-        
         oninput={(event) => {
           oninput?.(event);
 
           onInput?.(event);
-}}
+        }}
         class={inputClasses}
         id={`input-field-${componentId}`}
         {...{ type }}

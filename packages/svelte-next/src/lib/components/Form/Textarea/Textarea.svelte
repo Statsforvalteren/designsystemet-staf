@@ -3,27 +3,6 @@
   import { v4 as uuidv4 } from 'uuid';
   import CharacterCounter from '../CharacterCounter.svelte';
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
   /** @type {{Record<string, any>}} */
   let {
     label = '',
@@ -67,15 +46,25 @@
   }
 
   // Computed class names for the component elements
-  let formFieldClasses = $derived(`ds-textarea ds-textarea--${standardizedSize} ${
-    error ? 'ds-textarea--error' : ''
-  } ${class_ || ''} ${fontSizeClass}`);
-  let labelClasses = `ds-textarea__label ${hideLabel ? 'ds-sr-only' : ''}`;
-  let descriptionClasses = `ds-textarea__description ${
-    hideLabel ? 'ds-sr-only' : ''
-  } ${fontSizeClass}`;
-  let textareaClasses = `ds-textarea__input ds-focus ${fontSizeClass}`;
-  let errorMessageClasses = `ds-textarea__error-message ${fontSizeClass}`;
+  let formFieldClasses = $derived(
+    `ds-textarea ds-textarea--${standardizedSize} ${
+      error ? 'ds-textarea--error' : ''
+    } ${class_ || ''} ${fontSizeClass}`,
+  );
+  let labelClasses = $derived(
+    `ds-textarea__label ${hideLabel ? 'ds-sr-only' : ''}`,
+  );
+  let descriptionClasses = $derived(
+    `ds-textarea__description ${
+      hideLabel ? 'ds-sr-only' : ''
+    } ${fontSizeClass}`,
+  );
+  let textareaClasses = $derived(
+    `ds-textarea__input ds-focus ${fontSizeClass}`,
+  );
+  let errorMessageClasses = $derived(
+    `ds-textarea__error-message ${fontSizeClass}`,
+  );
 </script>
 
 <ParagraphWrapper {size}>
@@ -117,12 +106,11 @@
     {/if}
     <textarea
       bind:value
-      
       oninput={(event) => {
         oninput?.(event);
 
         onInput?.(event);
-}}
+      }}
       readonly={readOnly}
       class={textareaClasses}
       id={`textarea-${componentId}`}

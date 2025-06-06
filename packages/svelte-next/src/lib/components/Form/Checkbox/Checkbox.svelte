@@ -37,19 +37,27 @@
   let groupDisabled = $derived(checkboxGroup?.disabled || false);
   let groupReadOnly = $derived(checkboxGroup?.readOnly || false);
 
+  // Initialize and sync checkbox state with group
+  $effect.pre(() => {
+    if (isPartOfGroup && $checkboxGroup) {
+      const groupValue = $checkboxGroup.value || [];
+      isChecked = groupValue.includes(value);
+      checked = isChecked;
+    }
+  });
+
+  // Keep checkbox state in sync with group changes
   $effect(() => {
     if (isPartOfGroup && $checkboxGroup) {
-      isChecked = ($checkboxGroup.value || []).includes(value);
+      const groupValue = $checkboxGroup.value || [];
+      isChecked = groupValue.includes(value);
       checked = isChecked;
     }
   });
 
   function handleGroupChange(event) {
-    if ($checkboxGroup) {
-      const newValue = event.target.checked
-        ? [...($checkboxGroup.value || []), value]
-        : ($checkboxGroup.value || []).filter((v) => v !== value);
-      $checkboxGroup.value = newValue;
+    if (checkboxGroup?.onChange) {
+      checkboxGroup.onChange(value, event.target.checked);
     }
   }
 

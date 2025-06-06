@@ -4,9 +4,6 @@
   import { ParagraphWrapper } from '../../index.js';
   import { getContext } from 'svelte';
 
-  
-
-  
   /** @type {{value: any, icon?: ConstructorOfATypedSvelteComponent | undefined, children?: import('svelte').Snippet}} */
   let { value, icon = undefined, children } = $props();
 
@@ -52,7 +49,9 @@
     >
       {#if icon}
         <div class="icon">
-          <svelte:component this={icon} />
+          {#key icon}
+            {icon}
+          {/key}
         </div>
       {/if}
 

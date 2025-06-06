@@ -111,13 +111,8 @@
     multiple,
   });
 
-  // Update context when internalSelected changes
   $effect(() => {
-    selectContext.set({
-      selected: internalSelected,
-      error,
-      multiple,
-    });
+    selectContext.set({ selected: internalSelected, error, multiple });
   });
 
   setContext('selectContext-' + inputId, selectContext);
