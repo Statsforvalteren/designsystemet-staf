@@ -1,9 +1,26 @@
-<script>
+<script lang="ts">
   import { ErrorMessage, Paragraph, ParagraphWrapper } from '../../../index.js';
   import { v4 as uuidv4 } from 'uuid';
   import CharacterCounter from '../CharacterCounter.svelte';
 
-  /** @type {{Record<string, any>}} */
+  type textFieldType = {
+    label?: string;
+    description?: string;
+    size?: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg';
+    type?: 'text' | 'email' | 'password' | 'number';
+    hideLabel?: boolean;
+    readOnly?: boolean;
+    value?: string;
+    error?: string;
+    prefix?: string;
+    suffix?: string;
+    characterLimit?: number | null;
+    characterLimitLabel?: (count: number) => string | null;
+    onInput?: (event: Event) => void;
+    class_?: string;
+    oninput?: (event: Event) => void;
+  };
+
   let {
     label = '',
     description = '',
@@ -16,12 +33,13 @@
     prefix = '',
     suffix = '',
     characterLimit = null,
-    characterLimitLabel = null,
+    characterLimitLabel = (count) =>
+      count > -1 ? `${count} tegn igjen` : `${Math.abs(count)} tegn for mye`,
     onInput = () => {},
     class_ = '',
     oninput,
     ...rest
-  } = $props();
+  }: textFieldType = $props();
 
   let componentId = uuidv4();
   let standardizedSize = $state();
@@ -146,13 +164,13 @@
         </div>
       {/if}
     </div>
-    {#if characterLimit}
+    {#if characterLimit != null && characterLimit > 0}
       <CharacterCounter
         maxCount={characterLimit}
         {value}
         id={`character-counter-${componentId}`}
         {size}
-        label={characterLimitLabel}
+        label={(count) => characterLimitLabel(count) || `${count} tegn igjen`}
       />
     {/if}
     {#if error}

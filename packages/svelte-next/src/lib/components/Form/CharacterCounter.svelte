@@ -1,30 +1,37 @@
-<script>
-  /** @type {{label?: any, srLabel?: string, maxCount: any, value: any, id: any, size?: string}} */
+<script lang="ts">
+  interface CharacterCounterProps {
+    label?: (count: number) => string;
+    srLabel?: string;
+    maxCount: number;
+    value: string;
+    id?: string;
+    size?: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg';
+  }
   let {
     label = defaultLabel,
-    srLabel = "",
+    srLabel = '',
     maxCount,
     value,
     id,
-    size = "medium"
-  } = $props();
+    size = 'medium',
+  }: CharacterCounterProps = $props();
 
   let fontSizeClass = $state();
   switch (size) {
-    case "small":
-    case "sm":
-      fontSizeClass = "font-small";
+    case 'small':
+    case 'sm':
+      fontSizeClass = 'font-small';
       break;
-    case "medium":
-    case "md":
-      fontSizeClass = "font-medium";
+    case 'medium':
+    case 'md':
+      fontSizeClass = 'font-medium';
       break;
-    case "large":
-    case "lg":
-      fontSizeClass = "font-large";
+    case 'large':
+    case 'lg':
+      fontSizeClass = 'font-large';
       break;
     default:
-      fontSizeClass = "font-medium";
+      fontSizeClass = 'font-medium';
       break;
   }
 
@@ -48,8 +55,8 @@
 </span>
 
 <span
-  class={`${hasExceededLimit ? "error" : ""} ${fontSizeClass}`}
-  aria-live={hasExceededLimit ? "polite" : "off"}
+  class={`${hasExceededLimit ? 'error' : ''} ${fontSizeClass}`}
+  aria-live={hasExceededLimit ? 'polite' : 'off'}
 >
   {label ? label(currentCount) : defaultLabel(currentCount)}
 </span>
