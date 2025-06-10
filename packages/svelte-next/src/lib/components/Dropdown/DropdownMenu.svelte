@@ -12,6 +12,7 @@
     target?: string; // Mål for lenken, valgfri
     iconComponent?: any; // Ikonkomponent, valgfri
     selected?: boolean; // Om MenuItem er valgt, valgfri
+    disabled?: boolean; // Om MenuItem er deaktivert, valgfri
   };
 
   // Definerer en type for MenuGroup
@@ -188,6 +189,7 @@
                     window.open(item.href, item.target);
                   }
                 }}
+                disabled={item.disabled}
               >
                 {#if item.iconComponent}
                   <div class="icon {size}">
