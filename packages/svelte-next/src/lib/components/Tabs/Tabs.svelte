@@ -2,12 +2,6 @@
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
 
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     onChange = (value) => {},
     defaultValue = undefined,

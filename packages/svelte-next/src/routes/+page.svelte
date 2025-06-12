@@ -78,6 +78,7 @@
 
   let selectedValue = $state();
   let selectedValues = $state([]);
+  let selectedValuesNew = $state([]);
   let selectedCheckValue = $state(false);
 
   let showError = $state(false);
@@ -155,23 +156,26 @@
   let unSelectedError = $state(null);
   let unSelectedWithDesc = $state(null);
 
-  let singlePreSelected = $state(options[2]);
+  let singlePreSelected = $state([options[2]]);
+  let singleNewPreSelected = $state([options[2]]);
+  let singleUnSelectedDesc = $state(null);
+  let singleUnSelectedFilter = $state(null);
 
   let multiUnselected = $state([]);
 
   let multiPreselected = $state([options[0], options[2]]);
 
   function changeSelected() {
-    unSelected = { label: 'Sverige', value: '2' };
+    unSelected = options[1];
   }
 
   $effect(() => {
     // Update other select states based on unSelected if needed
     if (unSelected && unSelected.value) {
-      console.debug('Selected value changed:', unSelected);
+      $inspect('Selected value changed:', unSelected);
     }
     if (multiUnselected && multiUnselected.length > 0) {
-      console.debug('Multi selected values:', multiUnselected);
+      $inspect('Multi selected values:', multiUnselected);
     }
   });
 
@@ -813,6 +817,61 @@
 
 <h1 class="componentHeader">SELECT</h1>
 
+<!-- <div class="selectForm">
+  <p>Valgte verdi: {singleUnSelectedFilter?.[0]?.label}</p>
+  <SelectNew
+    {options}
+    bind:selected={singleUnSelectedFilter}
+    label="Single, has filter"
+    placeholder="Søk / velg verdi"
+    hasFilter
+  />
+
+  <p style={'margin-top: 2rem; margin-bottom: 1rem'}>
+    Valgte verdi: {singleNewPreSelected[0]?.label}
+  </p>
+
+  <SelectNew
+    {options}
+    bind:selected={singleNewPreSelected}
+    label="Single, preselected"
+  />
+
+  <p style={'margin-top: 2rem; margin-bottom: 1rem'}>
+    Valgte verdi: {singleUnSelectedDesc?.[0]?.label ?? 'Ingen valgt'}
+  </p>
+
+  <SelectNew
+    {options}
+    bind:selected={singleUnSelectedDesc}
+    placeholder="Placeholder text"
+    label="Single w/ placeholder & description"
+    description="Dette er en beskrivelse"
+  />
+
+  <SelectNew
+    {options}
+    label="Select multiple options"
+    multiple={true}
+    bind:selected={selectedValuesNew}
+    style={'margin-top: 2rem;'}
+  />
+
+  <p style={'margin-top: 2rem; margin-bottom: 1rem'}>
+    Valgte verdier: {selectedValuesNew.map((item) => item.label).join(', ')}
+  </p>
+  <SelectNew
+    {options}
+    label="Select multiple options readonly, hide selected"
+    placeholder="Søk / velg verdi"
+    hasFilter={true}
+    multiple={true}
+    hideSelected
+    bind:selected={selectedValuesNew}
+    style={'margin-top: 0;'}
+  />
+</div> -->
+
 <Button onclick={changeSelected}>Change selected</Button><br />
 <Button onclick={() => console.log('unSelected', unSelected)}>LogValue</Button>
 <br />
@@ -925,27 +984,56 @@
 <div class="tabs">
   <Tabs onChange={handleTabChange} size="md">
     <TabList>
-      <TabItem value="1" icon={Files}>Tab 1</TabItem>
-      <TabItem value="2" icon={House}>Tab 2</TabItem>
-      <TabItem value="3" icon={Pencil}>Tab 3</TabItem>
+      <TabItem value="1">
+        {#snippet icon()}
+          <Files />
+        {/snippet}
+        Tab 1
+      </TabItem>
+      <TabItem value="2">
+        {#snippet icon()}
+          <House />
+        {/snippet}
+        Tab 2
+      </TabItem>
+      <TabItem value="3">
+        {#snippet icon()}
+          <Pencil />
+        {/snippet}
+        Tab 3
+      </TabItem>
+    </TabList>
+    <TabContent value="1"><button>Content 1</button></TabContent>
+    <TabContent value="2">Content 2</TabContent>
+    <TabContent value="3">Content 3</TabContent>
+  </Tabs>
+
+  <Tabs onChange={handleTabChange} size="lg" defaultValue="3">
+    <TabList>
+      <TabItem value="1">
+        {#snippet icon()}
+          <Cog />
+        {/snippet}
+        Tab 1
+      </TabItem>
+      <TabItem value="2">
+        {#snippet icon()}
+          <House />
+        {/snippet}
+        Tab 2
+      </TabItem>
+      <TabItem value="3">
+        {#snippet icon()}
+          <Pencil />
+        {/snippet}
+        Tab 3
+      </TabItem>
     </TabList>
     <TabContent value="1"><button>Content 1</button></TabContent>
     <TabContent value="2">Content 2</TabContent>
     <TabContent value="3">Content 3</TabContent>
   </Tabs>
 </div>
-
-<Tabs onChange={handleTabChange} size="lg" defaultValue="3">
-  <TabList>
-    <TabItem value="1" icon={Cog}>Tab 1</TabItem>
-    <TabItem value="2" icon={House}>Tab 2</TabItem>
-    <TabItem value="3" icon={Pencil}>Tab 3</TabItem>
-  </TabList>
-  <TabContent value="1"><button>Content 1</button></TabContent>
-  <TabContent value="2">Content 2</TabContent>
-  <TabContent value="3">Content 3</TabContent>
-</Tabs>
-
 <h1 class="componentHeader">Dropdown</h1>
 <div style="display: flex; align-items: center;gap: 5rem;">
   <Select
@@ -953,6 +1041,7 @@
     bind:selected={currentDropdownPlacement}
     label="Placement"
     displayDropdownOnTop={true}
+    style="width: 200px"
   />
 
   {#each [menuData, menuData1] as menuGroups, index (menuGroups)}
@@ -962,7 +1051,7 @@
       size={index === 0 ? 'md' : 'sm'}
       onClose={() => console.log('Dropdown closed externally')}
     >
-      {#snippet buttonContent()}
+      {#snippet dropdownButtonContent()}
         {#if index === 0}
           <House />
         {:else}

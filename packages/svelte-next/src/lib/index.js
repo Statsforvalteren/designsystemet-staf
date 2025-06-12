@@ -2,7 +2,7 @@
 // @ts-nocheck
 import Button from './components/Button/Button.svelte';
 import Modal from './components/Modal/Modal.svelte';
-import Select from './components/Select/Select.svelte';
+import Select from './components/Select/SelectNew.svelte';
 import Link from './components/Link/Link.svelte';
 import { List, ListItem } from './components/List';
 import Alert from './components/Alert/Alert.svelte';

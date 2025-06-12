@@ -1,23 +1,13 @@
 <script>
   import Cross from './Cross.svelte';
 
-  
-
-  
-
-  
-
-  
-
-  //svelte-ignore export_let_unused
-  /** @type {{option: any, removeOption: Function, readOnly: boolean, deleteButtonLabel?: string, disabled: any, size?: string}} */
   let {
     option,
     removeOption,
     readOnly,
     deleteButtonLabel = 'Slett',
     disabled,
-    size = 'medium'
+    size = 'medium',
   } = $props();
 </script>
 
@@ -32,18 +22,31 @@
       readOnly ? 'read-only' : ''
     }`}
   >
-    <button
-      onclick={disabled || readOnly
-        ? null
-        : (e) => {
-            e.stopPropagation();
-            removeOption(option);
-          }}
+    <div
+      role="button"
+      tabindex={disabled || readOnly ? -1 : 0}
+      onclick={(event) => {
+        if (!disabled && !readOnly) {
+          event.stopPropagation();
+          console.log('Removing option:', option);
+          removeOption(event, option.value);
+        }
+      }}
+      onkeydown={(e) => {
+        if (disabled || readOnly) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          e.stopPropagation();
+          removeOption(e, option.value);
+        }
+      }}
       aria-label={`${deleteButtonLabel} ${option.label}`}
       class={`delete-button ${disabled ? 'disabled' : ''} ${
         readOnly ? 'read-only' : ''
-      }`}><Cross /></button
+      }`}
     >
+      <Cross />
+    </div>
   </span>
 </span>
 
@@ -115,9 +118,11 @@
 
     position: relative;
     right: -2px;
+    top: 2px;
     padding-top: 6px;
     border: none;
     margin: 0;
+    align-content: center;
 
     &.disabled {
       &:hover {

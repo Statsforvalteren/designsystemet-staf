@@ -1,11 +1,9 @@
 <script>
-  import { run } from 'svelte/legacy';
-  import { onMount, setContext } from 'svelte';
+  import { setContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
   import SelectControl from './SelectControl.svelte';
   import SelectDropdown from './SelectDropdown.svelte';
   import { ParagraphWrapper } from '$lib';
-  import { writable } from 'svelte/store';
 
   let inputId = `select-${uuidv4()}`;
 
@@ -38,13 +36,44 @@
 
   let selectClasses = $state('select');
   let inputClasses = $state('textInput');
-  let node = $state();
-  let standardizedSize = $state();
+  let node = $state(null);
   let isDropdownVisible = $state(false);
   let searchTerm = $state('');
-  let filteredOptions = $state(options);
   let internalSelected = $state(normalizeSelected(selected));
   let isUpdating = $state(false);
+
+  // Create subscribable reactive context
+  const subscribers = new Set();
+
+  const store = {
+    subscribe(run) {
+      subscribers.add(run);
+
+      // Initial run
+      run({
+        selected: internalSelected,
+        error,
+        multiple,
+      });
+
+      // Setup effect for updates
+      $effect.pre(() => {
+        const value = {
+          selected: internalSelected,
+          error,
+          multiple,
+        };
+        subscribers.forEach((subscriber) => subscriber(value));
+      });
+
+      // Return unsubscribe function
+      return () => {
+        subscribers.delete(run);
+      };
+    },
+  };
+
+  setContext('selectContext-' + inputId, store);
 
   // Update internalSelected when selected changes
   $effect(() => {
@@ -87,35 +116,21 @@
     }
   });
 
-  switch (size) {
-    case 'small':
-    case 'sm':
-      standardizedSize = 'sm';
-      break;
-    case 'medium':
-    case 'md':
-      standardizedSize = 'md';
-      break;
-    case 'large':
-    case 'lg':
-      standardizedSize = 'lg';
-      break;
-    default:
-      standardizedSize = 'md';
-      break;
-  }
-
-  const selectContext = writable({
-    selected: internalSelected,
-    error,
-    multiple,
+  let standardizedSize = $derived(() => {
+    switch (size) {
+      case 'small':
+      case 'sm':
+        return 'sm';
+      case 'medium':
+      case 'md':
+        return 'md';
+      case 'large':
+      case 'lg':
+        return 'lg';
+      default:
+        return 'md';
+    }
   });
-
-  $effect(() => {
-    selectContext.set({ selected: internalSelected, error, multiple });
-  });
-
-  setContext('selectContext-' + inputId, selectContext);
 
   function closeDropdown() {
     isDropdownVisible = false;
@@ -203,18 +218,31 @@
     }
   }
 
-  onMount(() => {
+  $effect(() => {
     document.addEventListener('click', handleOutsideClick);
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
   });
 
+  let filteredOptions = $state([]);
+
+  $effect(() => {
+    if (!searchTerm.trim()) {
+      filteredOptions = options;
+    } else {
+      const searchTermLower = searchTerm.toLowerCase();
+      filteredOptions = options.filter((option) => {
+        if (typeof option === 'object' && option !== null) {
+          return option.label.toLowerCase().includes(searchTermLower);
+        }
+        return String(option).toLowerCase().includes(searchTermLower);
+      });
+    }
+  });
+
   function handleFilterChange(newFilter) {
     searchTerm = newFilter;
-    filteredOptions = options.filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
   }
 </script>
 
@@ -224,7 +252,7 @@
       {#if readOnly}
         <span
           aria-hidden="true"
-          class={`padlock-icon icon-size--${standardizedSize}`}
+          class={`padlock-icon icon-size--${standardizedSize()}`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

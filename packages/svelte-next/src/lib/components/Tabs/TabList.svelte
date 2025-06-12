@@ -1,5 +1,4 @@
 <script>
-  /** @type {{Record<string, any>}} */
   let { children, ...rest } = $props();
 </script>
 

@@ -23,7 +23,7 @@
 
   let selected = $derived($selectContext.selected);
 
-  let isOptionSelected = $derived((option) => {
+  function isOptionSelected(option) {
     if (Array.isArray(selected)) {
       // Handling for multiple select
       return selected.some((sel) => sel.value === option.value);
@@ -31,7 +31,7 @@
       // Handling for single select
       return selected && selected.value === option.value;
     }
-  });
+  }
 </script>
 
 <div
@@ -93,15 +93,14 @@
                         stroke-linejoin="round"
                         class:checked={isSelected}
                       />
-                      {#if isSelected}
-                        <path
-                          class="checked"
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M17.7876 6.27838C18.1171 6.60788 18.1171 7.14212 17.7876 7.47162L9.99591 15.2633C9.6664 15.5928 9.13217 15.5928 8.80267 15.2633L4.67767 11.1383C4.34816 10.8088 4.34816 10.2745 4.67767 9.94505C5.00717 9.61554 5.5414 9.61554 5.87091 9.94505L9.39929 13.4734L16.5943 6.27838C16.9238 5.94887 17.4581 5.94887 17.7876 6.27838Z"
-                          fill="white"
-                        />
-                      {/if}
+                      <path
+                        class="checked"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M17.7876 6.27838C18.1171 6.60788 18.1171 7.14212 17.7876 7.47162L9.99591 15.2633C9.6664 15.5928 9.13217 15.5928 8.80267 15.2633L4.67767 11.1383C4.34816 10.8088 4.34816 10.2745 4.67767 9.94505C5.00717 9.61554 5.5414 9.61554 5.87091 9.94505L9.39929 13.4734L16.5943 6.27838C16.9238 5.94887 17.4581 5.94887 17.7876 6.27838Z"
+                        fill="white"
+                        style="opacity: {isSelected ? 1 : 0}"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -244,6 +243,44 @@
     height: 1.75rem;
     width: 1.75rem;
     overflow: visible;
+  }
+
+  .custom-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .box {
+    stroke: var(--ds-color-accent-9, #00244e);
+    fill: var(--ds-color-accent-1, #ffffff);
+    transition: all 0.2s ease;
+
+    &.checked {
+      stroke: var(--ds-color-accent-9, #00244e);
+      fill: var(--ds-color-accent-9, #00244e);
+    }
+  }
+
+  .checked {
+    transition: opacity 0.2s ease;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--ds-color-neutral-3, #e1e3e5);
+  }
+  ::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 50px;
+    background-color: var(--ds-color-neutral-4, #ced1d4);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--ds-color-neutral-5, #bdc1c6);
   }
 
   .icon-xsmall {

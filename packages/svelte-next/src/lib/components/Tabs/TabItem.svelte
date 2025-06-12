@@ -4,7 +4,6 @@
   import { ParagraphWrapper } from '../../index.js';
   import { getContext } from 'svelte';
 
-  /** @type {{value: any, icon?: ConstructorOfATypedSvelteComponent | undefined, children?: import('svelte').Snippet}} */
   let { value, icon = undefined, children } = $props();
 
   const { selectedTab, select, tabSize } = getContext('tabsStore');
@@ -50,7 +49,7 @@
       {#if icon}
         <div class="icon">
           {#key icon}
-            {icon}
+            {@render icon?.()}
           {/key}
         </div>
       {/if}
