@@ -255,7 +255,7 @@
 
 <div class="select-container" aria-label={'Select'} {...rest}>
   {#if label}
-    <div class="heading-wrapper">
+    <div class="heading-wrapper select-container-spacing">
       {#if readOnly}
         <span
           aria-hidden="true"
@@ -450,13 +450,6 @@
 </div>
 
 <style lang="scss">
-  .select-container {
-    position: relative;
-    width: 100%;
-    font-family: inherit;
-    font-size: inherit;
-  }
-
   .select-input {
     width: 100%;
     border: 1px solid var(--ds-color-accent-9);
@@ -539,10 +532,6 @@
     color: #fff;
   }
 
-  .option-label {
-    margin-left: var(--ds-spacing-2);
-  }
-
   .selected-items {
     display: flex;
     flex-wrap: wrap;
@@ -593,8 +582,9 @@
   .select-container {
     display: flex;
     flex-direction: column;
-    margin: var(--ds-spacing-1) 0;
     position: relative;
+    font-family: inherit;
+    font-size: inherit;
   }
   .select-container-spacing {
     margin-bottom: var(--ds-spacing-2);
@@ -656,9 +646,7 @@
     padding: 0.25rem 0;
     &:hover {
       cursor: pointer;
-      &.read-only {
-        cursor: not-allowed;
-      }
+      &.read-only,
       &.disabled {
         cursor: not-allowed;
       }
@@ -704,7 +692,7 @@
     font-family: inherit;
     font-size: var(--font_size);
     line-height: var(--line-height);
-    min-height: var(--field-height-inside);
+    min-height: 30px;
     outline: none;
     display: flex;
     flex-grow: 1;
@@ -784,9 +772,10 @@
     color: var(--ds-color-neutral-9, #1e2b3c);
     font-weight: 400;
     line-height: 130%;
+    margin-right: auto;
+    margin-left: var(--ds-spacing-2);
   }
 
-  .option-label,
   .option-description {
     margin-right: auto;
     margin-left: var(--ds-spacing-2);
@@ -824,24 +813,5 @@
     border: solid #ffffff;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
-  }
-
-  .textInput {
-    background: transparent;
-    border: 0;
-    box-sizing: border-box;
-    font-family: inherit;
-    font-size: var(--font_size);
-    line-height: var(--line-height);
-    min-height: var(--field-height-inside);
-    outline: none;
-    display: flex;
-    flex-grow: 1;
-    flex-shrink: 1;
-    overflow: hidden;
-    width: 100%;
-    &.no-filter {
-      cursor: pointer;
-    }
   }
 </style>
