@@ -42,7 +42,6 @@
   } = $props();
 
   let containerRef: HTMLElement | null = null;
-
   const uniqueId = `dropdownMenu-${uuidv4()}`;
   let standardizedSize = $state('md');
 
@@ -61,31 +60,58 @@
   let left = $state(0);
   let dropdown: HTMLElement | null = null;
 
+  // Listen for dropdown open events
+  $effect(() => {
+    const handleDropdownOpen = (e: CustomEvent) => {
+      if (e.detail.id !== uniqueId && menuVisible) {
+        menuVisible = false;
+        onClose();
+      }
+    };
+
+    document.addEventListener('dropdown-opened', handleDropdownOpen);
+    return () => {
+      document.removeEventListener('dropdown-opened', handleDropdownOpen);
+    };
+  });
+
   function runTrigger(e: MouseEvent) {
     e.stopPropagation();
-    console.log('runTrigger called');
     menuVisible = !menuVisible;
+
     if (menuVisible) {
+      // Dispatch a custom event when this dropdown opens
+      document.dispatchEvent(
+        new CustomEvent('dropdown-opened', {
+          detail: { id: uniqueId },
+        }),
+      );
       setPlacement();
     } else {
-      console.log('onClose called');
       onClose();
     }
   }
 
-  function onWindowClick(e: MouseEvent) {
-    console.log('onWindowClick called');
-    if (!menuVisible) return;
-    if (
-      dropdown &&
-      containerRef &&
-      !dropdown.contains(e.target as Node) &&
-      !containerRef.contains(e.target as Node)
-    ) {
+  function handleOutsideClick(event) {
+    console.log('handleOutsideClick called', dropdown?.id);
+    if (menuVisible && !event.composedPath().includes(dropdown)) {
       menuVisible = false;
-      onClose();
     }
   }
+
+  // function handleOutsideClick(e: MouseEvent) {
+  //   console.log('handleOutsideClick called132');
+  //   if (!menuVisible) return;
+  //   if (
+  //     dropdown &&
+  //     containerRef &&
+  //     !dropdown.contains(e.target as Node) &&
+  //     !containerRef.contains(e.target as Node)
+  //   ) {
+  //     menuVisible = false;
+  //     onClose();
+  //   }
+  // }
 
   function setPlacement() {
     if (containerRef && dropdown) {
@@ -146,9 +172,16 @@
       }
     }
   }
+
+  $effect(() => {
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  });
 </script>
 
-<svelte:window onclick={onWindowClick} />
+<!-- <svelte:window onclick={onWindowClick} /> -->
 {#snippet menuSnippet(d: MenuGroup[])}
   <li>
     {#each d as menuGroup, index (menuGroup)}
@@ -189,6 +222,7 @@
                     window.open(item.href, item.target);
                   }
                 }}
+                class={item?.href || item?.onClick ? '' : 'no-button'}
                 disabled={item.disabled}
               >
                 {#if item.iconComponent}
@@ -253,7 +287,7 @@
   .ds-dropdownmenu {
     position: absolute;
     padding: var(--ds-spacing-2);
-    z-index: 1500;
+    z-index: 10001;
     margin: 0;
     list-style: none;
     border-radius: var(--ds-border-radius-md);
@@ -341,5 +375,17 @@
   .check-indicator {
     margin-left: var(--ds-spacing-4, 1rem);
     flex-shrink: 0;
+  }
+  .no-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+  }
+  .no-button:hover {
+    background-color: var(--ds-color-neutral-background-hover);
   }
 </style>

@@ -218,6 +218,7 @@
     {
       heading: 'Links 456',
       items: [
+        { text: 'Erik Testesen' },
         {
           text: 'console.log onClick event',
           onClick: (e: Event) => {

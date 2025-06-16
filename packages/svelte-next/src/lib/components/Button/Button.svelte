@@ -24,6 +24,7 @@
     onclick?: (event: MouseEvent) => void;
     children: Snippet | undefined;
     icon?: Snippet;
+    class?: string;
   } & ButtonHTMLAttributes;
 
   const props = $props();
@@ -37,6 +38,7 @@
     onclick = () => {},
     children = undefined,
     icon,
+    class: cssClass = '',
     ...rest
   } = props as ButtonProps;
 
@@ -63,7 +65,7 @@
   }
 
   let computedClass = $derived(
-    `ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${
+    `ds-btn ds-focus ds-btn--${standardizedSize} ds-btn--${variant} ds-btn--${color} ${cssClass} ${
       fullWidth ? 'ds-btn--full-width' : ''
     }`,
   );
@@ -314,5 +316,47 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+  }
+
+  .ds-btn.no-button {
+    all: unset !important;
+    margin: 11px 13px !important;
+  }
+
+  /* Override all hover states for no-button */
+  .ds-btn.no-button:hover,
+  .ds-btn.no-button:active,
+  .ds-btn.no-button:focus,
+  .ds-btn--primary.no-button:hover,
+  .ds-btn--primary.no-button:active,
+  .ds-btn--secondary.no-button:hover,
+  .ds-btn--secondary.no-button:active,
+  .ds-btn--tertiary.no-button:hover,
+  .ds-btn--tertiary.no-button:active {
+    all: unset;
+    cursor: pointer;
+    display: inline;
+    color: inherit !important;
+    background: none !important;
+    border: none !important;
+  }
+
+  /* Specifically override the media query hover styles */
+  @media (hover: hover) and (pointer: fine) {
+    .ds-btn--primary.no-button:not([aria-disabled='true'], :disabled):hover,
+    .ds-btn--secondary.no-button:not([aria-disabled='true'], :disabled):hover,
+    .ds-btn--tertiary.no-button:not([aria-disabled='true'], :disabled):hover {
+      color: inherit !important;
+      background: none !important;
+      border: none !important;
+    }
+  }
+
+  .ds-btn.no-button .ds-btn-content {
+    display: inline;
+    gap: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+    width: auto;
   }
 </style>
