@@ -321,6 +321,7 @@
   .ds-btn.no-button {
     all: unset !important;
     margin: 11px 13px !important;
+    width: 90% !important;
   }
 
   /* Override all hover states for no-button */
