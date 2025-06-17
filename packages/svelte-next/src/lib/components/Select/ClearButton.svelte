@@ -8,23 +8,33 @@
     deleteButtonLabel = 'Delete',
     disabled,
     readOnly,
-    size = 'medium'
+    size = 'medium',
   } = $props();
 </script>
 
-<button
+<span
+  onkeydown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      if (!disabled) handleClick(e);
+    }
+  }}
+  role="button"
+  tabindex={disabled ? -1 : 0}
   onclick={disabled ? null : (e) => handleClick(e)}
   aria-label={deleteButtonLabel}
   class={`delete-button clear-all ${disabled ? 'disabled' : ''} ${
     readOnly ? 'read-only' : ''
   }`}
-  {disabled}><Cross /></button
+  aria-disabled={disabled}><Cross /></span
 >
 
 <style>
   .delete-button {
     --delete-cross-box-size: 25px;
     --delete-cross-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: #fff;
     background: none;
     border: none;
@@ -46,13 +56,10 @@
       color: white;
     }
 
-    &:disabled {
+    &.disabled {
       color: lightgrey;
       cursor: not-allowed;
       background-color: transparent;
-      &:disabled {
-        color: lightgrey;
-      }
     }
 
     &.read-only {

@@ -760,9 +760,6 @@
     padding: 9px 12px 9px 7.5px;
   }
 
-  .option-item:hover rect {
-    stroke: var(--ds-color-brand1-9, #4c76ba) !important;
-  }
   .option-text {
     display: flex;
     flex-direction: column;
