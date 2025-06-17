@@ -1,6 +1,5 @@
 <script>
   import { Button, Heading, Paragraph } from '$lib';
-  import { createEventDispatcher, onMount } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 
   let {
@@ -10,17 +9,16 @@
     header,
     content,
     footer,
+    close: closeCallback = () => {},
     ...rest
   } = $props();
-
-  const dispatch = createEventDispatcher();
 
   let closeButtonRef = $state();
   let componentId = uuidv4();
 
   function close(event) {
     onClose(event);
-    dispatch('close');
+    closeCallback(event);
   }
 
   function handleClick(event) {
@@ -43,9 +41,10 @@
     }
   }
 
-  onMount(() => {
+  $effect(() => {
     window.addEventListener('click', handleClick);
     window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       window.removeEventListener('click', handleClick);
       window.removeEventListener('keydown', handleKeyDown);

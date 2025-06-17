@@ -93,25 +93,10 @@
   }
 
   function handleOutsideClick(event) {
-    console.log('handleOutsideClick called', dropdown?.id);
     if (menuVisible && !event.composedPath().includes(dropdown)) {
       menuVisible = false;
     }
   }
-
-  // function handleOutsideClick(e: MouseEvent) {
-  //   console.log('handleOutsideClick called132');
-  //   if (!menuVisible) return;
-  //   if (
-  //     dropdown &&
-  //     containerRef &&
-  //     !dropdown.contains(e.target as Node) &&
-  //     !containerRef.contains(e.target as Node)
-  //   ) {
-  //     menuVisible = false;
-  //     onClose();
-  //   }
-  // }
 
   function setPlacement() {
     if (containerRef && dropdown) {

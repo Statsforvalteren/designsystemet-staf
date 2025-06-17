@@ -1,8 +1,4 @@
 <script>
-  import { run } from 'svelte/legacy';
-
-  import { onMount } from 'svelte';
-
   let {
     onClick = () => {},
     tableData = [],
@@ -13,10 +9,7 @@
     ...rest
   } = $props();
 
-  let sortDirection;
-  run(() => {
-    sortDirection = undefined;
-  });
+  let sortDirection = $state(undefined);
   let sort = $derived(
     sortFieldName
       ? currentSortField === sortFieldName
@@ -60,7 +53,7 @@
     });
   }
 
-  onMount(() => {
+  $effect(() => {
     updateSortedData();
   });
 </script>
