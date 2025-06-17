@@ -1,13 +1,12 @@
-<script>
+<script lang="ts">
   import { ErrorMessage, Paragraph, ParagraphWrapper } from '../../../index.js';
   import { v4 as uuidv4 } from 'uuid';
   import CharacterCounter from '../CharacterCounter.svelte';
 
-  /** @type {{Record<string, any>}} */
   let {
     label = '',
     description = '',
-    size = 'medium',
+    size = 'medium' as 'small' | 'sm' | 'medium' | 'md' | 'large' | 'lg',
     hideLabel = false,
     readOnly = false,
     value = $bindable(),
