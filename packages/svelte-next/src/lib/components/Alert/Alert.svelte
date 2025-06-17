@@ -1,14 +1,6 @@
 <script>
   import { Paragraph } from '../../index.js';
 
-  
-
-  
-
-  
-
-  
-  /** @type {{Record<string, any>}} */
   let {
     severity = 'info',
     elevated = false,
