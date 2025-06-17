@@ -3,8 +3,6 @@
   import { getContext } from 'svelte';
   import { ParagraphWrapper } from '../../index.js';
 
-  
-  /** @type {{Record<string, any>}} */
   let { value, children, ...rest } = $props();
 
   const { selectedTab, tabSize } = getContext('tabsStore');
@@ -32,10 +30,7 @@
 
 {#if $selectedTab === value}
   <ParagraphWrapper size={$tabSize}>
-    <div
-      class={`ds-tabs__content .ds-tabs--${standardizedSize}`}
-      {...rest}
-    >
+    <div class={`ds-tabs__content .ds-tabs--${standardizedSize}`} {...rest}>
       {@render children?.()}
     </div>
   </ParagraphWrapper>

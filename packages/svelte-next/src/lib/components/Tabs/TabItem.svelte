@@ -1,37 +1,27 @@
 <script>
-  import { run } from 'svelte/legacy';
-
   import { ParagraphWrapper } from '../../index.js';
   import { getContext } from 'svelte';
 
   let { value, icon = undefined, children } = $props();
 
   const { selectedTab, select, tabSize } = getContext('tabsStore');
-  let isSelected = $state();
-  let standardizedSize = $state();
 
-  switch ($tabSize) {
-    case 'small':
-    case 'sm':
-      standardizedSize = 'sm';
-      break;
-    case 'medium':
-    case 'md':
-      standardizedSize = 'md';
-      break;
-    case 'large':
-    case 'lg':
-      standardizedSize = 'lg';
-      break;
-    default:
-      standardizedSize = 'md';
-      break;
-  }
-
-  // Abonner på selectedTab store
-  run(() => {
-    isSelected = $selectedTab && $selectedTab === value;
+  let standardizedSize = $derived(() => {
+    switch ($tabSize) {
+      case 'small':
+      case 'sm':
+        return 'sm';
+      case 'large':
+      case 'lg':
+        return 'lg';
+      case 'medium':
+      case 'md':
+      default:
+        return 'md';
+    }
   });
+
+  let isSelected = $derived($selectedTab && $selectedTab === value);
 
   function handleClick() {
     select(value);
