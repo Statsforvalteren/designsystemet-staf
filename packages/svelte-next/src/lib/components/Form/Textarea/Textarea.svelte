@@ -15,7 +15,6 @@
     characterLimitLabel = null,
     onInput = () => {},
     class_ = '',
-    oninput,
     ...rest
   } = $props();
 
@@ -106,8 +105,6 @@
     <textarea
       bind:value
       oninput={(event) => {
-        oninput?.(event);
-
         onInput?.(event);
       }}
       readonly={readOnly}
