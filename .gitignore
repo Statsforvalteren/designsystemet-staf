@@ -38,3 +38,4 @@ coverage/
 # Typescript
 next-env.d.ts
 docs
+.vscode/launch.json

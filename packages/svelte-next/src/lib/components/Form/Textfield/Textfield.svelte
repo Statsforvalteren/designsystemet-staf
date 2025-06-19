@@ -3,23 +3,23 @@
   import { v4 as uuidv4 } from 'uuid';
   import CharacterCounter from '../CharacterCounter.svelte';
 
-  type textFieldType = {
-    label?: string;
-    description?: string;
-    size?: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg';
-    type?: 'text' | 'email' | 'password' | 'number';
-    hideLabel?: boolean;
-    readOnly?: boolean;
-    value?: string;
-    error?: string;
-    prefix?: string;
-    suffix?: string;
-    characterLimit?: number | null;
-    characterLimitLabel?: (count: number) => string | null;
-    onInput?: (event: Event) => void;
-    class_?: string;
-    oninput?: (event: Event) => void;
-  };
+  // type textFieldType = {
+  //   label?: string;
+  //   description?: string;
+  //   size?: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg';
+  //   type?: 'text' | 'email' | 'password' | 'number';
+  //   hideLabel?: boolean;
+  //   readOnly?: boolean;
+  //   value?: string;
+  //   error?: string;
+  //   prefix?: string;
+  //   suffix?: string;
+  //   characterLimit?: number | null;
+  //   characterLimitLabel?: (count: number) => string | null;
+  //   onInput?: (event: Event) => void;
+  //   class_?: string;
+  //   oninput?: (event: Event) => void;
+  // };
 
   let {
     label = '',
@@ -33,17 +33,25 @@
     prefix = '',
     suffix = '',
     characterLimit = null,
-    characterLimitLabel = (count) =>
+    characterLimitLabel = (count: number) =>
       count > -1 ? `${count} tegn igjen` : `${Math.abs(count)} tegn for mye`,
     onInput = () => {},
     class_ = '',
-    oninput,
     ...rest
-  }: textFieldType = $props();
+  } = $props();
 
   let componentId = uuidv4();
   let standardizedSize = $state();
   let fontSizeClass = $state();
+  let paragraphSize: 'medium' | 'small' | 'large' = $derived(
+    size === 'medium'
+      ? 'medium'
+      : size === 'small' || size === 'sm'
+        ? 'small'
+        : size === 'large' || size === 'lg'
+          ? 'large'
+          : 'medium',
+  );
 
   switch (size) {
     case 'small':
@@ -95,7 +103,7 @@
   );
 </script>
 
-<ParagraphWrapper {size}>
+<ParagraphWrapper size={paragraphSize}>
   <div class={formFieldClasses}>
     {#if label}
       <label for={`input-field-${componentId}`} class={labelClasses}>
@@ -126,7 +134,7 @@
       </label>
     {/if}
     {#if description}
-      <Paragraph {size}>
+      <Paragraph size={paragraphSize}>
         <span id="description" class={descriptionClasses}>
           {description}
         </span>
@@ -144,8 +152,6 @@
       <input
         bind:value
         oninput={(event) => {
-          oninput?.(event);
-
           onInput?.(event);
         }}
         class={inputClasses}
@@ -167,9 +173,9 @@
     {#if characterLimit != null && characterLimit > 0}
       <CharacterCounter
         maxCount={characterLimit}
-        {value}
+        value={value || ''}
         id={`character-counter-${componentId}`}
-        {size}
+        size={paragraphSize}
         label={(count) => characterLimitLabel(count) || `${count} tegn igjen`}
       />
     {/if}
@@ -180,7 +186,7 @@
         aria-relevant="additions removals"
         id={`error-message-${componentId}`}
       >
-        <ErrorMessage {size}>{error}</ErrorMessage>
+        <ErrorMessage size={paragraphSize}>{error}</ErrorMessage>
       </div>
     {/if}
   </div>

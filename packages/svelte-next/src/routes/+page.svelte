@@ -1,7 +1,4 @@
 <script lang="ts">
-  import { run } from 'svelte/legacy';
-
-  // @ts-nocheck
   import {
     Alert,
     Button,
@@ -39,12 +36,12 @@
     TableRow,
   } from '$lib';
 
-  import { Files, Pencil } from '../lib/components/Dropdown/index.js';
-  import { House, Cog } from '../lib/components/Tabs/index.js';
+  import { Files, Pencil } from '$lib/components/Dropdown/index.js';
+  import { House, Cog } from '$lib/components/Tabs/index.js';
   import { type MenuGroup } from '$lib/components/Dropdown/DropdownMenu.svelte';
 
-  function handleTabChange(value) {
-    // console.log('Tab changed:', value);
+  function handleTabChange(value: string) {
+    console.log('Tab changed:', value);
   }
 
   let isModalOpen = $state(false);
@@ -53,7 +50,7 @@
   let showTextfieldError = $state(false);
   let showSearchError = $state(false);
 
-  function openModal(event) {
+  function openModal(event: MouseEvent) {
     event.stopPropagation();
     isModalOpen = true;
   }
@@ -68,15 +65,15 @@
 
   let textareaValue = $state('');
 
-  function handleSwitchClickEvent(event) {
+  function handleSwitchClickEvent(event: MouseEvent) {
     console.log('switch clicked', event);
   }
 
-  function handleSwitchChangeEvent(event) {
-    console.log('switch change', event.detail);
+  function handleSwitchChangeEvent(event: CustomEvent<boolean>) {
+    console.log('switch change', event);
   }
 
-  let selectedValue = $state();
+  let selectedValue = $state('');
   let selectedValues = $state([]);
   let selectedValuesNew = $state([]);
   let selectedCheckValue = $state(false);
@@ -150,28 +147,34 @@
     },
   ]);
 
-  let unSelected = $state(null);
-  let unSelectedFilter = $state(null);
-  let unSelectedDesc = $state(null);
-  let unSelectedError = $state(null);
-  let unSelectedWithDesc = $state(null);
+  type SelectOption = {
+    label: string;
+    value: string;
+    description?: string;
+  };
+
+  let unSelected = $state<SelectOption[]>([]);
+  let unSelectedFilter = $state<SelectOption[]>([]);
+  let unSelectedDesc = $state<SelectOption[]>([]);
+  let unSelectedError = $state<SelectOption[]>([]);
+  let unSelectedWithDesc = $state<SelectOption[]>([]);
 
   let singlePreSelected = $state([options[2]]);
   let singleNewPreSelected = $state([options[2]]);
   let singleUnSelectedDesc = $state(null);
   let singleUnSelectedFilter = $state(null);
 
-  let multiUnselected = $state([]);
+  let multiUnselected = $state<SelectOption[]>([]);
 
   let multiPreselected = $state([options[0], options[2]]);
 
   function changeSelected() {
-    unSelected = options[1];
+    unSelected = [options[1]];
   }
 
   $effect(() => {
     // Update other select states based on unSelected if needed
-    if (unSelected && unSelected.value) {
+    if (unSelected && unSelected[0]?.value) {
       $inspect('Selected value changed:', unSelected);
     }
     if (multiUnselected && multiUnselected.length > 0) {
@@ -265,23 +268,63 @@
     { label: 'left-end', value: 'left-end' },
   ]);
 
-  let currentDropdownPlacement = $state({
-    label: 'bottom-start',
-    value: 'bottom-start',
-  });
+  let currentDropdownPlacement = $state<SelectOption[]>([
+    {
+      label: 'bottom-start',
+      value: 'bottom-start',
+    },
+  ]);
 
-  let menuVisible = $state(false);
-  let dropdownButtons = $state([]);
+  // let menuVisible = $state(false);
+  // let dropdownButtons = $state([]);
 
-  function handleDropdownClosing(value) {
-    menuVisible = false;
-    console.log('DropdownClosing', value);
-  }
+  // function handleDropdownClosing(value) {
+  //   menuVisible = false;
+  //   console.log('DropdownClosing', value);
+  // }
 
-  let sortedData = $state([]);
+  const dummyData = [
+    {
+      id: 1,
+      navn: 'Lise Nordmann',
+      epost: 'lise@nordmann.no',
+      telefon: 22345678,
+    },
+    {
+      id: 2,
+      navn: 'Kari Nordmann',
+      epost: 'kari@nordmann.no',
+      telefon: 87654321,
+    },
+    {
+      id: 3,
+      navn: 'Ola Nordmann',
+      epost: 'ola@nordmann.no',
+      telefon: 32345678,
+    },
+    {
+      id: 4,
+      navn: 'Per Nordmann',
+      epost: 'per@nordmann.no',
+      telefon: 12345678,
+    },
+    {
+      id: 5,
+      navn: 'Julie Nordmann',
+      epost: 'julie@nordmann.no',
+      telefon: 14646478,
+    },
+    {
+      id: 6,
+      navn: 'Roger Nordmann',
+      epost: 'roger@nordmann.no',
+      telefon: 66645678,
+    },
+  ];
+
+  let sortedData = $state(dummyData);
   let currentSortField = $state(undefined);
 
-  let bergljotSortedData = $state([]);
   const bergljot = [
     {
       id: '4FWlFAdynkSIY-J315hG7N-d8Fco_qtGkbla02DuzXQ',
@@ -325,44 +368,7 @@
     },
   ];
 
-  const dummyData = [
-    {
-      id: 1,
-      navn: 'Lise Nordmann',
-      epost: 'lise@nordmann.no',
-      telefon: 22345678,
-    },
-    {
-      id: 2,
-      navn: 'Kari Nordmann',
-      epost: 'kari@nordmann.no',
-      telefon: 87654321,
-    },
-    {
-      id: 3,
-      navn: 'Ola Nordmann',
-      epost: 'ola@nordmann.no',
-      telefon: 32345678,
-    },
-    {
-      id: 4,
-      navn: 'Per Nordmann',
-      epost: 'per@nordmann.no',
-      telefon: 12345678,
-    },
-    {
-      id: 5,
-      navn: 'Julie Nordmann',
-      epost: 'julie@nordmann.no',
-      telefon: 14646478,
-    },
-    {
-      id: 6,
-      navn: 'Roger Nordmann',
-      epost: 'roger@nordmann.no',
-      telefon: 66645678,
-    },
-  ];
+  let bergljotSortedData = $state(bergljot);
 </script>
 
 <h1>Test components here!</h1>
@@ -370,8 +376,8 @@
 <h1 class="componentHeader">SWITCH</h1>
 <br />
 <Switch
-  on:click={handleSwitchClickEvent}
-  on:change={handleSwitchChangeEvent}
+  onClick={handleSwitchClickEvent}
+  onChange={handleSwitchChangeEvent}
   id="switch"
   bind:checked={isSwitchChecked}>Switch</Switch
 >
@@ -431,7 +437,7 @@
   size="md"
   characterLimit={10}
   style="width: 50%"
-  characterLimitLabel={(count) =>
+  characterLimitLabel={(count: number) =>
     count > -1
       ? `Du har ${count} tegn igjen.`
       : `Du har ${Math.abs(count)} tegn for mye.`}
@@ -459,7 +465,7 @@
   style="width: 50%"
   hideLabel={false}
   characterLimit={10}
-  characterLimitLabel={(count) =>
+  characterLimitLabel={(count: number) =>
     count > -1
       ? `Du har ${count} tegn igjen.`
       : `Du har ${Math.abs(count)} tegn for mye.`}
@@ -475,7 +481,7 @@
   size="large"
   characterLimit={10}
   placeholder="Søk"
-  characterLimitLabel={(count) =>
+  characterLimitLabel={(count: number) =>
     count > -1
       ? `Du har ${count} tegn igjen.`
       : `Du har ${Math.abs(count)} tegn for mye.`}
@@ -489,7 +495,7 @@
   characterLimit={10}
   placeholder="Annen placeholder"
   variant="primary"
-  characterLimitLabel={(count) =>
+  characterLimitLabel={(count: number) =>
     count > -1
       ? `Du har ${count} tegn igjen.`
       : `Du har ${Math.abs(count)} tegn for mye.`}
@@ -505,7 +511,7 @@
 <Link
   href="/"
   color="neutral"
-  onclick={(e) => {
+  onclick={(e: MouseEvent) => {
     e.preventDefault();
     alert('Link clicked!');
   }}
@@ -673,8 +679,21 @@
         <Button onclick={() => (isModal2Open = true)}>Open Modal 2</Button>
         {#if isModal2Open}
           <Modal onClose={() => (isModal2Open = false)}>
+            {#snippet header()}
+              <div>Modal 2 header</div>
+            {/snippet}
             {#snippet content()}
-              <p slot="content">More Text</p>
+              <p>Some text in modal 2</p>
+            {/snippet}
+            {#snippet footer()}
+              <div slot="footer" style="display: flex; gap: 0.5rem">
+                <Button
+                  variant="primary"
+                  onclick={() => (isModal2Open = false)}
+                >
+                  Close Modal 2
+                </Button>
+              </div>
             {/snippet}
           </Modal>
         {/if}
@@ -818,65 +837,16 @@
 
 <h1 class="componentHeader">SELECT</h1>
 
-<!-- <div class="selectForm">
-  <p>Valgte verdi: {singleUnSelectedFilter?.[0]?.label}</p>
-  <SelectNew
-    {options}
-    bind:selected={singleUnSelectedFilter}
-    label="Single, has filter"
-    placeholder="Søk / velg verdi"
-    hasFilter
-  />
-
-  <p style={'margin-top: 2rem; margin-bottom: 1rem'}>
-    Valgte verdi: {singleNewPreSelected[0]?.label}
-  </p>
-
-  <SelectNew
-    {options}
-    bind:selected={singleNewPreSelected}
-    label="Single, preselected"
-  />
-
-  <p style={'margin-top: 2rem; margin-bottom: 1rem'}>
-    Valgte verdi: {singleUnSelectedDesc?.[0]?.label ?? 'Ingen valgt'}
-  </p>
-
-  <SelectNew
-    {options}
-    bind:selected={singleUnSelectedDesc}
-    placeholder="Placeholder text"
-    label="Single w/ placeholder & description"
-    description="Dette er en beskrivelse"
-  />
-
-  <SelectNew
-    {options}
-    label="Select multiple options"
-    multiple={true}
-    bind:selected={selectedValuesNew}
-    style={'margin-top: 2rem;'}
-  />
-
-  <p style={'margin-top: 2rem; margin-bottom: 1rem'}>
-    Valgte verdier: {selectedValuesNew.map((item) => item.label).join(', ')}
-  </p>
-  <SelectNew
-    {options}
-    label="Select multiple options readonly, hide selected"
-    placeholder="Søk / velg verdi"
-    hasFilter={true}
-    multiple={true}
-    hideSelected
-    bind:selected={selectedValuesNew}
-    style={'margin-top: 0;'}
-  />
-</div> -->
-
 <Button onclick={changeSelected}>Change selected</Button><br />
 <Button onclick={() => console.log('unSelected', unSelected)}>LogValue</Button>
 <br />
 <div class="selectForm">
+  <Select
+    bind:selected={unSelected}
+    label="Single, no options available"
+    size="large"
+    style="margin-bottom: 1.5rem;"
+  />
   <Select
     {options}
     bind:selected={unSelected}
@@ -885,11 +855,13 @@
     size="large"
     emptyOptionsPlaceholder="No options available"
     dropdownGap={10}
+    style="margin-bottom: 1.5rem;"
   />
   <Select
     {options}
     bind:selected={singlePreSelected}
     label="Single, preselected"
+    style="margin-bottom: 1.5rem;"
   />
 
   <Select
@@ -897,6 +869,7 @@
     bind:selected={unSelectedFilter}
     label="Single, has filter"
     hasFilter
+    style="margin-bottom: 1.5rem;"
   />
 
   <Select
@@ -905,19 +878,23 @@
     placeholder="Placeholder text"
     label="Single w/ placeholder & description"
     description="Dette er en beskrivelse"
+    style="margin-bottom: 1.5rem;"
   />
 
   <Select
     {options}
     bind:selected={unSelectedError}
     error="Error message"
+    placeholder="Placeholder text"
     label="Single, unselected, w/ error"
+    style="margin-bottom: 1.5rem;"
   />
 
   <Select
     options={optionsWithDescriptions}
     bind:selected={unSelectedWithDesc}
     label="Single, unselected, w/ option descriptions"
+    style="margin-bottom: 1.5rem;"
   />
 
   <Select
@@ -926,6 +903,7 @@
     label="Single, preselected, readonly"
     readOnly
     size="large"
+    style="margin-bottom: 1.5rem;"
   />
 </div>
 <br />
@@ -938,6 +916,7 @@
     bind:selected={multiUnselected}
     multiple
     label="Multi, unselected"
+    style="margin-bottom: 1.5rem;"
   />
 
   <Select
@@ -946,6 +925,7 @@
     multiple
     hasFilter
     label="Multi, has filter"
+    style="margin-bottom: 1.5rem;"
   />
 
   <Select
@@ -953,6 +933,7 @@
     bind:selected={multiPreselected}
     multiple
     label="Multi, preselected"
+    style="margin-bottom: 1.5rem;"
   />
 
   <Select
@@ -961,6 +942,7 @@
     disabled
     multiple
     label="Multi, preselected, disabled"
+    style="margin-bottom: 1.5rem;"
   />
 
   <Select
@@ -971,6 +953,9 @@
     size="lg"
     label="Multi, preselected, readonly"
   />
+
+  <br />
+  <p>Valgte verdier: {multiUnselected.map((item) => item.label).join(', ')}</p>
 
   <Select
     options={optionsWithDescriptions}
@@ -1041,14 +1026,13 @@
     options={dropdownPlacements}
     bind:selected={currentDropdownPlacement}
     label="Placement"
-    displayDropdownOnTop={true}
     style="width: 200px"
   />
 
   {#each [menuData, menuData1] as menuGroups, index (menuGroups)}
     <DropdownMenu
       {menuGroups}
-      placement={currentDropdownPlacement.value}
+      placement={currentDropdownPlacement[0]?.value}
       size={index === 0 ? 'md' : 'sm'}
       onClose={() => console.log('Dropdown closed externally')}
     >

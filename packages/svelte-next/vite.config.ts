@@ -8,7 +8,7 @@ export default defineConfig({
   },
   server: {
     fs: {
-      allow: ['/packages/svelte/**'],
+      allow: ['/packages/svelte-next/**'],
     },
   },
 });

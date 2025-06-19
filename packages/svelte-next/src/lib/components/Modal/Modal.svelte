@@ -1,36 +1,40 @@
-<script>
+<script lang="ts">
   import { Button, Heading, Paragraph } from '$lib';
   import { v4 as uuidv4 } from 'uuid';
 
   let {
     subtitle = '',
     closeButton = true,
-    onClose = (e) => {},
-    header,
+    onClose = () => {},
+    header = () => '',
     content,
-    footer,
+    footer = () => '',
     close: closeCallback = () => {},
     ...rest
   } = $props();
 
-  let closeButtonRef = $state();
+  let closeButtonRef = $state<HTMLButtonElement | null>(null);
   let componentId = uuidv4();
 
-  function close(event) {
+  function close(event: MouseEvent | KeyboardEvent) {
     onClose(event);
     closeCallback(event);
   }
 
-  function handleClick(event) {
+  function handleClick(event: MouseEvent) {
     const modal = document.querySelector(`modal-${componentId}`);
-    const textSelected = window.getSelection().toString().length !== 0;
+    const textSelected = window.getSelection()?.toString().length !== 0;
 
-    if (modal && !modal.contains(event.target) && !textSelected) {
+    if (
+      modal &&
+      !modal.contains(event.target as HTMLElement) &&
+      !textSelected
+    ) {
       close(event);
     }
   }
 
-  function handleKeyDown(event) {
+  function handleKeyDown(event: KeyboardEvent) {
     if (
       event.key === 'Escape' ||
       event.key === 'Esc' ||
@@ -54,7 +58,7 @@
 
 <div class="modal-background">
   <div id={`modal-${componentId}`} class="ds-modal" {...rest}>
-    <a href="/" onfocus={() => closeButtonRef.focus()} aria-label="Close modal"
+    <a href="/" onfocus={() => closeButtonRef?.focus()} aria-label="Close modal"
       ><div></div></a
     >
     <div
@@ -73,7 +77,7 @@
             color="neutral"
             size="md"
             onclick={close}
-            bind:this={closeButtonRef}
+            ref={closeButtonRef}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +103,7 @@
     <div class="ds-modal__footer">
       {@render footer?.()}
     </div>
-    <a href="/" onfocus={() => closeButtonRef.focus()} aria-label="Close modal"
+    <a href="/" onfocus={() => closeButtonRef?.focus()} aria-label="Close modal"
       ><div></div></a
     >
   </div>

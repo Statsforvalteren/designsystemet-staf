@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ParagraphWrapper } from '$lib/index.js';
-  import type { HTMLObjectAttributes } from 'svelte/elements';
+  import type { HTMLAttributes } from 'svelte/elements';
   import Chevron from './Chevron.svelte';
   import ClearButton from './ClearButton.svelte';
   import MultiSelectOption from './MultiSelectOption.svelte';
@@ -13,7 +13,7 @@
   };
 
   type SelectProps = {
-    options: Array<optionsType>;
+    options?: Array<optionsType>;
     multiple?: boolean;
     placeholder?: string;
     selected?: Array<optionsType>;
@@ -24,8 +24,12 @@
     hideSelected?: boolean;
     searchLabel?: string;
     description?: string;
+    error?: string;
     size?: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg';
-  } & HTMLObjectAttributes;
+    emptyOptionsPlaceholder?: string;
+    dropdownGap?: number;
+    maxDropdownHeight?: number;
+  } & HTMLAttributes<HTMLDivElement>;
 
   let selectContainerId = `select-${uuidv4()}`;
   let inputId = `select-input-${uuidv4()}`;
@@ -43,8 +47,12 @@
     hasFilter = false,
     searchLabel = 'Søk',
     description = '',
+    error = '',
     size = 'medium',
     hideSelected = false,
+    emptyOptionsPlaceholder = 'Ingen alternativer tilgjengelige',
+    dropdownGap = 0,
+    maxDropdownHeight = 300,
     ...rest
   }: SelectProps = $props();
 
@@ -208,9 +216,9 @@
     }
   }
 
-  let debounceTimer;
-  function updateInputValue(event) {
-    const value = event.target.value;
+  let debounceTimer: NodeJS.Timeout;
+  function updateInputValue(event: Event) {
+    const value = (event.target as HTMLInputElement)?.value || '';
     isFiltering = true;
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
@@ -223,7 +231,7 @@
     isFiltering = false;
   }
 
-  let filteredOptions = $state([]);
+  let filteredOptions = $state<optionsType[]>([]);
 
   $effect(() => {
     if (!searchTerm.trim()) {
@@ -239,7 +247,7 @@
     }
   });
 
-  function handleFilterChange(newFilter) {
+  function handleFilterChange(newFilter: string) {
     console.log('Filter changed:', newFilter);
     searchTerm = newFilter;
   }
@@ -310,7 +318,9 @@
     <button
       id={selectContainerId}
       type="button"
-      class="field {readOnly ? 'read-only' : ''}"
+      class="field {readOnly ? 'read-only' : ''} {error
+        ? 'error'
+        : ''} {disabled ? 'disabled' : ''}"
       onclick={readOnly || disabled ? undefined : toggleDropdown}
       onkeydown={readOnly || disabled ? undefined : toggleDropdown}
       role="combobox"
@@ -326,7 +336,7 @@
                 {#if multiple}
                   <MultiSelectOption
                     option={item}
-                    removeOption={(e) => removeSelected(e, item.value)}
+                    removeOption={(e: Event) => removeSelected(e, item.value)}
                     {readOnly}
                     {disabled}
                     {size}
@@ -399,7 +409,15 @@
         role="listbox"
         id="select-options"
         aria-multiselectable={multiple}
+        style={`margin-top: ${dropdownGap}px; max-height: ${maxDropdownHeight}px;`}
       >
+        {#if filteredOptions.length === 0}
+          <li class="option-item-no-hover" role="option" aria-selected="false">
+            <div class="option-content">
+              <div class="option-label">{emptyOptionsPlaceholder}</div>
+            </div>
+          </li>
+        {/if}
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         {#each filteredOptions as option (option.value)}
           {#if !(hideSelected && isOptionSelected(option))}
@@ -447,6 +465,9 @@
       </div>
     {/if}
   </div>
+  {#if error}
+    <div class="error-message">{error}</div>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -591,6 +612,7 @@
   }
   .error-message {
     color: var(--ds-color-danger-text-subtle, #c22020);
+    margin-top: 0.5rem;
   }
   .select-label {
     font-weight: 500;

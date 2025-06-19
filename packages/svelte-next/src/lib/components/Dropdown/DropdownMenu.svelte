@@ -32,11 +32,11 @@
     headingLevel = 2,
   }: {
     dropdownButtonContent: Snippet;
-    buttonVariant: 'primary' | 'secondary' | 'tertiary';
+    buttonVariant?: 'primary' | 'secondary' | 'tertiary';
     menuGroups: MenuGroup[];
     placement: string;
     size: string;
-    gap: number;
+    gap?: number;
     onClose: () => void;
     headingLevel?: 1 | 2 | 3 | 4;
   } = $props();

@@ -1,35 +1,27 @@
-<script>
+<script lang="ts">
   import { ParagraphWrapper } from '../../../index.js';
-  import { createEventDispatcher } from 'svelte';
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  /** @type {{value?: string, position?: 'left' | 'right', disabled?: boolean, readOnly?: boolean, description?: string, size?: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg', id?: string, checked?: boolean, class_?: string}} */
-  let { children,
+  let {
+    children,
     value = '',
     position = 'left',
     disabled = false,
     readOnly = false,
     description = '',
-    size = 'medium',
+    size = 'medium' as
+      | 'small'
+      | 'medium'
+      | 'large'
+      | 'sm'
+      | 'md'
+      | 'lg'
+      | 'xsmall'
+      | 'xs',
     id = '',
     checked = $bindable(false),
-    class_ = ''
+    class_ = '',
+    onClick = () => {},
+    onChange = () => {},
   } = $props();
 
   let standardizedSize = $state();
@@ -52,30 +44,32 @@
       break;
   }
 
-  const dispatch = createEventDispatcher();
-
-  function handleInputClick(event) {
+  function handleInputClick(event: MouseEvent) {
     if (readOnly) {
       event.preventDefault();
       return;
     }
-    dispatch('click', event);
+    onClick(event);
   }
 
-  function handleInputChange(event) {
+  function handleInputChange(event: Event) {
     if (readOnly) {
       event.preventDefault();
       return;
     }
-    dispatch('change', { checked: event.target.checked });
+    onChange({ checked: (event.target as HTMLInputElement).checked });
   }
 
-  let computedClass = $derived(`ds-switch ds-switch--${standardizedSize} ${
-    disabled ? 'ds-switch--disabled' : ''
-  } ${readOnly ? 'ds-switch--readonly' : ''} ${class_ || ''}`);
-  let labelClass = $derived(`ds-switch__label ds-label ds-label--${standardizedSize} ds-label--regular-weight ${
-    position === 'right' ? 'ds-switch__label--right' : ''
-  }`);
+  let computedClass = $derived(
+    `ds-switch ds-switch--${standardizedSize} ${
+      disabled ? 'ds-switch--disabled' : ''
+    } ${readOnly ? 'ds-switch--readonly' : ''} ${class_ || ''}`,
+  );
+  let labelClass = $derived(
+    `ds-switch__label ds-label ds-label--${standardizedSize} ds-label--regular-weight ${
+      position === 'right' ? 'ds-switch__label--right' : ''
+    }`,
+  );
   let descriptionClass = $derived(`ds-switch__description`);
 </script>
 
