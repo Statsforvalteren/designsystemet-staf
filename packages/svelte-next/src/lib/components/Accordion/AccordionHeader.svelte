@@ -106,7 +106,7 @@
     cursor: pointer;
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     gap: var(--ds-spacing-2);
     margin: 0;
