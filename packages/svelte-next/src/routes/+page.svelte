@@ -745,7 +745,7 @@
   legend="RadioGroup legend"
   description="RadioGroup description"
   size="lg"
-  defaultValue={true ? 'option1' : 'option2'}
+  defaultValue={'option1'}
   readOnly={isReadOnly}
   disabled={isDisabled}
   error={showError ? 'Lorem ipsum error.' : ''}

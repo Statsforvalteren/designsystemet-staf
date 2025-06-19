@@ -6,7 +6,7 @@
   const { Story } = defineMeta({
     title: 'Komponenter/Radio',
     component: Radio,
-    // @ts-ignore Type error because subcomponents need to be isomorphic to main component.
+    // @ts-expect-error Type error because subcomponents need to be isomorphic to main component.
     subcomponents: { RadioGroup },
     render: template,
   });

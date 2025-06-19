@@ -1,5 +1,4 @@
 // Reexport your entry components here
-// @ts-nocheck
 import Button from './components/Button/Button.svelte';
 import Modal from './components/Modal/Modal.svelte';
 import Select from './components/Select/SelectNew.svelte';

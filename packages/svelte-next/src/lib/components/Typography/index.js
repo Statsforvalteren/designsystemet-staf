@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Paragraph from './Paragraph/Paragraph.svelte';
 import ParagraphWrapper from './Paragraph/ParagraphWrapper.svelte';
 import Heading from './Heading/Heading.svelte';

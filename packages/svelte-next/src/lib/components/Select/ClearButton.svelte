@@ -1,7 +1,6 @@
 <script>
   import Cross from './Cross.svelte';
 
-  //svelte-ignore export_let_unused
   /** @type {{handleClick: any, deleteButtonLabel?: string, disabled: any, readOnly: any, size?: string}} */
   let {
     handleClick,

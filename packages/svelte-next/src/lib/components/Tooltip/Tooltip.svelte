@@ -1,5 +1,4 @@
 <script>
-  //svelte-ignore export_let_unused
   import { offset, flip, shift } from 'svelte-floating-ui/dom';
   import { arrow, createFloatingActions } from 'svelte-floating-ui';
   import { writable } from 'svelte/store';

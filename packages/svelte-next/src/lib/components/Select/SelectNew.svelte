@@ -216,7 +216,7 @@
     }
   }
 
-  let debounceTimer: NodeJS.Timeout;
+  let debounceTimer: ReturnType<typeof setTimeout>;
   function updateInputValue(event: Event) {
     const value = (event.target as HTMLInputElement)?.value || '';
     isFiltering = true;

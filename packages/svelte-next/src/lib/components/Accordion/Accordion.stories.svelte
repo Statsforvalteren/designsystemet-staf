@@ -9,7 +9,7 @@
   const { Story } = defineMeta({
     title: 'Komponenter/Accordion',
     component: Accordion,
-    // @ts-ignore Type error because subcomponents need to be isomorphic to main component.
+    // @ts-expect-error Type error because subcomponents need to be isomorphic to main component.
     subcomponents: { AccordionContent, AccordionItem, AccordionHeader },
     render: template,
   });
