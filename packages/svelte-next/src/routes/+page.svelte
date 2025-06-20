@@ -1049,7 +1049,7 @@
 </div>
 
 <h1 class="componentHeader">Tooltip</h1>
-<Tooltip content="Tooltip text" placement="top-end" showArrow={true}>
+<Tooltip placement="top-end" showArrow={true}>
   {#snippet anchor()}
     <Button>Hover me to display a Tooltip (top-end)</Button>
   {/snippet}
@@ -1057,12 +1057,12 @@
     <span>Tooltip text</span>
   {/snippet}
 </Tooltip>
-<Tooltip content="Tooltip text" placement="top" showArrow={true}>
+<Tooltip placement="top" showArrow={true}>
   {#snippet anchor()}
     <Button>Hover me to display a Tooltip (top)</Button>
   {/snippet}
   {#snippet tooltipContent()}
-    <ul style="margin: 0" slot="content">
+    <ul style="margin: 0">
       <li>First</li>
       <li>Second</li>
     </ul>

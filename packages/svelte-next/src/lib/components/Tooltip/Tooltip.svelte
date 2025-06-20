@@ -1,7 +1,19 @@
-<script>
+<script lang="ts">
   import { offset, flip, shift } from 'svelte-floating-ui/dom';
   import { arrow, createFloatingActions } from 'svelte-floating-ui';
   import { writable } from 'svelte/store';
+  import type { Placement } from 'svelte-floating-ui/dom';
+
+  type tooltipPropTypes = {
+    placement?: Placement;
+    delay?: number;
+    open?: boolean;
+    defaultOpen?: boolean;
+    arrowGap?: number;
+    showArrow?: boolean;
+    anchor?: () => any;
+    tooltipContent?: () => any;
+  };
 
   const ARROW_HEIGHT = 7;
 
@@ -15,7 +27,7 @@
     anchor,
     tooltipContent,
     ...rest
-  } = $props();
+  }: tooltipPropTypes = $props();
 
   let internalOpen = $state(open ?? defaultOpen);
 
@@ -26,7 +38,7 @@
     }
   });
 
-  const arrowRef = writable(null);
+  const arrowRef = writable<HTMLDivElement | null>(null);
   const [floatingRef, floatingContent] = createFloatingActions({
     strategy: 'absolute',
     placement: placement,
@@ -39,7 +51,7 @@
       arrow({ element: arrowRef }),
     ],
     onComputed({ placement, middlewareData }) {
-      const { x, y } = middlewareData.arrow;
+      const { x, y } = middlewareData.arrow ?? {};
       let staticSide, dynamicSide;
 
       // Split placement into base and variation
@@ -69,9 +81,9 @@
       }
 
       if ($arrowRef) {
-        Object.assign($arrowRef.style, {
-          left: x !== null ? `${x - 0}px` : '',
-          top: y !== null ? `${y - 0}px` : '',
+        Object.assign(($arrowRef as HTMLElement).style, {
+          left: x != null ? `${x - 0}px` : '',
+          top: y != null ? `${y - 0}px` : '',
           [staticSide]: '-4px',
           [dynamicSide]: 'calc(50% - 4px)',
         });
