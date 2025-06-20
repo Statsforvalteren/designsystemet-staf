@@ -1,51 +1,42 @@
-<script>
-  
-
-  
-
-  
-
-  
-
-  
-  /** @type {{level?: 1 | 2 | 3 | 4 | 5 | 6, size?: 'xxsmall' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl', spacing?: boolean, as?: string, className?: string, children?: import('svelte').Snippet}} */
+<script lang="ts">
+  type headingPropTypes = {
+    level?: 1 | 2 | 3 | 4 | 5 | 6;
+    size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+    spacing?: boolean;
+    as?: string;
+    className?: string;
+    children?: () => any;
+  };
   let {
     level = 1,
-    size = 'xlarge',
+    size = 'xl',
     spacing = false,
     as = `h${level}`,
     className = '',
-    children
-  } = $props();
+    children,
+  }: headingPropTypes = $props();
 
-  let standardizedSize = $state();
+  let standardizedSize = $state('xl');
 
   switch (size) {
-    case 'xxsmall':
     case '2xs':
       standardizedSize = '2xs';
       break;
-    case 'xsmall':
     case 'xs':
       standardizedSize = 'xs';
       break;
-    case 'small':
     case 'sm':
       standardizedSize = 'sm';
       break;
-    case 'medium':
     case 'md':
       standardizedSize = 'md';
       break;
-    case 'large':
     case 'lg':
       standardizedSize = 'lg';
       break;
-    case 'xlarge':
     case 'xl':
       standardizedSize = 'xl';
       break;
-    case 'xxlarge':
     case '2xl':
       standardizedSize = '2xl';
       break;
@@ -54,9 +45,11 @@
       break;
   }
 
-  let computedClass = $derived(`ds-heading ds-heading--${standardizedSize} ${className} ${
-    spacing ? 'ds-heading--spacing' : ''
-  }`);
+  let computedClass = $derived(
+    `ds-heading ds-heading--${standardizedSize} ${className} ${
+      spacing ? 'ds-heading--spacing' : ''
+    }`,
+  );
 </script>
 
 {#if as === 'h1'}

@@ -1,38 +1,34 @@
-<script>
-  
-  
+<script lang="ts">
+  type labelPropTypes = {
+    as?: 'p' | 'span' | 'div';
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    spacing?: boolean;
+    weight: 'regular' | 'medium' | 'semibold';
+    className?: string;
+    children?: () => any;
+  };
 
-  
-
-  
-
-  
-  /** @type {{as?: string, size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xs' | 'sm' | 'md' | 'lg', spacing?: boolean, weight: 'regular' | 'medium' | 'semibold', className?: string, children?: import('svelte').Snippet}} */
   let {
     as = 'p',
-    size = 'medium',
+    size = 'md',
     spacing = false,
     weight,
     className = '',
-    children
-  } = $props();
+    children,
+  }: labelPropTypes = $props();
 
   let standardizedSize = $state();
 
   switch (size) {
-    case 'xsmall':
     case 'xs':
       standardizedSize = 'xs';
       break;
-    case 'small':
     case 'sm':
       standardizedSize = 'sm';
       break;
-    case 'medium':
     case 'md':
       standardizedSize = 'md';
       break;
-    case 'large':
     case 'lg':
       standardizedSize = 'lg';
       break;
@@ -41,15 +37,17 @@
       break;
   }
 
-  let computedClass = $derived([
-    'ds-label',
-    `ds-label--${standardizedSize}`,
-    spacing ? 'ds-label--spacing' : '',
-    weight ? `ds-label--${weight}-weight` : '',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' '));
+  let computedClass = $derived(
+    [
+      'ds-label',
+      `ds-label--${standardizedSize}`,
+      spacing ? 'ds-label--spacing' : '',
+      weight ? `ds-label--${weight}-weight` : '',
+      className,
+    ]
+      .filter(Boolean)
+      .join(' '),
+  );
 </script>
 
 {#if as === 'p'}

@@ -1,36 +1,18 @@
-<script>
-  
+<script lang="ts">
+  type paragraphPropTypes = {
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    variant?: 'long' | 'short';
+    children?: () => any;
+  };
 
-  
-  /** @type {{size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xs' | 'sm' | 'md' | 'lg', variant?: 'long' | 'short', children?: import('svelte').Snippet}} */
-  let { size = 'medium', variant = 'short', children } = $props();
-
-  let standardizedSize = $state();
-
-  switch (size) {
-    case 'xsmall':
-    case 'xs':
-      standardizedSize = 'xs';
-      break;
-    case 'small':
-    case 'sm':
-      standardizedSize = 'sm';
-      break;
-    case 'medium':
-    case 'md':
-      standardizedSize = 'md';
-      break;
-    case 'large':
-    case 'lg':
-      standardizedSize = 'lg';
-      break;
-    default:
-      standardizedSize = 'md';
-      break;
-  }
+  let {
+    size = 'md',
+    variant = 'short',
+    children,
+  }: paragraphPropTypes = $props();
 </script>
 
-<div class={`ds-paragraph--${standardizedSize} ds-paragraph--${variant}`}>
+<div class={`ds-paragraph--${size} ds-paragraph--${variant}`}>
   {@render children?.()}
 </div>
 

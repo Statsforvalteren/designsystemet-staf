@@ -1,29 +1,30 @@
-<script>
-  
-
-  
-
-  
-
-  
-  /** @type {{size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xs' | 'sm' | 'md' | 'lg', spacing?: boolean, error?: boolean, class_?: string, children?: import('svelte').Snippet}} */
+<script lang="ts">
+  type errorMessagePropTypes = {
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    spacing?: boolean;
+    error?: boolean;
+    class_?: string;
+    children?: () => any;
+  };
   let {
-    size = 'medium',
+    size = 'md',
     spacing = false,
     error = true,
     class_ = '',
-    children
-  } = $props();
+    children,
+  }: errorMessagePropTypes = $props();
 
-  let computedClass = $derived([
-    'ds-error-message',
-    `ds-error_message--${size}`,
-    spacing ? 'ds-error-message--spacing' : '',
-    error ? 'ds-error-message--error' : '',
-    class_ || '',
-  ]
-    .filter(Boolean)
-    .join(' '));
+  let computedClass = $derived(
+    [
+      'ds-error-message',
+      `ds-error_message--${size}`,
+      spacing ? 'ds-error-message--spacing' : '',
+      error ? 'ds-error-message--error' : '',
+      class_ || '',
+    ]
+      .filter(Boolean)
+      .join(' '),
+  );
 </script>
 
 <div class={computedClass}>
@@ -33,7 +34,6 @@
 <style>
   .ds-error-message {
     --dsc-bottom-spacing: var(--ds-spacing-5);
-
     margin: 0;
   }
 

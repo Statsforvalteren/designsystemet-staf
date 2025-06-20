@@ -1,32 +1,29 @@
-<script>
+<script lang="ts">
   import ParagraphWrapper from './ParagraphWrapper.svelte';
 
-  
+  type paragraphPropTypes = {
+    as?: 'p' | 'span' | 'div';
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    spacing?: boolean;
+    variant?: 'long' | 'short';
+    class_?: string;
+    children?: () => any;
+  };
 
-  
-
-  
-
-  
-
-  
-  /** @type {{as?: 'p' | 'span' | 'div', size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xs' | 'sm' | 'md' | 'lg', spacing?: boolean, variant?: 'long' | 'short', class_?: string, children?: import('svelte').Snippet}} */
   let {
     as = 'p',
-    size = 'medium',
+    size = 'md',
     spacing = false,
     variant = 'short',
     class_ = '',
-    children
-  } = $props();
+    children,
+  }: paragraphPropTypes = $props();
 
-  let computedClass = $derived([
-    'ds-paragraph',
-    spacing ? 'ds-paragraph--spacing' : '',
-    class_ || '',
-  ]
-    .filter(Boolean)
-    .join(' '));
+  let computedClass = $derived(
+    ['ds-paragraph', spacing ? 'ds-paragraph--spacing' : '', class_ || '']
+      .filter(Boolean)
+      .join(' '),
+  );
 </script>
 
 <ParagraphWrapper {size} {variant}>

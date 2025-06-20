@@ -34,6 +34,8 @@
     TableHeaderCell,
     TableCell,
     TableRow,
+    ErrorMessage,
+    Heading,
   } from '$lib';
 
   import { Files, Pencil } from '$lib/components/Dropdown/index.js';
@@ -537,7 +539,7 @@
 
 <h1 class="componentHeader">PARAGRAPH</h1>
 <br />
-<Paragraph spacing variant="long">Lorem ipsum dorem</Paragraph>
+<Paragraph variant="long">Lorem ipsum dorem</Paragraph>
 
 <br />
 <h1 class="componentHeader">ALERT</h1>
@@ -735,6 +737,18 @@
     {/snippet}
   </Modal>
 {/if}
+
+<br />
+<br />
+<h1 class="componentHeader">ErrorMessage</h1>
+<ErrorMessage size="lg" spacing={true} error={true}>
+  <p>This is an error message.</p>
+</ErrorMessage>
+
+<br />
+<br />
+<h1 class="componentHeader">Heading</h1>
+<Heading level={2} size="xxsmall" spacing={false}>This is a heading</Heading>
 
 <br />
 <br />
