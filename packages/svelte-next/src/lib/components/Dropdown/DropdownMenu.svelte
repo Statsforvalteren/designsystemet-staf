@@ -361,16 +361,4 @@
     margin-left: var(--ds-spacing-4, 1rem);
     flex-shrink: 0;
   }
-  .no-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    color: inherit;
-    font: inherit;
-    text-align: left;
-  }
-  .no-button:hover {
-    background-color: var(--ds-color-neutral-background-hover);
-  }
 </style>

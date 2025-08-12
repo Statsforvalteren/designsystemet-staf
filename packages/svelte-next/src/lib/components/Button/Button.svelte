@@ -72,7 +72,15 @@
 </script>
 
 <!-- Two on:click element directives are being used to allow for the use of both on:click and onClick -->
-<button {onclick} class={computedClass} {...rest}>
+<button
+  {onclick}
+  class={computedClass}
+  {...rest}
+  disabled={computedClass.includes('no-button') ? true : rest.disabled}
+  aria-disabled={computedClass.includes('no-button')
+    ? 'true'
+    : rest['aria-disabled']}
+>
   <div class="ds-btn-content {showIcon ? 'ds-btn--with-icon' : ''}">
     {#if iconPlacement === 'left' && showIcon}
       {@render icon?.()}
@@ -319,45 +327,10 @@
   }
 
   .ds-btn.no-button {
-    all: unset !important;
-    margin: 11px 13px !important;
-    width: 90% !important;
-  }
-
-  /* Override all hover states for no-button */
-  .ds-btn.no-button:hover,
-  .ds-btn.no-button:active,
-  .ds-btn.no-button:focus,
-  .ds-btn--primary.no-button:hover,
-  .ds-btn--primary.no-button:active,
-  .ds-btn--secondary.no-button:hover,
-  .ds-btn--secondary.no-button:active,
-  .ds-btn--tertiary.no-button:hover,
-  .ds-btn--tertiary.no-button:active {
-    all: unset;
-    cursor: pointer;
-    display: inline;
-    color: inherit !important;
-    background: none !important;
-    border: none !important;
-  }
-
-  /* Specifically override the media query hover styles */
-  @media (hover: hover) and (pointer: fine) {
-    .ds-btn--primary.no-button:not([aria-disabled='true'], :disabled):hover,
-    .ds-btn--secondary.no-button:not([aria-disabled='true'], :disabled):hover,
-    .ds-btn--tertiary.no-button:not([aria-disabled='true'], :disabled):hover {
-      color: inherit !important;
-      background: none !important;
-      border: none !important;
-    }
-  }
-
-  .ds-btn.no-button .ds-btn-content {
-    display: inline;
-    gap: inherit;
-    align-items: inherit;
-    justify-content: inherit;
-    width: auto;
+    pointer-events: none;
+    cursor: not-allowed;
+    color: inherit;
+    box-shadow: none;
+    outline: none;
   }
 </style>
