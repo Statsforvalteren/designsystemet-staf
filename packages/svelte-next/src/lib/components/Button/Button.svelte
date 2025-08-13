@@ -330,6 +330,7 @@
     pointer-events: none;
     cursor: not-allowed;
     color: inherit;
+    opacity: 1;
     box-shadow: none;
     outline: none;
   }

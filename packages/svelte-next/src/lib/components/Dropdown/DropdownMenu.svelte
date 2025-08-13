@@ -35,7 +35,7 @@
     buttonVariant?: 'primary' | 'secondary' | 'tertiary';
     menuGroups: MenuGroup[];
     placement: string;
-    size: string;
+    size: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg';
     gap?: number;
     onClose: () => void;
     headingLevel?: 1 | 2 | 3 | 4;
@@ -43,7 +43,7 @@
 
   let containerRef: HTMLElement | null = null;
   const uniqueId = `dropdownMenu-${uuidv4()}`;
-  let standardizedSize = $state('md');
+  let standardizedSize: 'sm' | 'md' | 'lg' = $state('md');
 
   $effect(() => {
     const newSize =
@@ -69,9 +69,15 @@
       }
     };
 
-    document.addEventListener('dropdown-opened', handleDropdownOpen);
+    document.addEventListener(
+      'dropdown-opened',
+      handleDropdownOpen as EventListener,
+    );
     return () => {
-      document.removeEventListener('dropdown-opened', handleDropdownOpen);
+      document.removeEventListener(
+        'dropdown-opened',
+        handleDropdownOpen as EventListener,
+      );
     };
   });
 
@@ -87,13 +93,15 @@
         }),
       );
       setPlacement();
+      // Ensure the dropdown can receive keyboard events like Escape
+      dropdown?.focus();
     } else {
       onClose();
     }
   }
 
-  function handleOutsideClick(event) {
-    if (menuVisible && !event.composedPath().includes(dropdown)) {
+  function handleOutsideClick(event: Event) {
+    if (menuVisible && dropdown && !event.composedPath().includes(dropdown)) {
       menuVisible = false;
     }
   }
@@ -160,8 +168,16 @@
 
   $effect(() => {
     document.addEventListener('click', handleOutsideClick);
+    const handleGlobalKeydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && menuVisible) {
+        menuVisible = false;
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleGlobalKeydown);
     return () => {
       document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener('keydown', handleGlobalKeydown);
     };
   });
 </script>
@@ -180,7 +196,7 @@
         role="group"
       >
         {#if menuGroup.heading}
-          <ParagraphWrapper {size}>
+          <ParagraphWrapper size={standardizedSize}>
             <svelte:element
               this={`h${headingLevel}`}
               class="ds-dropdownmenu__heading"
@@ -200,7 +216,7 @@
                 fullWidth
                 variant="tertiary"
                 style="justify-content: start;"
-                onclick={(e) => {
+                onclick={(e: MouseEvent) => {
                   e.preventDefault();
                   item.onClick?.(e);
                   if (item.href) {

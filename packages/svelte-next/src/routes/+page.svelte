@@ -204,7 +204,7 @@
     {
       items: [
         {
-          text: 'Element link',
+          text: 'Element 1 (no link)',
           iconComponent: Files,
         },
         {
@@ -223,7 +223,7 @@
     {
       heading: 'Links 456',
       items: [
-        { text: 'Erik Testesen' },
+        { text: 'Erik Testesen (no link)' },
         {
           text: 'console.log onClick event',
           onClick: (e: Event) => {
@@ -240,7 +240,7 @@
     {
       items: [
         {
-          text: 'Element link',
+          text: 'Element 1 (no link)',
           iconComponent: Files,
         },
         {
@@ -748,7 +748,8 @@
 <br />
 <br />
 <h1 class="componentHeader">Heading</h1>
-<Heading level={2} size="xxsmall" spacing={false}>This is a heading</Heading>
+<Heading level={2} size="2xs" spacing={false} as="h2">This is a heading</Heading
+>
 
 <br />
 <br />
@@ -1047,7 +1048,7 @@
     <DropdownMenu
       {menuGroups}
       placement={currentDropdownPlacement[0]?.value}
-      size={index === 0 ? 'md' : 'sm'}
+      size={index === 0 ? 'sm' : 'medium'}
       onClose={() => console.log('Dropdown closed externally')}
     >
       {#snippet dropdownButtonContent()}
