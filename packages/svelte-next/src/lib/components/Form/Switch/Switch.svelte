@@ -24,7 +24,7 @@
     onChange = () => {},
   } = $props();
 
-  let standardizedSize = $state();
+  let standardizedSize: 'sm' | 'md' | 'lg' = $state('md');
 
   switch (size) {
     case 'small':
@@ -73,7 +73,7 @@
   let descriptionClass = $derived(`ds-switch__description`);
 </script>
 
-<ParagraphWrapper {size}>
+<ParagraphWrapper size={standardizedSize}>
   <div class={computedClass}>
     <input
       width="100%"
@@ -118,7 +118,7 @@
     </label>
     {#if description}
       <div id="description-{id}" class={descriptionClass}>
-        <ParagraphWrapper {size}>
+        <ParagraphWrapper size={standardizedSize}>
           {description}
         </ParagraphWrapper>
       </div>

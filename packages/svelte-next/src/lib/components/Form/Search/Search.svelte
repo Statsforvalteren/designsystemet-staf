@@ -1,7 +1,36 @@
-<script>
+<script lang="ts">
   import { Button, ErrorMessage } from '../../../index.js';
   import CharacterCounter from '../CharacterCounter.svelte';
   import { v4 as uuidv4 } from 'uuid';
+
+  type SearchSize = 'small' | 'sm' | 'medium' | 'md' | 'large' | 'lg';
+  type StandardizedSize = 'sm' | 'md' | 'lg';
+
+  type InputProps = {
+    [key: string]: any;
+    capture?: boolean | 'user' | 'environment' | null;
+  };
+
+  type SearchProps = {
+    label?: string;
+    size?: SearchSize;
+    variant?: 'simple' | 'primary' | 'secondary' | 'tertiary';
+    hideLabel?: boolean;
+    disabled?: boolean;
+    value?: string;
+    error?: string;
+    characterLimit?: number | null;
+    clearButtonLabel?: string;
+    searchButtonLabel?: string;
+    onSearchClick?: (e: MouseEvent, value: string) => void;
+    characterLimitLabel?: ((count: number) => string) | undefined;
+    class_?: string;
+    oninput?:
+      | ((
+          event: Event & { currentTarget: EventTarget & HTMLInputElement },
+        ) => void)
+      | null;
+  } & Partial<InputProps>;
 
   let {
     label = '',
@@ -9,21 +38,23 @@
     variant = 'simple',
     hideLabel = false,
     disabled = false,
-    value = $bindable(),
+    value = $bindable(''),
     error = '',
     characterLimit = null,
     clearButtonLabel = '',
     searchButtonLabel = 'Søk',
-    onSearchClick = (e, value) => {},
-    characterLimitLabel = null,
+    onSearchClick = (e: MouseEvent, value: string) => {
+      console.log(`Search clicked with value: ${value}`);
+    },
+    characterLimitLabel = (count: number) => `${count} tegn gjenstår`,
     class_ = '',
     oninput = null,
     ...rest
-  } = $props();
+  }: SearchProps = $props();
 
   let componentId = uuidv4();
 
-  let standardizedSize;
+  let standardizedSize: StandardizedSize = $state('md');
 
   switch (size) {
     case 'small':
@@ -47,12 +78,16 @@
   let showClearButton = $derived(String(value).length > 0 && !disabled);
 
   // Computed class names for the component elements
-  let formFieldClasses = `ds-search ds-search--${standardizedSize} ${
-    disabled ? 'ds-search--disabled' : ''
-  } ${class_ || ''}`;
-  let labelClasses = `ds-search--${standardizedSize} ds-search__label ${
-    hideLabel ? 'ds-sr-only' : ''
-  }`;
+  let formFieldClasses = $derived(
+    `ds-search ds-search--${standardizedSize} ${
+      disabled ? 'ds-search--disabled' : ''
+    } ${class_ || ''}`,
+  );
+  let labelClasses = $derived(
+    `ds-search--${standardizedSize} ds-search__label ${
+      hideLabel ? 'ds-sr-only' : ''
+    }`,
+  );
   let fieldClasses = $derived(`ds-search__field ${error ? 'error' : ''}`);
   let inputClasses = `ds-search__input ds-focus ${
     isSimple
@@ -60,17 +95,15 @@
       : 'ds-search__input--with-search-button'
   }`;
   let errorMessageClasses = `ds-search__error-message`;
-  let clearButtonClasses = `ds-search__clear-button ds-focus ds-search__clear-button--${standardizedSize}`;
+  let clearButtonClasses = $derived(
+    `ds-search__clear-button ds-focus ds-search__clear-button--${standardizedSize}`,
+  );
 
-  let inputElement;
+  let inputElement: HTMLInputElement;
 
   function handleClear() {
     value = '';
     inputElement?.focus();
-  }
-
-  function defaultOnInput(event) {
-    console.log('Default input handler:', event.target.value);
   }
 </script>
 
@@ -110,7 +143,9 @@
       <input
         bind:this={inputElement}
         bind:value
-        oninput={(event) => (oninput ? oninput(event) : () => {})}
+        oninput={(event) => {
+          oninput?.(event);
+        }}
         class={inputClasses}
         name="search"
         id="search-field"
@@ -148,9 +183,9 @@
       <Button
         className={'ds-search__search-button'}
         {size}
-        variant={variant !== 'simple' ? variant : undefined}
+        {variant}
         type="submit"
-        on:click={(e) => onSearchClick(e, value)}
+        onclick={(e: MouseEvent) => onSearchClick(e, value)}
         {disabled}
         style="width: fit-content; white-space:nowrap;"
       >
@@ -163,7 +198,7 @@
       maxCount={characterLimit}
       {value}
       id={`character-counter-${componentId}`}
-      {size}
+      size={standardizedSize}
       label={characterLimitLabel}
     />
   {/if}

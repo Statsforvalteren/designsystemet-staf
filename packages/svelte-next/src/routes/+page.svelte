@@ -481,6 +481,7 @@
   bind:value={searchValue}
   error={showSearchError ? 'Lorem ipsum error' : ''}
   size="large"
+  variant="simple"
   characterLimit={10}
   placeholder="Søk"
   characterLimitLabel={(count: number) =>
@@ -501,6 +502,10 @@
     count > -1
       ? `Du har ${count} tegn igjen.`
       : `Du har ${Math.abs(count)} tegn for mye.`}
+  onSearchClick={(e, value) => {
+    e.preventDefault();
+    alert(`Search 2 clicked with value: ${value}`);
+  }}
 />
 
 <br />
