@@ -5,6 +5,7 @@
   import ClearButton from './ClearButton.svelte';
   import MultiSelectOption from './MultiSelectOption.svelte';
   import { v4 as uuidv4 } from 'uuid';
+  import { clickOutside } from '../Dropdown/click_outside';
 
   type optionsType = {
     label: string;
@@ -173,22 +174,6 @@
     isOpen = !isOpen;
   }
 
-  // Close dropdown when clicking outside
-  $effect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        selectContainer &&
-        !selectContainer.contains(event.target as Node) &&
-        isOpen
-      ) {
-        isOpen = false;
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  });
-
   function handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       isOpen = false;
@@ -261,7 +246,15 @@
   }
 </script>
 
-<div class="select-container" aria-label={'Select'} {...rest}>
+<div
+  use:clickOutside={() => {
+    if (!isOpen) return;
+    isOpen = false;
+  }}
+  class="select-container"
+  aria-label={'Select'}
+  {...rest}
+>
   {#if label}
     <div class="heading-wrapper select-container-spacing">
       {#if readOnly}
@@ -285,7 +278,7 @@
           </svg>
         </span>
       {/if}
-      <ParagraphWrapper {size}>
+      <ParagraphWrapper size={standardizedSize()}>
         <button
           type="button"
           class="label-button"

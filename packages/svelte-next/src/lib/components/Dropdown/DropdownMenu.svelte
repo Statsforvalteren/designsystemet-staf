@@ -3,6 +3,7 @@
   import { Button, ParagraphWrapper } from '$lib/index.js';
   import Divider from './Divider.svelte';
   import type { Snippet } from 'svelte';
+  import { clickOutside } from './click_outside';
 
   //dropdown:
   export type MenuItem = {
@@ -59,25 +60,6 @@
   let top = $state(0);
   let left = $state(0);
   let dropdown: HTMLElement | null = null;
-
-  type DropdownEventDetail = { id: string };
-  type DropdownEvent = CustomEvent<DropdownEventDetail>;
-
-  // Listen for dropdown open events
-  $effect(() => {
-    const handleDropdownOpen = (e: Event) => {
-      const customEvent = e as DropdownEvent;
-      if (customEvent.detail.id !== uniqueId && menuVisible) {
-        menuVisible = false;
-        onClose();
-      }
-    };
-
-    document.addEventListener('dropdown-opened', handleDropdownOpen);
-    return () => {
-      document.removeEventListener('dropdown-opened', handleDropdownOpen);
-    };
-  });
 
   function runTrigger(e: MouseEvent) {
     e.stopPropagation();
@@ -180,7 +162,6 @@
   });
 </script>
 
-<!-- <svelte:window onclick={onWindowClick} /> -->
 {#snippet menuSnippet(d: MenuGroup[])}
   <li>
     {#each d as menuGroup, index (menuGroup)}
@@ -249,7 +230,15 @@
   </li>
 {/snippet}
 
-<div class="ds-dropdown-container" bind:this={containerRef}>
+<div
+  use:clickOutside={() => {
+    if (!menuVisible) return;
+    menuVisible = false;
+    onClose();
+  }}
+  class="ds-dropdown-container"
+  bind:this={containerRef}
+>
   <Button onclick={runTrigger} variant={buttonVariant} size={standardizedSize}>
     {@render dropdownButtonContent?.()}</Button
   >
