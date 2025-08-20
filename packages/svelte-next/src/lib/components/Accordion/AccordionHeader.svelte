@@ -1,8 +1,13 @@
 <script lang="ts">
   import { getContext } from 'svelte';
+  import type { Snippet } from 'svelte';
+  import type { HTMLAttributes } from 'svelte/elements';
 
-  /** @type {{level?: number}} */
-  let { level = 1, header, ...rest } = $props();
+  type AccordionHeaderProps = {
+    level?: 1 | 2 | 3 | 4 | 5 | 6;
+    header?: Snippet;
+  } & HTMLAttributes<HTMLButtonElement>;
+  let { level = 1, header, ...rest }: AccordionHeaderProps = $props();
 
   type AccordionContext = {
     color: string;

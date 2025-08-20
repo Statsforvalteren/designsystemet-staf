@@ -1,16 +1,28 @@
-<script>
-  import { setContext } from 'svelte';
+<script lang="ts">
+  import { setContext, type Snippet } from 'svelte';
+  import type { HTMLAttributes } from 'svelte/elements';
 
-  let { border, color, children, ...rest } = $props();
+  type AccordionProps = {
+    border?: boolean;
+    color?: 'neutral' | 'subtle' | 'brand1' | 'brand2' | 'brand3';
+    children?: Snippet;
+  } & HTMLAttributes<HTMLDivElement>;
+
+  let {
+    border = false,
+    color = 'neutral',
+    children,
+    ...divProps
+  }: AccordionProps = $props();
 
   setContext('accordion', { border, color });
 </script>
 
 <div
-  {...rest}
-  class={`ds-accordion ${color} ${
+  {...divProps}
+  class={`ds-accordion ${
     border ? 'ds-accordion--border' : ''
-  } ds-accordion--${color}`}
+  } ds-accordion--${color} `}
 >
   {@render children?.()}
 </div>

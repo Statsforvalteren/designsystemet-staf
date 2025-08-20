@@ -1,14 +1,25 @@
-<script>
+<script lang="ts">
+  import type { Snippet } from 'svelte';
   import { Paragraph } from '../../index.js';
+
+  type AlertSize = 'xs' | 'sm' | 'md' | 'lg';
+  type AlertSeverity = 'info' | 'warning' | 'success' | 'danger';
+  type AlertProps = {
+    severity?: AlertSeverity;
+    elevated?: boolean;
+    iconTitle?: string;
+    size?: AlertSize;
+    children?: Snippet;
+  };
 
   let {
     severity = 'info',
     elevated = false,
     iconTitle = '',
-    size = 'medium',
+    size = 'md',
     children,
     ...rest
-  } = $props();
+  }: AlertProps = $props();
 
   let iconSize = 2;
   let iconVectors = $state('');
@@ -63,7 +74,11 @@
     </svg>
   </div>
   <div style="margin-top: 3px;">
-    <Paragraph as="span" {size} className="ds-alert__content">
+    <Paragraph
+      as="span"
+      size={size as 'xs' | 'sm' | 'md' | 'lg'}
+      class_="ds-alert__content"
+    >
       <span>{@render children?.()}</span>
     </Paragraph>
   </div>
@@ -123,6 +138,11 @@
     --dsc-alert-border-color: var(--ds-color-danger-border-default);
     --dsc-alert-icon-color: var(--ds-color-danger-base-default);
     --dsc-alert-background: var(--ds-color-danger-surface-default);
+  }
+
+  .ds-alert--xs {
+    --dsc-alert-padding: var(--ds-spacing-4);
+    --dsc-alert-icon-size: var(--ds-sizing-5);
   }
 
   .ds-alert--sm {

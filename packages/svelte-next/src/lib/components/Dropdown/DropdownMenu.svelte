@@ -60,24 +60,22 @@
   let left = $state(0);
   let dropdown: HTMLElement | null = null;
 
+  type DropdownEventDetail = { id: string };
+  type DropdownEvent = CustomEvent<DropdownEventDetail>;
+
   // Listen for dropdown open events
   $effect(() => {
-    const handleDropdownOpen = (e: CustomEvent) => {
-      if (e.detail.id !== uniqueId && menuVisible) {
+    const handleDropdownOpen = (e: Event) => {
+      const customEvent = e as DropdownEvent;
+      if (customEvent.detail.id !== uniqueId && menuVisible) {
         menuVisible = false;
         onClose();
       }
     };
 
-    document.addEventListener(
-      'dropdown-opened',
-      handleDropdownOpen as EventListener,
-    );
+    document.addEventListener('dropdown-opened', handleDropdownOpen);
     return () => {
-      document.removeEventListener(
-        'dropdown-opened',
-        handleDropdownOpen as EventListener,
-      );
+      document.removeEventListener('dropdown-opened', handleDropdownOpen);
     };
   });
 

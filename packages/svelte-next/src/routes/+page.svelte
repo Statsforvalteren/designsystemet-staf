@@ -550,13 +550,13 @@
 <h1 class="componentHeader">ALERT</h1>
 <br />
 
-<Alert severity="success">Alert (success)</Alert>
+<Alert severity="success" size={'lg'}>Alert (success)</Alert>
 <br />
-<Alert severity="danger">Alert (danger)</Alert>
+<Alert severity="danger" size={'md'}>Alert (danger)</Alert>
 <br />
-<Alert severity="info">Alert (info, default)</Alert>
+<Alert severity="info" size={'sm'}>Alert (info, default)</Alert>
 <br />
-<Alert severity="warning" size="lg">
+<Alert severity="warning">
   <h4 style="margin: 0; padding: 0 0 5px 0;">Alert (warning)</h4>
   <p style="margin: 0; padding: 0;">En utfyllende tekst</p>
 </Alert>
