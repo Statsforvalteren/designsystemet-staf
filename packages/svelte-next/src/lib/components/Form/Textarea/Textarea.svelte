@@ -19,7 +19,7 @@
   } = $props();
 
   let componentId = uuidv4();
-  let standardizedSize = $state();
+  let standardizedSize: 'sm' | 'md' | 'lg' = $state('md');
   let fontSizeClass = $state();
 
   switch (size) {
@@ -65,7 +65,7 @@
   );
 </script>
 
-<ParagraphWrapper {size}>
+<ParagraphWrapper size={standardizedSize}>
   <div class={formFieldClasses}>
     {#if label}
       <label for={`textarea-${componentId}`} class={labelClasses}>
@@ -96,7 +96,7 @@
       </label>
     {/if}
     {#if description}
-      <Paragraph {size}>
+      <Paragraph size={standardizedSize}>
         <span id="description" class={descriptionClasses}>
           {description}
         </span>
@@ -129,7 +129,7 @@
         aria-relevant="additions removals"
         id={`error-message-${componentId}`}
       >
-        <ErrorMessage {size}>{error}</ErrorMessage>
+        <ErrorMessage size={standardizedSize}>{error}</ErrorMessage>
       </div>
     {/if}
   </div>

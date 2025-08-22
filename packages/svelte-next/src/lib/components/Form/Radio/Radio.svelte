@@ -5,7 +5,6 @@
   import { getContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 
-  /** @type {{description?: string, disabled?: boolean, readOnly?: boolean, label: string, value: string, class_?: string}} */
   let {
     description = '',
     disabled = undefined,

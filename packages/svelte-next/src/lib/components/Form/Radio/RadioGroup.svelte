@@ -1,35 +1,9 @@
-<script>
-  import { run } from 'svelte/legacy';
-
+<script lang="ts">
   import { ParagraphWrapper, ErrorMessage } from '../../../index.js';
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
   import { v4 as uuidv4 } from 'uuid';
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  /** @type {{legend?: string, description?: string, readOnly?: boolean, disabled?: boolean, error?: string, value: string, defaultValue?: string, required?: boolean, inline?: boolean, size?: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg', hideLegend?: boolean, onInput?: (event: Event) => void, oninput?: (event: any) => void, children?: import('svelte').Snippet}} */
   let {
     legend = '',
     description = '',
@@ -43,11 +17,10 @@
     size = 'medium',
     hideLegend = false,
     onInput = () => {},
-    oninput,
-    children
+    children,
   } = $props();
 
-  let standardizedSize = $state();
+  let standardizedSize: 'sm' | 'md' | 'lg' = $state('md');
 
   const uniqueId = uuidv4();
   const radioGroup = writable({
@@ -80,26 +53,26 @@
       break;
   }
 
-  let legendWrapperClasses = $derived(`legend-wrapper ${
-    hideLegend ? 'visually-hidden' : ''
-  }`);
-  let descriptionClasses = $derived(`ds-radio__description ${
-    hideLegend ? 'visually-hidden' : ''
-  }`);
+  let legendWrapperClasses = $derived(
+    `legend-wrapper ${hideLegend ? 'visually-hidden' : ''}`,
+  );
+  let descriptionClasses = $derived(
+    `ds-radio__description ${hideLegend ? 'visually-hidden' : ''}`,
+  );
 
-  run(() => {
-    setContext('radioGroup', radioGroup);
-  });
+  // Set context immediately at component initialization
+  setContext('radioGroup', radioGroup);
 
-  run(() => {
+  // Use $effect to reactively update the radio group store when props change
+  $effect(() => {
     radioGroup.update((storeValue) => ({
       ...storeValue,
-      readOnly: readOnly,
-      disabled: disabled,
-      size: size,
-      error: error,
-      value: value,
-      required: required,
+      readOnly,
+      disabled,
+      size,
+      error,
+      value,
+      required,
     }));
   });
 </script>
@@ -107,12 +80,9 @@
 <fieldset
   id={`group-${uniqueId}`}
   aria-labelledby={`label-${uniqueId}`}
-  
   oninput={(event) => {
-    oninput?.(event);
-
     onInput?.(event);
-}}
+  }}
   onchange={(change) => {
     if (
       change.target instanceof HTMLInputElement &&
@@ -145,7 +115,7 @@
           </svg>
         </span>
       {/if}
-      <ParagraphWrapper {size}>
+      <ParagraphWrapper size={standardizedSize}>
         <legend class="legend" id={`label-${uniqueId}`}>
           {legend}
         </legend>
@@ -153,7 +123,7 @@
     </div>
   {/if}
   {#if description}
-    <ParagraphWrapper {size}>
+    <ParagraphWrapper size={standardizedSize}>
       <div class={descriptionClasses}>
         {description}
       </div>
@@ -163,8 +133,8 @@
     {@render children?.()}
   </div>
   {#if error}
-    <ParagraphWrapper {size}>
-      <ErrorMessage {size}>{error}</ErrorMessage>
+    <ParagraphWrapper size={standardizedSize}>
+      <ErrorMessage size={standardizedSize}>{error}</ErrorMessage>
     </ParagraphWrapper>
   {/if}
 </fieldset>

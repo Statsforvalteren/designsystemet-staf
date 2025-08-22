@@ -833,6 +833,13 @@
     disabled={isDisabled}
     error={showError ? 'Lorem ipsum error.' : ''}
     hideLegend={isHideLegend}
+    onChange={(value: string[], event: Event) => {
+      //console.log('CheckboxGroup value changed:', value);
+      const logmsg = 'CheckboxGroup value changed:' + value;
+      console.log(
+        value.length > 0 ? $state.snapshot(logmsg) : 'Ingen verdier valgt',
+      );
+    }}
   >
     <Checkbox value="option1" label="Lorem ipsum label" />
     <Checkbox

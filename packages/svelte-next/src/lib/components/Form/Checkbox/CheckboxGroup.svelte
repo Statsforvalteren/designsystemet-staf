@@ -1,9 +1,8 @@
-<script>
+<script lang="ts">
   import { ErrorMessage, ParagraphWrapper } from '../../../index.js';
   import { setContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 
-  /** @type {{legend?: string, description?: string, readOnly?: boolean, disabled?: boolean, error?: string, value?: string[], defaultValue?: string[], required?: boolean, size?: 'small' | 'medium' | 'large' | 'sm' | 'md' | 'lg', hideLegend?: boolean, children?: import('svelte').Snippet}} */
   let {
     legend = '',
     description = '',
@@ -15,51 +14,26 @@
     required = false,
     size = 'medium',
     hideLegend = false,
+    onChange = undefined,
     children,
   } = $props();
 
   const uniqueId = uuidv4();
 
-  // Create individual reactive states
-  let readOnlyState = $state(readOnly);
-  let disabledState = $state(disabled);
-  let sizeState = $state(size);
-  let valueState = $state(value);
-  let errorState = $state(error);
-  let requiredState = $state(required);
-
-  // Create derived values that will automatically update
-  const storeValue = $derived({
-    readOnly: readOnlyState,
-    disabled: disabledState,
-    size: sizeState,
-    value: valueState,
-    error: errorState,
+  // Context store (standard Svelte store) reflecting current group state
+  import { writable } from 'svelte/store';
+  const groupStore = writable({
+    readOnly,
+    disabled,
+    size,
+    value,
+    error,
     uniqueId,
-    required: requiredState,
+    required,
   });
-
-  // Create store for context that follows Svelte's store contract
-  const groupStore = {
-    subscribe(fn) {
-      fn(storeValue);
-      // Return a cleanup function
-      return () => {};
-    },
-  };
-
-  // Keep reactive states in sync with props
-  readOnlyState = readOnly;
-  disabledState = disabled;
-  sizeState = size;
-  valueState = value;
-  errorState = error;
-  requiredState = required;
-
-  // Set the store in context
   setContext('checkboxGroup', groupStore);
 
-  let standardizedSize = $derived(
+  let standardizedSize: 'sm' | 'md' | 'lg' = $derived(
     size === 'small' || size === 'sm'
       ? 'sm'
       : size === 'large' || size === 'lg'
@@ -67,48 +41,48 @@
         : 'md',
   );
 
-  // Initialize valueState with defaultValue if provided
+  // Apply defaultValue only once on mount if parent hasn't supplied a value
+  let defaultApplied = $state(false);
   $effect.pre(() => {
-    if (defaultValue && defaultValue.length > 0) {
-      valueState = [...defaultValue];
+    if (!defaultApplied && defaultValue?.length && value.length === 0) {
       value = [...defaultValue];
+      defaultApplied = true;
+    } else if (!defaultApplied) {
+      // Mark as applied even if not used to avoid re-applying after user clears
+      defaultApplied = true;
     }
   });
 
-  // Keep value and valueState in sync
+  // Keep context store updated when any relevant prop changes
   $effect(() => {
-    if (JSON.stringify(valueState) !== JSON.stringify(value)) {
-      value = [...valueState];
-    }
-  });
-
-  // Update groupStore when any dependency changes
-  $effect(() => {
-    const newStoreValue = {
-      readOnly: readOnlyState,
-      disabled: disabledState,
-      size: sizeState,
-      value: valueState,
-      error: errorState,
+    groupStore.set({
+      readOnly,
+      disabled,
+      size,
+      value,
+      error,
       uniqueId,
-      required: requiredState,
-    };
-
-    Object.assign(groupStore, newStoreValue);
+      required,
+    });
   });
 
-  function handleCheckboxChange(change) {
-    if (
-      change.target instanceof HTMLInputElement &&
-      change.target.type === 'checkbox'
-    ) {
-      const newValue = change.target.checked
-        ? [...valueState, change.target.value]
-        : valueState.filter((v) => v !== change.target.value);
+  function handleCheckboxChange(event: Event) {
+    const target = event.target as HTMLInputElement | null;
+    if (!target || target.type !== 'checkbox') return;
 
-      valueState = newValue;
-      value = newValue;
+    // Build new value array immutably
+    if (target.checked) {
+      if (!value.includes(target.value)) {
+        value = [...value, target.value];
+      }
+    } else {
+      if (value.includes(target.value)) {
+        value = value.filter((v) => v !== target.value);
+      }
     }
+
+    // Fire external callback (only on user-triggered changes)
+    onChange?.(value, event);
   }
 
   let legendWrapperClasses = $derived(
@@ -149,7 +123,7 @@
           </svg>
         </span>
       {/if}
-      <ParagraphWrapper {size}>
+      <ParagraphWrapper size={standardizedSize}>
         <legend class="legend" id={`label-${uniqueId}`}>
           {legend}
         </legend>
@@ -157,7 +131,7 @@
     </div>
   {/if}
   {#if description}
-    <ParagraphWrapper {size}>
+    <ParagraphWrapper size={standardizedSize}>
       <div class={descriptionClasses}>
         {description}
       </div>
@@ -167,8 +141,8 @@
     {@render children?.()}
   </div>
   {#if error}
-    <ParagraphWrapper {size}>
-      <ErrorMessage {size}>{error}</ErrorMessage>
+    <ParagraphWrapper size={standardizedSize}>
+      <ErrorMessage size={standardizedSize}>{error}</ErrorMessage>
     </ParagraphWrapper>
   {/if}
 </fieldset>

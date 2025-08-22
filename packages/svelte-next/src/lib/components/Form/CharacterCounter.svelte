@@ -35,13 +35,13 @@
       break;
   }
 
-  function defaultLabel(count) {
+  function defaultLabel(count: number) {
     return count > -1
       ? `${count} tegn igjen`
       : `${Math.abs(count)} tegn for mye`;
   }
 
-  function defaultSrLabel(maxCount) {
+  function defaultSrLabel(maxCount: number) {
     return `Tekstfelt med plass til ${maxCount} tegn`;
   }
 
