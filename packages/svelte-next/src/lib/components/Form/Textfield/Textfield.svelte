@@ -41,7 +41,7 @@
   } = $props();
 
   let componentId = uuidv4();
-  let standardizedSize = $state();
+  let standardizedSize: 'sm' | 'md' | 'lg' = $state('md');
   let fontSizeClass = $state();
   let paragraphSize: 'medium' | 'small' | 'large' = $derived(
     size === 'medium'
@@ -103,7 +103,7 @@
   );
 </script>
 
-<ParagraphWrapper size={paragraphSize}>
+<ParagraphWrapper size={standardizedSize}>
   <div class={formFieldClasses}>
     {#if label}
       <label for={`input-field-${componentId}`} class={labelClasses}>
@@ -134,7 +134,7 @@
       </label>
     {/if}
     {#if description}
-      <Paragraph size={paragraphSize}>
+      <Paragraph size={standardizedSize}>
         <span id="description" class={descriptionClasses}>
           {description}
         </span>
@@ -175,7 +175,7 @@
         maxCount={characterLimit}
         value={value || ''}
         id={`character-counter-${componentId}`}
-        size={paragraphSize}
+        size={standardizedSize}
         label={(count) => characterLimitLabel(count) || `${count} tegn igjen`}
       />
     {/if}
@@ -186,7 +186,7 @@
         aria-relevant="additions removals"
         id={`error-message-${componentId}`}
       >
-        <ErrorMessage size={paragraphSize}>{error}</ErrorMessage>
+        <ErrorMessage size={standardizedSize}>{error}</ErrorMessage>
       </div>
     {/if}
   </div>

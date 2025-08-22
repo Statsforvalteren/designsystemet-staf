@@ -436,9 +436,10 @@
 <Textfield
   bind:value={textfieldValue}
   error={showTextfieldError ? 'Lorem ipsum error' : ''}
-  size="md"
+  size="sm"
   characterLimit={10}
   style="width: 50%"
+  placeHolder="Skriv noe..."
   characterLimitLabel={(count: number) =>
     count > -1
       ? `Du har ${count} tegn igjen.`
@@ -448,10 +449,11 @@
 <Textfield
   bind:value={textfieldValue}
   error={showTextfieldError ? 'Lorem ipsum error' : ''}
-  size="md"
-  label="Textfield Overskrift"
+  size="lg"
+  label="Textfield Overskrift (large)"
   description="Beskrivelse"
   readOnly={true}
+  placeHolder="Skriv noe..."
 />
 
 <br />
