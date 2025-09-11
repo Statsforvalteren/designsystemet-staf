@@ -30,13 +30,14 @@
     emptyOptionsPlaceholder?: string;
     dropdownGap?: number;
     maxDropdownHeight?: number;
+    onChange?: (selected: optionsType[]) => void;
   } & HTMLAttributes<HTMLDivElement>;
 
   let selectContainerId = `select-${uuidv4()}`;
   let inputId = `select-input-${uuidv4()}`;
   let selectContainer = $state<HTMLDivElement | null>(null);
   let isOpen = $state(false);
-  let defaultSelected = $state([]);
+  let defaultSelected = $state<optionsType[]>([]);
   let {
     options = [],
     multiple = false,
@@ -54,6 +55,7 @@
     emptyOptionsPlaceholder = 'Ingen alternativer tilgjengelige',
     dropdownGap = 0,
     maxDropdownHeight = 300,
+    onChange,
     ...rest
   }: SelectProps = $props();
 
@@ -73,12 +75,10 @@
   $effect(() => {
     if (initialized) {
       if (!multiple && selected && selected.length === 1 && !isFiltering) {
-        // Single select and one item is selected
         inputValue = selected[0].label;
       } else if (multiple || isFiltering) {
         // No change to inputValue, keep it as user's input
       } else {
-        // Reset inputValue in other cases
         inputValue = '';
       }
     }
@@ -89,6 +89,13 @@
     if (selected) {
       inputValue = '';
       filteredOptions = options;
+    }
+  });
+
+  // Kall onChange når selected endres
+  $effect(() => {
+    if (onChange) {
+      onChange(selected);
     }
   });
 

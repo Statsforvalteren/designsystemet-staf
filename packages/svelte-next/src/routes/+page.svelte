@@ -885,6 +885,7 @@
     emptyOptionsPlaceholder="No options available"
     dropdownGap={10}
     style="margin-bottom: 1.5rem;"
+    onChange={(option) => console.log('Selected label:', option[0]?.value)}
   />
   <Select
     {options}
