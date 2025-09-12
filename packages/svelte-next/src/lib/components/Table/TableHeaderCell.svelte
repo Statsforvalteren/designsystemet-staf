@@ -5,7 +5,7 @@
     sortedData = $bindable([]),
     sortFieldName = undefined,
     currentSortField = $bindable(undefined),
-    children,
+    children = undefined,
     ...rest
   } = $props();
 
@@ -68,9 +68,11 @@
         onClick();
       }}
     >
-      {@render children?.()}
+      {#if children}
+        {@render children?.()}
+      {/if}
     </button>
-  {:else}
+  {:else if children}
     {@render children?.()}
   {/if}
 </th>
