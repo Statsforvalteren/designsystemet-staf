@@ -3,7 +3,7 @@
   import { getContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 
-  /** @type {{label: string, description?: string, disabled?: boolean, readOnly?: boolean, value: string, checked?: boolean, class_?: string, size?: string, onChange?: (value: string, event: Event) => void}} */
+  /** @type {{label: string, description?: string, disabled?: boolean, readOnly?: boolean, value: string, checked?: boolean, class_?: string, size?: string, onChange?: (event: Event) => void}} */
   let {
     label,
     description = '',
@@ -71,7 +71,7 @@
     checked = newChecked;
 
     // Fire external callback (only on user-triggered changes)
-    onChange?.(value, event);
+    onChange?.(event);
   }
 
   let checkboxClasses = $derived(
