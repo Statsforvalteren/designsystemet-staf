@@ -3,7 +3,7 @@
   import { getContext } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
 
-  /** @type {{label: string, description?: string, disabled?: boolean, readOnly?: boolean, value: string, checked?: boolean, class_?: string, size?: string}} */
+  /** @type {{label: string, description?: string, disabled?: boolean, readOnly?: boolean, value: string, checked?: boolean, class_?: string, size?: string, onChange?: (value: string, event: Event) => void}} */
   let {
     label,
     description = '',
@@ -13,6 +13,7 @@
     checked = $bindable(false),
     class_ = '',
     size = 'medium',
+    onChange = undefined,
   } = $props();
 
   let isChecked = $state(!!checked);
@@ -68,6 +69,9 @@
     }
     isChecked = newChecked;
     checked = newChecked;
+
+    // Fire external callback (only on user-triggered changes)
+    onChange?.(value, event);
   }
 
   let checkboxClasses = $derived(
