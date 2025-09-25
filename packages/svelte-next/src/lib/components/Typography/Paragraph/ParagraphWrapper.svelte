@@ -12,11 +12,14 @@
   }: paragraphPropTypes = $props();
 </script>
 
-<div class={`ds-paragraph--${size} ds-paragraph--${variant}`}>
+<div class={`ds-paragraph--${size} ds-paragraph--${variant} inherit-width`}>
   {@render children?.()}
 </div>
 
 <style>
+  .inherit-width {
+    width: inherit;
+  }
   .ds-paragraph--lg {
     --dsc-bottom-spacing: var(--ds-spacing-6);
 
