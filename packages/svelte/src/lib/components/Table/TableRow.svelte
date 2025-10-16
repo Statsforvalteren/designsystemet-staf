@@ -24,6 +24,11 @@
    */
   export let isOpen = false;
 
+  /**
+   * Determines if accordion row has spacing between rows. Default is 1rem spacing.
+   */
+  export let rowSpacing = true;
+
   const accordionTableInfo = getContext('accordionTableInfo');
   const isAccordionRow = accordionTableInfo.hasAccordionRows && !isHeaderRow;
 
@@ -43,7 +48,7 @@
   `;
 </script>
 
-{#if isAccordionRow}
+{#if isAccordionRow && rowSpacing}
   <tr class="spacing-row"></tr>
 {/if}
 
