@@ -96,11 +96,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: 'latest'
           registry-url: 'https://npm.pkg.github.com'
       - name: Install Yarn
         run: npm install -g yarn
