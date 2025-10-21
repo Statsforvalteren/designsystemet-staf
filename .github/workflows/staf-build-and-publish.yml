@@ -29,11 +29,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Check for changes in relevant directories
         id: filter
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         with:
           filters: |
             design-tokens:
@@ -57,11 +57,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
-          node-version: '21'
+          node-version: '24'
           registry-url: 'https://npm.pkg.github.com'
       - name: Install Yarn
         run: npm install -g yarn
@@ -101,7 +101,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 'latest'
+          node-version: '24'
           registry-url: 'https://npm.pkg.github.com'
       - name: Install Yarn
         run: npm install -g yarn
@@ -137,11 +137,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
-          node-version: '21'
+          node-version: '24'
           registry-url: 'https://npm.pkg.github.com'
       - name: Install Yarn
         run: npm install -g yarn
