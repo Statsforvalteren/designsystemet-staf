@@ -44,7 +44,6 @@
 
 <style lang="scss">
   .ds-tabs__content {
-    padding: var(--ds-spacing-5);
     color: var(--ds-color-neutral-text-default);
   }
   .ds-tabs--sm,
